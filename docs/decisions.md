@@ -202,14 +202,14 @@ Se intentó inicialmente usar `@keyframes` personalizados, pero:
 
 ```tsx
 // En lugar de definir keyframes manualmente:
-<div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
 ```
 
 - Animaciones de entrada (`animate-in`)
 - Animaciones de salida (`animate-out`)
-- Direcciones (`slide-in-from-bottom`, `slide-in-from-left`, etc.)
-- Duraciones (`duration-300`, `duration-500`, etc.)
-- Delays (`delay-100`, etc.)
+- Direcciones (`slide-in-from-bottom-2`, `slide-in-from-bottom-4`, etc.)
+- Duraciones (`duration-200`, `duration-300`, `duration-500`, etc.)
+- Delays con clases (`delay-100`, `delay-200`, etc.)
 
 ### ¿Por qué IntersectionObserver para trigger?
 
@@ -231,6 +231,61 @@ const observer = new IntersectionObserver(callback, options);
 - Altamente optimizado
 - No causa "jank" (saltos) en el scroll
 - Soporte universal en navegadores modernos
+
+---
+
+## Micro-interacciones: CSS puro vs JavaScript
+
+### ¿Qué son las micro-interacciones?
+
+Son pequeñas animaciones que proporcionan feedback visual cuando el usuario interactúa con elementos: hover en botones, click en tarjetas, tap en móviles, etc.
+
+### ¿Por qué CSS puro en lugar de JavaScript o clases Tailwind inline?
+
+Se tomó la decisión de implementar todas las micro-interacciones en CSS (`globals.css`) con clases semánticas en lugar de usar Tailwind classes inline o JavaScript.
+
+**Razones:**
+
+1. **Separación hover/touch**: CSS permite usar media queries específicas para cada tipo de dispositivo:
+   ```css
+   @media (hover: hover) and (pointer: fine) { /* Desktop con mouse */ }
+   @media (hover: none), (pointer: coarse) { /* Móvil/touch */ }
+   ```
+
+2. **Evita "sticky hover" en móviles**: Cuando usas `:hover` en elementos táctiles, el estado hover puede "quedarse pegado" después del tap. Con media queries, el hover solo aplica en desktop.
+
+3. **Performance**: Las transiciones CSS están optimizadas por el navegador y corren en el compositor thread, sin bloquear el main thread.
+
+4. **Consistencia**: Todas las transiciones usan la misma duración (120ms) y easing (`ease-out` o `cubic-bezier`).
+
+5. **Mantenibilidad**: Un solo archivo (`globals.css`) contiene todas las interacciones, facilitando ajustes globales.
+
+6. **Accesibilidad**: Se usa `-webkit-tap-highlight-color: transparent` para eliminar el highlight azul de iOS y proporcionar feedback visual controlado.
+
+### Clases de micro-interacciones definidas
+
+| Clase | Elemento | Desktop (hover) | Móvil (active) |
+|-------|----------|-----------------|----------------|
+| `.tech-item` | Items de tecnología | translateY(-3px), sombra verde | scale(0.96) |
+| `.tech-icon` | Icono en tech-item | color accent, scale(1.1) | color accent |
+| `.competency-card` | Tarjetas de competencia | border accent, translateY(-2px) | border accent, scale(0.98) |
+| `.contact-link` | Enlaces de contacto | translateX(4px), fondo | scale(0.98), fondo |
+| `.contact-link-icon-wrapper` | Contenedor del icono | scale(1.1), fondo accent, sombra | fondo accent |
+| `.btn-primary` | Botones principales | fondo hover, sombra glow | scale(0.97) |
+| `.btn-secondary` | Botones secundarios | border accent, fondo sutil | scale(0.97) |
+| `.footer-link` | Enlaces del footer | fondo surface, icono accent | fondo surface |
+
+### ¿Por qué no Framer Motion u otra librería?
+
+| Framer Motion | CSS puro (elegido) |
+|---------------|-------------------|
+| Animaciones complejas/físicas | Transiciones simples |
+| Control imperativo (JavaScript) | Declarativo (CSS) |
+| ~35KB bundle adicional | 0KB adicionales |
+| Requiere Client Component | Funciona en cualquier contexto |
+| Curva de aprendizaje | Conocimiento CSS estándar |
+
+Para micro-interacciones simples (hover, active, focus), CSS puro es suficiente, más eficiente, y no agrega peso al bundle.
 
 ---
 
@@ -421,7 +476,8 @@ Aunque el proyecto no tiene deploy configurado, está optimizado para Vercel:
 | Lenguaje | TypeScript estricto | JavaScript |
 | Estilos | Tailwind CSS v4 | CSS Modules |
 | Tema | Dark mode único | Toggle light/dark |
-| Animaciones | tw-animate-css | Framer Motion |
+| Animaciones de entrada | tw-animate-css | Framer Motion |
+| Micro-interacciones | CSS puro (globals.css) | Tailwind inline / JS |
 | Trigger de animación | IntersectionObserver | Scroll listener |
 | Organización | Por tipo de componente | Por feature |
 | Renderizado | Server-first | Client-first |

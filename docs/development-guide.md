@@ -269,7 +269,7 @@ Busca el icono en:
 ```tsx
 // components/icons/index.tsx
 
-// Agregar al final del archivo:
+// Agregar al final del archivo (en la categoría correspondiente):
 
 export function NuevoIcon({ className = "h-5 w-5" }: IconProps) {
   return (
@@ -288,7 +288,8 @@ export function NuevoIcon({ className = "h-5 w-5" }: IconProps) {
 
 **Convenciones:**
 - Nombre: `{Nombre}Icon` (ej: `DockerIcon`, `AWSIcon`)
-- `fill="currentColor"` para heredar el color del texto
+- `fill="currentColor"` para heredar el color del texto (iconos sólidos)
+- Para iconos outline: usar `fill="none"`, `stroke="currentColor"`, `strokeWidth={2}`
 - `aria-hidden="true"` porque son decorativos
 - `viewBox="0 0 24 24"` es el estándar (ajustar si el SVG es diferente)
 
@@ -300,6 +301,50 @@ import { NuevoIcon } from "@/components/icons";
 <NuevoIcon className="h-6 w-6 text-accent" />
 ```
 
+### Iconos existentes
+
+| Categoría | Iconos disponibles |
+|-----------|-------------------|
+| Tecnologías | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
+| Plataformas | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
+| Acciones | `DownloadIcon`, `ExternalLinkIcon` |
+
+---
+
+## Usar micro-interacciones
+
+El proyecto tiene un sistema de micro-interacciones definido en `globals.css`. En lugar de usar clases Tailwind para hover/active, usa las clases CSS predefinidas.
+
+### Clases disponibles
+
+| Clase | Uso | Ejemplo |
+|-------|-----|---------|
+| `.tech-item` + `.tech-icon` | Items de tecnología con icono | Stack section |
+| `.competency-card` + `.competency-title` | Tarjetas con título destacado | Stack section |
+| `.contact-link` + `.contact-link-icon-wrapper` + `.contact-link-icon` + `.contact-link-value` | Enlaces de contacto | Contact section |
+| `.btn-primary` | Botones principales (fondo accent) | CTAs |
+| `.btn-secondary` | Botones secundarios (outline) | CTAs alternativos |
+| `.footer-link` + `.footer-link-icon` | Enlaces del footer | Footer |
+
+### Ejemplo de uso
+
+```tsx
+// Botón primario
+<button className="btn-primary inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary">
+  Enviar
+</button>
+
+// Tarjeta de competencia
+<div className="competency-card rounded-lg border border-border-subtle bg-surface p-6">
+  <h4 className="competency-title font-medium text-text-primary">Título</h4>
+  <p className="text-text-secondary">Descripción...</p>
+</div>
+```
+
+Las clases manejan automáticamente:
+- **Desktop**: Efectos hover (elevación, cambio de color, sombras)
+- **Móvil**: Efectos de tap (escala al presionar)
+
 ---
 
 ## Mantener coherencia de diseño
@@ -309,7 +354,7 @@ import { NuevoIcon } from "@/components/icons";
 - [ ] ¿Uso los colores del sistema? (`bg-bg-primary`, `text-accent`, etc.)
 - [ ] ¿Uso el espaciado consistente? (`p-4`, `mt-6`, `gap-4`)
 - [ ] ¿Es responsive? (probar en móvil, tablet, desktop)
-- [ ] ¿Tiene hover/focus states?
+- [ ] ¿Uso las clases de micro-interacciones para elementos interactivos? (`.btn-primary`, `.tech-item`, etc.)
 - [ ] ¿Los textos usan las clases correctas? (`text-text-primary` vs `text-text-secondary`)
 
 ### Colores: cuándo usar cada uno

@@ -87,7 +87,7 @@ export default function Home() {
 
 **Importante**: En Next.js App Router, `page.tsx` es el archivo especial que define qué se renderiza en una ruta. Si crearas `app/proyectos/page.tsx`, existiría la ruta `/proyectos`.
 
-### `globals.css` — Estilos globales
+### `globals.css` — Estilos globales y micro-interacciones
 
 ```css
 @import "tailwindcss";      /* Importa Tailwind */
@@ -106,6 +106,12 @@ body {
 
 /* Animaciones personalizadas */
 @keyframes pulse-glow { ... }
+
+/* Sistema de micro-interacciones */
+.tech-item { ... }
+.competency-card { ... }
+.contact-link { ... }
+.btn-primary { ... }
 ```
 
 **¿Qué contiene?**
@@ -113,6 +119,12 @@ body {
 2. **Variables CSS**: Colores, fuentes (definidas en `@theme inline`)
 3. **Estilos base**: Configuración del body, html, selección de texto
 4. **Animaciones custom**: Como `pulse-glow` para resaltar secciones
+5. **Micro-interacciones**: Sistema completo de feedback visual para hover (desktop) y touch (móvil), incluyendo:
+   - `.tech-item` / `.tech-icon` — Items del stack tecnológico
+   - `.competency-card` / `.competency-title` — Tarjetas de competencia
+   - `.contact-link` / `.contact-link-icon-wrapper` — Enlaces de contacto
+   - `.footer-link` / `.footer-link-icon` — Enlaces del footer
+   - `.btn-primary` / `.btn-secondary` — Botones de acción
 
 ---
 
@@ -129,16 +141,19 @@ Componentes que definen la estructura visual de la página.
 ```tsx
 "use client";  // Necesita JavaScript del navegador
 
-export function Header() {
+export default function Header() {
   const [activeSection, setActiveSection] = useState("hero");
+  const { scrollToSection, scrollToTop } = useScrollToSection();
   // ... lógica de IntersectionObserver
 
   return (
-    <header className="fixed top-0 ...">
-      <nav>
-        <a href="/">MB</a>
-        <a href="/cv/cv.pdf">CV</a>
-        <a href="#contacto">Contacto</a>
+    <header className="fixed left-0 right-0 top-0 z-50 flex justify-center px-4 pt-4">
+      <nav className="flex h-12 w-full max-w-md items-center justify-between rounded-full border bg-text-primary/95 px-6 shadow-lg backdrop-blur-sm">
+        <a href="#" onClick={scrollToTop}>MB</a>
+        <div className="flex items-center gap-6">
+          <a href="/cv/cv.pdf" download>CV</a>
+          <a href="#contacto" onClick={(e) => scrollToSection(e, "contacto")}>Contacto</a>
+        </div>
       </nav>
     </header>
   );
@@ -146,29 +161,43 @@ export function Header() {
 ```
 
 - **Tipo**: Client Component (detecta scroll)
-- **Posición**: Fijo en la parte superior
+- **Posición**: Fijo centrado en la parte superior
+- **Diseño**: Píldora flotante con fondo claro (`bg-text-primary/95`)
 - **Altura**: 48px (h-12 en Tailwind)
-- **Detecta**: Qué sección está visible y la resalta
+- **Max-width**: 448px (max-w-md)
+- **Detecta**: Qué sección está visible y resalta el botón "Contacto"
+- **Usa**: Hook `useScrollToSection` para navegación suave
 
 #### `Footer.tsx`
 
 ```tsx
-export function Footer() {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer>
-      <p>© {currentYear} Miguel Barra</p>
-      <div>
-        {/* Enlaces a GitHub, LinkedIn, Email */}
-      </div>
+    <footer className="border-t border-border-subtle bg-bg-secondary py-12">
+      <Container>
+        <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+          <p>© {currentYear} Miguel Barra. Todos los derechos reservados.</p>
+          <div className="flex items-center gap-4">
+            {/* Enlaces a GitHub, LinkedIn, Email con iconos */}
+            {links.map((link) => (
+              <a href={link.href} className="footer-link group ...">
+                <IconComponent className="footer-link-icon h-4 w-4" />
+                <span>{link.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </Container>
     </footer>
   );
 }
 ```
 
 - **Tipo**: Server Component
-- **Contenido**: Copyright dinámico y enlaces sociales
+- **Contenido**: Copyright dinámico y enlaces sociales con iconos
+- **Micro-interacciones**: Usa clases `.footer-link` y `.footer-link-icon` para feedback visual
 
 #### `Container.tsx`
 
@@ -236,12 +265,22 @@ Ver [sections.md](./sections.md) para detalles de cada sección.
 ```tsx
 "use client";
 
-export function AnimateOnScroll({ children, className }) {
+export default function AnimateOnScroll({ children, className = "" }) {
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(/* ... */);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);  // Solo anima una vez
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
     observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
@@ -249,7 +288,11 @@ export function AnimateOnScroll({ children, className }) {
   return (
     <div
       ref={ref}
-      className={isVisible ? "animate-in fade-in" : "opacity-0"}
+      className={`${className} ${
+        isVisible
+          ? "animate-in fade-in slide-in-from-bottom-2 duration-300"
+          : "opacity-0"
+      }`}
     >
       {children}
     </div>
@@ -259,10 +302,12 @@ export function AnimateOnScroll({ children, className }) {
 
 - **Propósito**: Animar contenido cuando entra en pantalla
 - **Cómo funciona**: Usa IntersectionObserver para detectar visibilidad
+- **Animación**: `fade-in` + `slide-in-from-bottom-2` con duración de 300ms
+- **Una vez**: Una vez visible, deja de observar (no re-anima al volver a entrar)
 - **Uso**: Envuelve cualquier contenido que quieras animar
 
 ```tsx
-<AnimateOnScroll>
+<AnimateOnScroll className="max-w-3xl">
   <h2>Este título aparece con animación</h2>
 </AnimateOnScroll>
 ```
@@ -291,9 +336,9 @@ export function LinkedInIcon({ className = "h-5 w-5" }) { /* ... */ }
 
 | Categoría | Iconos |
 |-----------|--------|
-| Tecnologías | React, Next.js, TypeScript, Node.js, PostgreSQL, Prisma, Docker, Git, API |
-| Plataformas | GitHub, LinkedIn, Email |
-| Acciones | Download, External Link |
+| Tecnologías | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
+| Plataformas | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
+| Acciones | `DownloadIcon`, `ExternalLinkIcon` |
 
 **¿Por qué iconos como componentes?**
 - Se pueden estilizar con Tailwind (`className="h-8 w-8 text-accent"`)

@@ -72,17 +72,34 @@ Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (100v
 - Desktop: dos columnas (texto izquierda, imagen derecha)
 
 ```tsx
-<div className="flex flex-col-reverse lg:flex-row">
+<div className="flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between lg:gap-16">
 ```
 
 **Animaciones de entrada:**
-- Cada elemento tiene un delay escalonado (100ms, 200ms, 300ms...)
-- Usa clases de `tw-animate-css`
+- Cada elemento tiene un delay escalonado usando clases de `tw-animate-css`
+- El delay se define con la clase `delay-*` (ej: `delay-100`, `delay-200`, etc.)
 
 ```tsx
-<span className="animate-in fade-in slide-in-from-bottom-4 duration-500"
-      style={{ animationDelay: "100ms" }}>
+<p className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+  Ingeniero de Software
+</p>
+
+<h1 className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+  Miguel Barra
+</h1>
 ```
+
+**Botones con micro-interacciones:**
+```tsx
+<a className="btn-primary inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 ...">
+  Ver perfil
+</a>
+<a className="btn-secondary inline-flex items-center justify-center rounded-md border border-border-subtle bg-surface px-6 py-3 ...">
+  Contactar
+</a>
+```
+
+Las clases `btn-primary` y `btn-secondary` están definidas en `globals.css` con transiciones para hover (desktop) y active (móvil).
 
 **Imagen optimizada:**
 ```tsx
@@ -91,9 +108,23 @@ Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (100v
   alt="Miguel Barra - Ingeniero de Software"
   width={480}
   height={480}
-  sizes="(max-width: 640px) 288px, ..."
+  sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, (max-width: 1280px) 384px, 448px"
+  className="h-72 w-72 object-contain sm:h-80 sm:w-80 lg:h-96 lg:w-96 xl:h-[28rem] xl:w-[28rem]"
   priority  // Carga inmediata (above the fold)
 />
+```
+
+**Fondo decorativo:**
+```tsx
+{/* División diagonal */}
+<div
+  className="pointer-events-none absolute inset-0 bg-bg-secondary"
+  style={{ clipPath: "polygon(60% 0, 100% 0, 100% 100%, 40% 100%)" }}
+  aria-hidden="true"
+/>
+
+{/* Gradiente radial sutil */}
+<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-bg-secondary)_0%,_transparent_50%)]" />
 ```
 
 ### Cómo modificar
@@ -259,27 +290,64 @@ const tecnologias = [
 
 ### Características técnicas
 
-**Animaciones escalonadas:**
+**Animaciones escalonadas con IntersectionObserver:**
+
+El componente usa un IntersectionObserver dedicado para las tecnologías, detectando cuándo el grid entra en pantalla:
+
+```tsx
+const [techVisible, setTechVisible] = useState(false);
+
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entry.isIntersecting) {
+        setTechVisible(true);
+        observer.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+  );
+  observer.observe(techGridRef.current);
+}, []);
+```
+
+Cada tecnología aparece con 40ms de delay entre una y otra:
+
 ```tsx
 {tecnologias.map((tech, index) => (
   <div
-    className="animate-in fade-in"
-    style={{ animationDelay: `${index * 50}ms` }}
+    className={`tech-item ${techVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-200" : "opacity-0"}`}
+    style={{ animationDelay: techVisible ? `${index * 40}ms` : "0ms" }}
   >
-    {/* Tecnología */}
+    <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
+    <span>{tech.nombre}</span>
   </div>
 ))}
 ```
 
-Cada elemento aparece 50ms después del anterior.
+**Micro-interacciones con CSS puro:**
 
-**Hover en tecnologías:**
+Las clases `tech-item` y `tech-icon` están definidas en `globals.css` con comportamiento diferenciado:
+
+- **Desktop (hover)**: El item se eleva 3px, el icono se colorea accent y escala 110%
+- **Móvil (touch)**: El item escala al 96% al presionar, el icono se colorea accent
+
 ```tsx
-<div className="
-  hover:-translate-y-0.5
-  transition-all duration-200
-  [&:hover_svg]:text-accent  // Icono se pone verde
-">
+<div className="tech-item group flex items-center gap-3 rounded-lg px-4 py-3">
+  <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
+  <span className="text-sm font-medium text-text-primary">{tech.nombre}</span>
+</div>
+```
+
+**Tarjetas de competencia:**
+
+Usan las clases `competency-card` y `competency-title` para feedback visual al interactuar:
+
+```tsx
+<div className="competency-card group rounded-lg border border-border-subtle bg-surface p-6">
+  <h4 className="competency-title font-medium text-text-primary">{item.titulo}</h4>
+  <p className="mt-2 text-sm text-text-secondary">{item.descripcion}</p>
+</div>
 ```
 
 ### Cómo modificar
@@ -416,25 +484,47 @@ Ofrece múltiples formas de contacto:
 ```typescript
 const contactLinks = [
   {
-    href: "mailto:contacto@miguelbarra.dev",
-    icon: EmailIcon,
     label: "Email",
     value: "contacto@miguelbarra.dev",
+    href: "mailto:contacto@miguelbarra.dev",
+    icon: EmailIcon,
+    external: false,
   },
   {
-    href: "https://linkedin.com/in/miguelbarra",
-    icon: LinkedInIcon,
     label: "LinkedIn",
     value: "linkedin.com/in/miguelbarra",
+    href: "https://linkedin.com/in/miguelbarra",
+    icon: LinkedInIcon,
+    external: true,
   },
   {
-    href: "https://github.com/miguelbarra",
-    icon: GitHubIcon,
     label: "GitHub",
     value: "github.com/miguelbarra",
+    href: "https://github.com/miguelbarra",
+    icon: GitHubIcon,
+    external: true,
   },
 ];
 ```
+
+**Enlaces con micro-interacciones:**
+
+Los enlaces de contacto usan clases CSS definidas en `globals.css`:
+
+```tsx
+<a href={link.href} className="contact-link group flex items-center gap-4 rounded-lg px-4 py-3">
+  <span className="contact-link-icon-wrapper flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary">
+    <IconComponent className="contact-link-icon h-5 w-5 text-text-secondary" />
+  </span>
+  <div>
+    <span className="text-xs uppercase">{link.label}</span>
+    <span className="contact-link-value">{link.value}</span>
+  </div>
+</a>
+```
+
+- **Desktop**: Se desplaza 4px a la derecha, el icono se agranda y cambia a fondo accent
+- **Móvil**: Escala al 98% al presionar, el icono cambia a fondo accent
 
 ### Estados del formulario
 
@@ -446,10 +536,24 @@ const [formStatus, setFormStatus] = useState<FormStatus>("idle");
 
 | Estado | Comportamiento |
 |--------|----------------|
-| `idle` | Formulario normal |
-| `submitting` | Botón deshabilitado, muestra "Enviando..." |
-| `success` | Muestra mensaje de éxito |
-| `error` | Muestra mensaje de error |
+| `idle` | Formulario normal, botón habilitado |
+| `submitting` | Botón deshabilitado con texto "Enviando...", campos deshabilitados |
+| `success` | Muestra mensaje verde de éxito, formulario se resetea, vuelve a idle tras 5s |
+| `error` | Muestra mensaje rojo de error |
+
+**Botón de envío con micro-interacciones:**
+
+```tsx
+<button
+  type="submit"
+  disabled={formStatus === "submitting"}
+  className="btn-primary mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+>
+  {formStatus === "submitting" ? "Enviando..." : "Enviar mensaje"}
+</button>
+```
+
+La clase `btn-primary` proporciona hover con sombra glow en desktop y feedback de escala al click en móvil.
 
 ### ⚠️ Nota importante sobre el formulario
 

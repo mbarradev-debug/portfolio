@@ -229,16 +229,19 @@ El proyecto usa `tw-animate-css` para animaciones declarativas en Tailwind v4.
 <div className="animate-in fade-in">
 
 // Fade in + slide desde abajo
-<div className="animate-in fade-in slide-in-from-bottom-4">
+<div className="animate-in fade-in slide-in-from-bottom-2">
 
 // Zoom in
-<div className="animate-in zoom-in">
+<div className="animate-in zoom-in-95">
 
 // Con duración específica
-<div className="animate-in fade-in duration-500">
+<div className="animate-in fade-in duration-300">
 
-// Con delay
-<div className="animate-in fade-in" style={{ animationDelay: "200ms" }}>
+// Con delay (inline style)
+<div
+  className="animate-in fade-in"
+  style={{ animationDelay: "100ms" }}
+>
 ```
 
 #### Clases de animación disponibles
@@ -246,9 +249,10 @@ El proyecto usa `tw-animate-css` para animaciones declarativas en Tailwind v4.
 | Clase | Efecto |
 |-------|--------|
 | `fade-in` | Aparece gradualmente |
+| `slide-in-from-bottom-2` | Sube 8px mientras aparece |
 | `slide-in-from-bottom-4` | Sube 16px mientras aparece |
-| `slide-in-from-left-4` | Viene de la izquierda |
-| `zoom-in` | Crece desde 95% |
+| `zoom-in-95` | Crece desde 95% |
+| `duration-200` | Dura 200ms |
 | `duration-300` | Dura 300ms |
 | `duration-500` | Dura 500ms |
 | `duration-700` | Dura 700ms |
@@ -270,21 +274,78 @@ Definida en `globals.css`:
 
 **Uso**: Se aplica a las secciones cuando el usuario navega hacia ellas, creando un breve "destello" verde.
 
-### Transiciones de hover
+---
+
+### Sistema de micro-interacciones CSS
+
+El proyecto implementa un sistema completo de micro-interacciones definido en `globals.css` que diferencia entre dispositivos **desktop (hover)** y **móviles (touch)**.
+
+#### Filosofía del sistema
+
+En lugar de usar clases de Tailwind para hover/active, las micro-interacciones están centralizadas en CSS con:
+- **Media queries específicas**: `@media (hover: hover)` para desktop, `@media (hover: none)` para touch
+- **Transiciones consistentes**: 120ms con easing suave
+- **Clases semánticas**: `.tech-item`, `.competency-card`, `.contact-link`, etc.
+
+#### Clases de micro-interacciones disponibles
+
+| Clase | Elemento | Comportamiento desktop | Comportamiento móvil |
+|-------|----------|------------------------|---------------------|
+| `.tech-item` | Items de tecnología | Eleva y destaca icono en verde | Escala al 96% |
+| `.tech-icon` | Icono dentro de tech-item | Se colorea accent y escala 110% | Se colorea accent |
+| `.competency-card` | Tarjetas de competencia | Borde accent, eleva 2px | Borde accent, escala 98% |
+| `.competency-title` | Título de competencia | Se colorea accent | Se colorea accent |
+| `.contact-link` | Enlaces de contacto | Se desplaza 4px a la derecha | Escala al 98% |
+| `.contact-link-icon-wrapper` | Contenedor del icono | Escala, fondo accent, sombra | Fondo accent |
+| `.btn-primary` | Botones principales | Fondo hover, sombra glow | Escala 97% al click |
+| `.btn-secondary` | Botones secundarios | Borde accent, fondo sutil | Escala 97% al click |
+| `.footer-link` | Enlaces del footer | Fondo surface, icono accent | Fondo surface |
+
+#### Ejemplo de implementación
 
 ```tsx
-// Transición suave para todos los cambios
-<button className="transition-all duration-200">
+// En el componente (JSX)
+<div className="tech-item group flex items-center gap-3 rounded-lg px-4 py-3">
+  <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
+  <span className="text-sm font-medium text-text-primary">
+    {tech.nombre}
+  </span>
+</div>
 
-// Solo transiciona el color
-<a className="transition-colors duration-200">
+// En globals.css
+.tech-item {
+  transition:
+    transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 120ms ease-out,
+    box-shadow 120ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
 
-// Eleva elemento en hover
-<div className="hover:-translate-y-0.5 transition-transform">
+@media (hover: hover) and (pointer: fine) {
+  .tech-item:hover {
+    transform: translateY(-3px);
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.15);
+  }
+}
 
-// Cambio de color de fondo en hover
-<div className="hover:bg-surface/50 transition-colors">
+@media (hover: none), (pointer: coarse) {
+  .tech-item:active {
+    transform: scale(0.96);
+    background-color: var(--color-bg-primary);
+  }
+}
 ```
+
+#### Ventajas de este enfoque
+
+1. **Separación de concerns**: Las animaciones complejas viven en CSS, no en JSX
+2. **Mejor UX móvil**: Feedback táctil real sin "sticky hover"
+3. **Performance**: CSS puro es más eficiente que JS para animaciones
+4. **Consistencia**: Un solo lugar para modificar comportamientos
+5. **Accesibilidad**: `-webkit-tap-highlight-color: transparent` elimina el highlight azul de iOS
+
+---
 
 ### Patrón de animación on-scroll
 
@@ -295,7 +356,7 @@ El componente `AnimateOnScroll` detecta cuando un elemento entra en pantalla:
 <div className="opacity-0">
 
 // Cuando entra en viewport: anima
-<div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
 ```
 
 **Configuración del IntersectionObserver:**

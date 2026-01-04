@@ -98,10 +98,14 @@ Tailwind es un framework de CSS que usa "clases utilitarias". En lugar de escrib
 Una librería que agrega clases de animación compatibles con Tailwind v4. Permite escribir:
 
 ```html
-<div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="animate-in fade-in slide-in-from-bottom-2 duration-300">
   Este contenido aparece con animación
 </div>
 ```
+
+### Micro-interacciones: CSS puro
+
+El proyecto implementa un sistema de micro-interacciones en `globals.css` que diferencia entre dispositivos desktop (hover) y móviles (touch), proporcionando feedback visual apropiado para cada tipo de interacción.
 
 ## Características principales
 
@@ -110,6 +114,7 @@ Una librería que agrega clases de animación compatibles con Tailwind v4. Permi
 | **Tema oscuro** | Diseño dark mode profesional y moderno |
 | **Responsive** | Se adapta a móviles, tablets y desktop |
 | **Animaciones** | Transiciones suaves y efectos al hacer scroll |
+| **Micro-interacciones** | Feedback visual diferenciado para hover (desktop) y tap (móvil) |
 | **Accesible** | Navegación por teclado, contraste adecuado, ARIA labels |
 | **SEO optimizado** | Metadata para buscadores y redes sociales |
 | **Performance** | Imágenes optimizadas, carga rápida |

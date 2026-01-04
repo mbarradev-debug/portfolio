@@ -88,13 +88,14 @@ export function ContactSection() {
 ```
 
 **En este proyecto:**
-- `Header.tsx` → Client (usa IntersectionObserver)
-- `Footer.tsx` → Server (solo contenido estático)
-- `HeroSection.tsx` → Client (navegación con scroll)
+- `Header.tsx` → Client (usa IntersectionObserver + useScrollToSection)
+- `Footer.tsx` → Server (solo contenido estático con iconos)
+- `HeroSection.tsx` → Client (navegación con scroll usando useScrollToSection)
 - `AboutSection.tsx` → Server (solo texto)
-- `StackSection.tsx` → Client (animaciones on-scroll)
+- `StackSection.tsx` → Client (IntersectionObserver propio para animaciones escalonadas)
 - `CVSection.tsx` → Server (solo enlace de descarga)
 - `ContactSection.tsx` → Client (formulario interactivo)
+- `AnimateOnScroll.tsx` → Client (wrapper de animación con IntersectionObserver)
 
 ## Flujo de datos
 
@@ -164,7 +165,7 @@ hooks/
 
 ### 3. Capa de Estilos (`/app/globals.css`)
 
-Define el sistema de diseño centralizado:
+Define el sistema de diseño centralizado y las micro-interacciones:
 
 ```css
 @theme inline {
@@ -172,7 +173,20 @@ Define el sistema de diseño centralizado:
   --color-accent: #3FBF9A;
   /* ... */
 }
+
+/* Animación personalizada */
+@keyframes pulse-glow { ... }
+
+/* Sistema de micro-interacciones */
+.tech-item { ... }       /* Items de tecnología */
+.competency-card { ... } /* Tarjetas de competencia */
+.contact-link { ... }    /* Enlaces de contacto */
+.btn-primary { ... }     /* Botones principales */
+.btn-secondary { ... }   /* Botones secundarios */
+.footer-link { ... }     /* Enlaces del footer */
 ```
+
+Las micro-interacciones usan media queries para diferenciar entre desktop (`@media (hover: hover)`) y móvil (`@media (hover: none)`).
 
 ### 4. Capa de Configuración (raíz)
 
@@ -255,13 +269,37 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.3 } // Cuando 30% del elemento es visible
+  { threshold: 0.3, rootMargin: "-80px 0px -50% 0px" }
 );
 ```
 
 Esto se usa para:
-- Resaltar la sección activa en el Header
-- Activar animaciones cuando el contenido entra en pantalla
+- Resaltar la sección activa en el Header (con rootMargin para compensar el header fijo)
+- Activar animaciones cuando el contenido entra en pantalla (`AnimateOnScroll`)
+- Disparar animaciones escalonadas en `StackSection` (grid de tecnologías)
+
+### Micro-interacciones CSS
+
+El proyecto implementa feedback visual mediante clases CSS definidas en `globals.css`, con comportamiento diferenciado:
+
+```css
+/* Desktop: hover */
+@media (hover: hover) and (pointer: fine) {
+  .tech-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.15);
+  }
+}
+
+/* Móvil: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .tech-item:active {
+    transform: scale(0.96);
+  }
+}
+```
+
+Este enfoque evita el problema de "sticky hover" en dispositivos táctiles y proporciona feedback apropiado para cada tipo de interacción.
 
 ## Optimizaciones
 
@@ -332,7 +370,8 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
 | Framework | Next.js 16 App Router |
 | Renderizado | Server Components + Client Components |
 | Estado | Local con useState (sin Redux/Context global) |
-| Estilos | Tailwind CSS con variables CSS |
-| Animaciones | IntersectionObserver + tw-animate-css |
+| Estilos | Tailwind CSS v4 con variables CSS (@theme inline) |
+| Animaciones de entrada | tw-animate-css + IntersectionObserver |
+| Micro-interacciones | CSS puro en globals.css con media queries (hover/touch) |
 | Tipado | TypeScript estricto |
-| Organización | Por tipo de componente (layout, sections, ui) |
+| Organización | Por tipo de componente (layout, sections, ui, icons) |
