@@ -62,3 +62,228 @@ html {
 .animate-pulse-glow {
   animation: pulse-glow 1s ease-out;
 }
+
+/* =====================================================
+   MICRO-INTERACTIONS: Desktop (hover) + Mobile (tap)
+   Using CSS variables for consistent, visible feedback
+   ===================================================== */
+
+/* ----- TECH ITEMS (Stack section) ----- */
+.tech-item {
+  position: relative;
+  transition:
+    transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 120ms ease-out,
+    box-shadow 120ms ease-out;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tech-icon {
+  transition: color 120ms ease-out, transform 120ms ease-out;
+}
+
+/* Desktop: hover */
+@media (hover: hover) and (pointer: fine) {
+  .tech-item:hover {
+    transform: translateY(-3px);
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.15);
+  }
+
+  .tech-item:hover .tech-icon {
+    color: var(--color-accent);
+    transform: scale(1.1);
+  }
+}
+
+/* Mobile/Touch: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .tech-item:active {
+    transform: scale(0.96);
+    background-color: var(--color-bg-primary);
+  }
+
+  .tech-item:active .tech-icon {
+    color: var(--color-accent);
+  }
+}
+
+/* ----- COMPETENCY CARDS ----- */
+.competency-card {
+  transition:
+    border-color 120ms ease-out,
+    box-shadow 120ms ease-out,
+    transform 120ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.competency-title {
+  transition: color 120ms ease-out;
+}
+
+/* Desktop: hover */
+@media (hover: hover) and (pointer: fine) {
+  .competency-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .competency-card:hover .competency-title {
+    color: var(--color-accent);
+  }
+}
+
+/* Mobile/Touch: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .competency-card:active {
+    border-color: var(--color-accent);
+    transform: scale(0.98);
+  }
+
+  .competency-card:active .competency-title {
+    color: var(--color-accent);
+  }
+}
+
+/* ----- CONTACT LINKS ----- */
+.contact-link {
+  transition:
+    transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 120ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.contact-link-icon-wrapper {
+  transition:
+    transform 120ms ease-out,
+    background-color 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
+
+.contact-link-icon {
+  transition: color 120ms ease-out;
+}
+
+.contact-link-value {
+  transition: color 120ms ease-out;
+}
+
+/* Desktop: hover */
+@media (hover: hover) and (pointer: fine) {
+  .contact-link:hover {
+    transform: translateX(4px);
+    background-color: var(--color-bg-primary);
+  }
+
+  .contact-link:hover .contact-link-icon-wrapper {
+    transform: scale(1.1);
+    background-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.25);
+  }
+
+  .contact-link:hover .contact-link-icon {
+    color: var(--color-bg-primary);
+  }
+
+  .contact-link:hover .contact-link-value {
+    color: var(--color-accent);
+  }
+}
+
+/* Mobile/Touch: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .contact-link:active {
+    transform: scale(0.98);
+    background-color: var(--color-bg-primary);
+  }
+
+  .contact-link:active .contact-link-icon-wrapper {
+    background-color: var(--color-accent);
+  }
+
+  .contact-link:active .contact-link-icon {
+    color: var(--color-bg-primary);
+  }
+
+  .contact-link:active .contact-link-value {
+    color: var(--color-accent);
+  }
+}
+
+/* ----- FOOTER LINKS ----- */
+.footer-link {
+  transition:
+    background-color 120ms ease-out,
+    color 120ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footer-link-icon {
+  transition: color 120ms ease-out, transform 120ms ease-out;
+}
+
+/* Desktop: hover */
+@media (hover: hover) and (pointer: fine) {
+  .footer-link:hover {
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+  }
+
+  .footer-link:hover .footer-link-icon {
+    color: var(--color-accent);
+    transform: scale(1.15);
+  }
+}
+
+/* Mobile/Touch: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .footer-link:active {
+    background-color: var(--color-surface);
+  }
+
+  .footer-link:active .footer-link-icon {
+    color: var(--color-accent);
+  }
+}
+
+/* ----- PRIMARY BUTTONS ----- */
+.btn-primary {
+  transition:
+    background-color 120ms ease-out,
+    transform 100ms ease-out,
+    box-shadow 120ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    box-shadow: 0 4px 16px rgba(63, 191, 154, 0.3);
+  }
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* ----- SECONDARY BUTTONS ----- */
+.btn-secondary {
+  transition:
+    border-color 120ms ease-out,
+    background-color 120ms ease-out,
+    transform 100ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-primary);
+  }
+}
+
+.btn-secondary:active {
+  transform: scale(0.97);
+}

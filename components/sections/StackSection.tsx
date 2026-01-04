@@ -105,9 +105,9 @@ export default function StackSection() {
             {competencias.map((item) => (
               <div
                 key={item.titulo}
-                className="group rounded-lg border border-border-subtle bg-surface p-6 transition-colors duration-200 hover:border-text-secondary/30"
+                className="competency-card group rounded-lg border border-border-subtle bg-surface p-6"
               >
-                <h4 className="font-medium text-text-primary transition-colors duration-200 group-hover:text-accent">{item.titulo}</h4>
+                <h4 className="competency-title font-medium text-text-primary">{item.titulo}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                   {item.descripcion}
                 </p>
@@ -130,14 +130,14 @@ export default function StackSection() {
                 return (
                   <div
                     key={tech.nombre}
-                    className={`group flex cursor-default items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary ${
-                      techVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-300" : "opacity-0"
+                    className={`tech-item group flex items-center gap-3 rounded-lg px-4 py-3 ${
+                      techVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-200" : "opacity-0"
                     }`}
                     style={{
-                      animationDelay: techVisible ? `${index * 50}ms` : "0ms",
+                      animationDelay: techVisible ? `${index * 40}ms` : "0ms",
                     }}
                   >
-                    <IconComponent className="h-5 w-5 text-text-secondary transition-colors duration-200 group-hover:text-accent" />
+                    <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
                     <span className="text-sm font-medium text-text-primary">
                       {tech.nombre}
                     </span>

@@ -46,10 +46,10 @@ export default function Footer() {
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  className="group flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text-secondary transition-all duration-200 hover:bg-surface hover:text-text-primary"
+                  className="footer-link group flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text-secondary"
                   aria-label={`${link.label}${link.external ? " (abre en nueva pestaña)" : ""}`}
                 >
-                  <IconComponent className="h-4 w-4 transition-colors duration-200 group-hover:text-accent" />
+                  <IconComponent className="footer-link-icon h-4 w-4" />
                   <span>{link.label}</span>
                   {link.external && (
                     <ExternalLinkIcon className="h-3 w-3 opacity-50" />

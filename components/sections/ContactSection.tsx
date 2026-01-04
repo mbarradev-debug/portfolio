@@ -92,16 +92,16 @@ export default function ContactSection() {
                       href={link.href}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
-                      className="group flex items-center gap-4 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary"
+                      className="contact-link group flex items-center gap-4 rounded-lg px-4 py-3"
                     >
-                      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary transition-all duration-200 group-hover:scale-110 group-hover:bg-bg-primary">
-                        <IconComponent className="h-5 w-5 text-text-secondary transition-colors duration-200 group-hover:text-accent" />
+                      <span className="contact-link-icon-wrapper flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary">
+                        <IconComponent className="contact-link-icon h-5 w-5 text-text-secondary" />
                       </span>
                       <div className="flex-1">
                         <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
                           {link.label}
                         </span>
-                        <span className="mt-0.5 flex items-center gap-1.5 text-text-primary transition-colors duration-200 group-hover:text-accent">
+                        <span className="contact-link-value mt-0.5 flex items-center gap-1.5 text-text-primary">
                           {link.value}
                           {link.external && (
                             <ExternalLinkIcon className="h-3 w-3 opacity-50" />
@@ -182,7 +182,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={formStatus === "submitting"}
-                className="mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary transition-all duration-200 hover:bg-accent-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                className="btn-primary mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
               >
                 {formStatus === "submitting" ? "Enviando..." : "Enviar mensaje"}
               </button>

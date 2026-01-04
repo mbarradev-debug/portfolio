@@ -58,7 +58,7 @@ export default function HeroSection() {
               <a
                 href="#sobre-mi"
                 onClick={(e) => scrollToSection(e, "sobre-mi")}
-                className="inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary transition-all duration-200 hover:bg-accent-hover active:scale-[0.98]"
+                className="btn-primary inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary"
                 aria-label="Ver perfil completo"
               >
                 Ver perfil
@@ -66,7 +66,7 @@ export default function HeroSection() {
               <a
                 href="#contacto"
                 onClick={(e) => scrollToSection(e, "contacto")}
-                className="inline-flex items-center justify-center rounded-md border border-border-subtle bg-surface px-6 py-3 text-sm font-medium text-text-primary transition-all duration-200 hover:border-accent/50 hover:bg-bg-secondary active:scale-[0.98]"
+                className="btn-secondary inline-flex items-center justify-center rounded-md border border-border-subtle bg-surface px-6 py-3 text-sm font-medium text-text-primary"
                 aria-label="Ir a sección de contacto"
               >
                 Contactar
