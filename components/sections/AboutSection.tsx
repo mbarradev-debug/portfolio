@@ -1,18 +1,19 @@
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 
 export default function AboutSection() {
   return (
     <Section variant="secondary">
       <Container>
-        <div className="max-w-3xl">
-          <p
-            id="sobre-mi"
-            className="mb-3 text-sm font-medium tracking-wide text-accent"
-          >
+        <AnimateOnScroll className="max-w-3xl">
+          <p className="mb-3 text-sm font-medium tracking-wide text-accent">
             Perfil
           </p>
-          <h2 className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">
+          <h2
+            id="sobre-mi"
+            className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
+          >
             Sobre mí
           </h2>
 
@@ -45,7 +46,7 @@ export default function AboutSection() {
               decisiones apresuradas que comprometen el futuro del producto.
             </p>
           </div>
-        </div>
+        </AnimateOnScroll>
       </Container>
     </Section>
   );

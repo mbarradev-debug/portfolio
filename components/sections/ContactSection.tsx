@@ -1,6 +1,15 @@
+"use client";
+
+import { useState, FormEvent } from "react";
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
-import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/icons";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
+import {
+  GitHubIcon,
+  LinkedInIcon,
+  EmailIcon,
+  ExternalLinkIcon,
+} from "@/components/icons";
 
 const contactLinks = [
   {
@@ -26,11 +35,32 @@ const contactLinks = [
   },
 ];
 
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
 export default function ContactSection() {
+  const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus("submitting");
+
+    // Simular envío (reemplazar con lógica real cuando se implemente backend)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Por ahora, mostrar mensaje de éxito
+    setFormStatus("success");
+
+    // Reset form
+    (e.target as HTMLFormElement).reset();
+
+    // Volver a idle después de 5 segundos
+    setTimeout(() => setFormStatus("idle"), 5000);
+  };
+
   return (
     <Section variant="primary">
       <Container>
-        <div className="max-w-3xl">
+        <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
             Conversemos
           </p>
@@ -46,9 +76,9 @@ export default function ContactSection() {
             decisiones técnicas conscientes y una visión de largo plazo,
             conversemos.
           </p>
-        </div>
+        </AnimateOnScroll>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <AnimateOnScroll className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="rounded-lg border border-border-subtle bg-surface p-8">
             <h3 className="text-lg font-medium text-text-primary">
               Contacto directo
@@ -64,15 +94,18 @@ export default function ContactSection() {
                       rel={link.external ? "noopener noreferrer" : undefined}
                       className="group flex items-center gap-4 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary"
                     >
-                      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary transition-colors duration-200 group-hover:bg-bg-primary">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary transition-all duration-200 group-hover:scale-110 group-hover:bg-bg-primary">
                         <IconComponent className="h-5 w-5 text-text-secondary transition-colors duration-200 group-hover:text-accent" />
                       </span>
-                      <div>
+                      <div className="flex-1">
                         <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
                           {link.label}
                         </span>
-                        <span className="mt-0.5 block text-text-primary transition-colors duration-200 group-hover:text-accent">
+                        <span className="mt-0.5 flex items-center gap-1.5 text-text-primary transition-colors duration-200 group-hover:text-accent">
                           {link.value}
+                          {link.external && (
+                            <ExternalLinkIcon className="h-3 w-3 opacity-50" />
+                          )}
                         </span>
                       </div>
                     </a>
@@ -91,19 +124,22 @@ export default function ContactSection() {
               brevedad.
             </p>
 
-            <form className="mt-6 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div>
                 <label
                   htmlFor="nombre"
                   className="block text-sm font-medium text-text-secondary"
                 >
-                  Nombre
+                  Nombre <span className="text-accent">*</span>
                 </label>
                 <input
                   type="text"
                   id="nombre"
                   name="nombre"
-                  className="mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  required
+                  disabled={formStatus === "submitting"}
+                  placeholder="Tu nombre"
+                  className="mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
 
@@ -112,13 +148,16 @@ export default function ContactSection() {
                   htmlFor="email"
                   className="block text-sm font-medium text-text-secondary"
                 >
-                  Email
+                  Email <span className="text-accent">*</span>
                 </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  className="mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  required
+                  disabled={formStatus === "submitting"}
+                  placeholder="tu@email.com"
+                  className="mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
 
@@ -127,22 +166,38 @@ export default function ContactSection() {
                   htmlFor="mensaje"
                   className="block text-sm font-medium text-text-secondary"
                 >
-                  Mensaje
+                  Mensaje <span className="text-accent">*</span>
                 </label>
                 <textarea
                   id="mensaje"
                   name="mensaje"
                   rows={4}
-                  className="mt-2 block w-full resize-none rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  required
+                  disabled={formStatus === "submitting"}
+                  placeholder="Cuéntame sobre tu proyecto..."
+                  className="mt-2 block w-full resize-none rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
 
               <button
                 type="submit"
-                className="mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary transition-all duration-200 hover:bg-accent-hover active:scale-[0.98] sm:w-auto"
+                disabled={formStatus === "submitting"}
+                className="mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary transition-all duration-200 hover:bg-accent-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
               >
-                Enviar mensaje
+                {formStatus === "submitting" ? "Enviando..." : "Enviar mensaje"}
               </button>
+
+              {formStatus === "success" && (
+                <p className="animate-fade-in text-sm text-accent">
+                  Mensaje enviado correctamente. Te responderé pronto.
+                </p>
+              )}
+
+              {formStatus === "error" && (
+                <p className="animate-fade-in text-sm text-red-400">
+                  Hubo un error al enviar el mensaje. Intenta de nuevo.
+                </p>
+              )}
             </form>
 
             <p className="mt-6 text-sm text-text-secondary">
@@ -150,13 +205,14 @@ export default function ContactSection() {
               <a
                 href="mailto:contacto@miguelbarra.dev"
                 className="text-accent transition-colors duration-200 hover:text-accent-hover"
+                aria-label="Enviar correo a contacto@miguelbarra.dev"
               >
                 mi correo
               </a>
               .
             </p>
           </div>
-        </div>
+        </AnimateOnScroll>
       </Container>
     </Section>
   );

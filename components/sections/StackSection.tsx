@@ -1,5 +1,9 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import {
   ReactIcon,
   NextjsIcon,
@@ -48,14 +52,40 @@ const tecnologias = [
 ];
 
 export default function StackSection() {
+  const techGridRef = useRef<HTMLDivElement>(null);
+  const [techVisible, setTechVisible] = useState(false);
+
+  useEffect(() => {
+    const element = techGridRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTechVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Section variant="primary">
       <Container>
-        <div className="max-w-3xl">
+        <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
             Tecnología
           </p>
-          <h2 className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">
+          <h2
+            id="stack"
+            className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
+          >
             Stack & Engineering Approach
           </h2>
 
@@ -65,9 +95,9 @@ export default function StackSection() {
             escalabilidad, la mantenibilidad y la claridad arquitectónica desde
             el inicio.
           </p>
-        </div>
+        </AnimateOnScroll>
 
-        <div className="mt-16">
+        <AnimateOnScroll className="mt-16">
           <h3 className="text-lg font-medium text-text-primary">
             Áreas de competencia
           </h3>
@@ -75,29 +105,37 @@ export default function StackSection() {
             {competencias.map((item) => (
               <div
                 key={item.titulo}
-                className="rounded-lg border border-border-subtle bg-surface p-6 transition-colors duration-200 hover:border-text-secondary/30"
+                className="group rounded-lg border border-border-subtle bg-surface p-6 transition-colors duration-200 hover:border-text-secondary/30"
               >
-                <h4 className="font-medium text-text-primary">{item.titulo}</h4>
+                <h4 className="font-medium text-text-primary transition-colors duration-200 group-hover:text-accent">{item.titulo}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                   {item.descripcion}
                 </p>
               </div>
             ))}
           </div>
-        </div>
+        </AnimateOnScroll>
 
-        <div className="mt-16">
+        <AnimateOnScroll className="mt-16">
           <h3 className="text-lg font-medium text-text-primary">
             Stack principal
           </h3>
-          <div className="mt-6 rounded-xl border border-border-subtle bg-surface p-6 sm:p-8">
+          <div
+            ref={techGridRef}
+            className="mt-6 rounded-xl border border-border-subtle bg-surface p-6 sm:p-8"
+          >
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {tecnologias.map((tech) => {
+              {tecnologias.map((tech, index) => {
                 const IconComponent = tech.icon;
                 return (
                   <div
                     key={tech.nombre}
-                    className="group flex cursor-default items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary"
+                    className={`group flex cursor-default items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary ${
+                      techVisible ? "animate-fade-in-up" : "opacity-0"
+                    }`}
+                    style={{
+                      animationDelay: techVisible ? `${index * 50}ms` : "0ms",
+                    }}
                   >
                     <IconComponent className="h-5 w-5 text-text-secondary transition-colors duration-200 group-hover:text-accent" />
                     <span className="text-sm font-medium text-text-primary">
@@ -108,7 +146,7 @@ export default function StackSection() {
               })}
             </div>
           </div>
-        </div>
+        </AnimateOnScroll>
       </Container>
     </Section>
   );

@@ -1,5 +1,10 @@
 import Container from "./Container";
-import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/icons";
+import {
+  GitHubIcon,
+  LinkedInIcon,
+  EmailIcon,
+  ExternalLinkIcon,
+} from "@/components/icons";
 
 const links = [
   {
@@ -42,10 +47,13 @@ export default function Footer() {
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
                   className="group flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text-secondary transition-all duration-200 hover:bg-surface hover:text-text-primary"
-                  aria-label={link.label}
+                  aria-label={`${link.label}${link.external ? " (abre en nueva pestaña)" : ""}`}
                 >
                   <IconComponent className="h-4 w-4 transition-colors duration-200 group-hover:text-accent" />
                   <span>{link.label}</span>
+                  {link.external && (
+                    <ExternalLinkIcon className="h-3 w-3 opacity-50" />
+                  )}
                 </a>
               );
             })}
