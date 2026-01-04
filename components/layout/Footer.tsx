@@ -1,4 +1,26 @@
 import Container from "./Container";
+import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/icons";
+
+const links = [
+  {
+    label: "GitHub",
+    href: "https://github.com/miguelbarra",
+    icon: GitHubIcon,
+    external: true,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/miguelbarra",
+    icon: LinkedInIcon,
+    external: true,
+  },
+  {
+    label: "Email",
+    href: "mailto:contacto@miguelbarra.dev",
+    icon: EmailIcon,
+    external: false,
+  },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,29 +32,23 @@ export default function Footer() {
           <p className="text-sm text-text-secondary">
             © {currentYear} Miguel Barra. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-6">
-            <a
-              href="https://github.com/miguelbarra"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-text-secondary transition-colors duration-200 hover:text-accent"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/miguelbarra"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-text-secondary transition-colors duration-200 hover:text-accent"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="mailto:contacto@miguelbarra.dev"
-              className="text-sm text-text-secondary transition-colors duration-200 hover:text-accent"
-            >
-              Email
-            </a>
+          <div className="flex items-center gap-4">
+            {links.map((link) => {
+              const IconComponent = link.icon;
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className="group flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text-secondary transition-all duration-200 hover:bg-surface hover:text-text-primary"
+                  aria-label={link.label}
+                >
+                  <IconComponent className="h-4 w-4 transition-colors duration-200 group-hover:text-accent" />
+                  <span>{link.label}</span>
+                </a>
+              );
+            })}
           </div>
         </div>
       </Container>

@@ -1,5 +1,30 @@
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
+import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/icons";
+
+const contactLinks = [
+  {
+    label: "Email",
+    value: "contacto@miguelbarra.dev",
+    href: "mailto:contacto@miguelbarra.dev",
+    icon: EmailIcon,
+    external: false,
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/miguelbarra",
+    href: "https://linkedin.com/in/miguelbarra",
+    icon: LinkedInIcon,
+    external: true,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/miguelbarra",
+    href: "https://github.com/miguelbarra",
+    icon: GitHubIcon,
+    external: true,
+  },
+];
 
 export default function ContactSection() {
   return (
@@ -28,44 +53,32 @@ export default function ContactSection() {
             <h3 className="text-lg font-medium text-text-primary">
               Contacto directo
             </h3>
-            <ul className="mt-6 space-y-5">
-              <li>
-                <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
-                  Email
-                </span>
-                <a
-                  href="mailto:contacto@miguelbarra.dev"
-                  className="mt-1 block text-text-primary transition-colors duration-200 hover:text-accent"
-                >
-                  contacto@miguelbarra.dev
-                </a>
-              </li>
-              <li>
-                <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
-                  LinkedIn
-                </span>
-                <a
-                  href="https://linkedin.com/in/miguelbarra"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 block text-text-primary transition-colors duration-200 hover:text-accent"
-                >
-                  linkedin.com/in/miguelbarra
-                </a>
-              </li>
-              <li>
-                <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
-                  GitHub
-                </span>
-                <a
-                  href="https://github.com/miguelbarra"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 block text-text-primary transition-colors duration-200 hover:text-accent"
-                >
-                  github.com/miguelbarra
-                </a>
-              </li>
+            <ul className="mt-6 space-y-4">
+              {contactLinks.map((link) => {
+                const IconComponent = link.icon;
+                return (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      className="group flex items-center gap-4 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary"
+                    >
+                      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary transition-colors duration-200 group-hover:bg-bg-primary">
+                        <IconComponent className="h-5 w-5 text-text-secondary transition-colors duration-200 group-hover:text-accent" />
+                      </span>
+                      <div>
+                        <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
+                          {link.label}
+                        </span>
+                        <span className="mt-0.5 block text-text-primary transition-colors duration-200 group-hover:text-accent">
+                          {link.value}
+                        </span>
+                      </div>
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

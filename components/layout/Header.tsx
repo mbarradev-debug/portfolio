@@ -1,4 +1,5 @@
 import Container from "./Container";
+import { DownloadIcon } from "@/components/icons";
 
 export default function Header() {
   return (
@@ -14,9 +15,12 @@ export default function Header() {
           <div className="flex items-center gap-8">
             <a
               href="/cv/cv.pdf"
-              className="relative text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-200 hover:after:w-full"
+              className="group flex items-center gap-2 text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary"
             >
-              CV
+              <DownloadIcon className="h-4 w-4 transition-colors duration-200 group-hover:text-accent" />
+              <span className="relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-200 group-hover:after:w-full">
+                CV
+              </span>
             </a>
             <a
               href="#contacto"

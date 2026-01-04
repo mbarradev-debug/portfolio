@@ -1,5 +1,16 @@
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
+import {
+  ReactIcon,
+  NextjsIcon,
+  TypeScriptIcon,
+  NodejsIcon,
+  PostgreSQLIcon,
+  PrismaIcon,
+  DockerIcon,
+  GitIcon,
+  ApiIcon,
+} from "@/components/icons";
 
 const competencias = [
   {
@@ -24,27 +35,16 @@ const competencias = [
   },
 ];
 
-const stack = [
-  {
-    categoria: "Frontend",
-    tecnologias: ["React", "Next.js", "TypeScript"],
-  },
-  {
-    categoria: "Backend",
-    tecnologias: ["Node.js", "APIs REST"],
-  },
-  {
-    categoria: "Base de datos",
-    tecnologias: ["PostgreSQL", "Prisma"],
-  },
-  {
-    categoria: "Infraestructura",
-    tecnologias: ["Docker"],
-  },
-  {
-    categoria: "Control y calidad",
-    tecnologias: ["Git", "Testing básico (cuando aplica)"],
-  },
+const tecnologias = [
+  { nombre: "React", icon: ReactIcon },
+  { nombre: "Next.js", icon: NextjsIcon },
+  { nombre: "TypeScript", icon: TypeScriptIcon },
+  { nombre: "Node.js", icon: NodejsIcon },
+  { nombre: "APIs REST", icon: ApiIcon },
+  { nombre: "PostgreSQL", icon: PostgreSQLIcon },
+  { nombre: "Prisma", icon: PrismaIcon },
+  { nombre: "Docker", icon: DockerIcon },
+  { nombre: "Git", icon: GitIcon },
 ];
 
 export default function StackSection() {
@@ -90,24 +90,23 @@ export default function StackSection() {
           <h3 className="text-lg font-medium text-text-primary">
             Stack principal
           </h3>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {stack.map((grupo) => (
-              <div
-                key={grupo.categoria}
-                className="rounded-lg border border-border-subtle bg-surface p-6"
-              >
-                <h4 className="text-sm font-medium text-accent">
-                  {grupo.categoria}
-                </h4>
-                <ul className="mt-3 space-y-1">
-                  {grupo.tecnologias.map((tech) => (
-                    <li key={tech} className="text-sm text-text-secondary">
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="mt-6 rounded-xl border border-border-subtle bg-surface p-6 sm:p-8">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {tecnologias.map((tech) => {
+                const IconComponent = tech.icon;
+                return (
+                  <div
+                    key={tech.nombre}
+                    className="group flex cursor-default items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary"
+                  >
+                    <IconComponent className="h-5 w-5 text-text-secondary transition-colors duration-200 group-hover:text-accent" />
+                    <span className="text-sm font-medium text-text-primary">
+                      {tech.nombre}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </Container>
