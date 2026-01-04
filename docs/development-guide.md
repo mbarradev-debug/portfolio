@@ -301,13 +301,14 @@ import { NuevoIcon } from "@/components/icons";
 <NuevoIcon className="h-6 w-6 text-accent" />
 ```
 
-### Iconos existentes
+### Iconos existentes (16 total)
 
 | Categoría | Iconos disponibles |
 |-----------|-------------------|
-| Tecnologías | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
-| Plataformas | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
-| Acciones | `DownloadIcon`, `ExternalLinkIcon` |
+| Tecnologías (9) | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
+| Plataformas (3) | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
+| Acciones (2) | `DownloadIcon`, `ExternalLinkIcon` |
+| Otros (2) | `PhoneIcon`, `MapPinIcon` |
 
 ---
 
@@ -319,12 +320,15 @@ El proyecto tiene un sistema de micro-interacciones definido en `globals.css`. E
 
 | Clase | Uso | Ejemplo |
 |-------|-----|---------|
-| `.tech-item` + `.tech-icon` | Items de tecnología con icono | Stack section |
+| `.tech-item` + `.tech-icon` + `.tech-name` | Items de tecnología con icono | Stack section |
 | `.competency-card` + `.competency-title` | Tarjetas con título destacado | Stack section |
 | `.contact-link` + `.contact-link-icon-wrapper` + `.contact-link-icon` + `.contact-link-value` | Enlaces de contacto | Contact section |
-| `.btn-primary` | Botones principales (fondo accent) | CTAs |
+| `.btn-primary` | Botones principales (fondo accent) | CTAs, formularios |
 | `.btn-secondary` | Botones secundarios (outline) | CTAs alternativos |
 | `.footer-link` + `.footer-link-icon` | Enlaces del footer | Footer |
+| `.nav-logo` / `.nav-cv-link` / `.nav-contact-btn` | Elementos del header | Header |
+| `.form-input` | Inputs de formulario | Contact section |
+| `.text-link` | Enlaces inline de texto | Párrafos |
 
 ### Ejemplo de uso
 

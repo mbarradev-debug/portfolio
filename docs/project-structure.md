@@ -94,37 +94,56 @@ export default function Home() {
 @import "tw-animate-css";   /* Importa animaciones */
 
 @theme inline {
-  /* Variables de colores y fuentes */
+  /* Background */
   --color-bg-primary: #0F1115;
+  --color-bg-secondary: #161A20;
+  --color-surface: #1B2028;
+  --color-border-subtle: #232834;
+  /* Text */
+  --color-text-primary: #E6E8EB;
+  --color-text-secondary: #A1A6B0;
+  /* Accent */
   --color-accent: #3FBF9A;
-  /* ... */
+  --color-accent-hover: #35a886;
+  /* Font */
+  --font-sans: var(--font-inter), "Inter", sans-serif;
 }
 
 body {
-  /* Estilos base del body */
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
 }
 
 /* Animaciones personalizadas */
 @keyframes pulse-glow { ... }
 
-/* Sistema de micro-interacciones */
+/* Sistema de micro-interacciones (8 categorías) */
 .tech-item { ... }
 .competency-card { ... }
 .contact-link { ... }
 .btn-primary { ... }
+.nav-logo { ... }
+.form-input { ... }
+.text-link { ... }
 ```
 
-**¿Qué contiene?**
-1. **Importaciones**: Tailwind CSS y librería de animaciones
-2. **Variables CSS**: Colores, fuentes (definidas en `@theme inline`)
-3. **Estilos base**: Configuración del body, html, selección de texto
-4. **Animaciones custom**: Como `pulse-glow` para resaltar secciones
-5. **Micro-interacciones**: Sistema completo de feedback visual para hover (desktop) y touch (móvil), incluyendo:
-   - `.tech-item` / `.tech-icon` — Items del stack tecnológico
+**¿Qué contiene?** (~500 líneas)
+1. **Importaciones**: Tailwind CSS y tw-animate-css
+2. **Variables CSS**: 8 colores + fuente (definidas en `@theme inline`)
+3. **Estilos base**: body, html smooth scroll, focus-visible, ::selection, scroll-margin-top
+4. **Animación custom**: `pulse-glow` para resaltar secciones al navegar
+5. **Separador visual**: `.separator-visible` con gradiente accent
+6. **Micro-interacciones CSS puro** (con media queries hover/touch):
+   - `.tech-item` / `.tech-icon` / `.tech-name` — Items del stack tecnológico
    - `.competency-card` / `.competency-title` — Tarjetas de competencia
-   - `.contact-link` / `.contact-link-icon-wrapper` — Enlaces de contacto
+   - `.contact-link` / `.contact-link-icon-wrapper` / `.contact-link-icon` / `.contact-link-value` — Enlaces de contacto
    - `.footer-link` / `.footer-link-icon` — Enlaces del footer
    - `.btn-primary` / `.btn-secondary` — Botones de acción
+   - `.nav-logo` / `.nav-cv-link` / `.nav-cv-icon` / `.nav-contact-btn` — Header
+   - `.form-input` — Inputs del formulario de contacto
+   - `.text-link` — Enlaces inline de texto
 
 ---
 
@@ -143,16 +162,24 @@ Componentes que definen la estructura visual de la página.
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState("hero");
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const { scrollToSection, scrollToTop } = useScrollToSection();
-  // ... lógica de IntersectionObserver
+  // ... lógica de IntersectionObserver para sección activa
+  // ... lógica de scroll hide/show
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex justify-center px-4 pt-4">
-      <nav className="flex h-12 w-full max-w-md items-center justify-between rounded-full border bg-text-primary/95 px-6 shadow-lg backdrop-blur-sm">
-        <a href="#" onClick={scrollToTop}>MB</a>
+    <header className="fixed left-0 right-0 top-0 z-50 flex justify-center px-4 pt-4 transition-transform duration-200">
+      <nav className="flex h-11 w-full max-w-md items-center justify-between rounded-full border border-text-primary/10 bg-text-primary/95 px-5 shadow-lg shadow-black/10 backdrop-blur-sm sm:h-12 sm:px-6">
+        <a href="#" onClick={scrollToTop} className="nav-logo text-base font-semibold text-bg-primary">MB</a>
         <div className="flex items-center gap-6">
-          <a href="/cv/cv.pdf" download>CV</a>
-          <a href="#contacto" onClick={(e) => scrollToSection(e, "contacto")}>Contacto</a>
+          <a href="/cv/cv.pdf" download className="nav-cv-link group flex items-center gap-1.5 text-sm text-bg-secondary">
+            <DownloadIcon className="nav-cv-icon h-3.5 w-3.5" />
+            <span>CV</span>
+          </a>
+          <a href="#contacto" onClick={(e) => scrollToSection(e, "contacto")} className="nav-contact-btn ...">
+            Contacto
+          </a>
         </div>
       </nav>
     </header>
@@ -160,12 +187,14 @@ export default function Header() {
 }
 ```
 
-- **Tipo**: Client Component (detecta scroll)
+- **Tipo**: Client Component (detecta scroll + sección activa)
 - **Posición**: Fijo centrado en la parte superior
 - **Diseño**: Píldora flotante con fondo claro (`bg-text-primary/95`)
-- **Altura**: 48px (h-12 en Tailwind)
+- **Altura**: 44px móvil / 48px desktop (h-11 / sm:h-12)
 - **Max-width**: 448px (max-w-md)
+- **Comportamiento scroll**: Se oculta al scroll down, reaparece al scroll up
 - **Detecta**: Qué sección está visible y resalta el botón "Contacto"
+- **Micro-interacciones**: `.nav-logo`, `.nav-cv-link`, `.nav-cv-icon`, `.nav-contact-btn`
 - **Usa**: Hook `useScrollToSection` para navegación suave
 
 #### `Footer.tsx`
@@ -332,13 +361,15 @@ export function LinkedInIcon({ className = "h-5 w-5" }) { /* ... */ }
 // ... más iconos
 ```
 
-**Iconos disponibles:**
+**Iconos disponibles (16 total):**
 
 | Categoría | Iconos |
 |-----------|--------|
-| Tecnologías | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
-| Plataformas | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
-| Acciones | `DownloadIcon`, `ExternalLinkIcon` |
+| Tecnologías (9) | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
+| Plataformas (3) | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
+| Acciones (2) | `DownloadIcon`, `ExternalLinkIcon` |
+| Contacto (1) | `PhoneIcon` |
+| Ubicación (1) | `MapPinIcon` |
 
 **¿Por qué iconos como componentes?**
 - Se pueden estilizar con Tailwind (`className="h-8 w-8 text-accent"`)

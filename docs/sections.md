@@ -295,47 +295,60 @@ const tecnologias = [
 El componente usa un IntersectionObserver dedicado para las tecnologías, detectando cuándo el grid entra en pantalla:
 
 ```tsx
+const techGridRef = useRef<HTMLDivElement>(null);
 const [techVisible, setTechVisible] = useState(false);
 
 useEffect(() => {
+  const element = techGridRef.current;
+  if (!element) return;
+
   const observer = new IntersectionObserver(
     (entries) => {
-      if (entry.isIntersecting) {
-        setTechVisible(true);
-        observer.unobserve(entry.target);
-      }
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setTechVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
     },
     { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
   );
-  observer.observe(techGridRef.current);
+  observer.observe(element);
+  return () => observer.disconnect();
 }, []);
 ```
 
-Cada tecnología aparece con 40ms de delay entre una y otra:
+Cada tecnología aparece con 50ms de delay entre una y otra:
 
 ```tsx
-{tecnologias.map((tech, index) => (
-  <div
-    className={`tech-item ${techVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-200" : "opacity-0"}`}
-    style={{ animationDelay: techVisible ? `${index * 40}ms` : "0ms" }}
-  >
-    <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-    <span>{tech.nombre}</span>
-  </div>
-))}
+{tecnologias.map((tech, index) => {
+  const IconComponent = tech.icon;
+  return (
+    <div
+      key={tech.nombre}
+      className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
+        techVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-300" : "opacity-0 translate-y-3"
+      }`}
+      style={{ animationDelay: techVisible ? `${index * 50}ms` : "0ms" }}
+    >
+      <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
+      <span className="tech-name text-sm font-medium text-text-primary">{tech.nombre}</span>
+    </div>
+  );
+})}
 ```
 
 **Micro-interacciones con CSS puro:**
 
-Las clases `tech-item` y `tech-icon` están definidas en `globals.css` con comportamiento diferenciado:
+Las clases `tech-item`, `tech-icon` y `tech-name` están definidas en `globals.css` con comportamiento diferenciado:
 
-- **Desktop (hover)**: El item se eleva 3px, el icono se colorea accent y escala 110%
-- **Móvil (touch)**: El item escala al 96% al presionar, el icono se colorea accent
+- **Desktop (hover)**: El item se eleva 4px con border accent y sombra glow, el icono se colorea accent y escala 115%, el nombre se colorea accent
+- **Móvil (touch)**: El item escala al 97% con border accent, el icono se colorea accent y escala 110%
 
 ```tsx
-<div className="tech-item group flex items-center gap-3 rounded-lg px-4 py-3">
+<div className="tech-item flex items-center gap-3 rounded-lg px-4 py-3">
   <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-  <span className="text-sm font-medium text-text-primary">{tech.nombre}</span>
+  <span className="tech-name text-sm font-medium text-text-primary">{tech.nombre}</span>
 </div>
 ```
 

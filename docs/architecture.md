@@ -88,14 +88,19 @@ export function ContactSection() {
 ```
 
 **En este proyecto:**
-- `Header.tsx` → Client (usa IntersectionObserver + useScrollToSection)
-- `Footer.tsx` → Server (solo contenido estático con iconos)
-- `HeroSection.tsx` → Client (navegación con scroll usando useScrollToSection)
-- `AboutSection.tsx` → Server (solo texto)
-- `StackSection.tsx` → Client (IntersectionObserver propio para animaciones escalonadas)
-- `CVSection.tsx` → Server (solo enlace de descarga)
-- `ContactSection.tsx` → Client (formulario interactivo)
-- `AnimateOnScroll.tsx` → Client (wrapper de animación con IntersectionObserver)
+
+| Componente | Tipo | Razón |
+|------------|------|-------|
+| `Header.tsx` | Client | IntersectionObserver para sección activa + scroll hide/show |
+| `Footer.tsx` | Server | Solo contenido estático con iconos y año dinámico |
+| `HeroSection.tsx` | Client | Navegación con `useScrollToSection` |
+| `AboutSection.tsx` | Server | Solo texto estático |
+| `StackSection.tsx` | Client | IntersectionObserver para animaciones escalonadas del grid |
+| `CVSection.tsx` | Server | Solo enlace de descarga |
+| `ContactSection.tsx` | Client | Formulario con gestión de estado |
+| `AnimateOnScroll.tsx` | Client | Wrapper de animación con IntersectionObserver |
+| `Container.tsx` | Server | Wrapper de layout sin interactividad |
+| `Section.tsx` | Server | Wrapper de layout sin interactividad |
 
 ## Flujo de datos
 
@@ -169,24 +174,42 @@ Define el sistema de diseño centralizado y las micro-interacciones:
 
 ```css
 @theme inline {
+  /* Background */
   --color-bg-primary: #0F1115;
+  --color-bg-secondary: #161A20;
+  --color-surface: #1B2028;
+  --color-border-subtle: #232834;
+
+  /* Text */
+  --color-text-primary: #E6E8EB;
+  --color-text-secondary: #A1A6B0;
+
+  /* Accent */
   --color-accent: #3FBF9A;
-  /* ... */
+  --color-accent-hover: #35a886;
+
+  /* Font */
+  --font-sans: var(--font-inter), "Inter", sans-serif;
 }
 
 /* Animación personalizada */
 @keyframes pulse-glow { ... }
 
-/* Sistema de micro-interacciones */
+/* Sistemas de micro-interacciones (8 en total) */
 .tech-item { ... }       /* Items de tecnología */
 .competency-card { ... } /* Tarjetas de competencia */
 .contact-link { ... }    /* Enlaces de contacto */
 .btn-primary { ... }     /* Botones principales */
 .btn-secondary { ... }   /* Botones secundarios */
 .footer-link { ... }     /* Enlaces del footer */
+.nav-logo { ... }        /* Logo del header */
+.nav-cv-link { ... }     /* Link de descarga CV */
+.nav-contact-btn { ... } /* Botón de contacto del header */
+.form-input { ... }      /* Inputs del formulario */
+.text-link { ... }       /* Enlaces inline de texto */
 ```
 
-Las micro-interacciones usan media queries para diferenciar entre desktop (`@media (hover: hover)`) y móvil (`@media (hover: none)`).
+Las micro-interacciones usan media queries para diferenciar entre desktop (`@media (hover: hover) and (pointer: fine)`) y móvil (`@media (hover: none), (pointer: coarse)`).
 
 ### 4. Capa de Configuración (raíz)
 
@@ -286,18 +309,33 @@ El proyecto implementa feedback visual mediante clases CSS definidas en `globals
 /* Desktop: hover */
 @media (hover: hover) and (pointer: fine) {
   .tech-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.15);
+    transform: translateY(-4px);
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+    box-shadow:
+      0 4px 12px rgba(63, 191, 154, 0.2),
+      0 0 0 1px rgba(63, 191, 154, 0.1);
+  }
+
+  .tech-item:hover .tech-icon {
+    color: var(--color-accent);
+    transform: scale(1.15);
   }
 }
 
 /* Móvil: tap feedback */
 @media (hover: none), (pointer: coarse) {
   .tech-item:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
   }
 }
 ```
+
+**Easing temporal del proyecto:**
+- Interacciones (transform): `cubic-bezier(0.2, 0, 0, 1)` — snappy, 120-180ms
+- Transiciones (colors): `cubic-bezier(0.4, 0, 0.2, 1)` — smooth, 150ms
 
 Este enfoque evita el problema de "sticky hover" en dispositivos táctiles y proporciona feedback apropiado para cada tipo de interacción.
 
@@ -367,11 +405,13 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
 
 | Aspecto | Decisión |
 |---------|----------|
-| Framework | Next.js 16 App Router |
-| Renderizado | Server Components + Client Components |
-| Estado | Local con useState (sin Redux/Context global) |
-| Estilos | Tailwind CSS v4 con variables CSS (@theme inline) |
+| Framework | Next.js 16.1.1 App Router |
+| Renderizado | Server Components por defecto, Client solo con interactividad |
+| Estado | Local con `useState` (sin Redux/Context global) |
+| Estilos | Tailwind CSS v4 con variables CSS (`@theme inline`) |
 | Animaciones de entrada | tw-animate-css + IntersectionObserver |
 | Micro-interacciones | CSS puro en globals.css con media queries (hover/touch) |
-| Tipado | TypeScript estricto |
+| Tipado | TypeScript 5 con modo estricto (`strict: true`) |
 | Organización | Por tipo de componente (layout, sections, ui, icons) |
+| Fuente | Inter via `next/font/google` |
+| Imágenes | Optimizadas con componente `Image` de Next.js |

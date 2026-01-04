@@ -13,117 +13,93 @@ El sitio funciona como una **Single Page Application (SPA)**: una única página
 - **Facilitar** el contacto con potenciales empleadores o colaboradores
 - **Ofrecer** descarga del CV en formato PDF
 
-## Tecnologías utilizadas
+## Stack tecnológico
+
+| Categoría | Tecnología | Versión |
+|-----------|------------|---------|
+| Framework | Next.js | 16.1.1 |
+| UI Library | React | 19.2.3 |
+| Lenguaje | TypeScript | 5 |
+| Estilos | Tailwind CSS | 4 |
+| Animaciones | tw-animate-css | 1.4.0 |
+| Runtime | Node.js | 18+ |
 
 ### Framework principal: Next.js 16
 
-**¿Qué es Next.js?**
 Next.js es un framework de React que facilita crear aplicaciones web. Mientras React solo maneja la interfaz de usuario, Next.js agrega:
 
-- **Rutas automáticas**: cada archivo en `/app` se convierte en una página
-- **Optimización de imágenes**: las imágenes se comprimen y adaptan automáticamente
-- **Server Components**: partes del sitio se renderizan en el servidor (más rápido para el usuario)
-- **Carga de fuentes optimizada**: las tipografías cargan sin parpadeos
-
-**¿Por qué Next.js para un portfolio?**
-- Excelente SEO (los buscadores indexan mejor el contenido)
-- Carga inicial muy rápida
-- Fácil despliegue en Vercel (la empresa que crea Next.js)
-- Estándar de la industria para sitios React
+- **App Router**: Sistema de rutas basado en archivos en `/app`
+- **Server Components**: Componentes que se renderizan en el servidor (menor JavaScript al cliente)
+- **Optimización de imágenes**: Compresión y adaptación automática con el componente `Image`
+- **Carga de fuentes optimizada**: Sin FOUT (Flash of Unstyled Text) usando `next/font`
 
 ### Librería de UI: React 19
 
-**¿Qué es React?**
-React es una librería de JavaScript para construir interfaces de usuario. Permite crear "componentes" reutilizables (como piezas de LEGO) que se combinan para formar la página.
-
-**¿Por qué React?**
-- Es la librería de UI más popular del mundo
-- Gran comunidad y ecosistema
-- Componentes reutilizables y mantenibles
-- Next.js está construido sobre React
+React permite crear "componentes" reutilizables que se combinan para formar la página. Este proyecto usa:
+- **Server Components** por defecto (mejor performance)
+- **Client Components** solo donde hay interactividad (`"use client"`)
+- **Hooks** para estado local (`useState`, `useEffect`, `useRef`, `useCallback`)
 
 ### Lenguaje: TypeScript 5
 
-**¿Qué es TypeScript?**
-TypeScript es JavaScript con "tipos". Mientras JavaScript no te avisa si pasas un número donde esperabas un texto, TypeScript sí lo hace.
+TypeScript es JavaScript con "tipos" que detectan errores antes de ejecutar el código.
 
 ```typescript
-// JavaScript: no hay error hasta que ejecutas
-function saludar(nombre) {
-  return "Hola " + nombre.toUpperCase();
-}
-saludar(123); // Error en ejecución!
-
-// TypeScript: error al escribir el código
+// TypeScript detecta errores al escribir
 function saludar(nombre: string) {
   return "Hola " + nombre.toUpperCase();
 }
-saludar(123); // ❌ Error: 123 no es un string
+saludar(123); // ❌ Error en el editor: 123 no es un string
 ```
 
-**¿Por qué TypeScript?**
-- Detecta errores antes de ejecutar el código
-- Mejor autocompletado en el editor
-- Documenta el código implícitamente
-- Facilita refactorizar código con confianza
+El proyecto usa modo estricto (`strict: true`) para máxima seguridad de tipos.
 
 ### Estilos: Tailwind CSS v4
 
-**¿Qué es Tailwind CSS?**
-Tailwind es un framework de CSS que usa "clases utilitarias". En lugar de escribir CSS en archivos separados, aplicas clases directamente en el HTML.
+Tailwind es un framework de CSS utility-first. En lugar de escribir CSS separado, aplicas clases directamente:
 
-```html
-<!-- CSS tradicional -->
-<div class="card">...</div>
-<style>
-  .card {
-    background: white;
-    padding: 16px;
-    border-radius: 8px;
-  }
-</style>
-
-<!-- Tailwind CSS -->
-<div class="bg-white p-4 rounded-lg">...</div>
+```tsx
+// Tailwind CSS - estilos inline con clases utilitarias
+<div className="bg-surface p-4 rounded-lg border border-border-subtle">
+  Contenido
+</div>
 ```
 
-**¿Por qué Tailwind?**
-- Desarrollo más rápido (no cambias entre archivos)
-- CSS final más pequeño (solo incluye lo que usas)
-- Diseño consistente con sistema de espaciado
-- Muy popular en la industria
+**Tailwind v4** usa variables CSS definidas en `@theme inline` dentro de `globals.css`.
 
 ### Animaciones: tw-animate-css
 
-Una librería que agrega clases de animación compatibles con Tailwind v4. Permite escribir:
+Librería de animaciones declarativas compatible con Tailwind v4:
 
-```html
-<div class="animate-in fade-in slide-in-from-bottom-2 duration-300">
+```tsx
+<div className="animate-in fade-in slide-in-from-bottom-3 duration-300">
   Este contenido aparece con animación
 </div>
 ```
 
 ### Micro-interacciones: CSS puro
 
-El proyecto implementa un sistema de micro-interacciones en `globals.css` que diferencia entre dispositivos desktop (hover) y móviles (touch), proporcionando feedback visual apropiado para cada tipo de interacción.
+El proyecto implementa un sistema completo de micro-interacciones en `globals.css` que diferencia entre:
+- **Desktop (hover)**: Elevación, cambio de color, sombras glow
+- **Móvil (touch)**: Feedback de escala al presionar, sin "sticky hover"
 
 ## Características principales
 
 | Característica | Descripción |
 |----------------|-------------|
-| **Tema oscuro** | Diseño dark mode profesional y moderno |
-| **Responsive** | Se adapta a móviles, tablets y desktop |
-| **Animaciones** | Transiciones suaves y efectos al hacer scroll |
-| **Micro-interacciones** | Feedback visual diferenciado para hover (desktop) y tap (móvil) |
-| **Accesible** | Navegación por teclado, contraste adecuado, ARIA labels |
-| **SEO optimizado** | Metadata para buscadores y redes sociales |
-| **Performance** | Imágenes optimizadas, carga rápida |
+| **Tema oscuro** | Diseño dark mode profesional con paleta de 8 colores |
+| **Responsive** | Mobile-first, adaptable a móviles, tablets y desktop |
+| **Animaciones** | Entrada con fade-in/slide-in, trigger con IntersectionObserver |
+| **Micro-interacciones** | 8 sistemas CSS para feedback visual (tech-item, btn-primary, etc.) |
+| **Accesible** | Skip link, ARIA labels, contraste WCAG AAA, focus visible |
+| **SEO optimizado** | Metadata, Open Graph, Twitter Cards, HTML semántico |
+| **Performance** | Server Components, imágenes optimizadas, code splitting |
 
 ## Requisitos del sistema
 
 - **Node.js**: versión 18 o superior
 - **npm**: incluido con Node.js (o yarn/pnpm como alternativa)
-- **Editor recomendado**: VS Code con extensiones de TypeScript y Tailwind
+- **Editor recomendado**: VS Code con extensiones ESLint y Tailwind CSS IntelliSense
 
 ## Cómo ejecutar el proyecto
 
@@ -146,10 +122,10 @@ npm run dev
 
 | Comando | Descripción |
 |---------|-------------|
-| `npm run dev` | Inicia el servidor de desarrollo |
-| `npm run build` | Genera la versión de producción |
+| `npm run dev` | Inicia servidor de desarrollo con hot reload |
+| `npm run build` | Genera build de producción optimizado |
 | `npm run start` | Ejecuta la versión de producción |
-| `npm run lint` | Analiza el código buscando errores |
+| `npm run lint` | Analiza el código con ESLint |
 
 ## Estructura de la documentación
 
@@ -157,12 +133,12 @@ Esta carpeta `/docs` contiene documentación detallada:
 
 | Archivo | Contenido |
 |---------|-----------|
-| [architecture.md](./architecture.md) | Arquitectura y organización general |
+| [architecture.md](./architecture.md) | Arquitectura de componentes, flujos y patrones |
 | [project-structure.md](./project-structure.md) | Explicación carpeta por carpeta |
-| [design-system.md](./design-system.md) | Colores, tipografía y principios visuales |
+| [design-system.md](./design-system.md) | Colores, tipografía, espaciado y micro-interacciones |
 | [sections.md](./sections.md) | Cada sección del portfolio explicada |
 | [development-guide.md](./development-guide.md) | Cómo modificar y extender el proyecto |
-| [decisions.md](./decisions.md) | Por qué se tomaron ciertas decisiones |
+| [decisions.md](./decisions.md) | Decisiones técnicas y alternativas consideradas |
 
 ## Licencia
 

@@ -266,14 +266,24 @@ Se tomó la decisión de implementar todas las micro-interacciones en CSS (`glob
 
 | Clase | Elemento | Desktop (hover) | Móvil (active) |
 |-------|----------|-----------------|----------------|
-| `.tech-item` | Items de tecnología | translateY(-3px), sombra verde | scale(0.96) |
-| `.tech-icon` | Icono en tech-item | color accent, scale(1.1) | color accent |
-| `.competency-card` | Tarjetas de competencia | border accent, translateY(-2px) | border accent, scale(0.98) |
-| `.contact-link` | Enlaces de contacto | translateX(4px), fondo | scale(0.98), fondo |
+| `.tech-item` | Items de tecnología | translateY(-4px), border accent, sombra glow | scale(0.97), border accent |
+| `.tech-icon` | Icono en tech-item | color accent, scale(1.15) | color accent, scale(1.1) |
+| `.tech-name` | Nombre de tecnología | color accent | color accent |
+| `.competency-card` | Tarjetas de competencia | border accent, translateY(-2px), box-shadow | border accent, scale(0.98) |
+| `.competency-title` | Título de competencia | color accent | color accent |
+| `.contact-link` | Enlaces de contacto | translateX(4px), fondo bg-primary | scale(0.98), fondo bg-primary |
 | `.contact-link-icon-wrapper` | Contenedor del icono | scale(1.1), fondo accent, sombra | fondo accent |
-| `.btn-primary` | Botones principales | fondo hover, sombra glow | scale(0.97) |
-| `.btn-secondary` | Botones secundarios | border accent, fondo sutil | scale(0.97) |
-| `.footer-link` | Enlaces del footer | fondo surface, icono accent | fondo surface |
+| `.contact-link-icon` | Icono de contacto | color bg-primary | color bg-primary |
+| `.contact-link-value` | Valor del enlace | color accent | color accent |
+| `.btn-primary` | Botones principales | fondo accent-hover, sombra glow | scale(0.97) |
+| `.btn-secondary` | Botones secundarios | border accent, fondo bg-primary | scale(0.97), border accent |
+| `.footer-link` | Enlaces del footer | fondo surface, color text-primary | scale(0.97), fondo surface |
+| `.footer-link-icon` | Icono del footer | color accent, scale(1.15) | color accent, scale(1.1) |
+| `.nav-logo` | Logo del header | color accent | scale(0.95), color accent |
+| `.nav-cv-link` | Link descarga CV | color bg-primary | scale(0.95) |
+| `.nav-contact-btn` | Botón contacto header | box-shadow glow | scale(0.95) |
+| `.form-input` | Inputs del formulario | border accent, fondo bg-primary, ring glow | — |
+| `.text-link` | Enlaces inline | color accent-hover, underline visible | color accent-hover |
 
 ### ¿Por qué no Framer Motion u otra librería?
 
@@ -471,20 +481,21 @@ Aunque el proyecto no tiene deploy configurado, está optimizado para Vercel:
 
 | Decisión | Elección | Alternativa principal |
 |----------|----------|----------------------|
-| Framework | Next.js 16 | Astro, Gatsby |
+| Framework | Next.js 16.1.1 | Astro, Gatsby |
 | Router | App Router | Pages Router |
-| Lenguaje | TypeScript estricto | JavaScript |
-| Estilos | Tailwind CSS v4 | CSS Modules |
+| Lenguaje | TypeScript 5 estricto | JavaScript |
+| Estilos | Tailwind CSS v4 (`@theme inline`) | CSS Modules |
 | Tema | Dark mode único | Toggle light/dark |
-| Animaciones de entrada | tw-animate-css | Framer Motion |
-| Micro-interacciones | CSS puro (globals.css) | Tailwind inline / JS |
+| Animaciones de entrada | tw-animate-css 1.4.0 | Framer Motion |
+| Micro-interacciones | CSS puro (globals.css) con 19 clases | Tailwind inline / JS |
 | Trigger de animación | IntersectionObserver | Scroll listener |
 | Organización | Por tipo de componente | Por feature |
-| Renderizado | Server-first | Client-first |
-| Fuente | Inter via next/font | System fonts |
-| Formulario | Simulado | Email real |
-| A11y | Prioridad alta | Básica |
+| Renderizado | Server Components por defecto | Client-first |
+| Fuente | Inter via next/font/google | System fonts |
+| Formulario | Simulado (MVP) | Email real |
+| A11y | Prioridad alta (WCAG AAA) | Básica |
 | Deploy target | Vercel | Netlify |
+| Easing temporal | cubic-bezier custom (snappy/smooth) | ease-in-out |
 
 ---
 

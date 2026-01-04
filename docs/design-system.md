@@ -283,56 +283,94 @@ El proyecto implementa un sistema completo de micro-interacciones definido en `g
 #### Filosofía del sistema
 
 En lugar de usar clases de Tailwind para hover/active, las micro-interacciones están centralizadas en CSS con:
-- **Media queries específicas**: `@media (hover: hover)` para desktop, `@media (hover: none)` para touch
-- **Transiciones consistentes**: 120ms con easing suave
+- **Media queries específicas**: `@media (hover: hover) and (pointer: fine)` para desktop, `@media (hover: none), (pointer: coarse)` para touch
+- **Transiciones consistentes**: 120-180ms con easing específico
 - **Clases semánticas**: `.tech-item`, `.competency-card`, `.contact-link`, etc.
+
+**Easing temporal:**
+- Interacciones (transform): `cubic-bezier(0.2, 0, 0, 1)` — snappy
+- Transiciones (colors, backgrounds): `cubic-bezier(0.4, 0, 0.2, 1)` — smooth
 
 #### Clases de micro-interacciones disponibles
 
-| Clase | Elemento | Comportamiento desktop | Comportamiento móvil |
-|-------|----------|------------------------|---------------------|
-| `.tech-item` | Items de tecnología | Eleva y destaca icono en verde | Escala al 96% |
-| `.tech-icon` | Icono dentro de tech-item | Se colorea accent y escala 110% | Se colorea accent |
-| `.competency-card` | Tarjetas de competencia | Borde accent, eleva 2px | Borde accent, escala 98% |
-| `.competency-title` | Título de competencia | Se colorea accent | Se colorea accent |
-| `.contact-link` | Enlaces de contacto | Se desplaza 4px a la derecha | Escala al 98% |
-| `.contact-link-icon-wrapper` | Contenedor del icono | Escala, fondo accent, sombra | Fondo accent |
-| `.btn-primary` | Botones principales | Fondo hover, sombra glow | Escala 97% al click |
-| `.btn-secondary` | Botones secundarios | Borde accent, fondo sutil | Escala 97% al click |
-| `.footer-link` | Enlaces del footer | Fondo surface, icono accent | Fondo surface |
+| Clase | Elemento | Comportamiento desktop (hover) | Comportamiento móvil (active) |
+|-------|----------|--------------------------------|-------------------------------|
+| `.tech-item` | Items de tecnología | translateY(-4px), border accent, sombra glow | scale(0.97), border accent |
+| `.tech-icon` | Icono dentro de tech-item | color accent, scale(1.15) | color accent, scale(1.1) |
+| `.tech-name` | Nombre de tecnología | color accent | color accent |
+| `.competency-card` | Tarjetas de competencia | border accent, translateY(-2px), box-shadow | border accent, scale(0.98) |
+| `.competency-title` | Título de competencia | color accent | color accent |
+| `.contact-link` | Enlaces de contacto | translateX(4px), fondo bg-primary | scale(0.98), fondo bg-primary |
+| `.contact-link-icon-wrapper` | Contenedor del icono | scale(1.1), fondo accent, sombra | fondo accent |
+| `.contact-link-icon` | Icono de contacto | color bg-primary | color bg-primary |
+| `.contact-link-value` | Valor del enlace | color accent | color accent |
+| `.btn-primary` | Botones principales | fondo accent-hover, sombra glow | scale(0.97) |
+| `.btn-secondary` | Botones secundarios | border accent, fondo bg-primary | scale(0.97), border accent |
+| `.footer-link` | Enlaces del footer | fondo surface, color text-primary | scale(0.97), fondo surface |
+| `.footer-link-icon` | Icono del footer | color accent, scale(1.15) | color accent, scale(1.1) |
+| `.nav-logo` | Logo del header | color accent | scale(0.95), color accent |
+| `.nav-cv-link` | Link de descarga CV | color bg-primary | scale(0.95) |
+| `.nav-cv-icon` | Icono de descarga | color accent, translateY(2px) | color accent |
+| `.nav-contact-btn` | Botón de contacto header | box-shadow glow | scale(0.95) |
+| `.form-input` | Inputs del formulario | border accent, fondo bg-primary, ring glow | — |
+| `.text-link` | Enlaces inline | color accent-hover, underline más visible | color accent-hover |
 
 #### Ejemplo de implementación
 
 ```tsx
 // En el componente (JSX)
-<div className="tech-item group flex items-center gap-3 rounded-lg px-4 py-3">
+<div className="tech-item flex items-center gap-3 rounded-lg px-4 py-3">
   <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-  <span className="text-sm font-medium text-text-primary">
+  <span className="tech-name text-sm font-medium text-text-primary">
     {tech.nombre}
   </span>
 </div>
 
 // En globals.css
 .tech-item {
+  position: relative;
+  border: 1px solid transparent;
   transition:
-    transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    background-color 120ms ease-out,
-    box-shadow 120ms ease-out;
+    transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+.tech-icon {
+  transition:
+    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 180ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .tech-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     background-color: var(--color-bg-primary);
-    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.15);
+    border-color: var(--color-accent);
+    box-shadow:
+      0 4px 12px rgba(63, 191, 154, 0.2),
+      0 0 0 1px rgba(63, 191, 154, 0.1);
+  }
+
+  .tech-item:hover .tech-icon {
+    color: var(--color-accent);
+    transform: scale(1.15);
   }
 }
 
 @media (hover: none), (pointer: coarse) {
   .tech-item:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
     background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+  }
+
+  .tech-item:active .tech-icon {
+    color: var(--color-accent);
+    transform: scale(1.1);
   }
 }
 ```
