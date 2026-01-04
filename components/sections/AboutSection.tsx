@@ -3,14 +3,20 @@ import Container from "@/components/layout/Container";
 
 export default function AboutSection() {
   return (
-    <Section>
+    <Section variant="secondary">
       <Container>
         <div className="max-w-3xl">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p
+            id="sobre-mi"
+            className="mb-3 text-sm font-medium tracking-wide text-accent"
+          >
+            Perfil
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">
             Sobre mí
           </h2>
 
-          <div className="mt-12 space-y-8 text-base leading-relaxed text-gray-400 sm:text-lg">
+          <div className="mt-10 space-y-6 text-base leading-relaxed text-text-secondary sm:text-lg">
             <p>
               Soy Ingeniero en Computación e Informática, con formación en
               ingeniería y una orientación clara a resolver problemas reales

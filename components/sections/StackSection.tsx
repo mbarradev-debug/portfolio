@@ -49,14 +49,17 @@ const stack = [
 
 export default function StackSection() {
   return (
-    <Section>
+    <Section variant="primary">
       <Container>
         <div className="max-w-3xl">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="mb-3 text-sm font-medium tracking-wide text-accent">
+            Tecnología
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">
             Stack & Engineering Approach
           </h2>
 
-          <p className="mt-6 text-base leading-relaxed text-gray-400 sm:text-lg">
+          <p className="mt-6 text-base leading-relaxed text-text-secondary sm:text-lg">
             Selecciono el stack tecnológico y los patrones de diseño según las
             necesidades específicas de cada proyecto, priorizando la
             escalabilidad, la mantenibilidad y la claridad arquitectónica desde
@@ -65,14 +68,17 @@ export default function StackSection() {
         </div>
 
         <div className="mt-16">
-          <h3 className="text-xl font-semibold text-white">
+          <h3 className="text-lg font-medium text-text-primary">
             Áreas de competencia
           </h3>
-          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {competencias.map((item) => (
-              <div key={item.titulo}>
-                <h4 className="font-medium text-gray-200">{item.titulo}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-gray-400">
+              <div
+                key={item.titulo}
+                className="rounded-lg border border-border-subtle bg-surface p-6 transition-colors duration-200 hover:border-text-secondary/30"
+              >
+                <h4 className="font-medium text-text-primary">{item.titulo}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                   {item.descripcion}
                 </p>
               </div>
@@ -81,14 +87,21 @@ export default function StackSection() {
         </div>
 
         <div className="mt-16">
-          <h3 className="text-xl font-semibold text-white">Stack principal</h3>
-          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <h3 className="text-lg font-medium text-text-primary">
+            Stack principal
+          </h3>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {stack.map((grupo) => (
-              <div key={grupo.categoria}>
-                <h4 className="font-medium text-gray-200">{grupo.categoria}</h4>
-                <ul className="mt-2 space-y-1">
+              <div
+                key={grupo.categoria}
+                className="rounded-lg border border-border-subtle bg-surface p-6"
+              >
+                <h4 className="text-sm font-medium text-accent">
+                  {grupo.categoria}
+                </h4>
+                <ul className="mt-3 space-y-1">
                   {grupo.tecnologias.map((tech) => (
-                    <li key={tech} className="text-sm text-gray-400">
+                    <li key={tech} className="text-sm text-text-secondary">
                       {tech}
                     </li>
                   ))}
