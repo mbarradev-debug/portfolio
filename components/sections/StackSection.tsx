@@ -131,7 +131,7 @@ export default function StackSection() {
                   <div
                     key={tech.nombre}
                     className={`group flex cursor-default items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-bg-secondary ${
-                      techVisible ? "animate-fade-in-up" : "opacity-0"
+                      techVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-300" : "opacity-0"
                     }`}
                     style={{
                       animationDelay: techVisible ? `${index * 50}ms` : "0ms",

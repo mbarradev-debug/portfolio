@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 
 interface AnimateOnScrollProps {
   children: ReactNode;
@@ -12,6 +12,7 @@ export default function AnimateOnScroll({
   className = "",
 }: AnimateOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
@@ -21,7 +22,7 @@ export default function AnimateOnScroll({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            setIsVisible(true);
             observer.unobserve(entry.target);
           }
         });
@@ -38,7 +39,14 @@ export default function AnimateOnScroll({
   }, []);
 
   return (
-    <div ref={ref} className={`animate-on-scroll ${className}`}>
+    <div
+      ref={ref}
+      className={`${className} ${
+        isVisible
+          ? "animate-in fade-in slide-in-from-bottom-4 duration-500"
+          : "opacity-0"
+      }`}
+    >
       {children}
     </div>
   );
