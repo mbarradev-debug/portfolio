@@ -9,19 +9,19 @@ import {
 const links = [
   {
     label: "GitHub",
-    href: "https://github.com/miguelbarra",
+    href: "https://github.com/mbarradev-debug",
     icon: GitHubIcon,
     external: true,
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/miguelbarra",
+    href: "https://www.linkedin.com/in/miguelbarrarios/",
     icon: LinkedInIcon,
     external: true,
   },
   {
     label: "Email",
-    href: "mailto:contacto@miguelbarra.dev",
+    href: "mailto:mbarra.3690@gmail.com",
     icon: EmailIcon,
     external: false,
   },

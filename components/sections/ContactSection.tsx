@@ -14,22 +14,22 @@ import {
 const contactLinks = [
   {
     label: "Email",
-    value: "contacto@miguelbarra.dev",
-    href: "mailto:contacto@miguelbarra.dev",
+    value: "mbarra.3690@gmail.com",
+    href: "mailto:mbarra.3690@gmail.com",
     icon: EmailIcon,
     external: false,
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/miguelbarra",
-    href: "https://linkedin.com/in/miguelbarra",
+    value: "linkedin.com/in/miguelbarrarios",
+    href: "https://www.linkedin.com/in/miguelbarrarios/",
     icon: LinkedInIcon,
     external: true,
   },
   {
     label: "GitHub",
-    value: "github.com/miguelbarra",
-    href: "https://github.com/miguelbarra",
+    value: "github.com/mbarradev-debug",
+    href: "https://github.com/mbarradev-debug",
     icon: GitHubIcon,
     external: true,
   },
@@ -44,14 +44,29 @@ export default function ContactSection() {
     e.preventDefault();
     setFormStatus("submitting");
 
-    // Simular envío (reemplazar con lógica real cuando se implemente backend)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      nombre: formData.get("nombre"),
+      email: formData.get("email"),
+      mensaje: formData.get("mensaje"),
+    };
 
-    // Por ahora, mostrar mensaje de éxito
-    setFormStatus("success");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    // Reset form
-    (e.target as HTMLFormElement).reset();
+      if (!response.ok) {
+        throw new Error("Error al enviar");
+      }
+
+      setFormStatus("success");
+      (e.target as HTMLFormElement).reset();
+    } catch {
+      setFormStatus("error");
+    }
 
     // Volver a idle después de 5 segundos
     setTimeout(() => setFormStatus("idle"), 5000);
@@ -203,9 +218,9 @@ export default function ContactSection() {
             <p className="mt-6 text-sm text-text-secondary">
               También puedes escribirme directamente a{" "}
               <a
-                href="mailto:contacto@miguelbarra.dev"
+                href="mailto:mbarra.3690@gmail.com"
                 className="text-link text-accent"
-                aria-label="Enviar correo a contacto@miguelbarra.dev"
+                aria-label="Enviar correo a mbarra.3690@gmail.com"
               >
                 mi correo
               </a>

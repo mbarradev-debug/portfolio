@@ -29,7 +29,7 @@ Esta guía explica cómo trabajar con el proyecto: desde levantar el entorno de 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/mbarradev-debug/portfolio.git
 cd portfolio
 ```
 
