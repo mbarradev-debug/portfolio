@@ -76,7 +76,12 @@ export default function StackSection() {
   }, []);
 
   return (
-    <Section variant="primary">
+    <Section variant="primary" separator="visible">
+      {/* Subtle top gradient for visual weight */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-bg-secondary/30 to-transparent"
+        aria-hidden="true"
+      />
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
@@ -130,15 +135,15 @@ export default function StackSection() {
                 return (
                   <div
                     key={tech.nombre}
-                    className={`tech-item group flex items-center gap-3 rounded-lg px-4 py-3 ${
-                      techVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-200" : "opacity-0"
+                    className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
+                      techVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-300" : "opacity-0 translate-y-3"
                     }`}
                     style={{
-                      animationDelay: techVisible ? `${index * 40}ms` : "0ms",
+                      animationDelay: techVisible ? `${index * 50}ms` : "0ms",
                     }}
                   >
                     <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-                    <span className="text-sm font-medium text-text-primary">
+                    <span className="tech-name text-sm font-medium text-text-primary">
                       {tech.nombre}
                     </span>
                   </div>

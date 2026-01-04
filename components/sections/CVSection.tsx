@@ -5,7 +5,7 @@ import { DownloadIcon } from "@/components/icons";
 
 export default function CVSection() {
   return (
-    <Section variant="secondary">
+    <Section variant="secondary" spacing="compact" separator="subtle">
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
@@ -13,9 +13,9 @@ export default function CVSection() {
           </p>
           <h2
             id="cv"
-            className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
+            className="text-2xl font-semibold tracking-tight text-text-primary sm:text-3xl"
           >
-            CV
+            Currículum Vitae
           </h2>
 
           <p className="mt-6 text-base leading-relaxed text-text-secondary sm:text-lg">
@@ -28,7 +28,7 @@ export default function CVSection() {
             <a
               href="/cv/cv.pdf"
               download
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary transition-all duration-200 hover:bg-accent-hover active:scale-[0.98]"
+              className="btn-primary inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary"
               aria-label="Descargar currículum en formato PDF"
             >
               <DownloadIcon className="h-4 w-4" />

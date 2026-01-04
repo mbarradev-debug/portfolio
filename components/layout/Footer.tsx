@@ -52,7 +52,7 @@ export default function Footer() {
                   <IconComponent className="footer-link-icon h-4 w-4" />
                   <span>{link.label}</span>
                   {link.external && (
-                    <ExternalLinkIcon className="h-3 w-3 opacity-50" />
+                    <ExternalLinkIcon className="footer-link-external h-3 w-3 opacity-50" />
                   )}
                 </a>
               );

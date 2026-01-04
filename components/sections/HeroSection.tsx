@@ -9,7 +9,7 @@ export default function HeroSection() {
   const { scrollToSection } = useScrollToSection();
 
   return (
-    <Section className="relative min-h-screen flex items-center overflow-hidden" id="hero">
+    <Section className="relative min-h-screen flex items-center overflow-hidden" id="hero" separator="visible">
       {/* Diagonal background split */}
       <div
         className="pointer-events-none absolute inset-0 bg-bg-secondary"
@@ -25,24 +25,24 @@ export default function HeroSection() {
         <div className="relative flex flex-col-reverse items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           {/* Text content */}
           <div className="max-w-3xl lg:max-w-xl xl:max-w-2xl">
-            <p className="mb-4 text-sm font-medium tracking-wide text-accent animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <p className="mb-4 text-base font-medium tracking-wide text-accent animate-in fade-in slide-in-from-left-4 duration-500">
               Ingeniero de Software
             </p>
 
-            <h1 className="text-5xl font-bold tracking-tight text-text-primary sm:text-6xl lg:text-5xl xl:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+            <h1 className="text-5xl font-bold tracking-tight text-text-primary sm:text-6xl lg:text-5xl xl:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150">
               Miguel Barra
             </h1>
 
-            <div className="mt-6 space-y-1 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-              <p className="text-xl text-text-primary sm:text-2xl lg:text-xl xl:text-2xl">
+            <div className="mt-6 space-y-1.5 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
+              <p className="text-lg font-medium text-text-secondary sm:text-xl lg:text-lg xl:text-xl">
                 Ingeniero en Computación e Informática
               </p>
-              <p className="text-base text-text-secondary">
+              <p className="text-sm text-text-secondary/70">
                 Licenciado en Ingeniería — Universidad Andrés Bello
               </p>
             </div>
 
-            <div className="mt-10 max-w-2xl space-y-4 text-base leading-relaxed text-text-secondary sm:text-lg lg:text-base xl:text-lg animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
+            <div className="mt-10 max-w-2xl space-y-4 text-base leading-relaxed text-text-secondary sm:text-lg lg:text-base xl:text-lg animate-in fade-in duration-500 delay-500">
               <p>
                 Diseño y desarrollo soluciones web desde un enfoque ingenieril,
                 priorizando el análisis, la planificación y la ejecución
@@ -54,7 +54,7 @@ export default function HeroSection() {
               </p>
             </div>
 
-            <div className="mt-12 flex flex-wrap gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-500">
+            <div className="mt-12 flex flex-wrap gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-700">
               <a
                 href="#sobre-mi"
                 onClick={(e) => scrollToSection(e, "sobre-mi")}
@@ -78,11 +78,11 @@ export default function HeroSection() {
           <div className="relative flex shrink-0 items-center justify-center">
             {/* Green circle background */}
             <div
-              className="absolute h-56 w-56 rounded-full bg-accent/15 sm:h-64 sm:w-64 lg:h-72 lg:w-72 xl:h-80 xl:w-80"
+              className="absolute h-56 w-56 rounded-full bg-accent/20 sm:h-64 sm:w-64 lg:h-72 lg:w-72 xl:h-80 xl:w-80 animate-in fade-in zoom-in-90 duration-700 delay-100"
               aria-hidden="true"
             />
             {/* Developer image */}
-            <div className="relative z-10 animate-in fade-in zoom-in-95 duration-700">
+            <div className="relative z-10 animate-in fade-in zoom-in-95 duration-700 delay-300">
               <Image
                 src="/images/miguelb-logo.png"
                 alt="Miguel Barra - Ingeniero de Software"

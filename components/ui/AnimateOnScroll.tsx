@@ -43,8 +43,8 @@ export default function AnimateOnScroll({
       ref={ref}
       className={`${className} ${
         isVisible
-          ? "animate-in fade-in slide-in-from-bottom-2 duration-300"
-          : "opacity-0"
+          ? "animate-in fade-in slide-in-from-bottom-4 duration-500"
+          : "opacity-0 translate-y-4"
       }`}
     >
       {children}

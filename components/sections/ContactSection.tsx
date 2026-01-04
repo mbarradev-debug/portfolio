@@ -58,7 +58,7 @@ export default function ContactSection() {
   };
 
   return (
-    <Section variant="primary">
+    <Section variant="primary" spacing="relaxed" separator="none">
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
@@ -66,7 +66,7 @@ export default function ContactSection() {
           </p>
           <h2
             id="contacto"
-            className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
+            className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl"
           >
             Contacto
           </h2>
@@ -101,10 +101,10 @@ export default function ContactSection() {
                         <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">
                           {link.label}
                         </span>
-                        <span className="contact-link-value mt-0.5 flex items-center gap-1.5 text-text-primary">
+                        <span className="contact-link-value mt-0.5 flex items-center gap-1.5 text-sm text-text-primary">
                           {link.value}
                           {link.external && (
-                            <ExternalLinkIcon className="h-3 w-3 opacity-50" />
+                            <ExternalLinkIcon className="contact-link-external h-3 w-3 opacity-50" />
                           )}
                         </span>
                       </div>
@@ -139,7 +139,7 @@ export default function ContactSection() {
                   required
                   disabled={formStatus === "submitting"}
                   placeholder="Tu nombre"
-                  className="mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+                  className="form-input mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
 
@@ -157,7 +157,7 @@ export default function ContactSection() {
                   required
                   disabled={formStatus === "submitting"}
                   placeholder="tu@email.com"
-                  className="mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+                  className="form-input mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
 
@@ -175,7 +175,7 @@ export default function ContactSection() {
                   required
                   disabled={formStatus === "submitting"}
                   placeholder="Cuéntame sobre tu proyecto..."
-                  className="mt-2 block w-full resize-none rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+                  className="form-input mt-2 block w-full resize-none rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
 
@@ -204,7 +204,7 @@ export default function ContactSection() {
               También puedes escribirme directamente a{" "}
               <a
                 href="mailto:contacto@miguelbarra.dev"
-                className="text-accent transition-colors duration-200 hover:text-accent-hover"
+                className="text-link text-accent"
                 aria-label="Enviar correo a contacto@miguelbarra.dev"
               >
                 mi correo

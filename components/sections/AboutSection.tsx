@@ -4,7 +4,7 @@ import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 
 export default function AboutSection() {
   return (
-    <Section variant="secondary">
+    <Section variant="secondary" spacing="relaxed" separator="visible">
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">

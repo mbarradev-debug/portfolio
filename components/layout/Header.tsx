@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { DownloadIcon } from "@/components/icons";
 import { useScrollToSection } from "@/hooks/useScrollToSection";
 
@@ -10,10 +10,16 @@ const sections = [
   { id: "contacto", label: "Contacto" },
 ];
 
+const SCROLL_THRESHOLD = 100; // Pixels before hiding starts
+const SCROLL_DELTA = 10; // Minimum scroll distance to trigger hide/show
+
 export default function Header() {
   const [activeSection, setActiveSection] = useState("hero");
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const { scrollToSection, scrollToTop } = useScrollToSection();
 
+  // Section observer
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -42,19 +48,54 @@ export default function Header() {
     return () => observers.forEach((obs) => obs.disconnect());
   }, []);
 
+  // Scroll hide/show behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY.current;
+
+      // Always show at top of page
+      if (currentScrollY < SCROLL_THRESHOLD) {
+        setIsVisible(true);
+      }
+      // Scrolling down past threshold - hide
+      else if (scrollDelta > SCROLL_DELTA) {
+        setIsVisible(false);
+      }
+      // Scrolling up - show
+      else if (scrollDelta < -SCROLL_DELTA) {
+        setIsVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const isContactActive = activeSection === "contacto";
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex justify-center px-4 pt-4">
+    <header
+      className={`fixed left-0 right-0 top-0 z-50 flex justify-center px-4 pt-4 transition-transform duration-200 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+      style={{
+        transitionTimingFunction: isVisible
+          ? "cubic-bezier(0.2, 0, 0, 1)"
+          : "cubic-bezier(0.4, 0, 1, 1)",
+      }}
+    >
       <nav
-        className="flex h-12 w-full max-w-md items-center justify-between rounded-full border border-text-primary/10 bg-text-primary/95 px-6 shadow-lg shadow-black/10 backdrop-blur-sm"
+        className="flex h-11 w-full max-w-md items-center justify-between rounded-full border border-text-primary/10 bg-text-primary/95 px-5 shadow-lg shadow-black/10 backdrop-blur-sm sm:h-12 sm:px-6"
         role="navigation"
         aria-label="Menú principal"
       >
         <a
           href="#"
           onClick={scrollToTop}
-          className="text-base font-semibold text-bg-primary transition-colors duration-200 hover:text-accent"
+          className="nav-logo text-base font-semibold text-bg-primary"
           aria-label="Inicio"
         >
           MB
@@ -64,17 +105,17 @@ export default function Header() {
           <a
             href="/cv/cv.pdf"
             download
-            className="group flex items-center gap-1.5 text-sm text-bg-secondary transition-colors duration-200 hover:text-bg-primary"
+            className="nav-cv-link group flex items-center gap-1.5 text-sm text-bg-secondary"
             aria-label="Descargar CV"
           >
-            <DownloadIcon className="h-3.5 w-3.5 transition-all duration-200 group-hover:translate-y-0.5 group-hover:text-accent" />
+            <DownloadIcon className="nav-cv-icon h-3.5 w-3.5" />
             <span>CV</span>
           </a>
 
           <a
             href="#contacto"
             onClick={(e) => scrollToSection(e, "contacto")}
-            className={`relative rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 hover:scale-105 ${
+            className={`nav-contact-btn relative rounded-full px-4 py-1.5 text-sm font-medium ${
               isContactActive
                 ? "bg-accent text-bg-primary"
                 : "bg-bg-primary text-text-primary hover:bg-accent hover:text-bg-primary"
@@ -84,7 +125,7 @@ export default function Header() {
           >
             Contacto
             <span
-              className={`absolute -bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-bg-primary shadow-sm transition-all duration-200 ${
+              className={`absolute -bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-text-primary shadow-sm ring-1 ring-bg-primary/20 transition-all duration-200 ${
                 isContactActive ? "scale-100 opacity-100" : "scale-0 opacity-0"
               }`}
             />

@@ -46,7 +46,7 @@ html {
 
 /* Scroll offset for fixed navbar */
 [id] {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 4.5rem;
 }
 
 /* Pulse glow animation for navigation */
@@ -66,45 +66,70 @@ html {
 /* =====================================================
    MICRO-INTERACTIONS: Desktop (hover) + Mobile (tap)
    Using CSS variables for consistent, visible feedback
+
+   Easing reference:
+   - Snappy (interactions): cubic-bezier(0.2, 0, 0, 1)
+   - Smooth (transforms): cubic-bezier(0.4, 0, 0.2, 1)
    ===================================================== */
 
 /* ----- TECH ITEMS (Stack section) ----- */
 .tech-item {
   position: relative;
+  border: 1px solid transparent;
   transition:
-    transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    background-color 120ms ease-out,
-    box-shadow 120ms ease-out;
-  cursor: default;
+    transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
 .tech-icon {
-  transition: color 120ms ease-out, transform 120ms ease-out;
+  transition:
+    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.tech-name {
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Desktop: hover */
 @media (hover: hover) and (pointer: fine) {
   .tech-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     background-color: var(--color-bg-primary);
-    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.15);
+    border-color: var(--color-accent);
+    box-shadow:
+      0 4px 12px rgba(63, 191, 154, 0.2),
+      0 0 0 1px rgba(63, 191, 154, 0.1);
   }
 
   .tech-item:hover .tech-icon {
     color: var(--color-accent);
-    transform: scale(1.1);
+    transform: scale(1.15);
+  }
+
+  .tech-item:hover .tech-name {
+    color: var(--color-accent);
   }
 }
 
 /* Mobile/Touch: tap feedback */
 @media (hover: none), (pointer: coarse) {
   .tech-item:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
     background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
   }
 
   .tech-item:active .tech-icon {
+    color: var(--color-accent);
+    transform: scale(1.1);
+  }
+
+  .tech-item:active .tech-name {
     color: var(--color-accent);
   }
 }
@@ -112,14 +137,14 @@ html {
 /* ----- COMPETENCY CARDS ----- */
 .competency-card {
   transition:
-    border-color 120ms ease-out,
-    box-shadow 120ms ease-out,
-    transform 120ms ease-out;
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 180ms cubic-bezier(0.2, 0, 0, 1);
   -webkit-tap-highlight-color: transparent;
 }
 
 .competency-title {
-  transition: color 120ms ease-out;
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Desktop: hover */
@@ -150,24 +175,28 @@ html {
 /* ----- CONTACT LINKS ----- */
 .contact-link {
   transition:
-    transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    background-color 120ms ease-out;
+    transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
 }
 
 .contact-link-icon-wrapper {
   transition:
-    transform 120ms ease-out,
-    background-color 120ms ease-out,
-    box-shadow 120ms ease-out;
+    transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-link-icon {
-  transition: color 120ms ease-out;
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-link-value {
-  transition: color 120ms ease-out;
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-link-external {
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Desktop: hover */
@@ -189,6 +218,10 @@ html {
 
   .contact-link:hover .contact-link-value {
     color: var(--color-accent);
+  }
+
+  .contact-link:hover .contact-link-external {
+    opacity: 1;
   }
 }
 
@@ -215,13 +248,20 @@ html {
 /* ----- FOOTER LINKS ----- */
 .footer-link {
   transition:
-    background-color 120ms ease-out,
-    color 120ms ease-out;
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 120ms cubic-bezier(0.2, 0, 0, 1);
   -webkit-tap-highlight-color: transparent;
 }
 
 .footer-link-icon {
-  transition: color 120ms ease-out, transform 120ms ease-out;
+  transition:
+    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 150ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.footer-link-external {
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Desktop: hover */
@@ -235,25 +275,31 @@ html {
     color: var(--color-accent);
     transform: scale(1.15);
   }
+
+  .footer-link:hover .footer-link-external {
+    opacity: 1;
+  }
 }
 
 /* Mobile/Touch: tap feedback */
 @media (hover: none), (pointer: coarse) {
   .footer-link:active {
     background-color: var(--color-surface);
+    transform: scale(0.97);
   }
 
   .footer-link:active .footer-link-icon {
     color: var(--color-accent);
+    transform: scale(1.1);
   }
 }
 
 /* ----- PRIMARY BUTTONS ----- */
 .btn-primary {
   transition:
-    background-color 120ms ease-out,
-    transform 100ms ease-out,
-    box-shadow 120ms ease-out;
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 120ms cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -271,9 +317,9 @@ html {
 /* ----- SECONDARY BUTTONS ----- */
 .btn-secondary {
   transition:
-    border-color 120ms ease-out,
-    background-color 120ms ease-out,
-    transform 100ms ease-out;
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 120ms cubic-bezier(0.2, 0, 0, 1);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -286,4 +332,169 @@ html {
 
 .btn-secondary:active {
   transform: scale(0.97);
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-primary);
+}
+
+/* =====================================================
+   SECTION RHYTHM: Visual separation between sections
+   ===================================================== */
+
+/* Visible separator - stronger visual break */
+.separator-visible {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border-subtle) 20%,
+    var(--color-accent) 50%,
+    var(--color-border-subtle) 80%,
+    transparent 100%
+  );
+  opacity: 0.4;
+}
+
+/* =====================================================
+   HEADER NAVIGATION
+   ===================================================== */
+
+/* ----- NAV LOGO ----- */
+.nav-logo {
+  transition:
+    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 100ms cubic-bezier(0.2, 0, 0, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-logo:hover {
+    color: var(--color-accent);
+  }
+}
+
+.nav-logo:active {
+  transform: scale(0.95);
+  color: var(--color-accent);
+}
+
+/* ----- NAV CV DOWNLOAD ----- */
+.nav-cv-link {
+  transition:
+    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 100ms cubic-bezier(0.2, 0, 0, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-cv-icon {
+  transition:
+    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 120ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-cv-link:hover {
+    color: var(--color-bg-primary);
+  }
+
+  .nav-cv-link:hover .nav-cv-icon {
+    color: var(--color-accent);
+    transform: translateY(2px);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .nav-cv-link:active {
+    transform: scale(0.95);
+  }
+
+  .nav-cv-link:active .nav-cv-icon {
+    color: var(--color-accent);
+  }
+}
+
+/* ----- NAV CONTACT BUTTON ----- */
+.nav-contact-btn {
+  transition:
+    background-color 120ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 100ms cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-contact-btn:hover {
+    box-shadow: 0 2px 8px rgba(63, 191, 154, 0.3);
+  }
+}
+
+.nav-contact-btn:active {
+  transform: scale(0.95);
+}
+
+/* =====================================================
+   FORM INPUTS - Enhanced feedback
+   ===================================================== */
+
+.form-input {
+  transition:
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.form-input:focus {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-primary);
+  box-shadow: 0 0 0 3px rgba(63, 191, 154, 0.15);
+}
+
+/* Mobile: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .form-input:active:not(:focus) {
+    border-color: var(--color-text-secondary);
+  }
+}
+
+/* =====================================================
+   INLINE TEXT LINKS
+   ===================================================== */
+
+.text-link {
+  position: relative;
+  transition: color 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.text-link::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.3;
+  transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .text-link:hover::after {
+    opacity: 0.6;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .text-link:active {
+    color: var(--color-accent-hover);
+  }
+
+  .text-link:active::after {
+    opacity: 0.8;
+  }
 }
