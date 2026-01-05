@@ -9,7 +9,7 @@ export default function HeroSection() {
   const { scrollToSection } = useScrollToSection();
 
   return (
-    <Section className="relative min-h-screen flex items-center overflow-hidden" id="hero" separator="visible">
+    <Section className="relative min-h-svh-safe flex items-center overflow-hidden py-16 sm:py-20 lg:py-24" id="hero" separator="visible">
       {/* Diagonal background split */}
       <div
         className="pointer-events-none absolute inset-0 bg-bg-secondary"
@@ -22,7 +22,7 @@ export default function HeroSection() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-bg-secondary)_0%,_transparent_50%)]" />
 
       <Container>
-        <div className="relative flex flex-col-reverse items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+        <div className="relative flex flex-col-reverse items-center gap-8 sm:gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           {/* Text content */}
           <div className="max-w-3xl lg:max-w-xl xl:max-w-2xl">
             <p className="mb-4 text-base font-medium tracking-wide text-accent animate-in fade-in slide-in-from-left-4 duration-500">
@@ -78,7 +78,7 @@ export default function HeroSection() {
           <div className="relative flex shrink-0 items-center justify-center">
             {/* Green circle background */}
             <div
-              className="absolute h-56 w-56 rounded-full bg-accent/20 sm:h-64 sm:w-64 lg:h-72 lg:w-72 xl:h-80 xl:w-80 animate-in fade-in zoom-in-90 duration-700 delay-100"
+              className="absolute h-48 w-48 rounded-full bg-accent/20 sm:h-64 sm:w-64 lg:h-72 lg:w-72 xl:h-80 xl:w-80 animate-in fade-in zoom-in-90 duration-700 delay-100"
               aria-hidden="true"
             />
             {/* Developer image */}
@@ -88,8 +88,8 @@ export default function HeroSection() {
                 alt="Miguel Barra - Ingeniero de Software"
                 width={480}
                 height={480}
-                sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, (max-width: 1280px) 384px, 448px"
-                className="h-72 w-72 object-contain sm:h-80 sm:w-80 lg:h-96 lg:w-96 xl:h-[28rem] xl:w-[28rem]"
+                sizes="(max-width: 640px) 224px, (max-width: 768px) 288px, (max-width: 1024px) 320px, (max-width: 1280px) 384px, 448px"
+                className="h-56 w-56 object-contain sm:h-72 sm:w-72 md:h-80 md:w-80 lg:h-96 lg:w-96 xl:h-[28rem] xl:w-[28rem]"
                 priority
               />
             </div>

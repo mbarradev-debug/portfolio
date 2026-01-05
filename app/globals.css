@@ -32,6 +32,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* =====================================================
+   VIEWPORT HEIGHT FIX FOR MOBILE BROWSERS
+   svh = Small Viewport Height (accounts for browser UI)
+   Fallback to vh for older browsers
+   ===================================================== */
+.min-h-svh-safe {
+  min-height: 100vh; /* fallback */
+  min-height: 100svh;
+}
+
+.h-svh-safe {
+  height: 100vh; /* fallback */
+  height: 100svh;
+}
+
 /* Focus visible for accessibility */
 :focus-visible {
   outline: 2px solid var(--color-accent);
