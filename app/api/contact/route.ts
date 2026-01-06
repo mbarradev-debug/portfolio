@@ -46,10 +46,10 @@ export async function POST(request: Request) {
     const nombreSafe = sanitizeHtml(nombre);
     const mensajeSafe = sanitizeHtml(mensaje);
 
-    // Enviar email
+    // Enviar email (usando el email verificado en Resend)
     const { error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
-      to: "mbarra.3690@gmail.com",
+      to: "mbarra.dev@icloud.com",
       subject: `Nuevo mensaje de contacto de ${nombreSafe}`,
       replyTo: email,
       html: `
@@ -62,6 +62,7 @@ export async function POST(request: Request) {
     });
 
     if (error) {
+      console.error("Resend error:", JSON.stringify(error, null, 2));
       return NextResponse.json(
         { error: "Error al enviar el mensaje" },
         { status: 500 }

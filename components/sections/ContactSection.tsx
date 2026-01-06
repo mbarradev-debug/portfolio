@@ -39,12 +39,15 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export default function ContactSection() {
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("submitting");
+    setErrorMessage("");
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const data = {
       nombre: formData.get("nombre"),
       email: formData.get("email"),
@@ -58,18 +61,25 @@ export default function ContactSection() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Error al enviar");
+        throw new Error(result.error || "Error al enviar el mensaje");
       }
 
       setFormStatus("success");
-      (e.target as HTMLFormElement).reset();
-    } catch {
+      form.reset();
+      setTimeout(() => setFormStatus("idle"), 5000);
+    } catch (err) {
       setFormStatus("error");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Error al enviar el mensaje"
+      );
+      setTimeout(() => {
+        setFormStatus("idle");
+        setErrorMessage("");
+      }, 5000);
     }
-
-    // Volver a idle después de 5 segundos
-    setTimeout(() => setFormStatus("idle"), 5000);
   };
 
   return (
@@ -210,7 +220,7 @@ export default function ContactSection() {
 
               {formStatus === "error" && (
                 <p className="animate-fade-in text-sm text-error">
-                  Hubo un error al enviar el mensaje. Intenta de nuevo.
+                  {errorMessage || "Hubo un error al enviar el mensaje. Intenta de nuevo."}
                 </p>
               )}
             </form>
