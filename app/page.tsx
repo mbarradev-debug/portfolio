@@ -1,7 +1,6 @@
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import StackSection from "@/components/sections/StackSection";
-import CVSection from "@/components/sections/CVSection";
 import ContactSection from "@/components/sections/ContactSection";
 
 export default function Home() {
@@ -10,7 +9,6 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <StackSection />
-      <CVSection />
       <ContactSection />
     </>
   );

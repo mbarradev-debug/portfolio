@@ -4,9 +4,9 @@
 @theme inline {
   /* Background */
   --color-bg-primary: #0F1115;
-  --color-bg-secondary: #161A20;
-  --color-surface: #1B2028;
-  --color-border-subtle: #232834;
+  --color-bg-secondary: #1A1F26;
+  --color-surface: #1E242C;
+  --color-border-subtle: #2A3140;
 
   /* Text */
   --color-text-primary: #E6E8EB;
@@ -357,15 +357,16 @@ html {
 
 /* Visible separator - stronger visual break */
 .separator-visible {
+  height: 2px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--color-border-subtle) 20%,
+    var(--color-border-subtle) 15%,
     var(--color-accent) 50%,
-    var(--color-border-subtle) 80%,
+    var(--color-border-subtle) 85%,
     transparent 100%
   );
-  opacity: 0.4;
+  opacity: 0.6;
 }
 
 /* =====================================================

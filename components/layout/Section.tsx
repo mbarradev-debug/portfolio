@@ -14,8 +14,8 @@ const spacingClasses = {
 };
 
 const separatorClasses = {
-  subtle: "h-px opacity-50",
-  visible: "h-px opacity-100",
+  subtle: "h-px opacity-60",
+  visible: "h-0.5 opacity-100",
   none: "h-0 opacity-0",
 };
 

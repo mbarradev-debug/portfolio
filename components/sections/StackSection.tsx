@@ -14,6 +14,10 @@ import {
   DockerIcon,
   GitIcon,
   ApiIcon,
+  ArchitectureIcon,
+  MonitorIcon,
+  ServerIcon,
+  DatabaseIcon,
 } from "@/components/icons";
 
 const competencias = [
@@ -21,34 +25,53 @@ const competencias = [
     titulo: "Arquitectura de aplicaciones",
     descripcion:
       "Diseño arquitecturas alineadas al contexto del proyecto, cuidando la separación de responsabilidades y la evolución futura del sistema.",
+    icon: ArchitectureIcon,
   },
   {
     titulo: "Desarrollo Frontend",
     descripcion:
       "Construyo interfaces claras y mantenibles, basadas en una correcta componentización, priorizando rendimiento y experiencia de usuario.",
+    icon: MonitorIcon,
   },
   {
     titulo: "Desarrollo Backend",
     descripcion:
       "Implemento lógica de negocio desacoplada mediante APIs bien definidas, con foco en robustez, validación y control de errores.",
+    icon: ServerIcon,
   },
   {
     titulo: "Datos y persistencia",
     descripcion:
       "Diseño modelos relacionales consistentes, considerando integridad, claridad del dominio y crecimiento a largo plazo.",
+    icon: DatabaseIcon,
   },
 ];
 
-const tecnologias = [
-  { nombre: "React", icon: ReactIcon },
-  { nombre: "Next.js", icon: NextjsIcon },
-  { nombre: "TypeScript", icon: TypeScriptIcon },
-  { nombre: "Node.js", icon: NodejsIcon },
-  { nombre: "APIs REST", icon: ApiIcon },
-  { nombre: "PostgreSQL", icon: PostgreSQLIcon },
-  { nombre: "Prisma", icon: PrismaIcon },
-  { nombre: "Docker", icon: DockerIcon },
-  { nombre: "Git", icon: GitIcon },
+const techCategories = [
+  {
+    name: "Frontend",
+    items: [
+      { nombre: "React", icon: ReactIcon },
+      { nombre: "Next.js", icon: NextjsIcon },
+      { nombre: "TypeScript", icon: TypeScriptIcon },
+    ],
+  },
+  {
+    name: "Backend",
+    items: [
+      { nombre: "Node.js", icon: NodejsIcon },
+      { nombre: "APIs REST", icon: ApiIcon },
+      { nombre: "PostgreSQL", icon: PostgreSQLIcon },
+      { nombre: "Prisma", icon: PrismaIcon },
+    ],
+  },
+  {
+    name: "DevOps & Tools",
+    items: [
+      { nombre: "Docker", icon: DockerIcon },
+      { nombre: "Git", icon: GitIcon },
+    ],
+  },
 ];
 
 export default function StackSection() {
@@ -107,17 +130,25 @@ export default function StackSection() {
             Áreas de competencia
           </h3>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {competencias.map((item) => (
-              <div
-                key={item.titulo}
-                className="competency-card group rounded-lg border border-border-subtle bg-surface p-6"
-              >
-                <h4 className="competency-title font-medium text-text-primary">{item.titulo}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  {item.descripcion}
-                </p>
-              </div>
-            ))}
+            {competencias.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <div
+                  key={item.titulo}
+                  className="competency-card group rounded-lg border border-border-subtle bg-surface p-6"
+                >
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
+                    <IconComponent className="h-5 w-5 text-accent" />
+                  </div>
+                  <h4 className="competency-title font-medium text-text-primary">
+                    {item.titulo}
+                  </h4>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    {item.descripcion}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </AnimateOnScroll>
 
@@ -129,23 +160,44 @@ export default function StackSection() {
             ref={techGridRef}
             className="mt-6 rounded-xl border border-border-subtle bg-surface p-6 sm:p-8"
           >
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {tecnologias.map((tech, index) => {
-                const IconComponent = tech.icon;
+            <div className="space-y-8">
+              {techCategories.map((category, categoryIndex) => {
+                let globalIndex = 0;
+                for (let i = 0; i < categoryIndex; i++) {
+                  globalIndex += techCategories[i].items.length;
+                }
+
                 return (
-                  <div
-                    key={tech.nombre}
-                    className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
-                      techVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-300" : "opacity-0 translate-y-3"
-                    }`}
-                    style={{
-                      animationDelay: techVisible ? `${index * 50}ms` : "0ms",
-                    }}
-                  >
-                    <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-                    <span className="tech-name text-sm font-medium text-text-primary">
-                      {tech.nombre}
-                    </span>
+                  <div key={category.name}>
+                    <h4 className="mb-4 text-xs font-medium uppercase tracking-wider text-text-secondary/70">
+                      {category.name}
+                    </h4>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                      {category.items.map((tech, index) => {
+                        const IconComponent = tech.icon;
+                        const itemIndex = globalIndex + index;
+                        return (
+                          <div
+                            key={tech.nombre}
+                            className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
+                              techVisible
+                                ? "animate-in fade-in slide-in-from-bottom-3 duration-300"
+                                : "opacity-0 translate-y-3"
+                            }`}
+                            style={{
+                              animationDelay: techVisible
+                                ? `${itemIndex * 50}ms`
+                                : "0ms",
+                            }}
+                          >
+                            <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
+                            <span className="tech-name text-sm font-medium text-text-primary">
+                              {tech.nombre}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 );
               })}
