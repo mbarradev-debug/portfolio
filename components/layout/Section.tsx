@@ -3,7 +3,6 @@ interface SectionProps {
   variant?: "primary" | "secondary";
   spacing?: "compact" | "default" | "relaxed";
   separator?: "subtle" | "visible" | "none";
-  withDotPattern?: boolean;
   className?: string;
   id?: string;
 }
@@ -25,15 +24,13 @@ export default function Section({
   variant = "primary",
   spacing = "default",
   separator = "subtle",
-  withDotPattern = false,
   className = "",
   id,
 }: SectionProps) {
   const bgClass = variant === "secondary" ? "bg-bg-secondary" : "bg-bg-primary";
-  const patternClass = withDotPattern ? "bg-dot-pattern" : "";
 
   return (
-    <section id={id} className={`relative ${spacingClasses[spacing]} ${bgClass} ${patternClass} ${className}`}>
+    <section id={id} className={`relative ${spacingClasses[spacing]} ${bgClass} ${className}`}>
       {children}
       {/* Gradient transition to next section */}
       <div

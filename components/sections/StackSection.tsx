@@ -99,7 +99,7 @@ export default function StackSection() {
   }, []);
 
   return (
-    <Section variant="primary" separator="visible" withDotPattern>
+    <Section variant="primary" separator="visible">
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">

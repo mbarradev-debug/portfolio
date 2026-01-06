@@ -366,42 +366,6 @@ html {
 }
 
 /* =====================================================
-   DOT PATTERN BACKGROUND
-   Subtle visual texture for depth without distraction
-   ===================================================== */
-
-.bg-dot-pattern {
-  position: relative;
-}
-
-.bg-dot-pattern::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-    circle at center,
-    var(--color-text-secondary) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: -1;
-  -webkit-mask-image: radial-gradient(
-    circle at center,
-    black 0%,
-    black 20%,
-    transparent 70%
-  );
-  mask-image: radial-gradient(
-    circle at center,
-    black 0%,
-    black 20%,
-    transparent 70%
-  );
-}
-
-/* =====================================================
    SECTION RHYTHM: Visual separation between sections
    ===================================================== */
 

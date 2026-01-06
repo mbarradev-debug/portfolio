@@ -1,0 +1,6 @@
+# robots.txt for Miguel Barra Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://miguelbarra.dev/sitemap.xml
