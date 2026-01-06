@@ -19,17 +19,17 @@ Los colores están definidos como **variables CSS** en `globals.css`, lo que per
 
 ```css
 --color-bg-primary: #0F1115;    /* Fondo principal - casi negro */
---color-bg-secondary: #161A20;  /* Fondo secundario - gris muy oscuro */
---color-surface: #1B2028;       /* Superficie de tarjetas */
---color-border-subtle: #232834; /* Bordes sutiles */
+--color-bg-secondary: #1A1F26;  /* Fondo secundario - gris oscuro */
+--color-surface: #1E242C;       /* Superficie de tarjetas */
+--color-border-subtle: #2A3140; /* Bordes sutiles */
 ```
 
 | Variable | Color | Uso |
 |----------|-------|-----|
 | `bg-primary` | ![#0F1115](https://via.placeholder.com/20/0F1115/0F1115) `#0F1115` | Fondo principal de la página |
-| `bg-secondary` | ![#161A20](https://via.placeholder.com/20/161A20/161A20) `#161A20` | Secciones alternadas (contraste sutil) |
-| `surface` | ![#1B2028](https://via.placeholder.com/20/1B2028/1B2028) `#1B2028` | Tarjetas, formularios, áreas elevadas |
-| `border-subtle` | ![#232834](https://via.placeholder.com/20/232834/232834) `#232834` | Bordes y divisores |
+| `bg-secondary` | ![#1A1F26](https://via.placeholder.com/20/1A1F26/1A1F26) `#1A1F26` | Secciones alternadas (contraste sutil) |
+| `surface` | ![#1E242C](https://via.placeholder.com/20/1E242C/1E242C) `#1E242C` | Tarjetas, formularios, áreas elevadas |
+| `border-subtle` | ![#2A3140](https://via.placeholder.com/20/2A3140/2A3140) `#2A3140` | Bordes y divisores |
 
 ### Colores de texto
 
@@ -54,6 +54,18 @@ Los colores están definidos como **variables CSS** en `globals.css`, lo que per
 |----------|-------|-----|
 | `accent` | ![#3FBF9A](https://via.placeholder.com/20/3FBF9A/3FBF9A) `#3FBF9A` | Botones, enlaces, destacados |
 | `accent-hover` | ![#35a886](https://via.placeholder.com/20/35a886/35a886) `#35a886` | Estado hover de botones |
+
+### Colores de feedback
+
+```css
+--color-success: #3FBF9A;  /* Verde - mismo que accent */
+--color-error: #F87171;    /* Rojo suave para errores */
+```
+
+| Variable | Color | Uso |
+|----------|-------|-----|
+| `success` | ![#3FBF9A](https://via.placeholder.com/20/3FBF9A/3FBF9A) `#3FBF9A` | Mensajes de éxito en formularios |
+| `error` | ![#F87171](https://via.placeholder.com/20/F87171/F87171) `#F87171` | Mensajes de error en formularios |
 
 ### Uso de colores en Tailwind
 
@@ -287,9 +299,15 @@ En lugar de usar clases de Tailwind para hover/active, las micro-interacciones e
 - **Transiciones consistentes**: 120-180ms con easing específico
 - **Clases semánticas**: `.tech-item`, `.competency-card`, `.contact-link`, etc.
 
-**Easing temporal:**
-- Interacciones (transform): `cubic-bezier(0.2, 0, 0, 1)` — snappy
-- Transiciones (colors, backgrounds): `cubic-bezier(0.4, 0, 0.2, 1)` — smooth
+**Tokens de animación (definidos como variables CSS):**
+
+```css
+--ease-snappy: cubic-bezier(0.2, 0, 0, 1);  /* Para transforms */
+--ease-smooth: cubic-bezier(0.4, 0, 0.2, 1); /* Para colores/fondos */
+--duration-fast: 120ms;   /* Nav, botones */
+--duration-base: 150ms;   /* Interacciones estándar */
+--duration-slow: 180ms;   /* Movimientos, transforms */
+```
 
 #### Clases de micro-interacciones disponibles
 

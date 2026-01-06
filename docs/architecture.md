@@ -2,7 +2,7 @@
 
 ## Visión general
 
-Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** con **componentes de React**. La aplicación es una Single Page Application (SPA) que renderiza cinco secciones principales en una única página.
+Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** con **componentes de React**. La aplicación es una Single Page Application (SPA) que renderiza cuatro secciones principales en una única página.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -11,7 +11,7 @@ Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** c
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │                     Header                           │   │
-│  │            (navegación fija, siempre visible)        │   │
+│  │       (navegación flotante, hide/show on scroll)     │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐   │
@@ -24,9 +24,6 @@ Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** c
 │  │  └─────────────────────────────────────────────┘    │   │
 │  │  ┌─────────────────────────────────────────────┐    │   │
 │  │  │              StackSection                    │    │   │
-│  │  └─────────────────────────────────────────────┘    │   │
-│  │  ┌─────────────────────────────────────────────┐    │   │
-│  │  │               CVSection                      │    │   │
 │  │  └─────────────────────────────────────────────┘    │   │
 │  │  ┌─────────────────────────────────────────────┐    │   │
 │  │  │            ContactSection                    │    │   │
@@ -96,8 +93,7 @@ export function ContactSection() {
 | `HeroSection.tsx` | Client | Navegación con `useScrollToSection` |
 | `AboutSection.tsx` | Server | Solo texto estático |
 | `StackSection.tsx` | Client | IntersectionObserver para animaciones escalonadas del grid |
-| `CVSection.tsx` | Server | Solo enlace de descarga |
-| `ContactSection.tsx` | Client | Formulario con gestión de estado |
+| `ContactSection.tsx` | Client | Formulario con gestión de estado y llamada a API |
 | `AnimateOnScroll.tsx` | Client | Wrapper de animación con IntersectionObserver |
 | `Container.tsx` | Server | Wrapper de layout sin interactividad |
 | `Section.tsx` | Server | Wrapper de layout sin interactividad |
@@ -176,9 +172,9 @@ Define el sistema de diseño centralizado y las micro-interacciones:
 @theme inline {
   /* Background */
   --color-bg-primary: #0F1115;
-  --color-bg-secondary: #161A20;
-  --color-surface: #1B2028;
-  --color-border-subtle: #232834;
+  --color-bg-secondary: #1A1F26;
+  --color-surface: #1E242C;
+  --color-border-subtle: #2A3140;
 
   /* Text */
   --color-text-primary: #E6E8EB;
@@ -188,14 +184,29 @@ Define el sistema de diseño centralizado y las micro-interacciones:
   --color-accent: #3FBF9A;
   --color-accent-hover: #35a886;
 
+  /* Feedback */
+  --color-success: #3FBF9A;
+  --color-error: #F87171;
+
   /* Font */
   --font-sans: var(--font-inter), "Inter", sans-serif;
+
+  /* Animation tokens */
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 150ms;
+  --duration-slow: 180ms;
 }
+
+/* Viewport height fix para móviles */
+.min-h-svh-safe { min-height: 100svh; }
+.h-svh-safe { height: 100svh; }
 
 /* Animación personalizada */
 @keyframes pulse-glow { ... }
 
-/* Sistemas de micro-interacciones (8 en total) */
+/* Sistemas de micro-interacciones */
 .tech-item { ... }       /* Items de tecnología */
 .competency-card { ... } /* Tarjetas de competencia */
 .contact-link { ... }    /* Enlaces de contacto */
@@ -211,7 +222,17 @@ Define el sistema de diseño centralizado y las micro-interacciones:
 
 Las micro-interacciones usan media queries para diferenciar entre desktop (`@media (hover: hover) and (pointer: fine)`) y móvil (`@media (hover: none), (pointer: coarse)`).
 
-### 4. Capa de Configuración (raíz)
+### 4. Capa de Backend (`/app/api`)
+
+API Routes de Next.js para lógica del servidor:
+
+```
+app/api/
+└── contact/
+    └── route.ts  → POST /api/contact (envío de emails con Resend)
+```
+
+### 5. Capa de Configuración (raíz)
 
 Archivos de configuración del proyecto:
 
@@ -244,12 +265,11 @@ Los componentes se componen jerárquicamente como muñecas rusas:
   <HeroSection />
   <AboutSection />
   <StackSection />
-  <CVSection />
   <ContactSection />
 </>
 
 // Cada Section usa...
-<Section variant="primary">
+<Section variant="primary" spacing="default" separator="visible">
   <Container>
     <AnimateOnScroll>
       {/* Contenido */}
@@ -260,7 +280,7 @@ Los componentes se componen jerárquicamente como muñecas rusas:
 
 Este patrón permite:
 - **Consistencia**: todas las secciones tienen el mismo padding y max-width
-- **Flexibilidad**: cada sección puede variar su fondo (`variant`)
+- **Flexibilidad**: cada sección puede variar su fondo (`variant`), espaciado (`spacing`) y separador (`separator`)
 - **Reutilización**: `Container` y `Section` se usan en todas partes
 
 ## Interactividad y estado
@@ -333,9 +353,9 @@ El proyecto implementa feedback visual mediante clases CSS definidas en `globals
 }
 ```
 
-**Easing temporal del proyecto:**
-- Interacciones (transform): `cubic-bezier(0.2, 0, 0, 1)` — snappy, 120-180ms
-- Transiciones (colors): `cubic-bezier(0.4, 0, 0.2, 1)` — smooth, 150ms
+**Easing temporal del proyecto (definido como variables CSS):**
+- `--ease-snappy`: `cubic-bezier(0.2, 0, 0, 1)` — Para transforms (120-180ms)
+- `--ease-smooth`: `cubic-bezier(0.4, 0, 0.2, 1)` — Para colores/fondos (150ms)
 
 Este enfoque evita el problema de "sticky hover" en dispositivos táctiles y proporciona feedback apropiado para cada tipo de interacción.
 
@@ -385,11 +405,14 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
            │    │        │        │    │
            │    ▼        ▼        ▼    │
            │  Hero    About    Stack   │
-           │    │        │        │    │
-           │    ▼        ▼        ▼    │
-           │   CV    Contact          │
-           │                          │
-           └──────────┬───────────────┘
+           │             │        │    │
+           │             ▼        ▼    │
+           │          Contact          │
+           │              │            │
+           │              ▼            │
+           │        /api/contact       │
+           │                           │
+           └──────────┬────────────────┘
                       │
          ┌────────────┼────────────┐
          ▼            ▼            ▼
@@ -408,6 +431,7 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
 | Framework | Next.js 16.1.1 App Router |
 | Renderizado | Server Components por defecto, Client solo con interactividad |
 | Estado | Local con `useState` (sin Redux/Context global) |
+| Backend | API Routes de Next.js + Resend para emails |
 | Estilos | Tailwind CSS v4 con variables CSS (`@theme inline`) |
 | Animaciones de entrada | tw-animate-css + IntersectionObserver |
 | Micro-interacciones | CSS puro en globals.css con media queries (hover/touch) |

@@ -4,14 +4,14 @@
 
 Este es un **portfolio profesional** construido como una aplicación web moderna. Su propósito es presentar el perfil profesional de Miguel Barra, ingeniero en computación, de una manera visual, interactiva y profesional.
 
-El sitio funciona como una **Single Page Application (SPA)**: una única página que contiene todas las secciones (Hero, Sobre mí, Stack tecnológico, CV y Contacto), con navegación suave entre ellas.
+El sitio funciona como una **Single Page Application (SPA)**: una única página que contiene todas las secciones (Hero, Sobre mí, Stack tecnológico y Contacto), con navegación suave entre ellas.
 
 ## Objetivo del portfolio
 
 - **Presentar** el perfil profesional de forma clara y atractiva
 - **Demostrar** competencias técnicas a través del propio código del sitio
 - **Facilitar** el contacto con potenciales empleadores o colaboradores
-- **Ofrecer** descarga del CV en formato PDF
+- **Permitir** contacto directo mediante formulario funcional
 
 ## Stack tecnológico
 
@@ -22,6 +22,7 @@ El sitio funciona como una **Single Page Application (SPA)**: una única página
 | Lenguaje | TypeScript | 5 |
 | Estilos | Tailwind CSS | 4 |
 | Animaciones | tw-animate-css | 1.4.0 |
+| Email | Resend | 6.6.0 |
 | Runtime | Node.js | 18+ |
 
 ### Framework principal: Next.js 16
@@ -30,6 +31,7 @@ Next.js es un framework de React que facilita crear aplicaciones web. Mientras R
 
 - **App Router**: Sistema de rutas basado en archivos en `/app`
 - **Server Components**: Componentes que se renderizan en el servidor (menor JavaScript al cliente)
+- **API Routes**: Endpoints serverless para lógica backend (usado para el formulario de contacto)
 - **Optimización de imágenes**: Compresión y adaptación automática con el componente `Image`
 - **Carga de fuentes optimizada**: Sin FOUT (Flash of Unstyled Text) usando `next/font`
 
@@ -87,13 +89,14 @@ El proyecto implementa un sistema completo de micro-interacciones en `globals.cs
 
 | Característica | Descripción |
 |----------------|-------------|
-| **Tema oscuro** | Diseño dark mode profesional con paleta de 8 colores |
+| **Tema oscuro** | Diseño dark mode profesional con paleta de 10 colores |
 | **Responsive** | Mobile-first, adaptable a móviles, tablets y desktop |
 | **Animaciones** | Entrada con fade-in/slide-in, trigger con IntersectionObserver |
-| **Micro-interacciones** | 8 sistemas CSS para feedback visual (tech-item, btn-primary, etc.) |
+| **Micro-interacciones** | Sistema CSS completo para feedback visual (hover/touch diferenciado) |
 | **Accesible** | Skip link, ARIA labels, contraste WCAG AAA, focus visible |
 | **SEO optimizado** | Metadata, Open Graph, Twitter Cards, HTML semántico |
 | **Performance** | Server Components, imágenes optimizadas, code splitting |
+| **Formulario funcional** | Envío de emails real vía API Route + Resend |
 
 ## Requisitos del sistema
 

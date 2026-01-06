@@ -1,6 +1,6 @@
 # Secciones del Portfolio
 
-El portfolio está dividido en cinco secciones principales, cada una con una responsabilidad específica. Este documento explica qué hace cada sección, cómo está construida y cómo modificarla de forma segura.
+El portfolio está dividido en cuatro secciones principales, cada una con una responsabilidad específica. Este documento explica qué hace cada sección, cómo está construida y cómo modificarla de forma segura.
 
 ---
 
@@ -11,8 +11,7 @@ El portfolio está dividido en cinco secciones principales, cada una con una res
 | Hero | `HeroSection.tsx` | Primera impresión, presentación | Client |
 | Sobre mí | `AboutSection.tsx` | Perfil y filosofía | Server |
 | Stack | `StackSection.tsx` | Tecnologías y competencias | Client |
-| CV | `CVSection.tsx` | Descarga del currículum | Server |
-| Contacto | `ContactSection.tsx` | Formulario e información | Client |
+| Contacto | `ContactSection.tsx` | Formulario funcional e información | Client |
 
 **Client vs Server**: Los componentes "Client" usan JavaScript en el navegador (interactividad, animaciones con estado). Los "Server" solo renderizan HTML estático (más rápidos).
 
@@ -26,7 +25,7 @@ El portfolio está dividido en cinco secciones principales, cada una con una res
 
 ### Propósito
 
-Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (100vh) y presenta:
+Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (usa `min-h-svh-safe` para compatibilidad móvil) y presenta:
 - Nombre y título profesional
 - Breve descripción
 - Foto/logo
@@ -162,40 +161,56 @@ Cuenta la historia profesional en más detalle. Expande la información del Hero
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                              │
-│   PERFIL                    (etiqueta verde)                 │
-│                                                              │
-│   Sobre mí                  (título H2)                      │
-│                                                              │
-│   Párrafo 1: Presentación general                           │
-│                                                              │
-│   Párrafo 2: Enfoque técnico (análisis, arquitectura...)    │
-│                                                              │
-│   Párrafo 3: Tipo de proyectos que le interesan             │
-│                                                              │
-│   Párrafo 4: Principios de desarrollo                       │
+│   │  PERFIL                    (etiqueta verde)              │
+│   │                                                          │
+│   │  Sobre mí                  (título H2)                   │
+│   │                                                          │
+│   │  Párrafo 1: Presentación general                         │
+│   │                                                          │
+│   │  Párrafo 2: Enfoque técnico (análisis, arquitectura...)  │
+│   │                                                          │
+│   │  ║ "Cita destacada en blockquote"                        │
+│   │                                                          │
+│   │  Párrafo 3: Tipo de proyectos que le interesan           │
+│   │                                                          │
+│   │  Párrafo 4: Principios de desarrollo                     │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
+(│ = línea decorativa lateral con gradiente accent)
 ```
 
 ### Contenido actual
 
 1. **Presentación**: Formación en ingeniería, enfoque práctico
 2. **Competencias**: Análisis de requisitos, arquitectura, patrones
-3. **Intereses**: Proyectos con impacto, startups, valor real
-4. **Principios**: Desarrollo responsable y sostenible
+3. **Cita destacada**: "Las decisiones tempranas son clave..."
+4. **Intereses**: Proyectos con impacto, startups, valor real
+5. **Principios**: Desarrollo responsable y sostenible
 
 ### Características técnicas
 
 - **Variante**: Secondary (fondo ligeramente más claro)
+- **Spacing**: `relaxed` (padding más generoso)
+- **Separator**: `visible` (línea decorativa al final)
 - **Animación**: Usa `AnimateOnScroll` para fade-in al scroll
 - **Max-width de texto**: `max-w-3xl` (768px) para legibilidad óptima
+- **Elemento visual**: Línea lateral con gradiente accent
 
 ```tsx
-<Section variant="secondary" id="sobre-mi">
+<Section variant="secondary" spacing="relaxed" separator="visible">
   <Container>
-    <AnimateOnScroll>
-      <div className="max-w-3xl">
-        {/* Contenido */}
+    <AnimateOnScroll className="max-w-3xl">
+      {/* Header */}
+      <div className="mt-10 relative">
+        {/* Línea decorativa lateral */}
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-accent via-accent/50 to-transparent" />
+
+        <div className="pl-8 space-y-6">
+          {/* Contenido con blockquote destacado */}
+          <blockquote className="border-l-4 border-accent pl-6 py-2">
+            <p className="text-lg font-medium italic">...</p>
+          </blockquote>
+        </div>
       </div>
     </AnimateOnScroll>
   </Container>
@@ -207,13 +222,15 @@ Cuenta la historia profesional en más detalle. Expande la información del Hero
 | Cambio | Qué hacer |
 |--------|-----------|
 | Editar texto | Modificar los `<p>` |
-| Agregar párrafo | Añadir otro `<p className="text-text-secondary">` |
+| Agregar párrafo | Añadir otro `<p>` dentro del contenedor |
+| Cambiar cita | Editar el contenido del `<blockquote>` |
 | Cambiar etiqueta | Editar "Perfil" |
 | Cambiar fondo | Cambiar `variant="secondary"` a `"primary"` |
 
 **Precauciones:**
 - Mantener el `max-w-3xl` para legibilidad
 - No quitar el `AnimateOnScroll` (rompe la animación)
+- Preservar la estructura con línea lateral para mantener el diseño
 
 ---
 
@@ -263,28 +280,59 @@ Muestra las competencias técnicas y el stack tecnológico de dos formas:
 
 ### Datos actuales
 
-**Competencias:**
+**Competencias (con iconos):**
 ```typescript
 const competencias = [
   {
     titulo: "Arquitectura de aplicaciones",
-    descripcion: "Diseño de sistemas escalables..."
+    descripcion: "Diseño arquitecturas alineadas al contexto...",
+    icon: ArchitectureIcon,
   },
   {
     titulo: "Desarrollo Frontend",
-    descripcion: "Interfaces modernas con React..."
+    descripcion: "Construyo interfaces claras y mantenibles...",
+    icon: MonitorIcon,
   },
-  // ...
+  {
+    titulo: "Desarrollo Backend",
+    descripcion: "Implemento lógica de negocio desacoplada...",
+    icon: ServerIcon,
+  },
+  {
+    titulo: "Datos y persistencia",
+    descripcion: "Diseño modelos relacionales consistentes...",
+    icon: DatabaseIcon,
+  },
 ];
 ```
 
-**Tecnologías:**
+**Tecnologías (agrupadas por categoría):**
 ```typescript
-const tecnologias = [
-  { nombre: "React", icon: ReactIcon },
-  { nombre: "Next.js", icon: NextjsIcon },
-  { nombre: "TypeScript", icon: TypeScriptIcon },
-  // ...
+const techCategories = [
+  {
+    name: "Frontend",
+    items: [
+      { nombre: "React", icon: ReactIcon },
+      { nombre: "Next.js", icon: NextjsIcon },
+      { nombre: "TypeScript", icon: TypeScriptIcon },
+    ],
+  },
+  {
+    name: "Backend",
+    items: [
+      { nombre: "Node.js", icon: NodejsIcon },
+      { nombre: "APIs REST", icon: ApiIcon },
+      { nombre: "PostgreSQL", icon: PostgreSQLIcon },
+      { nombre: "Prisma", icon: PrismaIcon },
+    ],
+  },
+  {
+    name: "DevOps & Tools",
+    items: [
+      { nombre: "Docker", icon: DockerIcon },
+      { nombre: "Git", icon: GitIcon },
+    ],
+  },
 ];
 ```
 
@@ -397,59 +445,7 @@ const tecnologias = [
 
 ---
 
-## 4. CV Section
-
-**Archivo**: `components/sections/CVSection.tsx`
-**ID HTML**: `cv`
-**Tipo**: Server Component
-
-### Propósito
-
-Sección simple para descargar el CV en formato PDF.
-
-### Estructura visual
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                                                              │
-│   DOCUMENTACIÓN              (etiqueta verde)                │
-│                                                              │
-│   CV                         (título H2)                     │
-│                                                              │
-│   Breve descripción del contenido del CV                    │
-│                                                              │
-│   [📄 Descargar CV]          (botón con icono)              │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Características técnicas
-
-- **Variante**: Secondary
-- **Enlace de descarga**: `/cv/cv.pdf` con atributo `download`
-
-```tsx
-<a
-  href="/cv/cv.pdf"
-  download
-  className="inline-flex items-center gap-2 bg-accent ..."
->
-  <DownloadIcon />
-  Descargar CV
-</a>
-```
-
-### Cómo modificar
-
-| Cambio | Qué hacer |
-|--------|-----------|
-| Actualizar CV | Reemplazar `/public/cv/cv.pdf` |
-| Cambiar texto del botón | Editar el texto del `<a>` |
-| Cambiar nombre del archivo | Añadir `download="nuevo-nombre.pdf"` |
-
----
-
-## 5. Contact Section
+## 4. Contact Section
 
 **Archivo**: `components/sections/ContactSection.tsx`
 **ID HTML**: `contacto`
@@ -459,7 +455,7 @@ Sección simple para descargar el CV en formato PDF.
 
 Ofrece múltiples formas de contacto:
 1. **Enlaces directos**: Email, LinkedIn, GitHub
-2. **Formulario**: Para mensajes directos
+2. **Formulario funcional**: Envía emails reales vía API Route + Resend
 
 ### Estructura visual
 
@@ -498,22 +494,22 @@ Ofrece múltiples formas de contacto:
 const contactLinks = [
   {
     label: "Email",
-    value: "contacto@miguelbarra.dev",
-    href: "mailto:contacto@miguelbarra.dev",
+    value: "mbarra.3690@gmail.com",
+    href: "mailto:mbarra.3690@gmail.com",
     icon: EmailIcon,
     external: false,
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/miguelbarra",
-    href: "https://linkedin.com/in/miguelbarra",
+    value: "linkedin.com/in/miguelbarrarios",
+    href: "https://www.linkedin.com/in/miguelbarrarios/",
     icon: LinkedInIcon,
     external: true,
   },
   {
     label: "GitHub",
-    value: "github.com/miguelbarra",
-    href: "https://github.com/miguelbarra",
+    value: "github.com/mbarradev-debug",
+    href: "https://github.com/mbarradev-debug",
     icon: GitHubIcon,
     external: true,
   },
@@ -568,27 +564,41 @@ const [formStatus, setFormStatus] = useState<FormStatus>("idle");
 
 La clase `btn-primary` proporciona hover con sombra glow en desktop y feedback de escala al click en móvil.
 
-### ⚠️ Nota importante sobre el formulario
+### Implementación del formulario
 
-**El formulario actualmente es simulado.** No envía emails realmente.
+**El formulario envía emails realmente** usando una API Route de Next.js con Resend:
 
 ```typescript
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setFormStatus("submitting");
+  setErrorMessage("");
 
-  // SIMULACIÓN - Espera 1 segundo
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const data = { nombre, email, mensaje };
 
-  setFormStatus("success");
-  // ...
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error(result.error);
+    setFormStatus("success");
+    form.reset();
+    setTimeout(() => setFormStatus("idle"), 5000);
+  } catch (err) {
+    setFormStatus("error");
+    setErrorMessage(err.message);
+  }
 };
 ```
 
-Para hacerlo funcional, necesitarías:
-1. Crear una API route en `/app/api/contact/route.ts`
-2. Integrar con un servicio de email (SendGrid, Resend, Mailgun, etc.)
-3. Actualizar `handleSubmit` para llamar a la API
+**Backend (`app/api/contact/route.ts`):**
+- Valida campos requeridos, formato email y longitud máxima
+- Sanitiza HTML para prevenir XSS
+- Envía email vía Resend a `mbarra.dev@icloud.com`
+- Usa `replyTo` para responder al remitente original
 
 ### Cómo modificar
 
@@ -610,7 +620,6 @@ Los IDs son importantes porque el Header y los CTAs los usan para scroll:
 | Hero | `hero` | `/#hero` |
 | About | `sobre-mi` | `/#sobre-mi` |
 | Stack | `stack` | `/#stack` |
-| CV | `cv` | `/#cv` |
 | Contacto | `contacto` | `/#contacto` |
 
 **Si cambias un ID**, actualiza también:
@@ -662,7 +671,6 @@ export default function Home() {
       <AboutSection />
       <ProjectsSection />  {/* Nueva sección */}
       <StackSection />
-      <CVSection />
       <ContactSection />
     </>
   );

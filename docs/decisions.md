@@ -390,39 +390,57 @@ const inter = Inter({
 
 ---
 
-## Formulario de contacto simulado
+## Formulario de contacto funcional
 
 ### Estado actual
 
-El formulario de contacto **no envía emails realmente**. Solo simula el envío:
+El formulario de contacto **envía emails realmente** usando una API Route de Next.js con Resend:
 
 ```typescript
+// components/sections/ContactSection.tsx
 const handleSubmit = async (e) => {
   e.preventDefault();
   setFormStatus("submitting");
 
-  // Simula delay de red
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 
+  if (!response.ok) throw new Error(result.error);
   setFormStatus("success");
 };
 ```
 
-### ¿Por qué no se implementó el envío real?
+### Implementación elegida: Next.js API Route + Resend
 
-1. **Requiere backend**: Necesita un servidor o servicio de email
-2. **Complejidad adicional**: Variables de entorno, manejo de errores, rate limiting
-3. **Costo potencial**: Los servicios de email tienen límites gratuitos
-4. **MVP primero**: El portfolio funciona para demostrar competencias sin el email real
+| Característica | Detalles |
+|----------------|----------|
+| **Servicio** | Resend (3000 emails/mes gratis) |
+| **Endpoint** | `POST /api/contact` en `app/api/contact/route.ts` |
+| **Validación** | Server-side: campos requeridos, formato email, longitud máxima |
+| **Seguridad** | Sanitización HTML para prevenir XSS en el cuerpo del email |
+| **Manejo de errores** | Estados diferenciados: success, error con mensaje específico |
 
-### Opciones para implementar envío real
+### ¿Por qué Resend?
 
-| Opción | Pros | Contras |
-|--------|------|---------|
-| **Vercel Serverless + Resend** | Fácil de integrar, gratis hasta 3000 emails/mes | Requiere cuenta de Resend |
-| **Vercel Serverless + SendGrid** | Muy establecido, 100 emails/día gratis | Interfaz compleja |
-| **Formspree/Netlify Forms** | Sin código backend | Menos control, branding en plan gratis |
-| **Next.js API Route + Nodemailer** | Control total | Requiere servidor SMTP |
+| Razón | Explicación |
+|-------|-------------|
+| **Integración nativa** | Diseñado para Next.js y frameworks modernos |
+| **API simple** | Un solo método `resend.emails.send()` |
+| **Plan gratuito** | 3000 emails/mes sin costo |
+| **Deliverability** | Emails no van a spam |
+| **Developer experience** | SDK con TypeScript, logs claros |
+
+### Alternativas consideradas
+
+| Alternativa | Por qué no se eligió |
+|-------------|----------------------|
+| **SendGrid** | Interfaz más compleja, setup más extenso |
+| **Formspree** | Menos control, branding en plan gratis |
+| **Nodemailer** | Requiere servidor SMTP propio |
+| **EmailJS** | Depende de cliente, menos seguro |
 
 ---
 
@@ -487,15 +505,16 @@ Aunque el proyecto no tiene deploy configurado, está optimizado para Vercel:
 | Estilos | Tailwind CSS v4 (`@theme inline`) | CSS Modules |
 | Tema | Dark mode único | Toggle light/dark |
 | Animaciones de entrada | tw-animate-css 1.4.0 | Framer Motion |
-| Micro-interacciones | CSS puro (globals.css) con 19 clases | Tailwind inline / JS |
+| Micro-interacciones | CSS puro (globals.css) con clases semánticas | Tailwind inline / JS |
 | Trigger de animación | IntersectionObserver | Scroll listener |
 | Organización | Por tipo de componente | Por feature |
 | Renderizado | Server Components por defecto | Client-first |
 | Fuente | Inter via next/font/google | System fonts |
-| Formulario | Simulado (MVP) | Email real |
+| Formulario | Funcional con Resend | Simulado |
+| Backend | API Routes de Next.js | Serverless functions externas |
 | A11y | Prioridad alta (WCAG AAA) | Básica |
 | Deploy target | Vercel | Netlify |
-| Easing temporal | cubic-bezier custom (snappy/smooth) | ease-in-out |
+| Easing temporal | Variables CSS (snappy/smooth) | Valores hardcodeados |
 
 ---
 
@@ -508,4 +527,4 @@ Aunque el proyecto no tiene deploy configurado, está optimizado para Vercel:
 3. **CMS**: Para blog, considerar MDX o Contentful
 4. **i18n**: Si se necesita multiidioma, usar `next-intl`
 5. **Estado global**: Si se necesita, considerar Zustand (más simple que Redux)
-6. **Formulario real**: Implementar con Resend o similar
+6. **Rate limiting**: Implementar protección contra spam en el formulario

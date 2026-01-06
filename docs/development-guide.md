@@ -301,14 +301,14 @@ import { NuevoIcon } from "@/components/icons";
 <NuevoIcon className="h-6 w-6 text-accent" />
 ```
 
-### Iconos existentes (16 total)
+### Iconos existentes (17 total)
 
 | Categoría | Iconos disponibles |
 |-----------|-------------------|
 | Tecnologías (9) | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
 | Plataformas (3) | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
 | Acciones (2) | `DownloadIcon`, `ExternalLinkIcon` |
-| Otros (2) | `PhoneIcon`, `MapPinIcon` |
+| Competencias (4) | `ArchitectureIcon`, `MonitorIcon`, `ServerIcon`, `DatabaseIcon` |
 
 ---
 

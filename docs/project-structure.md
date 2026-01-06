@@ -5,6 +5,9 @@
 ```
 portfolio/
 ├── app/                    # Aplicación Next.js (rutas y páginas)
+│   ├── api/                # API Routes (backend)
+│   │   └── contact/        # Endpoint de contacto
+│   │       └── route.ts    # POST /api/contact
 │   ├── globals.css         # Estilos globales y variables CSS
 │   ├── layout.tsx          # Layout raíz (estructura HTML)
 │   └── page.tsx            # Página principal (home)
@@ -73,7 +76,6 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <StackSection />
-      <CVSection />
       <ContactSection />
     </>
   );
@@ -81,11 +83,46 @@ export default function Home() {
 ```
 
 **¿Qué hace?**
-- Renderiza las cinco secciones del portfolio en orden
+- Renderiza las cuatro secciones del portfolio en orden
 - Es un Server Component (no tiene `"use client"`)
 - Next.js la sirve en la ruta `/` (raíz del sitio)
 
 **Importante**: En Next.js App Router, `page.tsx` es el archivo especial que define qué se renderiza en una ruta. Si crearas `app/proyectos/page.tsx`, existiría la ruta `/proyectos`.
+
+### `api/contact/route.ts` — API Route para el formulario
+
+```typescript
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(request: Request) {
+  const { nombre, email, mensaje } = await request.json();
+
+  // Validación server-side
+  if (!nombre || !email || !mensaje) {
+    return NextResponse.json({ error: "Campos requeridos" }, { status: 400 });
+  }
+
+  // Envío con Resend
+  await resend.emails.send({
+    from: "Portfolio Contact <onboarding@resend.dev>",
+    to: "mbarra.dev@icloud.com",
+    subject: `Nuevo mensaje de ${nombre}`,
+    replyTo: email,
+    html: `...`,
+  });
+
+  return NextResponse.json({ success: true });
+}
+```
+
+**¿Qué hace?**
+- Recibe datos del formulario de contacto vía POST
+- Valida campos requeridos, formato de email y longitud máxima
+- Sanitiza inputs para prevenir XSS
+- Envía email usando Resend
+- Retorna respuesta JSON con estado de éxito o error
 
 ### `globals.css` — Estilos globales y micro-interacciones
 
@@ -96,17 +133,26 @@ export default function Home() {
 @theme inline {
   /* Background */
   --color-bg-primary: #0F1115;
-  --color-bg-secondary: #161A20;
-  --color-surface: #1B2028;
-  --color-border-subtle: #232834;
+  --color-bg-secondary: #1A1F26;
+  --color-surface: #1E242C;
+  --color-border-subtle: #2A3140;
   /* Text */
   --color-text-primary: #E6E8EB;
   --color-text-secondary: #A1A6B0;
   /* Accent */
   --color-accent: #3FBF9A;
   --color-accent-hover: #35a886;
+  /* Feedback */
+  --color-success: #3FBF9A;
+  --color-error: #F87171;
   /* Font */
   --font-sans: var(--font-inter), "Inter", sans-serif;
+  /* Animation tokens */
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 150ms;
+  --duration-slow: 180ms;
 }
 
 body {
@@ -116,10 +162,14 @@ body {
   line-height: 1.6;
 }
 
+/* Viewport height fix para móviles */
+.min-h-svh-safe { min-height: 100svh; }
+.h-svh-safe { height: 100svh; }
+
 /* Animaciones personalizadas */
 @keyframes pulse-glow { ... }
 
-/* Sistema de micro-interacciones (8 categorías) */
+/* Sistema de micro-interacciones */
 .tech-item { ... }
 .competency-card { ... }
 .contact-link { ... }
@@ -129,13 +179,14 @@ body {
 .text-link { ... }
 ```
 
-**¿Qué contiene?** (~500 líneas)
+**¿Qué contiene?** (~530 líneas)
 1. **Importaciones**: Tailwind CSS y tw-animate-css
-2. **Variables CSS**: 8 colores + fuente (definidas en `@theme inline`)
+2. **Variables CSS**: 10 colores + fuente + tokens de animación (definidos en `@theme inline`)
 3. **Estilos base**: body, html smooth scroll, focus-visible, ::selection, scroll-margin-top
-4. **Animación custom**: `pulse-glow` para resaltar secciones al navegar
-5. **Separador visual**: `.separator-visible` con gradiente accent
-6. **Micro-interacciones CSS puro** (con media queries hover/touch):
+4. **Viewport fix**: Clases `.min-h-svh-safe` y `.h-svh-safe` para resolver problema de 100vh en móviles
+5. **Animación custom**: `pulse-glow` para resaltar secciones al navegar
+6. **Separador visual**: `.separator-visible` con gradiente accent
+7. **Micro-interacciones CSS puro** (con media queries hover/touch):
    - `.tech-item` / `.tech-icon` / `.tech-name` — Items del stack tecnológico
    - `.competency-card` / `.competency-title` — Tarjetas de competencia
    - `.contact-link` / `.contact-link-icon-wrapper` / `.contact-link-icon` / `.contact-link-value` — Enlaces de contacto
@@ -247,14 +298,31 @@ export function Container({ children, className }) {
 #### `Section.tsx`
 
 ```tsx
-export function Section({ children, variant = "primary", className, id }) {
-  const bgClass = variant === "primary"
-    ? "bg-bg-primary"
-    : "bg-bg-secondary";
+interface SectionProps {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+  spacing?: "compact" | "default" | "relaxed";
+  separator?: "subtle" | "visible" | "none";
+  className?: string;
+  id?: string;
+}
+
+export function Section({
+  children,
+  variant = "primary",
+  spacing = "default",
+  separator = "subtle",
+  className,
+  id
+}) {
+  const bgClass = variant === "primary" ? "bg-bg-primary" : "bg-bg-secondary";
+  const spacingClass = spacingClasses[spacing];
 
   return (
-    <section id={id} className={`py-20 ${bgClass} ${className}`}>
+    <section id={id} className={`relative ${spacingClass} ${bgClass} ${className}`}>
       {children}
+      {/* Separador visual al final de la sección */}
+      <div className={`separator... ${separator === "visible" ? "separator-visible" : "..."}`} />
     </section>
   );
 }
@@ -262,7 +330,8 @@ export function Section({ children, variant = "primary", className, id }) {
 
 - **Propósito**: Wrapper para secciones con estilos consistentes
 - **Variantes**: `primary` (oscuro) o `secondary` (menos oscuro)
-- **Padding**: Vertical responsive (más grande en desktop)
+- **Spacing**: `compact` (py-16→24), `default` (py-20→32), `relaxed` (py-24→36)
+- **Separator**: `subtle` (línea suave), `visible` (gradiente con accent), `none`
 
 ---
 
@@ -275,8 +344,7 @@ Cada archivo representa una sección del portfolio.
 | `HeroSection.tsx` | Presentación inicial | Client | `hero` |
 | `AboutSection.tsx` | Perfil y filosofía | Server | `sobre-mi` |
 | `StackSection.tsx` | Tecnologías | Client | `stack` |
-| `CVSection.tsx` | Descarga de CV | Server | `cv` |
-| `ContactSection.tsx` | Formulario | Client | `contacto` |
+| `ContactSection.tsx` | Formulario funcional | Client | `contacto` |
 
 **¿Por qué algunos son Client y otros Server?**
 
@@ -361,15 +429,14 @@ export function LinkedInIcon({ className = "h-5 w-5" }) { /* ... */ }
 // ... más iconos
 ```
 
-**Iconos disponibles (16 total):**
+**Iconos disponibles (17 total):**
 
 | Categoría | Iconos |
 |-----------|--------|
 | Tecnologías (9) | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
 | Plataformas (3) | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
 | Acciones (2) | `DownloadIcon`, `ExternalLinkIcon` |
-| Contacto (1) | `PhoneIcon` |
-| Ubicación (1) | `MapPinIcon` |
+| Competencias (4) | `ArchitectureIcon`, `MonitorIcon`, `ServerIcon`, `DatabaseIcon` |
 
 **¿Por qué iconos como componentes?**
 - Se pueden estilizar con Tailwind (`className="h-8 w-8 text-accent"`)
