@@ -99,12 +99,7 @@ export default function StackSection() {
   }, []);
 
   return (
-    <Section variant="primary" separator="visible">
-      {/* Subtle top gradient for visual weight */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-bg-secondary/30 to-transparent"
-        aria-hidden="true"
-      />
+    <Section variant="primary" separator="visible" withDotPattern>
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">

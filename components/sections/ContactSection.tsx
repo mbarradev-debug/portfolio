@@ -73,7 +73,7 @@ export default function ContactSection() {
   };
 
   return (
-    <Section variant="primary" spacing="relaxed" separator="none">
+    <Section variant="primary" spacing="relaxed" separator="none" withDotPattern>
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
@@ -81,7 +81,7 @@ export default function ContactSection() {
           </p>
           <h2
             id="contacto"
-            className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl"
+            className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
           >
             Contacto
           </h2>
@@ -209,7 +209,7 @@ export default function ContactSection() {
               )}
 
               {formStatus === "error" && (
-                <p className="animate-fade-in text-sm text-red-400">
+                <p className="animate-fade-in text-sm text-error">
                   Hubo un error al enviar el mensaje. Intenta de nuevo.
                 </p>
               )}

@@ -16,8 +16,19 @@
   --color-accent: #3FBF9A;
   --color-accent-hover: #35a886;
 
+  /* Feedback */
+  --color-success: #3FBF9A;
+  --color-error: #F87171;
+
   /* Font */
   --font-sans: var(--font-inter), "Inter", sans-serif;
+
+  /* Animation */
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 150ms;
+  --duration-slow: 180ms;
 }
 
 body {
@@ -82,9 +93,12 @@ html {
    MICRO-INTERACTIONS: Desktop (hover) + Mobile (tap)
    Using CSS variables for consistent, visible feedback
 
-   Easing reference:
-   - Snappy (interactions): cubic-bezier(0.2, 0, 0, 1)
-   - Smooth (transforms): cubic-bezier(0.4, 0, 0.2, 1)
+   Timing tokens (defined in @theme):
+   - --ease-snappy: Quick, responsive feel
+   - --ease-smooth: Natural, flowing transitions
+   - --duration-fast: 120ms (nav, buttons)
+   - --duration-base: 150ms (standard interactions)
+   - --duration-slow: 180ms (transforms, movements)
    ===================================================== */
 
 /* ----- TECH ITEMS (Stack section) ----- */
@@ -92,22 +106,22 @@ html {
   position: relative;
   border: 1px solid transparent;
   transition:
-    transform 180ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform var(--duration-slow) var(--ease-snappy),
+    background-color var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
 .tech-icon {
   transition:
-    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 180ms cubic-bezier(0.2, 0, 0, 1);
+    color var(--duration-base) var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-snappy);
 }
 
 .tech-name {
-  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-base) var(--ease-smooth);
 }
 
 /* Desktop: hover */
@@ -152,14 +166,14 @@ html {
 /* ----- COMPETENCY CARDS ----- */
 .competency-card {
   transition:
-    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 180ms cubic-bezier(0.2, 0, 0, 1);
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-snappy);
   -webkit-tap-highlight-color: transparent;
 }
 
 .competency-title {
-  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-base) var(--ease-smooth);
 }
 
 /* Desktop: hover */
@@ -190,28 +204,28 @@ html {
 /* ----- CONTACT LINKS ----- */
 .contact-link {
   transition:
-    transform 180ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform var(--duration-slow) var(--ease-snappy),
+    background-color var(--duration-base) var(--ease-smooth);
   -webkit-tap-highlight-color: transparent;
 }
 
 .contact-link-icon-wrapper {
   transition:
-    transform 180ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform var(--duration-slow) var(--ease-snappy),
+    background-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth);
 }
 
 .contact-link-icon {
-  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-base) var(--ease-smooth);
 }
 
 .contact-link-value {
-  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-base) var(--ease-smooth);
 }
 
 .contact-link-external {
-  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--duration-base) var(--ease-smooth);
 }
 
 /* Desktop: hover */
@@ -263,20 +277,20 @@ html {
 /* ----- FOOTER LINKS ----- */
 .footer-link {
   transition:
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 120ms cubic-bezier(0.2, 0, 0, 1);
+    background-color var(--duration-base) var(--ease-smooth),
+    color var(--duration-base) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy);
   -webkit-tap-highlight-color: transparent;
 }
 
 .footer-link-icon {
   transition:
-    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 150ms cubic-bezier(0.2, 0, 0, 1);
+    color var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-snappy);
 }
 
 .footer-link-external {
-  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--duration-base) var(--ease-smooth);
 }
 
 /* Desktop: hover */
@@ -312,9 +326,9 @@ html {
 /* ----- PRIMARY BUTTONS ----- */
 .btn-primary {
   transition:
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 120ms cubic-bezier(0.2, 0, 0, 1),
-    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    background-color var(--duration-base) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy),
+    box-shadow var(--duration-base) var(--ease-smooth);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -332,9 +346,9 @@ html {
 /* ----- SECONDARY BUTTONS ----- */
 .btn-secondary {
   transition:
-    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 120ms cubic-bezier(0.2, 0, 0, 1);
+    border-color var(--duration-base) var(--ease-smooth),
+    background-color var(--duration-base) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -349,6 +363,42 @@ html {
   transform: scale(0.97);
   border-color: var(--color-accent);
   background-color: var(--color-bg-primary);
+}
+
+/* =====================================================
+   DOT PATTERN BACKGROUND
+   Subtle visual texture for depth without distraction
+   ===================================================== */
+
+.bg-dot-pattern {
+  position: relative;
+}
+
+.bg-dot-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-text-secondary) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    black 0%,
+    black 20%,
+    transparent 70%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    black 0%,
+    black 20%,
+    transparent 70%
+  );
 }
 
 /* =====================================================
@@ -376,8 +426,8 @@ html {
 /* ----- NAV LOGO ----- */
 .nav-logo {
   transition:
-    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 100ms cubic-bezier(0.2, 0, 0, 1);
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -395,15 +445,15 @@ html {
 /* ----- NAV CV DOWNLOAD ----- */
 .nav-cv-link {
   transition:
-    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 100ms cubic-bezier(0.2, 0, 0, 1);
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy);
   -webkit-tap-highlight-color: transparent;
 }
 
 .nav-cv-icon {
   transition:
-    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 120ms cubic-bezier(0.2, 0, 0, 1);
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -430,10 +480,10 @@ html {
 /* ----- NAV CONTACT BUTTON ----- */
 .nav-contact-btn {
   transition:
-    background-color 120ms cubic-bezier(0.4, 0, 0.2, 1),
-    color 120ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 100ms cubic-bezier(0.2, 0, 0, 1),
-    box-shadow 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-snappy),
+    box-shadow var(--duration-fast) var(--ease-smooth);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -453,9 +503,9 @@ html {
 
 .form-input {
   transition:
-    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-color var(--duration-base) var(--ease-smooth),
+    background-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -478,7 +528,7 @@ html {
 
 .text-link {
   position: relative;
-  transition: color 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-fast) var(--ease-smooth);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -491,7 +541,7 @@ html {
   height: 1px;
   background-color: currentColor;
   opacity: 0.3;
-  transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--duration-fast) var(--ease-smooth);
   transform-origin: left;
 }
 

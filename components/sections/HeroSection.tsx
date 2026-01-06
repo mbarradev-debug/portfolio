@@ -9,7 +9,7 @@ export default function HeroSection() {
   const { scrollToSection } = useScrollToSection();
 
   return (
-    <Section className="relative min-h-svh-safe flex items-center overflow-hidden py-16 sm:py-20 lg:py-24" id="hero" separator="visible">
+    <Section className="relative min-h-svh-safe flex items-center overflow-hidden" spacing="compact" id="hero" separator="visible">
       {/* Diagonal background split */}
       <div
         className="pointer-events-none absolute inset-0 bg-bg-secondary"
