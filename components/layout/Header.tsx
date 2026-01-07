@@ -88,24 +88,24 @@ export default function Header() {
       }}
     >
       <nav
-        className="flex h-11 w-full max-w-md items-center justify-between rounded-full border border-text-primary/10 bg-text-primary/95 px-5 shadow-lg shadow-black/10 backdrop-blur-sm sm:h-12 sm:px-6"
+        className="flex w-full max-w-md items-center justify-between rounded-full border border-white/5 bg-text-primary/90 py-2 pl-5 pr-2 shadow-xl shadow-black/20 backdrop-blur-md sm:py-2.5 sm:pl-6 sm:pr-2.5"
         role="navigation"
         aria-label="Menú principal"
       >
         <a
           href="#"
           onClick={scrollToTop}
-          className="nav-logo text-base font-semibold text-bg-primary"
+          className="nav-logo flex items-center text-base font-semibold leading-none text-bg-primary"
           aria-label="Inicio"
         >
           MB
         </a>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-5">
           <a
             href="/cv/cv.pdf"
             download
-            className="nav-cv-link group flex items-center gap-1.5 text-sm text-bg-secondary"
+            className="nav-cv-link group flex items-center gap-1.5 text-sm font-medium leading-none text-bg-secondary/90 transition-colors hover:text-bg-primary"
             aria-label="Descargar CV"
           >
             <DownloadIcon className="nav-cv-icon h-3.5 w-3.5" />
@@ -115,7 +115,7 @@ export default function Header() {
           <a
             href="#contacto"
             onClick={(e) => scrollToSection(e, "contacto")}
-            className={`nav-contact-btn relative rounded-full px-4 py-1.5 text-sm font-medium ${
+            className={`nav-contact-btn relative flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               isContactActive
                 ? "bg-accent text-bg-primary"
                 : "bg-bg-primary text-text-primary hover:bg-accent hover:text-bg-primary"
