@@ -1,0 +1,96 @@
+/* =====================================================
+   HERO ANIMATIONS: Pure CSS entrance animations
+   ===================================================== */
+
+/* Keyframes for fade + slide animations */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation classes with staggered delays */
+.hero-animate {
+  animation-fill-mode: both !important;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.hero-fade {
+  animation-name: hero-fade-in !important;
+  animation-duration: 0.5s !important;
+}
+
+.hero-fade-up {
+  animation-name: hero-fade-slide-up !important;
+  animation-duration: 0.5s !important;
+}
+
+.hero-fade-zoom {
+  animation-name: hero-fade-zoom !important;
+  animation-duration: 0.6s !important;
+}
+
+/* Staggered delays for cascade effect */
+.hero-delay-0 { animation-delay: 0ms !important; }
+.hero-delay-1 { animation-delay: 75ms !important; }
+.hero-delay-2 { animation-delay: 150ms !important; }
+.hero-delay-3 { animation-delay: 225ms !important; }
+.hero-delay-4 { animation-delay: 300ms !important; }
+.hero-delay-5 { animation-delay: 400ms !important; }
+
+/* Scroll-triggered animation (used by AnimateOnScroll) */
+@keyframes scroll-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-animate {
+  animation: scroll-fade-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+}
+
+/* Tech item stagger animation */
+@keyframes tech-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tech-animate {
+  animation: tech-fade-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+}

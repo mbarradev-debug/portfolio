@@ -176,7 +176,7 @@ export default function StackSection() {
                             key={tech.nombre}
                             className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
                               techVisible
-                                ? "animate-in fade-in slide-in-from-bottom-3 duration-300"
+                                ? "tech-animate"
                                 : "opacity-0 translate-y-3"
                             }`}
                             style={{

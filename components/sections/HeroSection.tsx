@@ -32,15 +32,11 @@ export default function HeroSection() {
           <div className="relative flex shrink-0 items-center justify-center mb-6 lg:mb-0 lg:order-2">
             {/* Green circle background - GPU accelerated */}
             <div
-              className="absolute h-32 w-32 rounded-full bg-accent/20 sm:h-48 sm:w-48 lg:h-72 lg:w-72 xl:h-80 xl:w-80 animate-in fade-in zoom-in-90 duration-500"
-              style={{ willChange: "transform, opacity" }}
+              className="absolute h-32 w-32 rounded-full bg-accent/20 sm:h-48 sm:w-48 lg:h-72 lg:w-72 xl:h-80 xl:w-80 hero-animate hero-fade-zoom hero-delay-0"
               aria-hidden="true"
             />
             {/* Developer image - aspect-ratio prevents CLS */}
-            <div
-              className="relative z-10 animate-in fade-in zoom-in-95 duration-500 delay-100"
-              style={{ willChange: "transform, opacity" }}
-            >
+            <div className="relative z-10 hero-animate hero-fade-zoom hero-delay-1">
               <Image
                 src="/images/miguelb-logo.png"
                 alt="Miguel Barra - Ingeniero de Software"
@@ -56,38 +52,38 @@ export default function HeroSection() {
 
           {/* Text content - Mobile: abajo, centrado */}
           <div className="max-w-3xl lg:max-w-xl xl:max-w-2xl lg:order-1">
-            {/* Badge de seniority - instant render, no delay */}
-            <div className="animate-in fade-in duration-300">
-              <span className="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent sm:px-4 sm:py-2">
+            {/* Badge de seniority - shimmer effect on load */}
+            <div className="hero-animate hero-fade hero-delay-0">
+              <span className="badge-shimmer inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent sm:px-4 sm:py-2">
                 Senior Fullstack Engineer
               </span>
             </div>
 
             {/* Headline - Propuesta de valor */}
-            <h1 className="mt-5 text-[1.75rem] font-bold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl xl:text-6xl animate-in fade-in slide-in-from-bottom-2 duration-400 delay-75">
+            <h1 className="mt-5 text-[1.75rem] font-bold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl xl:text-6xl hero-animate hero-fade-up hero-delay-1">
               Del problema al producto.
             </h1>
 
             {/* Subheadline */}
-            <p className="mt-3 text-base font-medium leading-snug text-text-primary/90 sm:text-xl lg:text-xl xl:text-2xl animate-in fade-in slide-in-from-bottom-2 duration-400 delay-150">
+            <p className="mt-3 text-base font-medium leading-snug text-text-primary/90 sm:text-xl lg:text-xl xl:text-2xl hero-animate hero-fade-up hero-delay-2">
               Arquitectura que escala. Código que perdura.
             </p>
 
             {/* Credencial rápida */}
-            <p className="mt-2 text-sm text-text-secondary sm:text-base animate-in fade-in duration-400 delay-200">
+            <p className="mt-2 text-sm text-text-secondary sm:text-base hero-animate hero-fade hero-delay-3">
               +5 años llevando ideas de startups a producción.
             </p>
 
             {/* CTAs - Full width en mobile, optimized touch targets */}
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:justify-center lg:justify-start animate-in fade-in slide-in-from-bottom-2 duration-400 delay-300">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:justify-center lg:justify-start hero-animate hero-fade-up hero-delay-4">
               <a
                 href="#stack"
                 onClick={(e) => scrollToSection(e, "stack")}
-                className="btn-primary inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-base font-medium text-bg-primary sm:h-11 sm:px-6 sm:text-sm"
+                className="btn-primary btn-primary-pulse inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-base font-medium text-bg-primary sm:h-11 sm:px-6 sm:text-sm"
                 aria-label="Ver mi stack tecnológico"
               >
                 <svg
-                  className="mr-2 h-4 w-4"
+                  className="btn-icon mr-2 h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -108,7 +104,7 @@ export default function HeroSection() {
                 aria-label="Descargar currículum en PDF"
               >
                 <svg
-                  className="mr-2 h-4 w-4"
+                  className="btn-icon mr-2 h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -127,10 +123,10 @@ export default function HeroSection() {
         </div>
 
         {/* Scroll indicator - visible on all screens, touch-friendly */}
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 animate-in fade-in duration-500 delay-500 sm:bottom-8 lg:bottom-12">
+        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 hero-animate hero-fade hero-delay-5 sm:bottom-8 lg:bottom-12">
           <button
             onClick={(e) => scrollToSection(e, "sobre-mi")}
-            className="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1 rounded-full p-2 text-text-secondary/50 transition-colors hover:text-accent active:scale-95"
+            className="scroll-breathe flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1 rounded-full p-2 text-text-secondary transition-colors hover:text-accent active:scale-95"
             aria-label="Desplazarse a la siguiente sección"
           >
             <span className="text-[10px] uppercase tracking-widest sm:text-xs">Scroll</span>
