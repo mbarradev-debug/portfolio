@@ -36,11 +36,47 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* =====================================================
+   PERFORMANCE: Reduce motion for users who prefer it
+   ===================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Smooth scrolling - respect user preferences */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* =====================================================
+   TOUCH OPTIMIZATION: Minimum touch targets (44px WCAG)
+   ===================================================== */
+@media (pointer: coarse) {
+  /* Ensure minimum touch target size */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent accidental taps on close elements */
+  .touch-spacing > * + * {
+    margin-top: 8px;
+  }
 }
 
 /* =====================================================
