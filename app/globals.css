@@ -487,6 +487,38 @@ html {
 }
 
 /* =====================================================
+   APPROACH CARDS (About section)
+   ===================================================== */
+
+.approach-card {
+  transition:
+    border-color var(--duration-base) var(--ease-smooth),
+    background-color var(--duration-base) var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-snappy),
+    box-shadow var(--duration-base) var(--ease-smooth);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Desktop: hover */
+@media (hover: hover) and (pointer: fine) {
+  .approach-card:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-primary);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(63, 191, 154, 0.1);
+  }
+}
+
+/* Mobile/Touch: tap feedback */
+@media (hover: none), (pointer: coarse) {
+  .approach-card:active {
+    border-color: var(--color-accent);
+    transform: scale(0.98);
+    background-color: var(--color-bg-primary);
+  }
+}
+
+/* =====================================================
    INLINE TEXT LINKS
    ===================================================== */
 

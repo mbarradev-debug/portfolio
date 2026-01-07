@@ -4,7 +4,10 @@ import { useCallback } from "react";
 
 export function useScrollToSection() {
   const scrollToSection = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    (
+      e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+      targetId: string
+    ) => {
       e.preventDefault();
       const element = document.getElementById(targetId);
       if (!element) return;
@@ -19,10 +22,13 @@ export function useScrollToSection() {
     []
   );
 
-  const scrollToTop = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const scrollToTop = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    []
+  );
 
   return { scrollToSection, scrollToTop };
 }
