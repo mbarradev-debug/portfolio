@@ -66,10 +66,10 @@ body {
    TOUCH OPTIMIZATION: Minimum touch targets (44px WCAG)
    ===================================================== */
 @media (pointer: coarse) {
-  /* Ensure minimum touch target size */
-  button,
-  a,
-  [role="button"] {
+  /* Ensure minimum touch target size - exclude nav elements */
+  button:not(.nav-logo):not(.nav-cv-link):not(.nav-contact-btn),
+  a:not(.nav-logo):not(.nav-cv-link):not(.nav-contact-btn),
+  [role="button"]:not(.nav-logo):not(.nav-cv-link):not(.nav-contact-btn) {
     min-height: 44px;
     min-width: 44px;
   }
