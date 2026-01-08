@@ -9,7 +9,7 @@ El portfolio está dividido en cuatro secciones principales, cada una con una re
 | Sección | Archivo | Propósito | Tipo |
 |---------|---------|-----------|------|
 | Hero | `HeroSection.tsx` | Primera impresión, presentación | Client |
-| Sobre mí | `AboutSection.tsx` | Perfil y filosofía | Server |
+| Sobre mí | `AboutSection.tsx` | Perfil y filosofía | Client |
 | Stack | `StackSection.tsx` | Tecnologías y competencias | Client |
 | Contacto | `ContactSection.tsx` | Formulario funcional e información | Client |
 
@@ -75,15 +75,15 @@ Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (usa 
 ```
 
 **Animaciones de entrada:**
-- Cada elemento tiene un delay escalonado usando clases de `tw-animate-css`
-- El delay se define con la clase `delay-*` (ej: `delay-100`, `delay-200`, etc.)
+- Cada elemento tiene un delay escalonado usando clases CSS puras definidas en `animations.css`
+- El delay se define con clases `hero-delay-*` (ej: `hero-delay-1`, `hero-delay-2`, etc.)
 
 ```tsx
-<p className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-  Ingeniero de Software
+<p className="hero-animate hero-fade-up hero-delay-0">
+  Senior Fullstack Engineer
 </p>
 
-<h1 className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+<h1 className="hero-animate hero-fade-up hero-delay-1">
   Miguel Barra
 </h1>
 ```
@@ -146,72 +146,97 @@ Las clases `btn-primary` y `btn-secondary` están definidas en `globals.css` con
 
 **Archivo**: `components/sections/AboutSection.tsx`
 **ID HTML**: `sobre-mi`
-**Tipo**: Server Component
+**Tipo**: Client Component
 
 ### Propósito
 
-Cuenta la historia profesional en más detalle. Expande la información del Hero con:
-- Formación académica
-- Enfoque técnico
-- Intereses profesionales
-- Principios de trabajo
+Cuenta la historia profesional de forma escaneable:
+- Cita destacada con filosofía de trabajo
+- Cards de enfoque (3 principios clave)
+- Chips de público objetivo
+- Contenido expandible con biografía completa
 
 ### Estructura visual
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                              │
-│   │  PERFIL                    (etiqueta verde)              │
-│   │                                                          │
-│   │  Sobre mí                  (título H2)                   │
-│   │                                                          │
-│   │  Párrafo 1: Presentación general                         │
-│   │                                                          │
-│   │  Párrafo 2: Enfoque técnico (análisis, arquitectura...)  │
-│   │                                                          │
-│   │  ║ "Cita destacada en blockquote"                        │
-│   │                                                          │
-│   │  Párrafo 3: Tipo de proyectos que le interesan           │
-│   │                                                          │
-│   │  Párrafo 4: Principios de desarrollo                     │
+│   PERFIL                       (etiqueta verde)              │
+│   Sobre mí                     (título H2)                   │
+│                                                              │
+│   ║ "La arquitectura correcta hoy                            │
+│   ║  evita el rewrite de mañana."   (blockquote)             │
+│                                                              │
+│   MI ENFOQUE                   (subheader)                   │
+│   ┌──────────────────────────────────────────────────┐       │
+│   │ 🏗️ Arquitectura desde el día uno                │       │
+│   │    Defino estructura antes de escribir código.   │       │
+│   └──────────────────────────────────────────────────┘       │
+│   ┌──────────────────────────────────────────────────┐       │
+│   │ ⚡ Stack por durabilidad                         │       │
+│   └──────────────────────────────────────────────────┘       │
+│   ┌──────────────────────────────────────────────────┐       │
+│   │ ✨ Código en producción                          │       │
+│   └──────────────────────────────────────────────────┘       │
+│                                                              │
+│   IDEAL PARA                   (subheader)                   │
+│   [Startups] [Equipos pequeños] [Proyectos con propósito]    │
+│                                                              │
+│   📖 Leer historia completa →  (expandible)                  │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
-(│ = línea decorativa lateral con gradiente accent)
 ```
 
 ### Contenido actual
 
-1. **Presentación**: Formación en ingeniería, enfoque práctico
-2. **Competencias**: Análisis de requisitos, arquitectura, patrones
-3. **Cita destacada**: "Las decisiones tempranas son clave..."
-4. **Intereses**: Proyectos con impacto, startups, valor real
-5. **Principios**: Desarrollo responsable y sostenible
+1. **Cita destacada**: "La arquitectura correcta hoy evita el rewrite de mañana."
+2. **Cards de enfoque**: 3 principios con icono, título y descripción
+3. **Chips de targeting**: Startups, Equipos pequeños, Proyectos con propósito
+4. **Contenido expandible**: Biografía completa (4 párrafos)
 
 ### Características técnicas
 
+- **Tipo**: Client Component (usa `useState` para expandir/colapsar)
 - **Variante**: Secondary (fondo ligeramente más claro)
 - **Spacing**: `relaxed` (padding más generoso)
 - **Separator**: `visible` (línea decorativa al final)
 - **Animación**: Usa `AnimateOnScroll` para fade-in al scroll
+- **Micro-interacciones**: `.approach-card` con hover/active states
 - **Max-width de texto**: `max-w-3xl` (768px) para legibilidad óptima
-- **Elemento visual**: Línea lateral con gradiente accent
 
 ```tsx
 <Section variant="secondary" spacing="relaxed" separator="visible">
   <Container>
-    <AnimateOnScroll className="max-w-3xl">
-      {/* Header */}
-      <div className="mt-10 relative">
-        {/* Línea decorativa lateral */}
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-accent via-accent/50 to-transparent" />
+    <AnimateOnScroll className="max-w-3xl mx-auto lg:mx-0">
+      {/* Quote destacado */}
+      <blockquote className="mt-8 border-l-4 border-accent pl-4">
+        <p className="text-lg font-medium italic">
+          "La arquitectura correcta hoy evita el rewrite de mañana."
+        </p>
+      </blockquote>
 
-        <div className="pl-8 space-y-6">
-          {/* Contenido con blockquote destacado */}
-          <blockquote className="border-l-4 border-accent pl-6 py-2">
-            <p className="text-lg font-medium italic">...</p>
-          </blockquote>
-        </div>
+      {/* Cards de enfoque */}
+      <div className="mt-4 space-y-3">
+        {approachItems.map((item) => (
+          <div className="approach-card rounded-lg border border-border-subtle bg-surface p-4">
+            {/* icono + título + descripción */}
+          </div>
+        ))}
       </div>
+
+      {/* Chips de targeting */}
+      <div className="mt-4 flex flex-wrap gap-2">
+        {targetAudience.map((item) => (
+          <span className="rounded-full border border-border-subtle bg-surface px-4 py-2">
+            {item}
+          </span>
+        ))}
+      </div>
+
+      {/* Expandible */}
+      <button onClick={() => setIsExpanded(!isExpanded)}>
+        {isExpanded ? "Ver menos" : "Leer historia completa"}
+      </button>
     </AnimateOnScroll>
   </Container>
 </Section>
@@ -221,16 +246,16 @@ Cuenta la historia profesional en más detalle. Expande la información del Hero
 
 | Cambio | Qué hacer |
 |--------|-----------|
-| Editar texto | Modificar los `<p>` |
-| Agregar párrafo | Añadir otro `<p>` dentro del contenedor |
-| Cambiar cita | Editar el contenido del `<blockquote>` |
-| Cambiar etiqueta | Editar "Perfil" |
+| Editar cita | Modificar el `<blockquote>` |
+| Editar cards de enfoque | Modificar array `approachItems` |
+| Cambiar chips | Modificar array `targetAudience` |
+| Editar biografía | Modificar los `<p>` en el contenido expandible |
 | Cambiar fondo | Cambiar `variant="secondary"` a `"primary"` |
 
 **Precauciones:**
 - Mantener el `max-w-3xl` para legibilidad
 - No quitar el `AnimateOnScroll` (rompe la animación)
-- Preservar la estructura con línea lateral para mantener el diseño
+- Preservar el `useState` para el expandible
 
 ---
 
@@ -375,7 +400,7 @@ Cada tecnología aparece con 50ms de delay entre una y otra:
     <div
       key={tech.nombre}
       className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
-        techVisible ? "animate-in fade-in slide-in-from-bottom-3 duration-300" : "opacity-0 translate-y-3"
+        techVisible ? "tech-animate" : "opacity-0"
       }`}
       style={{ animationDelay: techVisible ? `${index * 50}ms` : "0ms" }}
     >

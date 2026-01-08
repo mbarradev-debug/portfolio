@@ -230,44 +230,47 @@ El proyecto sigue el enfoque **mobile-first**: los estilos base son para móvil,
 
 ## Animaciones y micro-interacciones
 
-### Librería de animaciones: tw-animate-css
+### Sistema de animaciones CSS puro
 
-El proyecto usa `tw-animate-css` para animaciones declarativas en Tailwind v4.
+El proyecto usa animaciones CSS puras definidas en dos archivos:
 
-#### Animaciones de entrada
+1. **`animations.css`**: Animaciones de entrada (Hero, scroll-triggered, tech items)
+2. **`globals.css`**: Micro-interacciones y animaciones de UI (pulse, shimmer, breathe)
+
+#### Animaciones del Hero (animations.css)
 
 ```tsx
-// Fade in básico
-<div className="animate-in fade-in">
+// Fade + slide up con delay escalonado
+<h1 className="hero-animate hero-fade-up hero-delay-1">
+  Miguel Barra
+</h1>
 
-// Fade in + slide desde abajo
-<div className="animate-in fade-in slide-in-from-bottom-2">
-
-// Zoom in
-<div className="animate-in zoom-in-95">
-
-// Con duración específica
-<div className="animate-in fade-in duration-300">
-
-// Con delay (inline style)
-<div
-  className="animate-in fade-in"
-  style={{ animationDelay: "100ms" }}
->
+// Fade + zoom para imagen
+<div className="hero-animate hero-fade-zoom hero-delay-3">
+  <Image src="..." />
+</div>
 ```
 
 #### Clases de animación disponibles
 
-| Clase | Efecto |
-|-------|--------|
-| `fade-in` | Aparece gradualmente |
-| `slide-in-from-bottom-2` | Sube 8px mientras aparece |
-| `slide-in-from-bottom-4` | Sube 16px mientras aparece |
-| `zoom-in-95` | Crece desde 95% |
-| `duration-200` | Dura 200ms |
-| `duration-300` | Dura 300ms |
-| `duration-500` | Dura 500ms |
-| `duration-700` | Dura 700ms |
+| Clase | Efecto | Duración |
+|-------|--------|----------|
+| `hero-fade` | Fade in simple | 500ms |
+| `hero-fade-up` | Fade + slide desde abajo (0.5rem) | 500ms |
+| `hero-fade-zoom` | Fade + scale desde 90% | 600ms |
+| `scroll-animate` | Fade + slide para scroll-triggered | 500ms |
+| `tech-animate` | Fade + slide para items de tech | 300ms |
+
+#### Clases de delay (escalonamiento)
+
+| Clase | Delay |
+|-------|-------|
+| `hero-delay-0` | 0ms |
+| `hero-delay-1` | 75ms |
+| `hero-delay-2` | 150ms |
+| `hero-delay-3` | 225ms |
+| `hero-delay-4` | 300ms |
+| `hero-delay-5` | 400ms |
 
 ### Animación personalizada: pulse-glow
 
@@ -411,8 +414,8 @@ El componente `AnimateOnScroll` detecta cuando un elemento entra en pantalla:
 // Estado inicial: invisible
 <div className="opacity-0">
 
-// Cuando entra en viewport: anima
-<div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+// Cuando entra en viewport: anima con clase CSS
+<div className="scroll-animate">
 ```
 
 **Configuración del IntersectionObserver:**

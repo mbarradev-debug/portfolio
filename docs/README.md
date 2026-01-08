@@ -21,7 +21,7 @@ El sitio funciona como una **Single Page Application (SPA)**: una única página
 | UI Library | React | 19.2.3 |
 | Lenguaje | TypeScript | 5 |
 | Estilos | Tailwind CSS | 4 |
-| Animaciones | tw-animate-css | 1.4.0 |
+| Animaciones | CSS puro | - |
 | Email | Resend | 6.6.0 |
 | Runtime | Node.js | 18+ |
 
@@ -69,13 +69,22 @@ Tailwind es un framework de CSS utility-first. En lugar de escribir CSS separado
 
 **Tailwind v4** usa variables CSS definidas en `@theme inline` dentro de `globals.css`.
 
-### Animaciones: tw-animate-css
+### Animaciones: CSS puro
 
-Librería de animaciones declarativas compatible con Tailwind v4:
+El proyecto implementa animaciones mediante CSS puro, definidas en dos archivos:
+
+1. **`globals.css`**: Micro-interacciones (hover, tap), animaciones de UI
+2. **`animations.css`**: Animaciones de entrada del Hero y scroll-triggered
 
 ```tsx
-<div className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-  Este contenido aparece con animación
+// Hero con animación de entrada escalonada
+<h1 className="hero-animate hero-fade-up hero-delay-1">
+  Miguel Barra
+</h1>
+
+// Scroll-triggered animation
+<div className={isVisible ? "scroll-animate" : "opacity-0"}>
+  Contenido animado
 </div>
 ```
 
@@ -91,7 +100,7 @@ El proyecto implementa un sistema completo de micro-interacciones en `globals.cs
 |----------------|-------------|
 | **Tema oscuro** | Diseño dark mode profesional con paleta de 10 colores |
 | **Responsive** | Mobile-first, adaptable a móviles, tablets y desktop |
-| **Animaciones** | Entrada con fade-in/slide-in, trigger con IntersectionObserver |
+| **Animaciones** | CSS puro con keyframes custom, trigger con IntersectionObserver |
 | **Micro-interacciones** | Sistema CSS completo para feedback visual (hover/touch diferenciado) |
 | **Accesible** | Skip link, ARIA labels, contraste WCAG AAA, focus visible |
 | **SEO optimizado** | Metadata, Open Graph, Twitter Cards, HTML semántico |

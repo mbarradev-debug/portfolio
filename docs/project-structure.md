@@ -8,7 +8,8 @@ portfolio/
 │   ├── api/                # API Routes (backend)
 │   │   └── contact/        # Endpoint de contacto
 │   │       └── route.ts    # POST /api/contact
-│   ├── globals.css         # Estilos globales y variables CSS
+│   ├── globals.css         # Estilos globales, variables CSS y micro-interacciones
+│   ├── animations.css      # Animaciones de entrada (Hero, scroll-triggered)
 │   ├── layout.tsx          # Layout raíz (estructura HTML)
 │   └── page.tsx            # Página principal (home)
 │
@@ -128,7 +129,6 @@ export async function POST(request: Request) {
 
 ```css
 @import "tailwindcss";      /* Importa Tailwind */
-@import "tw-animate-css";   /* Importa animaciones */
 
 @theme inline {
   /* Background */
@@ -179,8 +179,8 @@ body {
 .text-link { ... }
 ```
 
-**¿Qué contiene?** (~530 líneas)
-1. **Importaciones**: Tailwind CSS y tw-animate-css
+**¿Qué contiene?** (~700 líneas)
+1. **Importaciones**: Tailwind CSS
 2. **Variables CSS**: 10 colores + fuente + tokens de animación (definidos en `@theme inline`)
 3. **Estilos base**: body, html smooth scroll, focus-visible, ::selection, scroll-margin-top
 4. **Viewport fix**: Clases `.min-h-svh-safe` y `.h-svh-safe` para resolver problema de 100vh en móviles
@@ -342,7 +342,7 @@ Cada archivo representa una sección del portfolio.
 | Archivo | Sección | Tipo | ID |
 |---------|---------|------|-----|
 | `HeroSection.tsx` | Presentación inicial | Client | `hero` |
-| `AboutSection.tsx` | Perfil y filosofía | Server | `sobre-mi` |
+| `AboutSection.tsx` | Perfil y filosofía | Client | `sobre-mi` |
 | `StackSection.tsx` | Tecnologías | Client | `stack` |
 | `ContactSection.tsx` | Formulario funcional | Client | `contacto` |
 
@@ -385,11 +385,7 @@ export default function AnimateOnScroll({ children, className = "" }) {
   return (
     <div
       ref={ref}
-      className={`${className} ${
-        isVisible
-          ? "animate-in fade-in slide-in-from-bottom-2 duration-300"
-          : "opacity-0"
-      }`}
+      className={`${className} ${isVisible ? "scroll-animate" : "opacity-0"}`}
     >
       {children}
     </div>
@@ -399,7 +395,7 @@ export default function AnimateOnScroll({ children, className = "" }) {
 
 - **Propósito**: Animar contenido cuando entra en pantalla
 - **Cómo funciona**: Usa IntersectionObserver para detectar visibilidad
-- **Animación**: `fade-in` + `slide-in-from-bottom-2` con duración de 300ms
+- **Animación**: `scroll-animate` (definida en `animations.css`) con fade + slide-up de 500ms
 - **Una vez**: Una vez visible, deja de observar (no re-anima al volver a entrar)
 - **Uso**: Envuelve cualquier contenido que quieras animar
 
@@ -530,7 +526,7 @@ import logo from "../public/images/miguelb-logo.png";
   "dependencies": {
     "next": "16.1.1",
     "react": "19.2.3",
-    "tw-animate-css": "^1.4.0"
+    "resend": "^6.6.0"
   },
   "devDependencies": {
     "tailwindcss": "^4",

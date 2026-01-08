@@ -90,8 +90,8 @@ export function ContactSection() {
 |------------|------|-------|
 | `Header.tsx` | Client | IntersectionObserver para sección activa + scroll hide/show |
 | `Footer.tsx` | Server | Solo contenido estático con iconos y año dinámico |
-| `HeroSection.tsx` | Client | Navegación con `useScrollToSection` |
-| `AboutSection.tsx` | Server | Solo texto estático |
+| `HeroSection.tsx` | Client | Animaciones de entrada + navegación con `useScrollToSection` |
+| `AboutSection.tsx` | Client | Contenido expandible con estado + IntersectionObserver |
 | `StackSection.tsx` | Client | IntersectionObserver para animaciones escalonadas del grid |
 | `ContactSection.tsx` | Client | Formulario con gestión de estado y llamada a API |
 | `AnimateOnScroll.tsx` | Client | Wrapper de animación con IntersectionObserver |
@@ -433,7 +433,7 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
 | Estado | Local con `useState` (sin Redux/Context global) |
 | Backend | API Routes de Next.js + Resend para emails |
 | Estilos | Tailwind CSS v4 con variables CSS (`@theme inline`) |
-| Animaciones de entrada | tw-animate-css + IntersectionObserver |
+| Animaciones de entrada | CSS puro (`animations.css`) + IntersectionObserver |
 | Micro-interacciones | CSS puro en globals.css con media queries (hover/touch) |
 | Tipado | TypeScript 5 con modo estricto (`strict: true`) |
 | Organización | Por tipo de componente (layout, sections, ui, icons) |

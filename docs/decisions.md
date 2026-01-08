@@ -189,27 +189,38 @@ Decisión de simplificación:
 
 ---
 
-## Animaciones con tw-animate-css
+## Animaciones con CSS puro
 
-### ¿Por qué no CSS animations puro?
+### ¿Por qué CSS puro en lugar de librerías?
 
-Se intentó inicialmente usar `@keyframes` personalizados, pero:
-- Tailwind v4 cambió cómo se definen animaciones
-- Las animaciones custom requerían mucho código
-- `tw-animate-css` ya tiene animaciones probadas y optimizadas
+Se eligió implementar todas las animaciones con CSS puro (keyframes + clases):
 
-### ¿Qué ofrece tw-animate-css?
+1. **Control total**: Las animaciones están definidas exactamente como se necesitan
+2. **Sin dependencias**: No se agrega peso al bundle ni complejidad al proyecto
+3. **Compatibilidad**: Funciona con Tailwind v4 sin problemas de configuración
+4. **Performance**: Las animaciones CSS corren en el compositor thread
 
+### ¿Cómo se organizan las animaciones?
+
+Las animaciones están en dos archivos:
+
+**`animations.css`** - Animaciones de entrada:
 ```tsx
-// En lugar de definir keyframes manualmente:
-<div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+// Hero con stagger
+<h1 className="hero-animate hero-fade-up hero-delay-1">Miguel Barra</h1>
+
+// Scroll-triggered
+<div className={isVisible ? "scroll-animate" : "opacity-0"}>Contenido</div>
+
+// Tech items con delay dinámico
+<div className="tech-animate" style={{ animationDelay: `${index * 50}ms` }}>
 ```
 
-- Animaciones de entrada (`animate-in`)
-- Animaciones de salida (`animate-out`)
-- Direcciones (`slide-in-from-bottom-2`, `slide-in-from-bottom-4`, etc.)
-- Duraciones (`duration-200`, `duration-300`, `duration-500`, etc.)
-- Delays con clases (`delay-100`, `delay-200`, etc.)
+**`globals.css`** - Micro-interacciones y animaciones de UI:
+- `shimmer` - Efecto brillante en el badge del Hero
+- `cta-pulse` - Pulso de atención en CTAs
+- `breathe` - Efecto de respiración en scroll indicator
+- `pulse-glow` - Resaltado al navegar a secciones
 
 ### ¿Por qué IntersectionObserver para trigger?
 
@@ -342,10 +353,9 @@ components/
 | `Footer` | Server | Solo contenido estático |
 | `Container` | Server | Solo wrapper de layout |
 | `Section` | Server | Solo wrapper de layout |
-| `HeroSection` | Client | Navegación con scroll |
-| `AboutSection` | Server | Solo texto |
+| `HeroSection` | Client | Animaciones de entrada + navegación con scroll |
+| `AboutSection` | Client | Contenido expandible con estado + animaciones |
 | `StackSection` | Client | Animaciones on-scroll |
-| `CVSection` | Server | Solo enlace |
 | `ContactSection` | Client | Formulario interactivo |
 | `AnimateOnScroll` | Client | Usa IntersectionObserver |
 
@@ -504,7 +514,7 @@ Aunque el proyecto no tiene deploy configurado, está optimizado para Vercel:
 | Lenguaje | TypeScript 5 estricto | JavaScript |
 | Estilos | Tailwind CSS v4 (`@theme inline`) | CSS Modules |
 | Tema | Dark mode único | Toggle light/dark |
-| Animaciones de entrada | tw-animate-css 1.4.0 | Framer Motion |
+| Animaciones de entrada | CSS puro (`animations.css`) | Framer Motion |
 | Micro-interacciones | CSS puro (globals.css) con clases semánticas | Tailwind inline / JS |
 | Trigger de animación | IntersectionObserver | Scroll listener |
 | Organización | Por tipo de componente | Por feature |
