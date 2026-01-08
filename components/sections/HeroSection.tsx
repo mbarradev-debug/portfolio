@@ -54,36 +54,36 @@ export default function HeroSection() {
           <div className="max-w-3xl lg:max-w-xl xl:max-w-2xl lg:order-1">
             {/* Badge de seniority - shimmer effect on load */}
             <div className="hero-animate hero-fade hero-delay-0">
-              <span className="badge-shimmer inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent sm:px-4 sm:py-2">
+              <span className="badge-shimmer inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-sm font-bold uppercase tracking-widest text-accent sm:px-4 sm:py-2 sm:text-xs sm:font-semibold">
                 Senior Fullstack Engineer
               </span>
             </div>
 
             {/* Headline - Propuesta de valor */}
-            <h1 className="mt-5 text-[1.75rem] font-bold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl xl:text-6xl hero-animate hero-fade-up hero-delay-1">
+            <h1 className="mt-5 text-[2rem] font-extrabold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl xl:text-6xl hero-animate hero-fade-up hero-delay-1">
               Del problema al producto.
             </h1>
 
             {/* Subheadline */}
-            <p className="mt-3 text-base font-medium leading-snug text-text-primary/90 sm:text-xl lg:text-xl xl:text-2xl hero-animate hero-fade-up hero-delay-2">
+            <p className="mt-3 text-[0.9375rem] font-medium leading-snug text-text-secondary sm:text-xl lg:text-xl xl:text-2xl hero-animate hero-fade-up hero-delay-2">
               Arquitectura que escala. Código que perdura.
             </p>
 
             {/* Credencial rápida */}
-            <p className="mt-2 text-sm text-text-secondary sm:text-base hero-animate hero-fade hero-delay-3">
+            <p className="mt-2 text-xs text-text-secondary/80 sm:text-base sm:text-text-secondary hero-animate hero-fade hero-delay-3">
               +5 años llevando ideas de startups a producción.
             </p>
 
             {/* CTAs - Full width en mobile, optimized touch targets */}
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:justify-center lg:justify-start hero-animate hero-fade-up hero-delay-4">
+            <div className="mt-8 flex flex-col gap-4 sm:mt-8 sm:flex-row sm:gap-3 sm:justify-center lg:justify-start hero-animate hero-fade-up hero-delay-4">
               <a
                 href="#stack"
                 onClick={(e) => scrollToSection(e, "stack")}
-                className="btn-primary btn-primary-pulse inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-base font-medium text-bg-primary sm:h-11 sm:px-6 sm:text-sm"
+                className="btn-primary btn-primary-pulse inline-flex h-14 items-center justify-center rounded-xl bg-accent px-8 text-base font-semibold text-bg-primary shadow-lg shadow-accent/25 sm:h-11 sm:rounded-lg sm:px-6 sm:text-sm sm:font-medium sm:shadow-none"
                 aria-label="Ver mi stack tecnológico"
               >
                 <svg
-                  className="btn-icon mr-2 h-4 w-4"
+                  className="btn-icon mr-2 h-5 w-5 sm:h-4 sm:w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -100,7 +100,7 @@ export default function HeroSection() {
               <a
                 href="/cv/cv-miguel-barra.pdf"
                 download
-                className="btn-secondary inline-flex h-12 items-center justify-center rounded-lg border border-border-subtle bg-surface px-6 text-base font-medium text-text-primary sm:h-11 sm:px-6 sm:text-sm"
+                className="btn-secondary inline-flex h-11 items-center justify-center rounded-lg border border-border-subtle bg-surface px-6 text-sm font-medium text-text-secondary sm:h-11 sm:px-6 sm:text-sm sm:text-text-primary"
                 aria-label="Descargar currículum en PDF"
               >
                 <svg
