@@ -98,7 +98,7 @@ export default function HeroSection() {
                 Ver proyectos
               </a>
               <a
-                href="/cv/cv-miguel-barra.pdf"
+                href="/cv/cv.pdf"
                 download
                 className="btn-secondary inline-flex h-11 items-center justify-center rounded-lg border border-border-subtle bg-surface px-6 text-sm font-medium text-text-secondary sm:h-11 sm:px-6 sm:text-sm sm:text-text-primary"
                 aria-label="Descargar currículum en PDF"
