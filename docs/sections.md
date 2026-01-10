@@ -15,6 +15,8 @@ El portfolio está dividido en cuatro secciones principales, cada una con una re
 
 **Client vs Server**: Los componentes "Client" usan JavaScript en el navegador (interactividad, animaciones con estado). Los "Server" solo renderizan HTML estático (más rápidos).
 
+**Todos los componentes usan i18n**: Acceden a traducciones mediante el hook `useI18n()`.
+
 ---
 
 ## 1. Hero Section
@@ -26,10 +28,12 @@ El portfolio está dividido en cuatro secciones principales, cada una con una re
 ### Propósito
 
 Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (usa `min-h-svh-safe` para compatibilidad móvil) y presenta:
-- Nombre y título profesional
-- Breve descripción
-- Foto/logo
-- Botones de acción (CTA)
+- Badge de seniority con efecto shimmer
+- Headline y subheadline
+- Credencial rápida (años de experiencia)
+- Imagen/logo con fondo circular
+- Botones de acción (CTAs)
+- Indicador de scroll
 
 ### Estructura visual
 
@@ -38,107 +42,87 @@ Es la **primera impresión** del visitante. Ocupa toda la pantalla inicial (usa 
 │                          HEADER                              │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
+│   [Mobile: Imagen arriba, contenido abajo - centrado]        │
+│   [Desktop: Contenido izquierda, imagen derecha]             │
+│                                                              │
 │   ┌────────────────────────┐  ┌─────────────────────────┐   │
-│   │   INGENIERO SOFTWARE   │  │                         │   │
+│   │ ┌──────────────────┐   │  │                         │   │
+│   │ │ SENIOR FULLSTACK │   │  │    ○ (círculo verde)    │   │
+│   │ └──────────────────┘   │  │     [IMAGEN]            │   │
 │   │                        │  │                         │   │
-│   │   MIGUEL BARRA         │  │       [IMAGEN]          │   │
-│   │                        │  │                         │   │
-│   │   Ingeniero en         │  │                         │   │
-│   │   Computación...       │  │                         │   │
-│   │                        │  └─────────────────────────┘   │
-│   │   Párrafos de intro    │                                │
+│   │ Del problema al        │  │                         │   │
+│   │ producto.              │  └─────────────────────────┘   │
 │   │                        │                                │
-│   │   [Ver perfil] [Contacto]                               │
+│   │ Arquitectura que       │                                │
+│   │ escala...              │                                │
+│   │                        │                                │
+│   │ +5 años llevando...    │                                │
+│   │                        │                                │
+│   │ [Ver proyectos] [CV]   │                                │
 │   └────────────────────────┘                                │
+│                                                              │
+│                    SCROLL ↓                                  │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Contenido actual
-
-- **Etiqueta**: "Ingeniero de Software"
-- **Título H1**: "Miguel Barra"
-- **Subtítulo**: "Ingeniero en Computación e Informática" + universidad
-- **Descripción**: 2 párrafos sobre enfoque y filosofía profesional
-- **CTA primario**: "Ver perfil" → scroll a sección About
-- **CTA secundario**: "Contactar" → scroll a sección Contact
-- **Imagen**: `/images/miguelb-logo.png` (480x480)
-
-### Características técnicas
-
-**Layout responsive:**
-- Móvil: columna invertida (imagen arriba, texto abajo)
-- Desktop: dos columnas (texto izquierda, imagen derecha)
+### Dependencias
 
 ```tsx
-<div className="flex flex-col-reverse lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+import Image from "next/image";
+import Section from "@/components/layout/Section";
+import Container from "@/components/layout/Container";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
+import { useI18n } from "@/i18n";
 ```
 
-**Animaciones de entrada:**
-- Cada elemento tiene un delay escalonado usando clases CSS puras definidas en `animations.css`
-- El delay se define con clases `hero-delay-*` (ej: `hero-delay-1`, `hero-delay-2`, etc.)
+### Textos (i18n)
+
+Todos los textos vienen de `t.hero`:
+
+| Clave | Descripción |
+|-------|-------------|
+| `t.hero.imageAlt` | Alt text de la imagen |
+| `t.hero.badge` | Texto del badge ("Senior Fullstack Engineer") |
+| `t.hero.headline` | Headline principal |
+| `t.hero.subheadline` | Subheadline |
+| `t.hero.credential` | Credencial de experiencia |
+| `t.hero.ctaStack` | Texto botón principal |
+| `t.hero.ctaStackAria` | Aria-label botón principal |
+| `t.hero.ctaCV` | Texto botón CV |
+| `t.hero.ctaCVAria` | Aria-label botón CV |
+| `t.hero.scroll` | Texto scroll indicator |
+| `t.a11y.scrollToNextSection` | Aria-label scroll button |
+
+### Animaciones
+
+Las animaciones de entrada usan clases CSS (`hero-animate`, `hero-fade`, `hero-fade-up`, `hero-fade-zoom`) con delays escalonados (`hero-delay-0` a `hero-delay-5`):
 
 ```tsx
-<p className="hero-animate hero-fade-up hero-delay-0">
-  Senior Fullstack Engineer
-</p>
+<span className="badge-shimmer ... hero-animate hero-fade hero-delay-0">
+  {t.hero.badge}
+</span>
 
-<h1 className="hero-animate hero-fade-up hero-delay-1">
-  Miguel Barra
+<h1 className="... hero-animate hero-fade-up hero-delay-1">
+  {t.hero.headline}
 </h1>
 ```
 
-**Botones con micro-interacciones:**
-```tsx
-<a className="btn-primary inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 ...">
-  Ver perfil
-</a>
-<a className="btn-secondary inline-flex items-center justify-center rounded-md border border-border-subtle bg-surface px-6 py-3 ...">
-  Contactar
-</a>
-```
+### Elementos especiales
 
-Las clases `btn-primary` y `btn-secondary` están definidas en `globals.css` con transiciones para hover (desktop) y active (móvil).
-
-**Imagen optimizada:**
-```tsx
-<Image
-  src="/images/miguelb-logo.png"
-  alt="Miguel Barra - Ingeniero de Software"
-  width={480}
-  height={480}
-  sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, (max-width: 1280px) 384px, 448px"
-  className="h-72 w-72 object-contain sm:h-80 sm:w-80 lg:h-96 lg:w-96 xl:h-[28rem] xl:w-[28rem]"
-  priority  // Carga inmediata (above the fold)
-/>
-```
-
-**Fondo decorativo:**
-```tsx
-{/* División diagonal */}
-<div
-  className="pointer-events-none absolute inset-0 bg-bg-secondary"
-  style={{ clipPath: "polygon(60% 0, 100% 0, 100% 100%, 40% 100%)" }}
-  aria-hidden="true"
-/>
-
-{/* Gradiente radial sutil */}
-<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-bg-secondary)_0%,_transparent_50%)]" />
-```
+- **Badge shimmer**: Efecto de brillo que pasa una vez al cargar (`.badge-shimmer`)
+- **CTA pulse**: Pulso de atención en el botón principal (`.btn-primary-pulse`)
+- **Scroll breathe**: Efecto de respiración en el indicador de scroll (`.scroll-breathe`)
+- **Fondo diagonal**: `clipPath: "polygon(60% 0, 100% 0, 100% 100%, 40% 100%)"`
 
 ### Cómo modificar
 
-| Cambio | Qué hacer |
+| Cambio | Ubicación |
 |--------|-----------|
-| Cambiar nombre | Editar el `<h1>` |
-| Cambiar título | Editar la etiqueta verde |
-| Cambiar descripción | Editar los `<p>` |
-| Cambiar imagen | Reemplazar `/public/images/miguelb-logo.png` |
-| Cambiar CTAs | Editar los `<a>` con enlaces |
-
-**Precauciones:**
-- Mantener `priority` en la imagen (importante para performance)
-- Mantener los IDs de destino (`sobre-mi`, `contacto`) sincronizados
+| Textos | `src/i18n/es.ts` y `src/i18n/en.ts` → `hero` |
+| Imagen | `public/images/miguelb-logo.png` (mantener aspect-ratio cuadrado) |
+| Link del CV | `href="/cv/cv.pdf"` en los botones |
+| Colores del badge | Clases `border-accent/30 bg-accent/10 text-accent` |
 
 ---
 
@@ -150,112 +134,93 @@ Las clases `btn-primary` y `btn-secondary` están definidas en `globals.css` con
 
 ### Propósito
 
-Cuenta la historia profesional de forma escaneable:
-- Cita destacada con filosofía de trabajo
-- Cards de enfoque (3 principios clave)
-- Chips de público objetivo
-- Contenido expandible con biografía completa
+Presenta el **perfil profesional** con:
+- Quote destacado
+- Enfoque de trabajo (3 cards)
+- Target ideal (chips)
+- Biografía expandible
 
 ### Estructura visual
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
+│   PERFIL                                                     │
+│   Sobre mí                                                   │
 │                                                              │
-│   PERFIL                       (etiqueta verde)              │
-│   Sobre mí                     (título H2)                   │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │  "La arquitectura correcta hoy evita el rewrite     │   │
+│   │   de mañana."                                        │   │
+│   └─────────────────────────────────────────────────────┘   │
 │                                                              │
-│   ║ "La arquitectura correcta hoy                            │
-│   ║  evita el rewrite de mañana."   (blockquote)             │
+│   MI ENFOQUE                                                 │
+│   ┌───────────────────────────────────────────────────────┐ │
+│   │ [icon] Arquitectura desde el día uno                  │ │
+│   │        Defino estructura antes de escribir código.    │ │
+│   └───────────────────────────────────────────────────────┘ │
+│   ┌───────────────────────────────────────────────────────┐ │
+│   │ [icon] Stack por durabilidad                          │ │
+│   │        Elijo tecnologías por longevidad, no por moda. │ │
+│   └───────────────────────────────────────────────────────┘ │
+│   ┌───────────────────────────────────────────────────────┐ │
+│   │ [icon] Código en producción                           │ │
+│   │        Entrego software sirviendo usuarios reales.    │ │
+│   └───────────────────────────────────────────────────────┘ │
 │                                                              │
-│   MI ENFOQUE                   (subheader)                   │
-│   ┌──────────────────────────────────────────────────┐       │
-│   │ 🏗️ Arquitectura desde el día uno                │       │
-│   │    Defino estructura antes de escribir código.   │       │
-│   └──────────────────────────────────────────────────┘       │
-│   ┌──────────────────────────────────────────────────┐       │
-│   │ ⚡ Stack por durabilidad                         │       │
-│   └──────────────────────────────────────────────────┘       │
-│   ┌──────────────────────────────────────────────────┐       │
-│   │ ✨ Código en producción                          │       │
-│   └──────────────────────────────────────────────────┘       │
+│   IDEAL PARA                                                 │
+│   [Startups] [Equipos pequeños] [Proyectos con propósito]   │
 │                                                              │
-│   IDEAL PARA                   (subheader)                   │
-│   [Startups] [Equipos pequeños] [Proyectos con propósito]    │
+│   [📖 Leer historia completa ▼]                             │
 │                                                              │
-│   📖 Leer historia completa →  (expandible)                  │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │  (Contenido expandible - biografía completa)         │   │
+│   │  Párrafos con strong + texto normal                  │   │
+│   └─────────────────────────────────────────────────────┘   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Contenido actual
-
-1. **Cita destacada**: "La arquitectura correcta hoy evita el rewrite de mañana."
-2. **Cards de enfoque**: 3 principios con icono, título y descripción
-3. **Chips de targeting**: Startups, Equipos pequeños, Proyectos con propósito
-4. **Contenido expandible**: Biografía completa (4 párrafos)
-
-### Características técnicas
-
-- **Tipo**: Client Component (usa `useState` para expandir/colapsar)
-- **Variante**: Secondary (fondo ligeramente más claro)
-- **Spacing**: `relaxed` (padding más generoso)
-- **Separator**: `visible` (línea decorativa al final)
-- **Animación**: Usa `AnimateOnScroll` para fade-in al scroll
-- **Micro-interacciones**: `.approach-card` con hover/active states
-- **Max-width de texto**: `max-w-3xl` (768px) para legibilidad óptima
+### Estado interno
 
 ```tsx
-<Section variant="secondary" spacing="relaxed" separator="visible">
-  <Container>
-    <AnimateOnScroll className="max-w-3xl mx-auto lg:mx-0">
-      {/* Quote destacado */}
-      <blockquote className="mt-8 border-l-4 border-accent pl-4">
-        <p className="text-lg font-medium italic">
-          "La arquitectura correcta hoy evita el rewrite de mañana."
-        </p>
-      </blockquote>
-
-      {/* Cards de enfoque */}
-      <div className="mt-4 space-y-3">
-        {approachItems.map((item) => (
-          <div className="approach-card rounded-lg border border-border-subtle bg-surface p-4">
-            {/* icono + título + descripción */}
-          </div>
-        ))}
-      </div>
-
-      {/* Chips de targeting */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        {targetAudience.map((item) => (
-          <span className="rounded-full border border-border-subtle bg-surface px-4 py-2">
-            {item}
-          </span>
-        ))}
-      </div>
-
-      {/* Expandible */}
-      <button onClick={() => setIsExpanded(!isExpanded)}>
-        {isExpanded ? "Ver menos" : "Leer historia completa"}
-      </button>
-    </AnimateOnScroll>
-  </Container>
-</Section>
+const [isExpanded, setIsExpanded] = useState(false);
 ```
+
+Controla si la biografía está visible o colapsada.
+
+### Textos (i18n)
+
+| Clave | Descripción |
+|-------|-------------|
+| `t.about.label` | Label superior ("Perfil") |
+| `t.about.title` | Título de la sección |
+| `t.about.quote` | Quote destacado |
+| `t.about.approachLabel` | Label "Mi enfoque" |
+| `t.about.approach.architecture` | Card arquitectura (title + description) |
+| `t.about.approach.stack` | Card stack (title + description) |
+| `t.about.approach.production` | Card producción (title + description) |
+| `t.about.idealForLabel` | Label "Ideal para" |
+| `t.about.idealFor` | Array de strings para los chips |
+| `t.about.expandButton` | Texto botón expandir |
+| `t.about.collapseButton` | Texto botón colapsar |
+| `t.about.bio.p1` / `p1Strong` | Primer párrafo (strong + resto) |
+| `t.about.bio.p2` / `p2Strong` | Segundo párrafo |
+| `t.about.bio.p3` / `p3Strong` | Tercer párrafo |
+| `t.about.bio.p4` / `p4Strong` | Cuarto párrafo |
+
+### Micro-interacciones
+
+Las tarjetas de enfoque usan la clase `.approach-card`:
+- Desktop: `translateX(4px)`, border accent, shadow
+- Móvil: `scale(0.98)`, border accent
 
 ### Cómo modificar
 
-| Cambio | Qué hacer |
+| Cambio | Ubicación |
 |--------|-----------|
-| Editar cita | Modificar el `<blockquote>` |
-| Editar cards de enfoque | Modificar array `approachItems` |
-| Cambiar chips | Modificar array `targetAudience` |
-| Editar biografía | Modificar los `<p>` en el contenido expandible |
-| Cambiar fondo | Cambiar `variant="secondary"` a `"primary"` |
-
-**Precauciones:**
-- Mantener el `max-w-3xl` para legibilidad
-- No quitar el `AnimateOnScroll` (rompe la animación)
-- Preservar el `useState` para el expandible
+| Textos | `src/i18n/es.ts` y `src/i18n/en.ts` → `about` |
+| Añadir chip "Ideal para" | Añadir string al array `t.about.idealFor` |
+| Iconos de enfoque | Array `approachIcons` en el componente |
+| Añadir párrafo a bio | Añadir `p5` / `p5Strong` en types.ts, es.ts, en.ts y renderizarlo |
 
 ---
 
@@ -267,72 +232,101 @@ Cuenta la historia profesional de forma escaneable:
 
 ### Propósito
 
-Muestra las competencias técnicas y el stack tecnológico de dos formas:
-1. **Competencias**: Áreas de expertise (arquitectura, frontend, backend, datos)
-2. **Tecnologías**: Stack específico con iconos
+Muestra las **competencias técnicas** y el **stack de tecnologías**:
+- Descripción del enfoque técnico
+- 4 cards de áreas de competencia
+- Grid de tecnologías por categoría
 
 ### Estructura visual
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
+│   TECNOLOGÍA                                                 │
+│   Stack & Engineering Approach                               │
 │                                                              │
-│   TECNOLOGÍA                 (etiqueta verde)                │
+│   Selecciono el stack tecnológico y los patrones de         │
+│   diseño según las necesidades específicas...               │
 │                                                              │
-│   Stack & Engineering Approach  (título H2)                  │
+│   Áreas de competencia                                       │
+│   ┌─────────────────────┐  ┌─────────────────────┐          │
+│   │ [icon]              │  │ [icon]              │          │
+│   │ Arquitectura de     │  │ Desarrollo Frontend │          │
+│   │ aplicaciones        │  │ ...                 │          │
+│   │ ...                 │  │                     │          │
+│   └─────────────────────┘  └─────────────────────┘          │
+│   ┌─────────────────────┐  ┌─────────────────────┐          │
+│   │ [icon]              │  │ [icon]              │          │
+│   │ Desarrollo Backend  │  │ Datos y persistencia│          │
+│   │ ...                 │  │ ...                 │          │
+│   └─────────────────────┘  └─────────────────────┘          │
 │                                                              │
-│   Párrafo explicativo                                        │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   ┌─────────────┐  ┌─────────────┐                          │
-│   │ Arquitectura│  │ Frontend    │   (grid 2 columnas)      │
-│   │ de apps     │  │             │                          │
-│   └─────────────┘  └─────────────┘                          │
-│   ┌─────────────┐  ┌─────────────┐                          │
-│   │ Backend     │  │ Datos       │                          │
-│   │             │  │             │                          │
-│   └─────────────┘  └─────────────┘                          │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   [React] [Next.js] [TypeScript] [Node.js]                  │
-│   [APIs]  [PostgreSQL] [Prisma] [Docker] [Git]              │
-│                                                              │
-│   (grid responsive: 2→3→4→5 columnas)                       │
+│   Stack principal                                            │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │  Frontend                                            │   │
+│   │  [React] [Next.js] [TypeScript]                     │   │
+│   │                                                      │   │
+│   │  Backend                                             │   │
+│   │  [Node.js] [APIs REST] [PostgreSQL] [Prisma]        │   │
+│   │                                                      │   │
+│   │  DevOps & Tools                                      │   │
+│   │  [Docker] [Git]                                      │   │
+│   └─────────────────────────────────────────────────────┘   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Datos actuales
+### Estado interno
 
-**Competencias (con iconos):**
-```typescript
-const competencias = [
-  {
-    titulo: "Arquitectura de aplicaciones",
-    descripcion: "Diseño arquitecturas alineadas al contexto...",
-    icon: ArchitectureIcon,
-  },
-  {
-    titulo: "Desarrollo Frontend",
-    descripcion: "Construyo interfaces claras y mantenibles...",
-    icon: MonitorIcon,
-  },
-  {
-    titulo: "Desarrollo Backend",
-    descripcion: "Implemento lógica de negocio desacoplada...",
-    icon: ServerIcon,
-  },
-  {
-    titulo: "Datos y persistencia",
-    descripcion: "Diseño modelos relacionales consistentes...",
-    icon: DatabaseIcon,
-  },
-];
+```tsx
+const [techVisible, setTechVisible] = useState(false);
 ```
 
-**Tecnologías (agrupadas por categoría):**
-```typescript
+Controla cuándo se activa la animación escalonada del grid de tecnologías.
+
+### Animaciones
+
+El grid de tecnologías usa `IntersectionObserver` para detectar cuándo entra en pantalla:
+
+```tsx
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entry.isIntersecting) {
+        setTechVisible(true);
+        observer.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+  );
+  // ...
+}, []);
+```
+
+Cada item tiene un delay escalonado basado en su índice:
+
+```tsx
+style={{ animationDelay: techVisible ? `${itemIndex * 50}ms` : "0ms" }}
+```
+
+### Textos (i18n)
+
+| Clave | Descripción |
+|-------|-------------|
+| `t.stack.label` | Label superior ("Tecnología") |
+| `t.stack.title` | Título de la sección |
+| `t.stack.description` | Descripción del enfoque |
+| `t.stack.competenciesLabel` | Label "Áreas de competencia" |
+| `t.stack.competencies.architecture` | Card arquitectura (title + description) |
+| `t.stack.competencies.frontend` | Card frontend |
+| `t.stack.competencies.backend` | Card backend |
+| `t.stack.competencies.data` | Card datos |
+| `t.stack.mainStackLabel` | Label "Stack principal" |
+
+### Datos de tecnologías
+
+Definidos directamente en el componente:
+
+```tsx
 const techCategories = [
   {
     name: "Frontend",
@@ -361,112 +355,20 @@ const techCategories = [
 ];
 ```
 
-### Características técnicas
+### Micro-interacciones
 
-**Animaciones escalonadas con IntersectionObserver:**
-
-El componente usa un IntersectionObserver dedicado para las tecnologías, detectando cuándo el grid entra en pantalla:
-
-```tsx
-const techGridRef = useRef<HTMLDivElement>(null);
-const [techVisible, setTechVisible] = useState(false);
-
-useEffect(() => {
-  const element = techGridRef.current;
-  if (!element) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setTechVisible(true);
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-  );
-  observer.observe(element);
-  return () => observer.disconnect();
-}, []);
-```
-
-Cada tecnología aparece con 50ms de delay entre una y otra:
-
-```tsx
-{tecnologias.map((tech, index) => {
-  const IconComponent = tech.icon;
-  return (
-    <div
-      key={tech.nombre}
-      className={`tech-item flex items-center gap-3 rounded-lg px-4 py-3 ${
-        techVisible ? "tech-animate" : "opacity-0"
-      }`}
-      style={{ animationDelay: techVisible ? `${index * 50}ms` : "0ms" }}
-    >
-      <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-      <span className="tech-name text-sm font-medium text-text-primary">{tech.nombre}</span>
-    </div>
-  );
-})}
-```
-
-**Micro-interacciones con CSS puro:**
-
-Las clases `tech-item`, `tech-icon` y `tech-name` están definidas en `globals.css` con comportamiento diferenciado:
-
-- **Desktop (hover)**: El item se eleva 4px con border accent y sombra glow, el icono se colorea accent y escala 115%, el nombre se colorea accent
-- **Móvil (touch)**: El item escala al 97% con border accent, el icono se colorea accent y escala 110%
-
-```tsx
-<div className="tech-item flex items-center gap-3 rounded-lg px-4 py-3">
-  <IconComponent className="tech-icon h-5 w-5 text-text-secondary" />
-  <span className="tech-name text-sm font-medium text-text-primary">{tech.nombre}</span>
-</div>
-```
-
-**Tarjetas de competencia:**
-
-Usan las clases `competency-card` y `competency-title` para feedback visual al interactuar:
-
-```tsx
-<div className="competency-card group rounded-lg border border-border-subtle bg-surface p-6">
-  <h4 className="competency-title font-medium text-text-primary">{item.titulo}</h4>
-  <p className="mt-2 text-sm text-text-secondary">{item.descripcion}</p>
-</div>
-```
+- **Competency cards**: Clase `.competency-card`
+- **Tech items**: Clase `.tech-item` (hover eleva, tap escala)
 
 ### Cómo modificar
 
-| Cambio | Qué hacer |
+| Cambio | Ubicación |
 |--------|-----------|
-| Agregar tecnología | Añadir objeto a array `tecnologias` |
-| Cambiar descripción | Editar array `competencias` |
-| Agregar icono | Crear en `icons/index.tsx`, importar aquí |
-| Cambiar grid | Modificar clases `grid-cols-*` |
-
-**Para agregar una nueva tecnología:**
-
-1. Si el icono no existe, créalo en `components/icons/index.tsx`:
-```tsx
-export function NuevoIcon({ className = "h-5 w-5" }: IconProps) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      {/* path del SVG */}
-    </svg>
-  );
-}
-```
-
-2. Importa y agrega a la lista:
-```tsx
-import { NuevoIcon } from "@/components/icons";
-
-const tecnologias = [
-  // ... existentes
-  { nombre: "NuevoFramework", icon: NuevoIcon },
-];
-```
+| Textos | `src/i18n/es.ts` y `src/i18n/en.ts` → `stack` |
+| Añadir tecnología | Array `techCategories` + importar icono de `@/components/icons` |
+| Añadir categoría | Nuevo objeto en `techCategories` |
+| Añadir competencia | Añadir a `types.ts`, idiomas, `competencyKeys`, `competencyIcons` |
+| Iconos | `components/icons/index.tsx` |
 
 ---
 
@@ -478,44 +380,56 @@ const tecnologias = [
 
 ### Propósito
 
-Ofrece múltiples formas de contacto:
-1. **Enlaces directos**: Email, LinkedIn, GitHub
-2. **Formulario funcional**: Envía emails reales vía API Route + Resend
+Facilita el **contacto** con dos opciones:
+- Links directos (email, LinkedIn, GitHub)
+- Formulario funcional con envío real
 
 ### Estructura visual
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
+│   CONVERSEMOS                                                │
+│   Contacto                                                   │
 │                                                              │
-│   CONTACTO                   (etiqueta verde)                │
+│   Si buscas construir una solución sólida desde el inicio... │
 │                                                              │
-│   Hablemos                   (título H2)                     │
+│   ┌─────────────────────┐  ┌─────────────────────┐          │
+│   │  Contacto directo    │  │  Envíame un mensaje │          │
+│   │                      │  │                     │          │
+│   │  [📧] Email          │  │  Cuéntame brevemente│          │
+│   │  mbarra.3690@...     │  │  sobre tu proyecto. │          │
+│   │                      │  │                     │          │
+│   │  [in] LinkedIn       │  │  Nombre *           │          │
+│   │  linkedin.com/in/... │  │  [____________]     │          │
+│   │                      │  │                     │          │
+│   │  [🐙] GitHub         │  │  Email *            │          │
+│   │  github.com/...      │  │  [____________]     │          │
+│   │                      │  │                     │          │
+│   │                      │  │  Mensaje *          │          │
+│   │                      │  │  [              ]   │          │
+│   │                      │  │  [              ]   │          │
+│   │                      │  │                     │          │
+│   │                      │  │  [Enviar mensaje]   │          │
+│   │                      │  │                     │          │
+│   │                      │  │  También puedes     │          │
+│   │                      │  │  escribirme a...    │          │
+│   └─────────────────────┘  └─────────────────────┘          │
 │                                                              │
-│   Descripción                                                │
-│                                                              │
-├────────────────────────────┬────────────────────────────────┤
-│                            │                                 │
-│   Contacto Directo         │   Enviar mensaje               │
-│                            │                                 │
-│   ┌──────────────────┐     │   ┌─────────────────────────┐  │
-│   │ 📧 Email         │     │   │ Nombre: [___________]   │  │
-│   │    contacto@...  │     │   │                         │  │
-│   └──────────────────┘     │   │ Email:  [___________]   │  │
-│   ┌──────────────────┐     │   │                         │  │
-│   │ 💼 LinkedIn      │     │   │ Mensaje:                │  │
-│   │    /in/miguel    │     │   │ [___________________]   │  │
-│   └──────────────────┘     │   │ [___________________]   │  │
-│   ┌──────────────────┐     │   │                         │  │
-│   │ 🐙 GitHub        │     │   │ [Enviar mensaje]        │  │
-│   │    /miguelbarra  │     │   └─────────────────────────┘  │
-│   └──────────────────┘     │                                 │
-│                            │                                 │
-└────────────────────────────┴────────────────────────────────┘
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### Datos de contacto actuales
+### Estado interno
 
-```typescript
+```tsx
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
+const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+const [errorMessage, setErrorMessage] = useState<string>("");
+```
+
+### Datos de contacto
+
+```tsx
 const contactLinks = [
   {
     label: "Email",
@@ -541,160 +455,128 @@ const contactLinks = [
 ];
 ```
 
-**Enlaces con micro-interacciones:**
-
-Los enlaces de contacto usan clases CSS definidas en `globals.css`:
+### Flujo del formulario
 
 ```tsx
-<a href={link.href} className="contact-link group flex items-center gap-4 rounded-lg px-4 py-3">
-  <span className="contact-link-icon-wrapper flex h-10 w-10 items-center justify-center rounded-lg bg-bg-secondary">
-    <IconComponent className="contact-link-icon h-5 w-5 text-text-secondary" />
-  </span>
-  <div>
-    <span className="text-xs uppercase">{link.label}</span>
-    <span className="contact-link-value">{link.value}</span>
-  </div>
-</a>
-```
-
-- **Desktop**: Se desplaza 4px a la derecha, el icono se agranda y cambia a fondo accent
-- **Móvil**: Escala al 98% al presionar, el icono cambia a fondo accent
-
-### Estados del formulario
-
-```typescript
-type FormStatus = "idle" | "submitting" | "success" | "error";
-
-const [formStatus, setFormStatus] = useState<FormStatus>("idle");
-```
-
-| Estado | Comportamiento |
-|--------|----------------|
-| `idle` | Formulario normal, botón habilitado |
-| `submitting` | Botón deshabilitado con texto "Enviando...", campos deshabilitados |
-| `success` | Muestra mensaje verde de éxito, formulario se resetea, vuelve a idle tras 5s |
-| `error` | Muestra mensaje rojo de error |
-
-**Botón de envío con micro-interacciones:**
-
-```tsx
-<button
-  type="submit"
-  disabled={formStatus === "submitting"}
-  className="btn-primary mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
->
-  {formStatus === "submitting" ? "Enviando..." : "Enviar mensaje"}
-</button>
-```
-
-La clase `btn-primary` proporciona hover con sombra glow en desktop y feedback de escala al click en móvil.
-
-### Implementación del formulario
-
-**El formulario envía emails realmente** usando una API Route de Next.js con Resend:
-
-```typescript
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setFormStatus("submitting");
   setErrorMessage("");
 
-  const data = { nombre, email, mensaje };
+  // 1. Extrae datos del form
+  const formData = new FormData(form);
+  const data = {
+    nombre: formData.get("nombre"),
+    email: formData.get("email"),
+    mensaje: formData.get("mensaje"),
+  };
 
-  try {
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+  // 2. Envía a API
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 
-    if (!response.ok) throw new Error(result.error);
+  // 3. Maneja respuesta
+  if (!response.ok) {
+    setFormStatus("error");
+    // Auto-reset después de 5s
+  } else {
     setFormStatus("success");
     form.reset();
-    setTimeout(() => setFormStatus("idle"), 5000);
-  } catch (err) {
-    setFormStatus("error");
-    setErrorMessage(err.message);
+    // Auto-reset después de 5s
   }
 };
 ```
 
-**Backend (`app/api/contact/route.ts`):**
-- Valida campos requeridos, formato email y longitud máxima
-- Sanitiza HTML para prevenir XSS
-- Envía email vía Resend a `mbarra.dev@icloud.com`
-- Usa `replyTo` para responder al remitente original
+### Textos (i18n)
+
+| Clave | Descripción |
+|-------|-------------|
+| `t.contact.label` | Label superior ("Conversemos") |
+| `t.contact.title` | Título de la sección |
+| `t.contact.description` | Descripción introductoria |
+| `t.contact.directContactLabel` | Label "Contacto directo" |
+| `t.contact.formTitle` | Título del formulario |
+| `t.contact.formDescription` | Descripción del formulario |
+| `t.contact.form.name` | Label campo nombre |
+| `t.contact.form.namePlaceholder` | Placeholder nombre |
+| `t.contact.form.email` | Label campo email |
+| `t.contact.form.emailPlaceholder` | Placeholder email |
+| `t.contact.form.message` | Label campo mensaje |
+| `t.contact.form.messagePlaceholder` | Placeholder mensaje |
+| `t.contact.form.submit` | Texto botón enviar |
+| `t.contact.form.submitting` | Texto mientras envía |
+| `t.contact.form.success` | Mensaje de éxito |
+| `t.contact.form.error` | Mensaje de error |
+| `t.contact.alternativeContact` | Texto alternativo |
+| `t.contact.alternativeContactLink` | Texto del link alternativo |
+
+### Micro-interacciones
+
+- **Contact links**: Clase `.contact-link`
+- **Form inputs**: Clase `.form-input`
+- **Primary button**: Clase `.btn-primary`
+- **Text link**: Clase `.text-link`
 
 ### Cómo modificar
 
-| Cambio | Qué hacer |
+| Cambio | Ubicación |
 |--------|-----------|
-| Cambiar email | Editar `contactLinks[0]` |
-| Cambiar LinkedIn | Editar `contactLinks[1]` |
-| Agregar red social | Añadir objeto a `contactLinks` |
-| Cambiar campos del form | Editar los `<input>` y `<textarea>` |
+| Textos | `src/i18n/es.ts` y `src/i18n/en.ts` → `contact` |
+| Datos de contacto | Array `contactLinks` en el componente |
+| Email destino | `app/api/contact/route.ts` → campo `to` |
+| Validaciones | `app/api/contact/route.ts` |
+| Añadir campo | Form HTML + API route + tipos |
 
 ---
 
-## Resumen de IDs para navegación
+## Componentes wrapper utilizados
 
-Los IDs son importantes porque el Header y los CTAs los usan para scroll:
+### Section
 
-| Sección | ID | URL |
-|---------|-----|-----|
-| Hero | `hero` | `/#hero` |
-| About | `sobre-mi` | `/#sobre-mi` |
-| Stack | `stack` | `/#stack` |
-| Contacto | `contacto` | `/#contacto` |
+Envuelve cada sección con fondo, padding y separador:
 
-**Si cambias un ID**, actualiza también:
-- `Header.tsx` (array `sections`)
-- Los CTAs en `HeroSection.tsx`
-- Cualquier otro enlace interno
+```tsx
+<Section
+  variant="primary"    // "primary" (bg-primary) | "secondary" (bg-secondary)
+  spacing="relaxed"    // "compact" | "default" | "relaxed"
+  separator="visible"  // "subtle" | "visible" | "none"
+  id="sobre-mi"        // ID para navegación con anclas
+>
+```
+
+### Container
+
+Centra el contenido y limita su ancho a 1200px:
+
+```tsx
+<Container>
+  {/* Contenido con max-w-[1200px] */}
+</Container>
+```
+
+### AnimateOnScroll
+
+Activa animación cuando el contenido entra en viewport:
+
+```tsx
+<AnimateOnScroll className="...">
+  {/* Contenido que aparece con animación */}
+</AnimateOnScroll>
+```
 
 ---
 
-## Agregar una nueva sección
+## Uso de secciones en page.tsx
 
-Para crear una sección nueva (ej: "Proyectos"):
-
-1. **Crear el archivo**:
 ```tsx
-// components/sections/ProjectsSection.tsx
-import { Section } from "@/components/layout/Section";
-import { Container } from "@/components/layout/Container";
-import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
-
-export function ProjectsSection() {
-  return (
-    <Section variant="primary" id="proyectos">
-      <Container>
-        <AnimateOnScroll>
-          {/* Tu contenido */}
-        </AnimateOnScroll>
-      </Container>
-    </Section>
-  );
-}
-```
-
-2. **Exportar** (si usas barrel exports):
-```tsx
-// components/sections/index.ts
-export { ProjectsSection } from "./ProjectsSection";
-```
-
-3. **Agregar a la página**:
-```tsx
-// app/page.tsx
-import { ProjectsSection } from "@/components/sections/ProjectsSection";
-
 export default function Home() {
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <ProjectsSection />  {/* Nueva sección */}
       <StackSection />
       <ContactSection />
     </>
@@ -702,13 +584,4 @@ export default function Home() {
 }
 ```
 
-4. **Agregar al Header** (opcional):
-```tsx
-// components/layout/Header.tsx
-const sections = [
-  { id: "hero", label: null },
-  { id: "sobre-mi", label: "Perfil" },
-  { id: "proyectos", label: "Proyectos" },  // Nuevo
-  { id: "contacto", label: "Contacto" },
-];
-```
+El orden determina el flujo de scroll de la página.

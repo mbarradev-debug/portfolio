@@ -2,7 +2,7 @@
 
 ## Visión general
 
-Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** con **componentes de React**. La aplicación es una Single Page Application (SPA) que renderiza cuatro secciones principales en una única página.
+Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** con **componentes de React**. La aplicación es una Single Page Application (SPA) que renderiza cuatro secciones principales en una única página, con soporte para internacionalización (i18n).
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -10,8 +10,18 @@ Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** c
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐   │
+│  │               I18nClientProvider                     │   │
+│  │     (Context Provider para internacionalización)     │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                           │                                 │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │         SkipLink (accesibilidad, hidden)            │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
 │  │                     Header                           │   │
-│  │       (navegación flotante, hide/show on scroll)     │   │
+│  │  (navegación flotante, hide/show on scroll, i18n)   │   │
+│  │  [Logo] [LanguageSelector] [CV] [Contacto]          │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐   │
@@ -32,7 +42,7 @@ Este portfolio sigue una arquitectura moderna basada en **Next.js App Router** c
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │                     Footer                           │   │
-│  │              (enlaces sociales, copyright)           │   │
+│  │              (enlaces sociales, copyright, i18n)    │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
@@ -71,14 +81,14 @@ Esta es una distinción fundamental en Next.js moderno:
 ```typescript
 // Server Component (por defecto)
 // No tiene "use client" al inicio
-export function AboutSection() {
-  return <section>Contenido estático...</section>;
+export default function Section({ children }) {
+  return <section>{children}</section>;
 }
 
 // Client Component
 "use client"; // Esta línea es obligatoria
 
-export function ContactSection() {
+export default function ContactSection() {
   const [formData, setFormData] = useState({});
   return <form onSubmit={handleSubmit}>...</form>;
 }
@@ -88,15 +98,71 @@ export function ContactSection() {
 
 | Componente | Tipo | Razón |
 |------------|------|-------|
-| `Header.tsx` | Client | IntersectionObserver para sección activa + scroll hide/show |
-| `Footer.tsx` | Server | Solo contenido estático con iconos y año dinámico |
-| `HeroSection.tsx` | Client | Animaciones de entrada + navegación con `useScrollToSection` |
-| `AboutSection.tsx` | Client | Contenido expandible con estado + IntersectionObserver |
-| `StackSection.tsx` | Client | IntersectionObserver para animaciones escalonadas del grid |
-| `ContactSection.tsx` | Client | Formulario con gestión de estado y llamada a API |
+| `Header.tsx` | Client | IntersectionObserver para sección activa + scroll hide/show + i18n |
+| `Footer.tsx` | Client | Usa hook `useI18n` para traducciones |
+| `HeroSection.tsx` | Client | Animaciones de entrada + navegación con `useScrollToSection` + i18n |
+| `AboutSection.tsx` | Client | Contenido expandible con estado + IntersectionObserver + i18n |
+| `StackSection.tsx` | Client | IntersectionObserver para animaciones escalonadas + i18n |
+| `ContactSection.tsx` | Client | Formulario con gestión de estado y llamada a API + i18n |
 | `AnimateOnScroll.tsx` | Client | Wrapper de animación con IntersectionObserver |
+| `LanguageSelector.tsx` | Client | Selector de idioma con estado |
+| `SkipLink.tsx` | Client | Usa hook `useI18n` para texto traducido |
+| `I18nClientProvider.tsx` | Client | Provider del contexto de i18n |
 | `Container.tsx` | Server | Wrapper de layout sin interactividad |
 | `Section.tsx` | Server | Wrapper de layout sin interactividad |
+
+## Sistema de internacionalización (i18n)
+
+El proyecto implementa un sistema de i18n propio ubicado en `/src/i18n/`:
+
+```
+src/i18n/
+├── index.tsx    # Provider, hook useI18n, lógica de detección
+├── types.ts     # Tipos TypeScript para traducciones
+├── es.ts        # Traducciones en español
+└── en.ts        # Traducciones en inglés
+```
+
+### Arquitectura del sistema i18n
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    I18nProvider                              │
+│  (useSyncExternalStore para estado reactivo sin flicker)    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  1. Detecta idioma:                                         │
+│     - localStorage (preferencia guardada)                   │
+│     - navigator.language (idioma del navegador)             │
+│     - Fallback: español                                     │
+│                                                             │
+│  2. Provee contexto:                                        │
+│     - locale: "es" | "en"                                   │
+│     - t: objeto con todas las traducciones                  │
+│     - setLocale: función para cambiar idioma                │
+│                                                             │
+│  3. Actualiza:                                              │
+│     - document.documentElement.lang                         │
+│     - localStorage al cambiar idioma                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Uso en componentes
+
+```tsx
+"use client";
+
+import { useI18n } from "@/i18n";
+
+export default function HeroSection() {
+  const { t } = useI18n();
+
+  return (
+    <h1>{t.hero.headline}</h1>  // "Del problema al producto." o "From problem to product."
+  );
+}
+```
 
 ## Flujo de datos
 
@@ -124,6 +190,8 @@ export function ContactSection() {
 │  • Recibe HTML      │
 │  • Hidrata Client   │
 │    Components       │
+│  • I18nProvider     │
+│    detecta idioma   │
 │  • Activa eventos   │
 └─────────────────────┘
          │
@@ -134,6 +202,7 @@ export function ContactSection() {
 │  • Scroll suave     │
 │  • Animaciones      │
 │  • Formulario       │
+│  • Cambio de idioma │
 └─────────────────────┘
 ```
 
@@ -149,26 +218,40 @@ Contiene todos los componentes visuales, organizados por tipo:
 
 ```
 components/
-├── layout/     → Estructura de la página
-├── sections/   → Contenido principal
-├── ui/         → Componentes reutilizables
-└── icons/      → Iconos SVG
+├── layout/      → Estructura de la página (Header, Footer, Container, Section)
+├── sections/    → Contenido principal (Hero, About, Stack, Contact)
+├── ui/          → Componentes reutilizables (AnimateOnScroll, LanguageSelector, SkipLink)
+├── providers/   → Context providers (I18nClientProvider)
+└── icons/       → Iconos SVG como componentes
 ```
 
-### 2. Capa de Lógica (`/hooks`)
+### 2. Capa de Internacionalización (`/src/i18n`)
+
+Sistema de traducciones centralizado:
+
+```
+src/i18n/
+├── index.tsx    # I18nProvider + useI18n hook
+├── types.ts     # Interface Translations con estructura tipada
+├── es.ts        # Textos en español
+└── en.ts        # Textos en inglés
+```
+
+### 3. Capa de Lógica (`/hooks`)
 
 Contiene la lógica reutilizable separada de los componentes:
 
 ```
 hooks/
-└── useScrollToSection.ts  → Lógica de navegación
+└── useScrollToSection.ts  → Lógica de navegación suave + animación pulse
 ```
 
-### 3. Capa de Estilos (`/app/globals.css`)
+### 4. Capa de Estilos (`/app/globals.css` y `/app/animations.css`)
 
 Define el sistema de diseño centralizado y las micro-interacciones:
 
 ```css
+/* globals.css */
 @theme inline {
   /* Background */
   --color-bg-primary: #0F1115;
@@ -191,38 +274,37 @@ Define el sistema de diseño centralizado y las micro-interacciones:
   /* Font */
   --font-sans: var(--font-inter), "Inter", sans-serif;
 
-  /* Animation tokens */
+  /* Animation Timing */
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 120ms;
   --duration-base: 150ms;
   --duration-slow: 180ms;
+  --duration-emphasis: 250ms;
+  --duration-reveal: 400ms;
 }
 
-/* Viewport height fix para móviles */
-.min-h-svh-safe { min-height: 100svh; }
-.h-svh-safe { height: 100svh; }
-
-/* Animación personalizada */
-@keyframes pulse-glow { ... }
-
 /* Sistemas de micro-interacciones */
-.tech-item { ... }       /* Items de tecnología */
-.competency-card { ... } /* Tarjetas de competencia */
-.contact-link { ... }    /* Enlaces de contacto */
-.btn-primary { ... }     /* Botones principales */
-.btn-secondary { ... }   /* Botones secundarios */
-.footer-link { ... }     /* Enlaces del footer */
-.nav-logo { ... }        /* Logo del header */
-.nav-cv-link { ... }     /* Link de descarga CV */
-.nav-contact-btn { ... } /* Botón de contacto del header */
-.form-input { ... }      /* Inputs del formulario */
-.text-link { ... }       /* Enlaces inline de texto */
+.tech-item { ... }        /* Items de tecnología */
+.competency-card { ... }  /* Tarjetas de competencia */
+.approach-card { ... }    /* Tarjetas de enfoque */
+.contact-link { ... }     /* Enlaces de contacto */
+.btn-primary { ... }      /* Botones principales */
+.btn-secondary { ... }    /* Botones secundarios */
+.footer-link { ... }      /* Enlaces del footer */
+.nav-logo { ... }         /* Logo del header */
+.nav-cv-link { ... }      /* Link de descarga CV */
+.nav-contact-btn { ... }  /* Botón de contacto del header */
+.form-input { ... }       /* Inputs del formulario */
+.text-link { ... }        /* Enlaces inline de texto */
+.badge-shimmer { ... }    /* Efecto shimmer en badges */
+.btn-primary-pulse { ... }/* Pulso de atención en CTAs */
+.scroll-breathe { ... }   /* Efecto respiración scroll indicator */
 ```
 
 Las micro-interacciones usan media queries para diferenciar entre desktop (`@media (hover: hover) and (pointer: fine)`) y móvil (`@media (hover: none), (pointer: coarse)`).
 
-### 4. Capa de Backend (`/app/api`)
+### 5. Capa de Backend (`/app/api`)
 
 API Routes de Next.js para lógica del servidor:
 
@@ -232,14 +314,14 @@ app/api/
     └── route.ts  → POST /api/contact (envío de emails con Resend)
 ```
 
-### 5. Capa de Configuración (raíz)
+### 6. Capa de Configuración (raíz)
 
 Archivos de configuración del proyecto:
 
 ```
 /
 ├── next.config.ts      → Configuración de Next.js
-├── tsconfig.json       → Configuración de TypeScript
+├── tsconfig.json       → Configuración de TypeScript (incluye alias @/i18n)
 ├── postcss.config.mjs  → Configuración de PostCSS/Tailwind
 └── package.json        → Dependencias y scripts
 ```
@@ -250,13 +332,14 @@ Los componentes se componen jerárquicamente como muñecas rusas:
 
 ```tsx
 // layout.tsx
-<html>
+<html lang="es">
   <body>
-    <Header />
-    <main>
-      {children}  {/* ← Aquí entra page.tsx */}
-    </main>
-    <Footer />
+    <I18nClientProvider>
+      <SkipLink />
+      <Header />
+      <main id="main-content">{children}</main>
+      <Footer />
+    </I18nClientProvider>
   </body>
 </html>
 
@@ -282,6 +365,7 @@ Este patrón permite:
 - **Consistencia**: todas las secciones tienen el mismo padding y max-width
 - **Flexibilidad**: cada sección puede variar su fondo (`variant`), espaciado (`spacing`) y separador (`separator`)
 - **Reutilización**: `Container` y `Section` se usan en todas partes
+- **Internacionalización**: el Provider envuelve toda la app, todos los componentes acceden a traducciones
 
 ## Interactividad y estado
 
@@ -291,10 +375,26 @@ Cada componente maneja su propio estado cuando es necesario:
 
 ```tsx
 // Header.tsx
-const [activeSection, setActiveSection] = useState<string>("hero");
+const [activeSection, setActiveSection] = useState("hero");
+const [isVisible, setIsVisible] = useState(true);
 
 // ContactSection.tsx
 const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+
+// AboutSection.tsx
+const [isExpanded, setIsExpanded] = useState(false);
+```
+
+### Estado global con Context (i18n)
+
+El idioma se maneja globalmente mediante Context:
+
+```tsx
+// I18nProvider usa useSyncExternalStore para evitar hydration mismatch
+const locale = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+// Cualquier componente puede acceder
+const { locale, t, setLocale } = useI18n();
 ```
 
 ### Detección de scroll con IntersectionObserver
@@ -329,33 +429,38 @@ El proyecto implementa feedback visual mediante clases CSS definidas en `globals
 /* Desktop: hover */
 @media (hover: hover) and (pointer: fine) {
   .tech-item:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     background-color: var(--color-bg-primary);
     border-color: var(--color-accent);
     box-shadow:
-      0 4px 12px rgba(63, 191, 154, 0.2),
-      0 0 0 1px rgba(63, 191, 154, 0.1);
+      0 12px 24px rgba(63, 191, 154, 0.15),
+      0 0 0 1px rgba(63, 191, 154, 0.2);
   }
 
   .tech-item:hover .tech-icon {
     color: var(--color-accent);
-    transform: scale(1.15);
+    transform: scale(1.2);
   }
 }
 
 /* Móvil: tap feedback */
 @media (hover: none), (pointer: coarse) {
   .tech-item:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
     background-color: var(--color-bg-primary);
     border-color: var(--color-accent);
   }
 }
 ```
 
-**Easing temporal del proyecto (definido como variables CSS):**
-- `--ease-snappy`: `cubic-bezier(0.2, 0, 0, 1)` — Para transforms (120-180ms)
-- `--ease-smooth`: `cubic-bezier(0.4, 0, 0.2, 1)` — Para colores/fondos (150ms)
+**Tokens de animación del proyecto (variables CSS):**
+- `--ease-snappy`: `cubic-bezier(0.2, 0, 0, 1)` — Para transforms
+- `--ease-smooth`: `cubic-bezier(0.4, 0, 0.2, 1)` — Para colores/fondos
+- `--duration-fast`: 120ms — Nav, botones
+- `--duration-base`: 150ms — Interacciones estándar
+- `--duration-slow`: 180ms — Movimientos
+- `--duration-emphasis`: 250ms — Transforms importantes
+- `--duration-reveal`: 400ms — Animaciones de entrada
 
 Este enfoque evita el problema de "sticky hover" en dispositivos táctiles y proporciona feedback apropiado para cada tipo de interacción.
 
@@ -368,11 +473,12 @@ Next.js optimiza automáticamente las imágenes con el componente `Image`:
 ```tsx
 <Image
   src="/images/miguelb-logo.png"
-  alt="Miguel Barra"
+  alt={t.hero.imageAlt}
   width={480}
   height={480}
-  sizes="(max-width: 640px) 288px, 448px"
+  sizes="(max-width: 640px) 112px, (max-width: 768px) 176px, (max-width: 1024px) 288px, 448px"
   priority  // Carga inmediatamente (above the fold)
+  fetchPriority="high"
 />
 ```
 
@@ -383,7 +489,9 @@ La fuente Inter se carga de forma optimizada:
 ```tsx
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter",  // Variable CSS para usar en Tailwind
+  variable: "--font-inter",
+  display: "swap",
+  preload: true,
 });
 ```
 
@@ -391,10 +499,20 @@ const inter = Inter({
 
 Next.js divide automáticamente el código. Cada página solo carga el JavaScript que necesita.
 
+### Accesibilidad
+
+- **prefers-reduced-motion**: Respeta preferencias del usuario, desactiva animaciones si lo solicita
+- **Minimum touch targets**: En dispositivos touch, botones tienen min 44px (WCAG)
+- **Skip link**: Permite saltar al contenido principal
+- **Focus visible**: Outline verde en elementos interactivos
+
 ## Diagrama de dependencias
 
 ```
                     layout.tsx
+                         │
+                         ▼
+                 I18nClientProvider
                          │
            ┌─────────────┼─────────────┐
            │             │             │
@@ -422,6 +540,9 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
                       │
                       ▼
                    icons/
+                      │
+                      ▼
+                  src/i18n/
 ```
 
 ## Resumen de la arquitectura
@@ -430,12 +551,14 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
 |---------|----------|
 | Framework | Next.js 16.1.1 App Router |
 | Renderizado | Server Components por defecto, Client solo con interactividad |
-| Estado | Local con `useState` (sin Redux/Context global) |
+| Estado local | `useState` (formularios, animaciones, UI) |
+| Estado global | Context API (i18n via `useSyncExternalStore`) |
 | Backend | API Routes de Next.js + Resend para emails |
 | Estilos | Tailwind CSS v4 con variables CSS (`@theme inline`) |
 | Animaciones de entrada | CSS puro (`animations.css`) + IntersectionObserver |
 | Micro-interacciones | CSS puro en globals.css con media queries (hover/touch) |
 | Tipado | TypeScript 5 con modo estricto (`strict: true`) |
-| Organización | Por tipo de componente (layout, sections, ui, icons) |
+| Organización | Por tipo de componente (layout, sections, ui, providers, icons) |
 | Fuente | Inter via `next/font/google` |
 | Imágenes | Optimizadas con componente `Image` de Next.js |
+| i18n | Sistema propio con Context + localStorage + detección de idioma |

@@ -22,7 +22,7 @@ Next.js es un framework de React creado por Vercel. Agrega funcionalidades que R
 | **Performance** | Las imágenes se optimizan automáticamente. Las fuentes cargan sin "flash". El código se divide automáticamente. |
 | **Developer Experience** | Hot reload rápido, TypeScript integrado, rutas automáticas. |
 | **Deployment** | Se despliega fácilmente en Vercel (gratis para proyectos personales). |
-| **Estándar de la industria** | Es el framework de React más usado en 2025. Demuestra conocimiento actualizado. |
+| **Estándar de la industria** | Es el framework de React más usado. Demuestra conocimiento actualizado. |
 
 ### Alternativas consideradas
 
@@ -50,491 +50,332 @@ Next.js tiene dos sistemas de rutas:
 
 ### ¿Por qué App Router?
 
-1. **Es el futuro**: Vercel recomienda App Router para nuevos proyectos
-2. **Server Components**: Menos JavaScript enviado al navegador = más rápido
-3. **Layouts anidados**: Más fácil compartir estructura entre páginas
-4. **Mejor organización**: Archivos especiales (`layout.tsx`, `loading.tsx`, `error.tsx`)
-
-### ¿Cuándo usar Pages Router?
-
-Solo si necesitas compatibilidad con librerías antiguas que no soportan Server Components.
+1. **Es el futuro de Next.js** — El Pages Router está en modo mantenimiento
+2. **Server Components** — Menos JavaScript al cliente = más rápido
+3. **Mejor DX** — Layouts anidados, loading states, error boundaries
+4. **Colocation** — CSS, componentes y API en la misma carpeta
 
 ---
 
-## TypeScript estricto
+## Internacionalización: Sistema propio vs librería
 
-### ¿Por qué TypeScript?
+### ¿Por qué un sistema i18n propio?
 
-```typescript
-// Sin TypeScript: el error aparece cuando el usuario usa la app
-function greet(name) {
-  return "Hello " + name.toUpperCase();
-}
-greet(123); // Runtime error!
+| Razón | Explicación |
+|-------|-------------|
+| **Simplicidad** | Solo necesitamos 2 idiomas y ~100 strings. Una librería sería overkill. |
+| **Bundle size** | Cero dependencias adicionales. Librerías como next-intl agregan ~15KB. |
+| **Control total** | Sabemos exactamente cómo funciona, fácil de depurar. |
+| **Aprendizaje** | Demuestra comprensión de React Context, hooks y patrones de estado. |
 
-// Con TypeScript: el error aparece al escribir código
-function greet(name: string) {
-  return "Hello " + name.toUpperCase();
-}
-greet(123); // ❌ Compile error: Argument of type 'number'...
+### Alternativas consideradas
+
+| Alternativa | Por qué no se eligió |
+|-------------|----------------------|
+| **next-intl** | Buena opción, pero agrega complejidad para 2 idiomas. |
+| **react-i18next** | Muy potente pero diseñado para apps grandes con muchos idiomas. |
+| **Hardcoded strings** | Difícil de mantener, imposible de escalar. |
+
+### Cómo funciona nuestro sistema
+
 ```
-
-**Beneficios:**
-- Detecta errores antes de ejecutar
-- Autocompletado inteligente en el editor
-- Documentación implícita (ves los tipos de las props)
-- Refactoring seguro (el compilador avisa si rompes algo)
-
-### ¿Por qué modo estricto (`strict: true`)?
-
-El modo estricto activa todas las verificaciones de TypeScript:
-- `strictNullChecks`: Obliga a manejar `null` y `undefined`
-- `noImplicitAny`: Prohíbe `any` implícito
-- `strictFunctionTypes`: Tipos de funciones más precisos
-
-```typescript
-// Sin strict: este código compila pero falla
-function process(data) {  // data es 'any' implícito
-  return data.length;
-}
-process(null);  // Runtime error!
-
-// Con strict: el error se detecta al compilar
-function process(data: string | null) {
-  if (data === null) return 0;  // Obligado a manejar null
-  return data.length;
-}
+1. I18nProvider detecta idioma (localStorage → navigator.language → fallback)
+2. Provee contexto con: locale, t (traducciones), setLocale
+3. useSyncExternalStore evita hydration mismatch
+4. Componentes acceden via useI18n()
 ```
 
 ---
 
-## Tailwind CSS v4
-
-### ¿Qué es Tailwind?
-
-Tailwind es un framework de CSS "utility-first". En lugar de escribir CSS en archivos separados, usas clases directamente en el HTML:
-
-```html
-<!-- CSS tradicional -->
-<button class="btn-primary">Click</button>
-
-<style>
-.btn-primary {
-  background-color: #3B82F6;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-}
-.btn-primary:hover {
-  background-color: #2563EB;
-}
-</style>
-
-<!-- Tailwind -->
-<button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  Click
-</button>
-```
+## Estilos: Tailwind CSS v4
 
 ### ¿Por qué Tailwind?
 
 | Razón | Explicación |
 |-------|-------------|
-| **Velocidad de desarrollo** | No cambias entre archivos. El estilo está donde lo ves. |
-| **CSS mínimo** | Solo incluye las clases que usas. Bundle muy pequeño. |
-| **Consistencia** | Sistema de espaciado, colores y breakpoints predefinido. |
-| **Responsive fácil** | `sm:`, `md:`, `lg:` en lugar de media queries. |
-| **Estándar de la industria** | Muy usado en empresas tech modernas. |
+| **Velocidad** | Estilos directamente en el componente, sin cambiar de archivo. |
+| **Consistencia** | El sistema de espaciado, colores y tipografía es predefinido. |
+| **Purge automático** | Solo el CSS usado termina en producción. |
+| **Responsive** | Prefijos como `sm:`, `md:`, `lg:` hacen el responsive trivial. |
+| **Dark mode** | Aunque no lo usamos, sería trivial implementar. |
+
+### ¿Por qué v4 específicamente?
+
+Tailwind v4 introduce:
+- **@theme inline** — Variables CSS declaradas directamente en el archivo
+- **Mejor tree-shaking** — Bundle aún más pequeño
+- **CSS-first config** — No más `tailwind.config.js` para personalización básica
 
 ### Alternativas consideradas
 
 | Alternativa | Por qué no se eligió |
 |-------------|----------------------|
-| **CSS Modules** | Más verboso, requiere cambiar de archivos constantemente. |
-| **Styled Components** | Aumenta el bundle, mezcla estilos con lógica. |
-| **Sass/SCSS** | Más mantenimiento, no tiene sistema de diseño integrado. |
-| **CSS puro** | Difícil mantener consistencia, más código. |
-
-### ¿Por qué v4 en lugar de v3?
-
-Tailwind v4 (2025) tiene mejoras importantes:
-- Configuración en CSS (`@theme`) en lugar de JavaScript
-- Mejor compatibilidad con App Router de Next.js
-- Mejor rendimiento de compilación
-- Sintaxis más limpia
+| **CSS Modules** | Más verboso, requiere archivos separados. |
+| **Styled Components** | Runtime overhead, CSS-in-JS tiene problemas con SSR. |
+| **SASS/SCSS** | Más poder pero también más complejidad. |
+| **CSS vanilla** | Difícil mantener consistencia en proyectos grandes. |
 
 ---
 
-## Tema oscuro por defecto
+## Animaciones: CSS puro vs librerías
 
-### ¿Por qué dark mode?
+### ¿Por qué CSS puro?
 
-1. **Tendencia actual**: La mayoría de apps modernas tienen dark mode (GitHub, VS Code, Discord, etc.)
-2. **Reduce fatiga visual**: Mejor para sesiones largas de lectura
-3. **Aspecto profesional**: Se asocia con tecnología y modernidad
-4. **Ahorra batería**: En pantallas OLED, el negro consume menos energía
-
-### ¿Por qué no incluir toggle light/dark?
-
-Decisión de simplificación:
-- Un portfolio personal no necesita la complejidad de dos temas
-- Mantener un solo tema asegura que los colores se vean como fueron diseñados
-- Menos código = menos bugs
-
-**Si en el futuro se quisiera agregar toggle:**
-1. Crear CSS variables para ambos temas
-2. Agregar Context Provider para el tema
-3. Persistir preferencia en localStorage
-4. Usar `prefers-color-scheme` media query para detectar preferencia del sistema
-
----
-
-## Animaciones con CSS puro
-
-### ¿Por qué CSS puro en lugar de librerías?
-
-Se eligió implementar todas las animaciones con CSS puro (keyframes + clases):
-
-1. **Control total**: Las animaciones están definidas exactamente como se necesitan
-2. **Sin dependencias**: No se agrega peso al bundle ni complejidad al proyecto
-3. **Compatibilidad**: Funciona con Tailwind v4 sin problemas de configuración
-4. **Performance**: Las animaciones CSS corren en el compositor thread
-
-### ¿Cómo se organizan las animaciones?
-
-Las animaciones están en dos archivos:
-
-**`animations.css`** - Animaciones de entrada:
-```tsx
-// Hero con stagger
-<h1 className="hero-animate hero-fade-up hero-delay-1">Miguel Barra</h1>
-
-// Scroll-triggered
-<div className={isVisible ? "scroll-animate" : "opacity-0"}>Contenido</div>
-
-// Tech items con delay dinámico
-<div className="tech-animate" style={{ animationDelay: `${index * 50}ms` }}>
-```
-
-**`globals.css`** - Micro-interacciones y animaciones de UI:
-- `shimmer` - Efecto brillante en el badge del Hero
-- `cta-pulse` - Pulso de atención en CTAs
-- `breathe` - Efecto de respiración en scroll indicator
-- `pulse-glow` - Resaltado al navegar a secciones
-
-### ¿Por qué IntersectionObserver para trigger?
-
-```typescript
-// ❌ Listener de scroll (malo para performance)
-window.addEventListener('scroll', () => {
-  // Se ejecuta cientos de veces por segundo
-  // Bloquea el main thread
-});
-
-// ✅ IntersectionObserver (eficiente)
-const observer = new IntersectionObserver(callback, options);
-// Solo se ejecuta cuando el elemento entra/sale del viewport
-// No bloquea el main thread
-```
-
-**Ventajas de IntersectionObserver:**
-- API nativa del navegador (no requiere librería)
-- Altamente optimizado
-- No causa "jank" (saltos) en el scroll
-- Soporte universal en navegadores modernos
-
----
-
-## Micro-interacciones: CSS puro vs JavaScript
-
-### ¿Qué son las micro-interacciones?
-
-Son pequeñas animaciones que proporcionan feedback visual cuando el usuario interactúa con elementos: hover en botones, click en tarjetas, tap en móviles, etc.
-
-### ¿Por qué CSS puro en lugar de JavaScript o clases Tailwind inline?
-
-Se tomó la decisión de implementar todas las micro-interacciones en CSS (`globals.css`) con clases semánticas en lugar de usar Tailwind classes inline o JavaScript.
-
-**Razones:**
-
-1. **Separación hover/touch**: CSS permite usar media queries específicas para cada tipo de dispositivo:
-   ```css
-   @media (hover: hover) and (pointer: fine) { /* Desktop con mouse */ }
-   @media (hover: none), (pointer: coarse) { /* Móvil/touch */ }
-   ```
-
-2. **Evita "sticky hover" en móviles**: Cuando usas `:hover` en elementos táctiles, el estado hover puede "quedarse pegado" después del tap. Con media queries, el hover solo aplica en desktop.
-
-3. **Performance**: Las transiciones CSS están optimizadas por el navegador y corren en el compositor thread, sin bloquear el main thread.
-
-4. **Consistencia**: Todas las transiciones usan la misma duración (120ms) y easing (`ease-out` o `cubic-bezier`).
-
-5. **Mantenibilidad**: Un solo archivo (`globals.css`) contiene todas las interacciones, facilitando ajustes globales.
-
-6. **Accesibilidad**: Se usa `-webkit-tap-highlight-color: transparent` para eliminar el highlight azul de iOS y proporcionar feedback visual controlado.
-
-### Clases de micro-interacciones definidas
-
-| Clase | Elemento | Desktop (hover) | Móvil (active) |
-|-------|----------|-----------------|----------------|
-| `.tech-item` | Items de tecnología | translateY(-4px), border accent, sombra glow | scale(0.97), border accent |
-| `.tech-icon` | Icono en tech-item | color accent, scale(1.15) | color accent, scale(1.1) |
-| `.tech-name` | Nombre de tecnología | color accent | color accent |
-| `.competency-card` | Tarjetas de competencia | border accent, translateY(-2px), box-shadow | border accent, scale(0.98) |
-| `.competency-title` | Título de competencia | color accent | color accent |
-| `.contact-link` | Enlaces de contacto | translateX(4px), fondo bg-primary | scale(0.98), fondo bg-primary |
-| `.contact-link-icon-wrapper` | Contenedor del icono | scale(1.1), fondo accent, sombra | fondo accent |
-| `.contact-link-icon` | Icono de contacto | color bg-primary | color bg-primary |
-| `.contact-link-value` | Valor del enlace | color accent | color accent |
-| `.btn-primary` | Botones principales | fondo accent-hover, sombra glow | scale(0.97) |
-| `.btn-secondary` | Botones secundarios | border accent, fondo bg-primary | scale(0.97), border accent |
-| `.footer-link` | Enlaces del footer | fondo surface, color text-primary | scale(0.97), fondo surface |
-| `.footer-link-icon` | Icono del footer | color accent, scale(1.15) | color accent, scale(1.1) |
-| `.nav-logo` | Logo del header | color accent | scale(0.95), color accent |
-| `.nav-cv-link` | Link descarga CV | color bg-primary | scale(0.95) |
-| `.nav-contact-btn` | Botón contacto header | box-shadow glow | scale(0.95) |
-| `.form-input` | Inputs del formulario | border accent, fondo bg-primary, ring glow | — |
-| `.text-link` | Enlaces inline | color accent-hover, underline visible | color accent-hover |
-
-### ¿Por qué no Framer Motion u otra librería?
-
-| Framer Motion | CSS puro (elegido) |
-|---------------|-------------------|
-| Animaciones complejas/físicas | Transiciones simples |
-| Control imperativo (JavaScript) | Declarativo (CSS) |
-| ~35KB bundle adicional | 0KB adicionales |
-| Requiere Client Component | Funciona en cualquier contexto |
-| Curva de aprendizaje | Conocimiento CSS estándar |
-
-Para micro-interacciones simples (hover, active, focus), CSS puro es suficiente, más eficiente, y no agrega peso al bundle.
-
----
-
-## Componentes: organización por tipo
-
-### ¿Cómo se organizaron los componentes?
-
-```
-components/
-├── layout/     → Estructura de página (Header, Footer, Container, Section)
-├── sections/   → Secciones del portfolio (Hero, About, Stack, CV, Contact)
-├── ui/         → Componentes reutilizables genéricos (AnimateOnScroll)
-└── icons/      → Iconos SVG como componentes
-```
-
-### ¿Por qué esta organización?
-
-| Principio | Aplicación |
-|-----------|------------|
-| **Separación de responsabilidades** | Cada carpeta tiene un propósito claro |
-| **Fácil de encontrar** | ¿Buscas el header? → `layout/Header.tsx` |
-| **Escalable** | Agregar componentes no desordena la estructura |
-| **Evita carpetas anidadas** | Máximo 2 niveles de profundidad |
+| Razón | Explicación |
+|-------|-------------|
+| **Zero runtime** | No hay JavaScript ejecutándose para animar. Mejor performance. |
+| **GPU accelerated** | `transform` y `opacity` se aceleran por hardware. |
+| **Simpler** | No hay que aprender otra API (Framer Motion, GSAP). |
+| **Control** | Podemos ajustar cada detalle sin limitaciones de librería. |
 
 ### Alternativas consideradas
 
 | Alternativa | Por qué no se eligió |
 |-------------|----------------------|
-| **Por feature** (`/hero/HeroSection.tsx`, `/hero/HeroButton.tsx`) | Excesivo para un proyecto pequeño |
-| **Plano** (todo en `/components`) | Se vuelve caótico con más de 10 archivos |
-| **Atomic Design** (`atoms/`, `molecules/`, `organisms/`) | Demasiado formal para este caso |
+| **Framer Motion** | Excelente pero agrega ~50KB al bundle. Overkill para animaciones simples. |
+| **GSAP** | Muy potente pero pesado y con licencia comercial para algunas features. |
+| **React Spring** | Bueno para animaciones basadas en física, no necesario aquí. |
+| **Animate.css** | Clases predefinidas, menos control sobre timing y easing. |
 
----
+### Estructura de animaciones
 
-## Server Components vs Client Components
+```css
+/* animations.css - Animaciones de entrada */
+.hero-fade-up { animation: fadeInUp 800ms var(--ease-snappy) forwards; }
 
-### Estrategia elegida
-
-**Server Components por defecto**, Client solo cuando es necesario:
-
-| Componente | Tipo | Razón |
-|------------|------|-------|
-| `Header` | Client | Usa IntersectionObserver |
-| `Footer` | Server | Solo contenido estático |
-| `Container` | Server | Solo wrapper de layout |
-| `Section` | Server | Solo wrapper de layout |
-| `HeroSection` | Client | Animaciones de entrada + navegación con scroll |
-| `AboutSection` | Client | Contenido expandible con estado + animaciones |
-| `StackSection` | Client | Animaciones on-scroll |
-| `ContactSection` | Client | Formulario interactivo |
-| `AnimateOnScroll` | Client | Usa IntersectionObserver |
-
-### ¿Por qué esta estrategia?
-
-1. **Menos JavaScript**: Los Server Components no envían JS al navegador
-2. **Carga más rápida**: El HTML llega pre-renderizado
-3. **Mejor SEO**: El contenido ya está en el HTML inicial
-4. **Client solo donde hay interactividad**: Formularios, animaciones con estado, scroll tracking
-
----
-
-## Fuente: Inter
-
-### ¿Por qué Inter?
-
-| Característica | Beneficio |
-|----------------|-----------|
-| **Diseñada para UI** | Optimizada para pantallas, no para impresión |
-| **Altamente legible** | Clara en todos los tamaños (12px a 72px) |
-| **Amplio set de caracteres** | Soporta latín, cirílico, griego, etc. |
-| **Variable font** | Un solo archivo para todos los pesos |
-| **Open source** | Gratis, sin restricciones de licencia |
-| **Popular** | Usada por GitHub, Figma, Linear, Vercel |
-
-### Carga optimizada con next/font
-
-```typescript
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+/* globals.css - Micro-interacciones */
+.tech-item:hover { transform: translateY(-6px); }
 ```
 
-**Beneficios de `next/font`:**
-- La fuente se descarga en build time
-- Se sirve desde el mismo dominio (sin request a Google Fonts)
-- No hay "flash" de fuente alternativa (FOUT)
-- Se aplica automáticamente `font-display: swap`
+---
+
+## Micro-interacciones: hover vs touch diferenciado
+
+### ¿Por qué diferenciar?
+
+En dispositivos táctiles, `:hover` tiene un problema llamado "sticky hover": el estado hover persiste después de tocar. Esto crea una mala experiencia.
+
+### Solución implementada
+
+```css
+/* Desktop: hover con elevación */
+@media (hover: hover) and (pointer: fine) {
+  .tech-item:hover {
+    transform: translateY(-6px);
+  }
+}
+
+/* Móvil: tap con escala */
+@media (hover: none), (pointer: coarse) {
+  .tech-item:active {
+    transform: scale(0.96);
+  }
+}
+```
+
+### Media queries utilizadas
+
+| Query | Detecta |
+|-------|---------|
+| `hover: hover` | Dispositivo puede hacer hover (mouse) |
+| `pointer: fine` | Puntero preciso (mouse, no dedo) |
+| `hover: none` | No puede hacer hover (touch) |
+| `pointer: coarse` | Puntero impreciso (dedo) |
 
 ---
 
-## Formulario de contacto funcional
+## Tokens de animación
 
-### Estado actual
+### ¿Por qué variables CSS?
 
-El formulario de contacto **envía emails realmente** usando una API Route de Next.js con Resend:
+| Razón | Explicación |
+|-------|-------------|
+| **Consistencia** | Todos los componentes usan el mismo timing. |
+| **Mantenibilidad** | Cambiar un valor afecta todo el sitio. |
+| **Documentación implícita** | Los nombres explican el uso: `--duration-fast`, `--ease-snappy`. |
 
-```typescript
-// components/sections/ContactSection.tsx
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setFormStatus("submitting");
+### Tokens definidos
 
-  const response = await fetch("/api/contact", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+```css
+/* Curvas de easing */
+--ease-snappy: cubic-bezier(0.2, 0, 0, 1);   /* Transforms */
+--ease-smooth: cubic-bezier(0.4, 0, 0.2, 1); /* Colores */
 
-  if (!response.ok) throw new Error(result.error);
-  setFormStatus("success");
-};
+/* Duraciones */
+--duration-fast: 120ms;       /* Navegación */
+--duration-base: 150ms;       /* Interacciones */
+--duration-slow: 180ms;       /* Movimientos */
+--duration-emphasis: 250ms;   /* Énfasis */
+--duration-reveal: 400ms;     /* Entrada */
 ```
 
-### Implementación elegida: Next.js API Route + Resend
+---
 
-| Característica | Detalles |
-|----------------|----------|
-| **Servicio** | Resend (3000 emails/mes gratis) |
-| **Endpoint** | `POST /api/contact` en `app/api/contact/route.ts` |
-| **Validación** | Server-side: campos requeridos, formato email, longitud máxima |
-| **Seguridad** | Sanitización HTML para prevenir XSS en el cuerpo del email |
-| **Manejo de errores** | Estados diferenciados: success, error con mensaje específico |
+## Formulario: Resend vs alternativas
 
 ### ¿Por qué Resend?
 
 | Razón | Explicación |
 |-------|-------------|
-| **Integración nativa** | Diseñado para Next.js y frameworks modernos |
-| **API simple** | Un solo método `resend.emails.send()` |
-| **Plan gratuito** | 3000 emails/mes sin costo |
-| **Deliverability** | Emails no van a spam |
-| **Developer experience** | SDK con TypeScript, logs claros |
+| **API simple** | Una sola función para enviar emails. |
+| **Tier gratuito** | 100 emails/día gratis, suficiente para un portfolio. |
+| **Sin servidor propio** | No necesitamos configurar SMTP. |
+| **Buena deliverability** | Los emails llegan, no van a spam. |
 
 ### Alternativas consideradas
 
 | Alternativa | Por qué no se eligió |
 |-------------|----------------------|
-| **SendGrid** | Interfaz más compleja, setup más extenso |
-| **Formspree** | Menos control, branding en plan gratis |
-| **Nodemailer** | Requiere servidor SMTP propio |
-| **EmailJS** | Depende de cliente, menos seguro |
+| **EmailJS** | Funciona desde el frontend, pero expone credenciales. |
+| **SendGrid** | Más complejo de configurar para un caso simple. |
+| **Formspree** | Servicio de terceros, menos control. |
+| **SMTP propio** | Requiere servidor, configuración compleja. |
 
 ---
 
-## Accesibilidad (a11y)
+## Organización de componentes
 
-### Decisiones tomadas
+### ¿Por qué organizar por tipo?
 
-| Decisión | Implementación |
-|----------|----------------|
-| **Skip link** | "Saltar al contenido principal" visible en focus |
-| **Idioma declarado** | `<html lang="es">` |
+```
+components/
+├── layout/     → Estructura (Header, Footer, Container)
+├── sections/   → Contenido (Hero, About, Stack, Contact)
+├── ui/         → Reutilizables (AnimateOnScroll, LanguageSelector)
+├── providers/  → Context providers (I18nClientProvider)
+└── icons/      → Iconos SVG
+```
+
+| Razón | Explicación |
+|-------|-------------|
+| **Predecible** | Sabes dónde buscar cada cosa. |
+| **Escalable** | Agregar componentes no genera confusión. |
+| **Separation of concerns** | Cada carpeta tiene un propósito claro. |
+
+### Alternativa: organizar por feature
+
+```
+features/
+├── hero/
+│   ├── HeroSection.tsx
+│   └── heroAnimations.css
+├── contact/
+│   ├── ContactSection.tsx
+│   └── ContactForm.tsx
+```
+
+No se usó porque el portfolio tiene pocas features y la organización por tipo es más simple para este tamaño.
+
+---
+
+## TypeScript: modo estricto
+
+### ¿Por qué `strict: true`?
+
+| Beneficio | Ejemplo |
+|-----------|---------|
+| **Detecta nulls** | `object.property` falla si object puede ser null |
+| **Tipos implícitos** | No permite `any` implícito |
+| **Mejor autocompletado** | El editor sabe exactamente qué propiedades existen |
+| **Refactoring seguro** | Renombrar una prop muestra todos los lugares que la usan |
+
+### Configuración actual
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@/i18n": ["./src/i18n/index.tsx"]
+    }
+  }
+}
+```
+
+---
+
+## SEO y PWA
+
+### Decisiones de SEO
+
+| Aspecto | Implementación |
+|---------|----------------|
+| **Metadata** | Definida en `layout.tsx` con Open Graph y Twitter Cards |
+| **robots.txt** | Permite indexación de todo el sitio |
+| **sitemap.xml** | Lista la URL principal |
+| **HTML semántico** | `<header>`, `<main>`, `<section>`, `<footer>` |
+| **lang attribute** | Se actualiza dinámicamente según idioma |
+
+### Decisiones de PWA
+
+| Aspecto | Implementación |
+|---------|----------------|
+| **Web Manifest** | `site.webmanifest` con iconos y theme color |
+| **Iconos** | android-chrome (192, 512), apple-touch-icon, favicon |
+| **theme-color** | `#0F1115` (bg-primary) |
+
+No se implementó Service Worker porque:
+- El contenido es dinámico (i18n)
+- No hay necesidad de funcionamiento offline
+- Agregaría complejidad sin beneficio claro
+
+---
+
+## Accesibilidad
+
+### Decisiones implementadas
+
+| Aspecto | Implementación |
+|---------|----------------|
+| **Skip link** | `SkipLink.tsx` para saltar al contenido |
+| **prefers-reduced-motion** | Desactiva animaciones si el usuario lo solicita |
+| **Touch targets** | Mínimo 44px en dispositivos táctiles (WCAG AAA) |
 | **Focus visible** | Outline verde en elementos interactivos |
-| **ARIA labels** | En navegación y enlaces icon-only |
-| **Contraste adecuado** | Ratio 7:1+ para texto principal |
-| **Semántica HTML** | `<header>`, `<main>`, `<footer>`, `<nav>`, `<section>` |
-| **Alt text en imágenes** | Descripción significativa |
-| **Iconos decorativos** | `aria-hidden="true"` |
-
-### ¿Por qué priorizar accesibilidad?
-
-1. **Ética**: El web debería ser accesible para todos
-2. **Legal**: Muchas jurisdicciones exigen accesibilidad
-3. **SEO**: Los buscadores valoran el HTML semántico
-4. **UX**: Las mejoras de a11y benefician a todos (no solo usuarios con discapacidad)
-5. **Profesionalismo**: Demuestra conocimiento de buenas prácticas
+| **ARIA labels** | En botones sin texto visible |
+| **Contraste** | Mínimo WCAG AA (text-primary sobre bg-primary) |
+| **scroll-margin-top** | Compensa header fijo en navegación con anclas |
 
 ---
 
-## Despliegue: Vercel (implícito)
+## Decisiones futuras
 
-### ¿Por qué Vercel?
+### Consideraciones para escalar
 
-Aunque el proyecto no tiene deploy configurado, está optimizado para Vercel:
+Si el proyecto crece, considerar:
 
-| Característica | Beneficio |
-|----------------|-----------|
-| **Creadores de Next.js** | Compatibilidad garantizada |
-| **Deploy con git push** | Sin configuración manual |
-| **SSL gratis** | HTTPS automático |
-| **CDN global** | Contenido cerca del usuario |
-| **Plan hobby gratis** | Perfecto para portfolios personales |
-| **Preview deployments** | Cada PR tiene su propia URL |
+| Necesidad | Solución potencial |
+|-----------|-------------------|
+| Más páginas | Agregar rutas en `/app` |
+| Blog | MDX o CMS headless (Contentful, Sanity) |
+| Más idiomas | Migrar a next-intl cuando >3 idiomas |
+| Proyectos dinámicos | CMS o archivos MDX |
+| Analytics | Vercel Analytics o Plausible |
+| Testing | Vitest + Testing Library |
 
-### Alternativas
+### Lo que NO se implementó (intencionalmente)
 
-| Plataforma | Consideraciones |
-|------------|-----------------|
-| **Netlify** | Buen soporte, pero menos optimizado para Next.js |
-| **AWS Amplify** | Más complejo de configurar |
-| **Railway** | Bueno para apps con backend, overkill para este caso |
-| **GitHub Pages** | No soporta SSR de Next.js |
-
----
-
-## Resumen de decisiones clave
-
-| Decisión | Elección | Alternativa principal |
-|----------|----------|----------------------|
-| Framework | Next.js 16.1.1 | Astro, Gatsby |
-| Router | App Router | Pages Router |
-| Lenguaje | TypeScript 5 estricto | JavaScript |
-| Estilos | Tailwind CSS v4 (`@theme inline`) | CSS Modules |
-| Tema | Dark mode único | Toggle light/dark |
-| Animaciones de entrada | CSS puro (`animations.css`) | Framer Motion |
-| Micro-interacciones | CSS puro (globals.css) con clases semánticas | Tailwind inline / JS |
-| Trigger de animación | IntersectionObserver | Scroll listener |
-| Organización | Por tipo de componente | Por feature |
-| Renderizado | Server Components por defecto | Client-first |
-| Fuente | Inter via next/font/google | System fonts |
-| Formulario | Funcional con Resend | Simulado |
-| Backend | API Routes de Next.js | Serverless functions externas |
-| A11y | Prioridad alta (WCAG AAA) | Básica |
-| Deploy target | Vercel | Netlify |
-| Easing temporal | Variables CSS (snappy/smooth) | Valores hardcodeados |
+| Feature | Por qué no |
+|---------|------------|
+| **Dark/Light toggle** | El portfolio es solo dark mode por diseño. |
+| **Blog** | No es necesario para un portfolio inicial. |
+| **CMS** | Contenido estático es suficiente por ahora. |
+| **Service Worker** | Sin beneficio claro para este caso de uso. |
+| **State management (Redux, Zustand)** | Context es suficiente para i18n. |
+| **Testing** | Proyecto pequeño, verificación manual suficiente por ahora. |
 
 ---
 
-## Futuras decisiones a considerar
+## Resumen de decisiones
 
-### Si el proyecto crece:
-
-1. **Testing**: Agregar Vitest + React Testing Library
-2. **Analytics**: Vercel Analytics o Plausible (privacy-friendly)
-3. **CMS**: Para blog, considerar MDX o Contentful
-4. **i18n**: Si se necesita multiidioma, usar `next-intl`
-5. **Estado global**: Si se necesita, considerar Zustand (más simple que Redux)
-6. **Rate limiting**: Implementar protección contra spam en el formulario
+| Aspecto | Decisión | Razón principal |
+|---------|----------|-----------------|
+| Framework | Next.js 16 | SEO + Performance + DX |
+| Router | App Router | Server Components, futuro de Next |
+| Estilos | Tailwind CSS v4 | Velocidad + Consistencia |
+| i18n | Sistema propio | Simplicidad, zero dependencies |
+| Animaciones | CSS puro | Zero runtime, mejor performance |
+| Email | Resend | API simple, tier gratuito |
+| Organización | Por tipo | Predecible, escalable |
+| TypeScript | Modo estricto | Seguridad de tipos |
+| Micro-interacciones | hover/touch diferenciado | Mejor UX móvil |

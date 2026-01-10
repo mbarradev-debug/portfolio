@@ -12,6 +12,7 @@ El sitio funciona como una **Single Page Application (SPA)**: una única página
 - **Demostrar** competencias técnicas a través del propio código del sitio
 - **Facilitar** el contacto con potenciales empleadores o colaboradores
 - **Permitir** contacto directo mediante formulario funcional
+- **Soportar** múltiples idiomas (español e inglés)
 
 ## Stack tecnológico
 
@@ -40,7 +41,7 @@ Next.js es un framework de React que facilita crear aplicaciones web. Mientras R
 React permite crear "componentes" reutilizables que se combinan para formar la página. Este proyecto usa:
 - **Server Components** por defecto (mejor performance)
 - **Client Components** solo donde hay interactividad (`"use client"`)
-- **Hooks** para estado local (`useState`, `useEffect`, `useRef`, `useCallback`)
+- **Hooks** para estado local (`useState`, `useEffect`, `useRef`, `useCallback`, `useSyncExternalStore`)
 
 ### Lenguaje: TypeScript 5
 
@@ -73,13 +74,13 @@ Tailwind es un framework de CSS utility-first. En lugar de escribir CSS separado
 
 El proyecto implementa animaciones mediante CSS puro, definidas en dos archivos:
 
-1. **`globals.css`**: Micro-interacciones (hover, tap), animaciones de UI
+1. **`globals.css`**: Micro-interacciones (hover, tap), animaciones de UI (shimmer, pulse, breathe)
 2. **`animations.css`**: Animaciones de entrada del Hero y scroll-triggered
 
 ```tsx
 // Hero con animación de entrada escalonada
 <h1 className="hero-animate hero-fade-up hero-delay-1">
-  Miguel Barra
+  Del problema al producto.
 </h1>
 
 // Scroll-triggered animation
@@ -94,16 +95,27 @@ El proyecto implementa un sistema completo de micro-interacciones en `globals.cs
 - **Desktop (hover)**: Elevación, cambio de color, sombras glow
 - **Móvil (touch)**: Feedback de escala al presionar, sin "sticky hover"
 
+### Internacionalización (i18n)
+
+El proyecto soporta múltiples idiomas mediante un sistema de i18n propio ubicado en `/src/i18n/`:
+
+- **Idiomas soportados**: Español (es) e Inglés (en)
+- **Detección automática**: Detecta el idioma del navegador
+- **Persistencia**: Guarda la preferencia en localStorage
+- **Selector de idioma**: Componente `LanguageSelector` en el header
+
 ## Características principales
 
 | Característica | Descripción |
 |----------------|-------------|
 | **Tema oscuro** | Diseño dark mode profesional con paleta de 10 colores |
 | **Responsive** | Mobile-first, adaptable a móviles, tablets y desktop |
+| **Multiidioma** | Soporte para español e inglés con selector de idioma |
 | **Animaciones** | CSS puro con keyframes custom, trigger con IntersectionObserver |
 | **Micro-interacciones** | Sistema CSS completo para feedback visual (hover/touch diferenciado) |
-| **Accesible** | Skip link, ARIA labels, contraste WCAG AAA, focus visible |
-| **SEO optimizado** | Metadata, Open Graph, Twitter Cards, HTML semántico |
+| **Accesible** | Skip link, ARIA labels, contraste WCAG AAA, focus visible, prefers-reduced-motion |
+| **SEO optimizado** | Metadata, Open Graph, Twitter Cards, HTML semántico, robots.txt, sitemap.xml |
+| **PWA Ready** | Manifest, iconos para dispositivos móviles, favicon |
 | **Performance** | Server Components, imágenes optimizadas, code splitting |
 | **Formulario funcional** | Envío de emails real vía API Route + Resend |
 
@@ -123,10 +135,14 @@ cd portfolio
 # 2. Instalar dependencias
 npm install
 
-# 3. Iniciar servidor de desarrollo
+# 3. Configurar variables de entorno (para formulario de contacto)
+# Crear archivo .env.local con:
+# RESEND_API_KEY=tu_api_key_de_resend
+
+# 4. Iniciar servidor de desarrollo
 npm run dev
 
-# 4. Abrir en el navegador
+# 5. Abrir en el navegador
 # http://localhost:3000
 ```
 

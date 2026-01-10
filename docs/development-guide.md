@@ -41,7 +41,18 @@ npm install
 
 Esto descarga todas las librerías definidas en `package.json`.
 
-### 3. Iniciar servidor de desarrollo
+### 3. Configurar variables de entorno (opcional)
+
+Para que el formulario de contacto envíe emails reales:
+
+```bash
+# Crear archivo .env.local
+echo "RESEND_API_KEY=tu_api_key_aqui" > .env.local
+```
+
+Obtén tu API key en [resend.com](https://resend.com).
+
+### 4. Iniciar servidor de desarrollo
 
 ```bash
 npm run dev
@@ -49,565 +60,522 @@ npm run dev
 
 El servidor estará disponible en: **http://localhost:3000**
 
-### 4. Verificar que funciona
+### Comandos disponibles
 
-Abre el navegador en `http://localhost:3000`. Deberías ver el portfolio completo.
-
-**Hot Reload**: Los cambios en el código se reflejan automáticamente sin recargar la página.
+| Comando | Descripción |
+|---------|-------------|
+| `npm run dev` | Servidor de desarrollo con hot reload |
+| `npm run build` | Genera build de producción |
+| `npm run start` | Ejecuta build de producción |
+| `npm run lint` | Ejecuta ESLint para detectar errores |
 
 ---
 
-## Scripts disponibles
+## Estructura para desarrollo
 
-| Comando | Descripción | Cuándo usarlo |
-|---------|-------------|---------------|
-| `npm run dev` | Servidor de desarrollo | Mientras desarrollas |
-| `npm run build` | Genera build de producción | Antes de deployar |
-| `npm run start` | Ejecuta build de producción | Probar build local |
-| `npm run lint` | Analiza código con ESLint | Antes de commits |
-
-### Ejemplo de flujo típico
-
-```bash
-# 1. Desarrollar
-npm run dev
-
-# 2. Antes de commit, verificar errores
-npm run lint
-
-# 3. Probar build de producción localmente
-npm run build
-npm run start
-
-# 4. Si todo funciona, commit
-git add .
-git commit -m "feat: nueva funcionalidad"
+```
+portfolio/
+├── app/                    # Páginas y API
+│   ├── api/contact/        # Endpoint POST /api/contact
+│   ├── globals.css         # Variables CSS y micro-interacciones
+│   ├── animations.css      # Animaciones de entrada
+│   ├── layout.tsx          # Layout raíz con i18n provider
+│   └── page.tsx            # Página principal
+│
+├── components/             # Componentes React
+│   ├── layout/             # Header, Footer, Container, Section
+│   ├── sections/           # HeroSection, AboutSection, etc.
+│   ├── ui/                 # AnimateOnScroll, LanguageSelector, SkipLink
+│   ├── providers/          # I18nClientProvider
+│   └── icons/              # Iconos SVG
+│
+├── src/i18n/               # Sistema de internacionalización
+│   ├── index.tsx           # Provider + hook useI18n
+│   ├── types.ts            # Interface Translations
+│   ├── es.ts               # Traducciones español
+│   └── en.ts               # Traducciones inglés
+│
+├── hooks/                  # Custom hooks
+│   └── useScrollToSection.ts
+│
+└── public/                 # Archivos estáticos
+    ├── images/
+    ├── cv/
+    └── [iconos PWA, robots.txt, sitemap.xml]
 ```
 
 ---
 
-## Estructura de un componente típico
+## Flujo de trabajo típico
 
-### Server Component (por defecto)
+### 1. Modificar textos
 
-```tsx
-// components/sections/AboutSection.tsx
+Los textos están centralizados en el sistema i18n:
 
-import { Section } from "@/components/layout/Section";
-import { Container } from "@/components/layout/Container";
-
-export function AboutSection() {
-  return (
-    <Section variant="secondary" id="sobre-mi">
-      <Container>
-        <div className="max-w-3xl">
-          <span className="text-sm font-medium text-accent">Perfil</span>
-          <h2 className="text-3xl font-bold mt-2">Sobre mí</h2>
-          <p className="text-text-secondary mt-6">
-            Contenido...
-          </p>
-        </div>
-      </Container>
-    </Section>
-  );
-}
+```
+src/i18n/
+├── es.ts    ← Español
+└── en.ts    ← Inglés
 ```
 
-### Client Component (con interactividad)
+**Ejemplo: Cambiar el headline del Hero**
 
-```tsx
-// components/sections/ContactSection.tsx
-
-"use client";  // ← Obligatorio al inicio
-
-import { useState, FormEvent } from "react";
-import { Section } from "@/components/layout/Section";
-
-export function ContactSection() {
-  const [status, setStatus] = useState<"idle" | "sending">("idle");
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setStatus("sending");
+```typescript
+// src/i18n/es.ts
+export const es: Translations = {
+  hero: {
+    headline: "Nuevo headline aquí",
     // ...
+  },
+};
+
+// src/i18n/en.ts
+export const en: Translations = {
+  hero: {
+    headline: "New headline here",
+    // ...
+  },
+};
+```
+
+### 2. Agregar una nueva traducción
+
+1. Añade la clave en `types.ts`:
+
+```typescript
+// src/i18n/types.ts
+export interface Translations {
+  hero: {
+    headline: string;
+    newKey: string;  // ← Nueva clave
   };
-
-  return (
-    <Section id="contacto">
-      <form onSubmit={handleSubmit}>
-        {/* ... */}
-      </form>
-    </Section>
-  );
+  // ...
 }
 ```
 
-**Regla simple**: Si usas `useState`, `useEffect`, `onClick` u otros hooks/eventos → necesitas `"use client"`.
+2. Añade el valor en ambos idiomas:
 
----
+```typescript
+// src/i18n/es.ts
+hero: {
+  newKey: "Valor en español",
+},
 
-## Agregar una nueva sección
+// src/i18n/en.ts
+hero: {
+  newKey: "Value in English",
+},
+```
 
-### Paso 1: Crear el componente
-
-Crea el archivo en `components/sections/`:
+3. Usa en el componente:
 
 ```tsx
-// components/sections/ProjectsSection.tsx
+const { t } = useI18n();
+return <p>{t.hero.newKey}</p>;
+```
 
-import { Section } from "@/components/layout/Section";
-import { Container } from "@/components/layout/Container";
-import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+### 3. Agregar un nuevo componente
 
-export function ProjectsSection() {
-  const projects = [
-    {
-      title: "Proyecto 1",
-      description: "Descripción del proyecto",
-      tech: ["React", "Node.js"],
-      link: "https://github.com/...",
-    },
-    // más proyectos...
-  ];
+**Pasos:**
 
-  return (
-    <Section variant="primary" id="proyectos">
-      <Container>
-        <AnimateOnScroll>
-          {/* Etiqueta */}
-          <span className="inline-block text-sm font-medium text-accent mb-2">
-            Trabajo
-          </span>
+1. Crea el archivo en la carpeta correspondiente:
+   - Layout: `components/layout/`
+   - Secciones: `components/sections/`
+   - UI reutilizable: `components/ui/`
+   - Iconos: `components/icons/`
 
-          {/* Título */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-text-primary">
-            Proyectos
-          </h2>
+2. Si necesita interactividad, añade `"use client"` al inicio
 
-          {/* Descripción */}
-          <p className="text-text-secondary mt-4 max-w-2xl">
-            Algunos proyectos destacados...
-          </p>
+3. Si necesita textos, usa el hook `useI18n`:
 
-          {/* Grid de proyectos */}
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {projects.map((project, index) => (
-              <div
-                key={index}
-                className="p-6 bg-surface rounded-lg border border-border-subtle"
-              >
-                <h3 className="font-semibold text-text-primary">
-                  {project.title}
-                </h3>
-                <p className="text-text-secondary mt-2">
-                  {project.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </AnimateOnScroll>
-      </Container>
-    </Section>
-  );
+```tsx
+"use client";
+
+import { useI18n } from "@/i18n";
+
+export default function MiComponente() {
+  const { t } = useI18n();
+
+  return <div>{t.seccion.clave}</div>;
 }
 ```
 
-### Paso 2: Agregar a la página
+4. Si necesita micro-interacción, añade clase CSS en `globals.css`
+
+### 4. Agregar un icono
+
+1. Añade el icono en `components/icons/index.tsx`:
 
 ```tsx
-// app/page.tsx
-
-import { HeroSection } from "@/components/sections/HeroSection";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { ProjectsSection } from "@/components/sections/ProjectsSection";  // Nuevo
-import { StackSection } from "@/components/sections/StackSection";
-import { CVSection } from "@/components/sections/CVSection";
-import { ContactSection } from "@/components/sections/ContactSection";
-
-export default function Home() {
-  return (
-    <>
-      <HeroSection />
-      <AboutSection />
-      <ProjectsSection />  {/* Nueva sección */}
-      <StackSection />
-      <CVSection />
-      <ContactSection />
-    </>
-  );
-}
-```
-
-### Paso 3: (Opcional) Agregar al Header
-
-Si quieres que aparezca en la navegación:
-
-```tsx
-// components/layout/Header.tsx
-
-const sections = [
-  { id: "hero", label: null },
-  { id: "sobre-mi", label: "Perfil" },
-  { id: "proyectos", label: "Proyectos" },  // Nuevo
-  { id: "contacto", label: "Contacto" },
-];
-```
-
----
-
-## Agregar un nuevo icono
-
-### Paso 1: Obtener el SVG
-
-Busca el icono en:
-- [Simple Icons](https://simpleicons.org/) — Logos de marcas
-- [Heroicons](https://heroicons.com/) — Iconos de UI
-- [Lucide](https://lucide.dev/) — Iconos generales
-
-### Paso 2: Crear el componente
-
-```tsx
-// components/icons/index.tsx
-
-// Agregar al final del archivo (en la categoría correspondiente):
-
 export function NuevoIcon({ className = "h-5 w-5" }: IconProps) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      {/* Pegar los paths del SVG aquí */}
-      <path d="..." />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      {/* path del SVG */}
     </svg>
   );
 }
 ```
 
-**Convenciones:**
-- Nombre: `{Nombre}Icon` (ej: `DockerIcon`, `AWSIcon`)
-- `fill="currentColor"` para heredar el color del texto (iconos sólidos)
-- Para iconos outline: usar `fill="none"`, `stroke="currentColor"`, `strokeWidth={2}`
-- `aria-hidden="true"` porque son decorativos
-- `viewBox="0 0 24 24"` es el estándar (ajustar si el SVG es diferente)
-
-### Paso 3: Usar el icono
+2. Importa donde lo necesites:
 
 ```tsx
 import { NuevoIcon } from "@/components/icons";
-
-<NuevoIcon className="h-6 w-6 text-accent" />
 ```
 
-### Iconos existentes (17 total)
+### 5. Agregar una tecnología al Stack
 
-| Categoría | Iconos disponibles |
-|-----------|-------------------|
-| Tecnologías (9) | `ReactIcon`, `NextjsIcon`, `TypeScriptIcon`, `NodejsIcon`, `PostgreSQLIcon`, `PrismaIcon`, `DockerIcon`, `GitIcon`, `ApiIcon` |
-| Plataformas (3) | `GitHubIcon`, `LinkedInIcon`, `EmailIcon` |
-| Acciones (2) | `DownloadIcon`, `ExternalLinkIcon` |
-| Competencias (4) | `ArchitectureIcon`, `MonitorIcon`, `ServerIcon`, `DatabaseIcon` |
+En `components/sections/StackSection.tsx`:
+
+```tsx
+const techCategories = [
+  {
+    name: "Frontend",
+    items: [
+      // ... existentes
+      { nombre: "Nueva Tech", icon: NuevaTechIcon },  // ← Añadir
+    ],
+  },
+];
+```
+
+Recuerda crear el icono primero si no existe.
+
+### 6. Modificar colores
+
+Los colores están en `globals.css`:
+
+```css
+@theme inline {
+  --color-bg-primary: #0F1115;
+  --color-accent: #3FBF9A;
+  /* ... */
+}
+```
+
+Cambiar aquí actualiza todo el sitio automáticamente.
+
+### 7. Agregar micro-interacción
+
+1. Define la clase base y estados en `globals.css`:
+
+```css
+.mi-elemento {
+  transition:
+    transform var(--duration-slow) var(--ease-snappy),
+    background-color var(--duration-base) var(--ease-smooth);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Desktop hover */
+@media (hover: hover) and (pointer: fine) {
+  .mi-elemento:hover {
+    transform: translateY(-2px);
+    background-color: var(--color-bg-primary);
+  }
+}
+
+/* Móvil tap */
+@media (hover: none), (pointer: coarse) {
+  .mi-elemento:active {
+    transform: scale(0.98);
+  }
+}
+```
+
+2. Usa la clase en el componente:
+
+```tsx
+<div className="mi-elemento">Contenido</div>
+```
 
 ---
 
-## Usar micro-interacciones
+## Trabajar con el formulario de contacto
 
-El proyecto tiene un sistema de micro-interacciones definido en `globals.css`. En lugar de usar clases Tailwind para hover/active, usa las clases CSS predefinidas.
+### Flujo del formulario
 
-### Clases disponibles
+```
+Usuario envía form → POST /api/contact → Resend API → Email enviado
+```
 
-| Clase | Uso | Ejemplo |
-|-------|-----|---------|
-| `.tech-item` + `.tech-icon` + `.tech-name` | Items de tecnología con icono | Stack section |
-| `.competency-card` + `.competency-title` | Tarjetas con título destacado | Stack section |
-| `.contact-link` + `.contact-link-icon-wrapper` + `.contact-link-icon` + `.contact-link-value` | Enlaces de contacto | Contact section |
-| `.btn-primary` | Botones principales (fondo accent) | CTAs, formularios |
-| `.btn-secondary` | Botones secundarios (outline) | CTAs alternativos |
-| `.footer-link` + `.footer-link-icon` | Enlaces del footer | Footer |
-| `.nav-logo` / `.nav-cv-link` / `.nav-contact-btn` | Elementos del header | Header |
-| `.form-input` | Inputs de formulario | Contact section |
-| `.text-link` | Enlaces inline de texto | Párrafos |
+### Modificar email de destino
 
-### Ejemplo de uso
+En `app/api/contact/route.ts`:
+
+```typescript
+const { error } = await resend.emails.send({
+  from: "Portfolio Contact <onboarding@resend.dev>",
+  to: "nuevo@email.com",  // ← Cambiar aquí
+  // ...
+});
+```
+
+### Añadir validación
+
+En `app/api/contact/route.ts`:
+
+```typescript
+// Después de extraer los datos
+if (mensaje.length < 10) {
+  return NextResponse.json(
+    { error: "El mensaje debe tener al menos 10 caracteres" },
+    { status: 400 }
+  );
+}
+```
+
+### Añadir campo al formulario
+
+1. Añade el HTML en `ContactSection.tsx`:
 
 ```tsx
-// Botón primario
-<button className="btn-primary inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary">
-  Enviar
-</button>
-
-// Tarjeta de competencia
-<div className="competency-card rounded-lg border border-border-subtle bg-surface p-6">
-  <h4 className="competency-title font-medium text-text-primary">Título</h4>
-  <p className="text-text-secondary">Descripción...</p>
+<div>
+  <label htmlFor="telefono">{t.contact.form.phone}</label>
+  <input
+    type="tel"
+    id="telefono"
+    name="telefono"
+    className="form-input ..."
+  />
 </div>
 ```
 
-Las clases manejan automáticamente:
-- **Desktop**: Efectos hover (elevación, cambio de color, sombras)
-- **Móvil**: Efectos de tap (escala al presionar)
+2. Añade las traducciones en `es.ts` y `en.ts`
 
----
+3. Procesa en la API:
 
-## Mantener coherencia de diseño
-
-### Checklist antes de crear un componente
-
-- [ ] ¿Uso los colores del sistema? (`bg-bg-primary`, `text-accent`, etc.)
-- [ ] ¿Uso el espaciado consistente? (`p-4`, `mt-6`, `gap-4`)
-- [ ] ¿Es responsive? (probar en móvil, tablet, desktop)
-- [ ] ¿Uso las clases de micro-interacciones para elementos interactivos? (`.btn-primary`, `.tech-item`, etc.)
-- [ ] ¿Los textos usan las clases correctas? (`text-text-primary` vs `text-text-secondary`)
-
-### Colores: cuándo usar cada uno
-
-```tsx
-// Fondos
-<div className="bg-bg-primary">Fondo principal</div>
-<div className="bg-bg-secondary">Fondo alternativo (secciones alternas)</div>
-<div className="bg-surface">Tarjetas, modales, elementos elevados</div>
-
-// Textos
-<h1 className="text-text-primary">Títulos y texto importante</h1>
-<p className="text-text-secondary">Párrafos y texto normal</p>
-<span className="text-accent">Etiquetas, links, destacados</span>
-
-// Bordes
-<div className="border border-border-subtle">Borde sutil</div>
-<div className="border border-accent">Borde destacado</div>
-```
-
-### Espaciado: escala recomendada
-
-| Uso | Clase | Valor |
-|-----|-------|-------|
-| Entre letras de icono y texto | `gap-2` | 8px |
-| Entre elementos de lista | `gap-4` | 16px |
-| Entre párrafos | `mt-4` o `mt-6` | 16-24px |
-| Entre secciones de contenido | `mt-8` o `mt-12` | 32-48px |
-| Padding de tarjetas | `p-4` o `p-6` | 16-24px |
-
-### Tipografía: clases estándar
-
-```tsx
-// Etiquetas (labels)
-<span className="text-sm font-medium text-accent">Etiqueta</span>
-
-// Títulos principales (H1)
-<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">Título</h1>
-
-// Títulos de sección (H2)
-<h2 className="text-3xl sm:text-4xl font-bold">Sección</h2>
-
-// Subtítulos (H3)
-<h3 className="text-xl font-semibold">Subtítulo</h3>
-
-// Párrafos
-<p className="text-base sm:text-lg text-text-secondary">Texto</p>
-
-// Texto pequeño
-<span className="text-sm text-text-secondary">Nota</span>
+```typescript
+const { nombre, email, mensaje, telefono } = await request.json();
 ```
 
 ---
 
-## Errores comunes a evitar
+## Trabajar con animaciones
 
-### ❌ No usar variables de color directamente
+### Animaciones de entrada (Hero)
+
+Usa las clases predefinidas:
 
 ```tsx
-// ❌ Mal
-<div style={{ backgroundColor: "#0F1115" }}>
-
-// ✅ Bien
-<div className="bg-bg-primary">
+<div className="hero-animate hero-fade-up hero-delay-2">
+  Contenido con animación
+</div>
 ```
 
-### ❌ Olvidar "use client"
+| Clase | Efecto |
+|-------|--------|
+| `hero-fade` | Fade in |
+| `hero-fade-up` | Fade in + slide up |
+| `hero-fade-zoom` | Fade in + scale |
+| `hero-delay-0` a `hero-delay-5` | Delay escalonado |
+
+### Animaciones scroll-triggered
+
+Usa el wrapper `AnimateOnScroll`:
 
 ```tsx
-// ❌ Error: useState no funciona en Server Component
-import { useState } from "react";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 
-export function MyComponent() {
-  const [count, setCount] = useState(0);  // Error!
+<AnimateOnScroll className="...">
+  <div>Este contenido aparece al hacer scroll</div>
+</AnimateOnScroll>
+```
+
+### Animaciones personalizadas
+
+Define en `animations.css`:
+
+```css
+@keyframes miAnimacion {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 
-// ✅ Bien
+.mi-animacion {
+  animation: miAnimacion 500ms var(--ease-snappy) forwards;
+}
+```
+
+---
+
+## Trabajar con el sistema i18n
+
+### Acceder a traducciones
+
+```tsx
 "use client";
 
-import { useState } from "react";
+import { useI18n } from "@/i18n";
 
-export function MyComponent() {
-  const [count, setCount] = useState(0);  // Funciona
+export default function MiComponente() {
+  const { t, locale, setLocale } = useI18n();
+
+  return (
+    <div>
+      <p>Idioma actual: {locale}</p>
+      <p>{t.seccion.clave}</p>
+      <button onClick={() => setLocale("en")}>English</button>
+    </div>
+  );
 }
 ```
 
-### ❌ Importar de public con import
+### Estructura de traducciones
 
-```tsx
-// ❌ Mal
-import logo from "../public/images/logo.png";
-<img src={logo} />
-
-// ✅ Bien
-<Image src="/images/logo.png" alt="Logo" width={100} height={100} />
+```typescript
+// types.ts define la estructura
+interface Translations {
+  seccion: {
+    clave: string;
+    nested: {
+      subClave: string;
+    };
+    array: string[];  // Para listas
+  };
+}
 ```
 
-### ❌ No usar el componente Image de Next.js
+### Añadir nuevo idioma
 
-```tsx
-// ❌ Mal (no optimiza la imagen)
-<img src="/images/foto.jpg" alt="Foto" />
+1. Crea `src/i18n/fr.ts` (por ejemplo, francés)
+2. Actualiza `types.ts`:
 
-// ✅ Bien (optimiza automáticamente)
-import Image from "next/image";
-
-<Image
-  src="/images/foto.jpg"
-  alt="Foto"
-  width={400}
-  height={300}
-/>
+```typescript
+export type Locale = "es" | "en" | "fr";
 ```
 
-### ❌ Hardcodear breakpoints
+3. Importa en `src/i18n/index.tsx`:
 
-```tsx
-// ❌ Mal
-@media (min-width: 640px) { ... }
+```typescript
+import { fr } from "./fr";
 
-// ✅ Bien (usar clases de Tailwind)
-<div className="text-sm sm:text-base lg:text-lg">
+const translations: Record<Locale, Translations> = { es, en, fr };
 ```
 
-### ❌ No manejar estados de carga/error
+4. Actualiza `LanguageSelector.tsx` para incluir el nuevo idioma
+
+---
+
+## Buenas prácticas
+
+### TypeScript
+
+- Usa tipos explícitos para props de componentes
+- Evita `any`, prefiere `unknown` si es necesario
+- Define interfaces para estructuras de datos
 
 ```tsx
-// ❌ Mal (sin feedback al usuario)
-const handleSubmit = async () => {
-  await sendEmail();
-};
+interface MiComponenteProps {
+  titulo: string;
+  items: string[];
+  onSelect?: (item: string) => void;
+}
 
-// ✅ Bien
-const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+export default function MiComponente({ titulo, items, onSelect }: MiComponenteProps) {
+  // ...
+}
+```
 
-const handleSubmit = async () => {
-  setStatus("loading");
-  try {
-    await sendEmail();
-    setStatus("success");
-  } catch {
-    setStatus("error");
-  }
-};
+### Componentes
+
+- Un archivo por componente
+- Nombres en PascalCase
+- Client Components solo cuando es necesario
+- Evita prop drilling, usa Context para estado global
+
+### Estilos
+
+- Usa clases de Tailwind, no CSS inline
+- Usa variables CSS del sistema (`--color-accent`, etc.)
+- Define micro-interacciones en `globals.css`
+- Respeta `prefers-reduced-motion`
+
+### Accesibilidad
+
+- Siempre incluye `aria-label` en botones sin texto visible
+- Usa HTML semántico (`<nav>`, `<main>`, `<section>`, etc.)
+- Mantén contraste adecuado (WCAG AA mínimo)
+- Asegura touch targets de 44px mínimo en móvil
+
+### Commits
+
+Usa mensajes descriptivos:
+
+```bash
+feat: añadir sección de proyectos
+fix: corregir validación de email en formulario
+style: ajustar espaciado en hero mobile
+refactor: extraer lógica de animación a hook
+docs: actualizar guía de desarrollo
 ```
 
 ---
 
-## Testing local del build
+## Solución de problemas comunes
 
-Antes de deployar, siempre prueba el build de producción:
+### El servidor no inicia
 
 ```bash
-# 1. Generar build
-npm run build
-
-# 2. Verificar que no hay errores
-# Si hay errores, el comando falla y muestra qué arreglar
-
-# 3. Probar localmente
-npm run start
-
-# 4. Abrir http://localhost:3000 y verificar que todo funciona
+# Elimina node_modules y reinstala
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
 ```
 
-### Qué verificar en el build
-
-- [ ] Todas las páginas cargan correctamente
-- [ ] Las imágenes se muestran
-- [ ] Las animaciones funcionan
-- [ ] Los links de navegación funcionan
-- [ ] El formulario muestra sus estados
-- [ ] Responsive: probar en diferentes tamaños
-
----
-
-## Debugging tips
-
-### Ver errores de TypeScript
+### Errores de TypeScript
 
 ```bash
-# Ver todos los errores de tipo
-npx tsc --noEmit
-```
-
-### Ver errores de ESLint
-
-```bash
+# Verifica errores
 npm run lint
+
+# Si persisten, reinicia el servidor de TypeScript en VS Code:
+# Cmd/Ctrl + Shift + P → "TypeScript: Restart TS Server"
 ```
 
-### Inspeccionar el bundle
+### Cambios en CSS no se reflejan
 
-```bash
-# Ver qué archivos se generan y su tamaño
-npm run build
+1. Revisa que el archivo sea `globals.css` o `animations.css`
+2. Verifica que las clases estén definidas correctamente
+3. Hard refresh: `Cmd/Ctrl + Shift + R`
 
-# En la salida verás algo como:
-# Route (app)                              Size     First Load JS
-# ┌ ○ /                                    5.2 kB   90 kB
-```
+### Hydration mismatch
 
-### Debugger en el navegador
+Si ves errores de hidratación:
+- Verifica que los Client Components no dependan de valores que cambian entre servidor y cliente (como `localStorage`, `Date.now()`)
+- El sistema i18n usa `useSyncExternalStore` para evitar esto
 
-Los Client Components se pueden debuggear normalmente con las DevTools del navegador:
-1. Abre DevTools (F12)
-2. Ve a la pestaña "Sources"
-3. Busca tu archivo en `webpack://./components/...`
-4. Pon breakpoints
+### Formulario no envía
+
+1. Verifica que `RESEND_API_KEY` esté en `.env.local`
+2. Revisa los logs del servidor en la terminal
+3. Verifica que el email de destino sea válido
 
 ---
 
-## Flujo de Git recomendado
+## Despliegue
+
+### Vercel (recomendado)
+
+1. Conecta el repositorio a Vercel
+2. Configura variables de entorno:
+   - `RESEND_API_KEY`
+3. Deploy automático en cada push a main
+
+### Build local
 
 ```bash
-# 1. Crear rama para la feature
-git checkout -b feat/nueva-funcionalidad
-
-# 2. Hacer cambios...
-
-# 3. Ver qué cambió
-git status
-git diff
-
-# 4. Agregar cambios
-git add .
-
-# 5. Commit con mensaje descriptivo
-git commit -m "feat: agregar sección de proyectos"
-
-# 6. Push
-git push origin feat/nueva-funcionalidad
-
-# 7. Crear Pull Request en GitHub
+npm run build
+npm run start
 ```
 
-### Convención de commits
+Verifica que no hay errores de build antes de hacer deploy.
 
-| Prefijo | Uso |
-|---------|-----|
-| `feat:` | Nueva funcionalidad |
-| `fix:` | Corrección de bug |
-| `style:` | Cambios de estilo (CSS, formato) |
-| `refactor:` | Refactoring sin cambio de funcionalidad |
-| `docs:` | Documentación |
-| `chore:` | Tareas de mantenimiento |
+---
 
-Ejemplos:
-- `feat: agregar sección de proyectos`
-- `fix: corregir link roto en footer`
-- `style: mejorar espaciado en móvil`
-- `docs: actualizar README`
+## Recursos adicionales
+
+- [Next.js Docs](https://nextjs.org/docs)
+- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [React Docs](https://react.dev)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/)
+- [Resend Docs](https://resend.com/docs)
