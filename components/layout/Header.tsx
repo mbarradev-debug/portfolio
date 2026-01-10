@@ -3,12 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { DownloadIcon } from "@/components/icons";
 import { useScrollToSection } from "@/hooks/useScrollToSection";
+import { useI18n } from "@/i18n";
+import LanguageSelector from "@/components/ui/LanguageSelector";
 
-const sections = [
-  { id: "hero", label: null },
-  { id: "sobre-mi", label: "Perfil" },
-  { id: "contacto", label: "Contacto" },
-];
+const sectionIds = ["hero", "sobre-mi", "contacto"];
 
 const SCROLL_THRESHOLD = 100; // Pixels before hiding starts
 const SCROLL_DELTA = 10; // Minimum scroll distance to trigger hide/show
@@ -18,12 +16,13 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const { scrollToSection, scrollToTop } = useScrollToSection();
+  const { t } = useI18n();
 
   // Section observer
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    sections.forEach(({ id }) => {
+    sectionIds.forEach((id) => {
       const element = document.getElementById(id);
       if (!element) return;
 
@@ -90,23 +89,25 @@ export default function Header() {
       <nav
         className="flex w-full max-w-md items-center justify-between rounded-full border border-white/5 bg-text-primary/90 px-3 py-1.5 shadow-md shadow-black/10 backdrop-blur-md sm:px-4 sm:py-2"
         role="navigation"
-        aria-label="Menú principal"
+        aria-label={t.a11y.mainMenu}
       >
         <a
           href="#"
           onClick={scrollToTop}
           className="nav-logo flex items-center text-[13px] font-semibold leading-none text-bg-primary sm:text-sm"
-          aria-label="Inicio"
+          aria-label={t.a11y.home}
         >
           MB
         </a>
 
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <LanguageSelector />
+
           <a
             href="/cv/cv.pdf"
             download
             className="nav-cv-link group flex items-center gap-1 text-[11px] font-medium leading-none text-bg-secondary/90 transition-colors hover:text-bg-primary sm:text-xs"
-            aria-label="Descargar CV"
+            aria-label={t.a11y.downloadCV}
           >
             <DownloadIcon className="nav-cv-icon h-3 w-3 sm:h-3.5 sm:w-3.5" />
             <span>CV</span>
@@ -120,10 +121,10 @@ export default function Header() {
                 ? "bg-accent text-bg-primary"
                 : "bg-bg-primary text-text-primary hover:bg-accent hover:text-bg-primary"
             }`}
-            aria-label="Ir a contacto"
+            aria-label={t.a11y.goToContact}
             aria-current={isContactActive ? "true" : undefined}
           >
-            Contacto
+            {t.nav.contact}
             <span
               className={`absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-text-primary shadow-sm ring-1 ring-bg-primary/20 transition-all duration-200 ${
                 isContactActive ? "scale-100 opacity-100" : "scale-0 opacity-0"

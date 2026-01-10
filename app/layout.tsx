@@ -4,6 +4,8 @@ import "./globals.css";
 import "./animations.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import I18nClientProvider from "@/components/providers/I18nClientProvider";
+import SkipLink from "@/components/ui/SkipLink";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -61,19 +63,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`${inter.variable} min-h-screen bg-bg-primary text-text-primary antialiased`}
       >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-bg-primary focus:outline-none"
-        >
-          Saltar al contenido principal
-        </a>
-        <Header />
-        <main id="main-content">{children}</main>
-        <Footer />
+        <I18nClientProvider>
+          <SkipLink />
+          <Header />
+          <main id="main-content">{children}</main>
+          <Footer />
+        </I18nClientProvider>
       </body>
     </html>
   );

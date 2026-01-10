@@ -4,9 +4,11 @@ import Image from "next/image";
 import Section from "@/components/layout/Section";
 import Container from "@/components/layout/Container";
 import { useScrollToSection } from "@/hooks/useScrollToSection";
+import { useI18n } from "@/i18n";
 
 export default function HeroSection() {
   const { scrollToSection } = useScrollToSection();
+  const { t } = useI18n();
 
   return (
     <Section
@@ -39,7 +41,7 @@ export default function HeroSection() {
             <div className="relative z-10 hero-animate hero-fade-zoom hero-delay-1">
               <Image
                 src="/images/miguelb-logo.png"
-                alt="Miguel Barra - Ingeniero de Software"
+                alt={t.hero.imageAlt}
                 width={480}
                 height={480}
                 sizes="(max-width: 640px) 112px, (max-width: 768px) 176px, (max-width: 1024px) 288px, (max-width: 1280px) 384px, 448px"
@@ -55,23 +57,23 @@ export default function HeroSection() {
             {/* Badge de seniority - shimmer effect on load */}
             <div className="hero-animate hero-fade hero-delay-0">
               <span className="badge-shimmer inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-sm font-bold uppercase tracking-widest text-accent sm:px-4 sm:py-2 sm:text-xs sm:font-semibold">
-                Senior Fullstack Engineer
+                {t.hero.badge}
               </span>
             </div>
 
             {/* Headline - Propuesta de valor */}
             <h1 className="mt-5 text-[2rem] font-extrabold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl xl:text-6xl hero-animate hero-fade-up hero-delay-1">
-              Del problema al producto.
+              {t.hero.headline}
             </h1>
 
             {/* Subheadline */}
             <p className="mt-3 text-[0.9375rem] font-medium leading-snug text-text-secondary sm:text-xl lg:text-xl xl:text-2xl hero-animate hero-fade-up hero-delay-2">
-              Arquitectura que escala. Código que perdura.
+              {t.hero.subheadline}
             </p>
 
             {/* Credencial rápida */}
             <p className="mt-2 text-xs text-text-secondary/80 sm:text-base sm:text-text-secondary hero-animate hero-fade hero-delay-3">
-              +5 años llevando ideas de startups a producción.
+              {t.hero.credential}
             </p>
 
             {/* CTAs - Full width en mobile, optimized touch targets */}
@@ -80,7 +82,7 @@ export default function HeroSection() {
                 href="#stack"
                 onClick={(e) => scrollToSection(e, "stack")}
                 className="btn-primary btn-primary-pulse inline-flex h-14 items-center justify-center rounded-xl bg-accent px-8 text-base font-semibold text-bg-primary shadow-lg shadow-accent/25 sm:h-11 sm:rounded-lg sm:px-6 sm:text-sm sm:font-medium sm:shadow-none"
-                aria-label="Ver mi stack tecnológico"
+                aria-label={t.hero.ctaStackAria}
               >
                 <svg
                   className="btn-icon mr-2 h-5 w-5 sm:h-4 sm:w-4"
@@ -95,13 +97,13 @@ export default function HeroSection() {
                     d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                Ver proyectos
+                {t.hero.ctaStack}
               </a>
               <a
                 href="/cv/cv.pdf"
                 download
                 className="btn-secondary inline-flex h-11 items-center justify-center rounded-lg border border-border-subtle bg-surface px-6 text-sm font-medium text-text-secondary sm:h-11 sm:px-6 sm:text-sm sm:text-text-primary"
-                aria-label="Descargar currículum en PDF"
+                aria-label={t.hero.ctaCVAria}
               >
                 <svg
                   className="btn-icon mr-2 h-4 w-4"
@@ -116,7 +118,7 @@ export default function HeroSection() {
                     d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                   />
                 </svg>
-                Descargar CV
+                {t.hero.ctaCV}
               </a>
             </div>
           </div>
@@ -127,9 +129,9 @@ export default function HeroSection() {
           <button
             onClick={(e) => scrollToSection(e, "sobre-mi")}
             className="scroll-breathe flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1 rounded-full p-2 text-text-secondary transition-colors hover:text-accent active:scale-95"
-            aria-label="Desplazarse a la siguiente sección"
+            aria-label={t.a11y.scrollToNextSection}
           >
-            <span className="text-[10px] uppercase tracking-widest sm:text-xs">Scroll</span>
+            <span className="text-[10px] uppercase tracking-widest sm:text-xs">{t.hero.scroll}</span>
             <svg
               className="h-4 w-4 animate-bounce sm:h-5 sm:w-5"
               fill="none"

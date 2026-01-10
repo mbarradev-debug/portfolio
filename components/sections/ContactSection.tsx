@@ -10,6 +10,7 @@ import {
   EmailIcon,
   ExternalLinkIcon,
 } from "@/components/icons";
+import { useI18n } from "@/i18n";
 
 const contactLinks = [
   {
@@ -40,6 +41,7 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 export default function ContactSection() {
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { t } = useI18n();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,7 +66,7 @@ export default function ContactSection() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Error al enviar el mensaje");
+        throw new Error(result.error || t.contact.form.error);
       }
 
       setFormStatus("success");
@@ -73,7 +75,7 @@ export default function ContactSection() {
     } catch (err) {
       setFormStatus("error");
       setErrorMessage(
-        err instanceof Error ? err.message : "Error al enviar el mensaje"
+        err instanceof Error ? err.message : t.contact.form.error
       );
       setTimeout(() => {
         setFormStatus("idle");
@@ -87,26 +89,24 @@ export default function ContactSection() {
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
-            Conversemos
+            {t.contact.label}
           </p>
           <h2
             id="contacto"
             className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
           >
-            Contacto
+            {t.contact.title}
           </h2>
 
           <p className="mt-6 text-base leading-relaxed text-text-secondary sm:text-lg">
-            Si buscas construir una solución sólida desde el inicio, con
-            decisiones técnicas conscientes y una visión de largo plazo,
-            conversemos.
+            {t.contact.description}
           </p>
         </AnimateOnScroll>
 
         <AnimateOnScroll className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="rounded-lg border border-border-subtle bg-surface p-8">
             <h3 className="text-lg font-medium text-text-primary">
-              Contacto directo
+              {t.contact.directContactLabel}
             </h3>
             <ul className="mt-6 space-y-4">
               {contactLinks.map((link) => {
@@ -142,11 +142,10 @@ export default function ContactSection() {
 
           <div className="rounded-lg border border-border-subtle bg-surface p-8">
             <h3 className="text-lg font-medium text-text-primary">
-              Envíame un mensaje
+              {t.contact.formTitle}
             </h3>
             <p className="mt-2 text-sm text-text-secondary">
-              Cuéntame brevemente sobre tu proyecto o idea y te responderé a la
-              brevedad.
+              {t.contact.formDescription}
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -155,7 +154,7 @@ export default function ContactSection() {
                   htmlFor="nombre"
                   className="block text-sm font-medium text-text-secondary"
                 >
-                  Nombre <span className="text-accent">*</span>
+                  {t.contact.form.name} <span className="text-accent">*</span>
                 </label>
                 <input
                   type="text"
@@ -163,7 +162,7 @@ export default function ContactSection() {
                   name="nombre"
                   required
                   disabled={formStatus === "submitting"}
-                  placeholder="Tu nombre"
+                  placeholder={t.contact.form.namePlaceholder}
                   className="form-input mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
@@ -173,7 +172,7 @@ export default function ContactSection() {
                   htmlFor="email"
                   className="block text-sm font-medium text-text-secondary"
                 >
-                  Email <span className="text-accent">*</span>
+                  {t.contact.form.email} <span className="text-accent">*</span>
                 </label>
                 <input
                   type="email"
@@ -181,7 +180,7 @@ export default function ContactSection() {
                   name="email"
                   required
                   disabled={formStatus === "submitting"}
-                  placeholder="tu@email.com"
+                  placeholder={t.contact.form.emailPlaceholder}
                   className="form-input mt-2 block w-full rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
@@ -191,7 +190,7 @@ export default function ContactSection() {
                   htmlFor="mensaje"
                   className="block text-sm font-medium text-text-secondary"
                 >
-                  Mensaje <span className="text-accent">*</span>
+                  {t.contact.form.message} <span className="text-accent">*</span>
                 </label>
                 <textarea
                   id="mensaje"
@@ -199,7 +198,7 @@ export default function ContactSection() {
                   rows={4}
                   required
                   disabled={formStatus === "submitting"}
-                  placeholder="Cuéntame sobre tu proyecto..."
+                  placeholder={t.contact.form.messagePlaceholder}
                   className="form-input mt-2 block w-full resize-none rounded-md border border-border-subtle bg-bg-secondary px-4 py-3 text-text-primary placeholder-text-secondary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
@@ -209,30 +208,29 @@ export default function ContactSection() {
                 disabled={formStatus === "submitting"}
                 className="btn-primary mt-2 inline-flex w-full items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-medium text-bg-primary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
               >
-                {formStatus === "submitting" ? "Enviando..." : "Enviar mensaje"}
+                {formStatus === "submitting" ? t.contact.form.submitting : t.contact.form.submit}
               </button>
 
               {formStatus === "success" && (
                 <p className="animate-fade-in text-sm text-accent">
-                  Mensaje enviado correctamente. Te responderé pronto.
+                  {t.contact.form.success}
                 </p>
               )}
 
               {formStatus === "error" && (
                 <p className="animate-fade-in text-sm text-error">
-                  {errorMessage || "Hubo un error al enviar el mensaje. Intenta de nuevo."}
+                  {errorMessage || t.contact.form.error}
                 </p>
               )}
             </form>
 
             <p className="mt-6 text-sm text-text-secondary">
-              También puedes escribirme directamente a{" "}
+              {t.contact.alternativeContact}{" "}
               <a
                 href="mailto:mbarra.3690@gmail.com"
                 className="text-link text-accent"
-                aria-label="Enviar correo a mbarra.3690@gmail.com"
               >
-                mi correo
+                {t.contact.alternativeContactLink}
               </a>
               .
             </p>

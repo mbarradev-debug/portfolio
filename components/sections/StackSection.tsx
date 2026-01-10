@@ -19,33 +19,14 @@ import {
   ServerIcon,
   DatabaseIcon,
 } from "@/components/icons";
+import { useI18n } from "@/i18n";
 
-const competencias = [
-  {
-    titulo: "Arquitectura de aplicaciones",
-    descripcion:
-      "Diseño arquitecturas alineadas al contexto del proyecto, cuidando la separación de responsabilidades y la evolución futura del sistema.",
-    icon: ArchitectureIcon,
-  },
-  {
-    titulo: "Desarrollo Frontend",
-    descripcion:
-      "Construyo interfaces claras y mantenibles, basadas en una correcta componentización, priorizando rendimiento y experiencia de usuario.",
-    icon: MonitorIcon,
-  },
-  {
-    titulo: "Desarrollo Backend",
-    descripcion:
-      "Implemento lógica de negocio desacoplada mediante APIs bien definidas, con foco en robustez, validación y control de errores.",
-    icon: ServerIcon,
-  },
-  {
-    titulo: "Datos y persistencia",
-    descripcion:
-      "Diseño modelos relacionales consistentes, considerando integridad, claridad del dominio y crecimiento a largo plazo.",
-    icon: DatabaseIcon,
-  },
-];
+const competencyIcons = {
+  architecture: ArchitectureIcon,
+  frontend: MonitorIcon,
+  backend: ServerIcon,
+  data: DatabaseIcon,
+};
 
 const techCategories = [
   {
@@ -77,6 +58,9 @@ const techCategories = [
 export default function StackSection() {
   const techGridRef = useRef<HTMLDivElement>(null);
   const [techVisible, setTechVisible] = useState(false);
+  const { t } = useI18n();
+
+  const competencyKeys = ["architecture", "frontend", "backend", "data"] as const;
 
   useEffect(() => {
     const element = techGridRef.current;
@@ -103,43 +87,40 @@ export default function StackSection() {
       <Container>
         <AnimateOnScroll className="max-w-3xl">
           <p className="mb-3 text-sm font-medium tracking-wide text-accent">
-            Tecnología
+            {t.stack.label}
           </p>
           <h2
             id="stack"
             className="text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl"
           >
-            Stack & Engineering Approach
+            {t.stack.title}
           </h2>
 
           <p className="mt-6 text-base leading-relaxed text-text-secondary sm:text-lg">
-            Selecciono el stack tecnológico y los patrones de diseño según las
-            necesidades específicas de cada proyecto, priorizando la
-            escalabilidad, la mantenibilidad y la claridad arquitectónica desde
-            el inicio.
+            {t.stack.description}
           </p>
         </AnimateOnScroll>
 
         <AnimateOnScroll className="mt-16">
           <h3 className="text-lg font-medium text-text-primary">
-            Áreas de competencia
+            {t.stack.competenciesLabel}
           </h3>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {competencias.map((item) => {
-              const IconComponent = item.icon;
+            {competencyKeys.map((key) => {
+              const IconComponent = competencyIcons[key];
               return (
                 <div
-                  key={item.titulo}
+                  key={key}
                   className="competency-card group rounded-lg border border-border-subtle bg-surface p-6"
                 >
                   <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
                     <IconComponent className="h-5 w-5 text-accent" />
                   </div>
                   <h4 className="competency-title font-medium text-text-primary">
-                    {item.titulo}
+                    {t.stack.competencies[key].title}
                   </h4>
                   <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                    {item.descripcion}
+                    {t.stack.competencies[key].description}
                   </p>
                 </div>
               );
@@ -149,7 +130,7 @@ export default function StackSection() {
 
         <AnimateOnScroll className="mt-16">
           <h3 className="text-lg font-medium text-text-primary">
-            Stack principal
+            {t.stack.mainStackLabel}
           </h3>
           <div
             ref={techGridRef}
