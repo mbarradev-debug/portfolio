@@ -295,6 +295,53 @@ No se usó porque el portfolio tiene pocas features y la organización por tipo 
 
 ---
 
+## Analytics: Google Tag Manager
+
+### ¿Por qué Google Tag Manager?
+
+| Razón | Explicación |
+|-------|-------------|
+| **Flexibilidad** | Permite agregar Google Analytics 4, Facebook Pixel, etc. sin modificar código. |
+| **Estándar de la industria** | Herramienta más usada para gestión de tags. |
+| **Separación de concerns** | Marketing puede configurar tags sin intervención de desarrollo. |
+| **Sin impacto en bundle** | Se carga externamente, no aumenta el tamaño del JavaScript del proyecto. |
+
+### Implementación
+
+```tsx
+// layout.tsx
+const GTM_ID = "GTM-WQT7LXCX";
+
+// En <head> usando next/script
+<Script
+  id="gtm-script"
+  strategy="afterInteractive"
+  dangerouslySetInnerHTML={{ __html: `...GTM script...` }}
+/>
+
+// En <body> para usuarios sin JS
+<noscript>
+  <iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} />
+</noscript>
+```
+
+### ¿Por qué `strategy="afterInteractive"`?
+
+- **No bloquea el renderizado inicial** — La página carga primero, GTM después
+- **Mejor Core Web Vitals** — No afecta LCP ni FID
+- **Balance óptimo** — Analytics se activa rápido pero sin degradar UX
+
+### Alternativas consideradas
+
+| Alternativa | Por qué no se eligió |
+|-------------|----------------------|
+| **Google Analytics directo** | Menos flexible, no permite agregar otros tags fácilmente. |
+| **Vercel Analytics** | Bueno pero limitado a métricas de performance, sin eventos custom. |
+| **Plausible** | Privacy-friendly pero requiere suscripción para features avanzadas. |
+| **Sin analytics** | Un portfolio profesional necesita métricas para medir alcance. |
+
+---
+
 ## SEO y PWA
 
 ### Decisiones de SEO
@@ -376,6 +423,7 @@ Si el proyecto crece, considerar:
 | i18n | Sistema propio | Simplicidad, zero dependencies |
 | Animaciones | CSS puro | Zero runtime, mejor performance |
 | Email | Resend | API simple, tier gratuito |
+| Analytics | Google Tag Manager | Flexibilidad, estándar de la industria |
 | Organización | Por tipo | Predecible, escalable |
 | TypeScript | Modo estricto | Seguridad de tipos |
 | Micro-interacciones | hover/touch diferenciado | Mejor UX móvil |

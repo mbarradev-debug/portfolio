@@ -10,7 +10,7 @@ portfolio/
 │   │       └── route.ts    # POST /api/contact
 │   ├── globals.css         # Estilos globales, variables CSS y micro-interacciones
 │   ├── animations.css      # Animaciones de entrada (Hero, scroll-triggered)
-│   ├── layout.tsx          # Layout raíz (estructura HTML, i18n provider)
+│   ├── layout.tsx          # Layout raíz (estructura HTML, GTM, i18n provider)
 │   └── page.tsx            # Página principal (home)
 │
 ├── components/             # Componentes React
@@ -84,7 +84,13 @@ Esta carpeta usa el **App Router** de Next.js. Cada archivo aquí tiene un prop�
 export default function RootLayout({ children }) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <Script id="gtm-script" strategy="afterInteractive">
+          {/* Google Tag Manager */}
+        </Script>
+      </head>
       <body>
+        <noscript>{/* GTM noscript fallback */}</noscript>
         <I18nClientProvider>
           <SkipLink />
           <Header />
@@ -98,7 +104,8 @@ export default function RootLayout({ children }) {
 ```
 
 **¿Qué hace?**
-- Define el HTML base (`<html>`, `<body>`)
+- Define el HTML base (`<html>`, `<head>`, `<body>`)
+- Integra Google Tag Manager para analytics (script en head, noscript en body)
 - Envuelve todo con `I18nClientProvider` para internacionalización
 - Incluye `SkipLink` para accesibilidad
 - Carga la fuente Inter de Google Fonts

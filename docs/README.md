@@ -115,6 +115,7 @@ El proyecto soporta múltiples idiomas mediante un sistema de i18n propio ubicad
 | **Micro-interacciones** | Sistema CSS completo para feedback visual (hover/touch diferenciado) |
 | **Accesible** | Skip link, ARIA labels, contraste WCAG AAA, focus visible, prefers-reduced-motion |
 | **SEO optimizado** | Metadata, Open Graph, Twitter Cards, HTML semántico, robots.txt, sitemap.xml |
+| **Analytics** | Google Tag Manager integrado, listo para Google Analytics 4 |
 | **PWA Ready** | Manifest, iconos para dispositivos móviles, favicon |
 | **Performance** | Server Components, imágenes optimizadas, code splitting |
 | **Formulario funcional** | Envío de emails real vía API Route + Resend |

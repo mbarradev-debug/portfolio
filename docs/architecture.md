@@ -333,7 +333,13 @@ Los componentes se componen jerárquicamente como muñecas rusas:
 ```tsx
 // layout.tsx
 <html lang="es">
+  <head>
+    <Script id="gtm-script" strategy="afterInteractive">
+      {/* Google Tag Manager */}
+    </Script>
+  </head>
   <body>
+    <noscript>{/* GTM noscript fallback */}</noscript>
     <I18nClientProvider>
       <SkipLink />
       <Header />
@@ -562,3 +568,4 @@ Next.js divide automáticamente el código. Cada página solo carga el JavaScrip
 | Fuente | Inter via `next/font/google` |
 | Imágenes | Optimizadas con componente `Image` de Next.js |
 | i18n | Sistema propio con Context + localStorage + detección de idioma |
+| Analytics | Google Tag Manager con `next/script` (strategy: afterInteractive) |

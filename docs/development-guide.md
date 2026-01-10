@@ -79,7 +79,7 @@ portfolio/
 │   ├── api/contact/        # Endpoint POST /api/contact
 │   ├── globals.css         # Variables CSS y micro-interacciones
 │   ├── animations.css      # Animaciones de entrada
-│   ├── layout.tsx          # Layout raíz con i18n provider
+│   ├── layout.tsx          # Layout raíz con i18n provider y GTM
 │   └── page.tsx            # Página principal
 │
 ├── components/             # Componentes React
