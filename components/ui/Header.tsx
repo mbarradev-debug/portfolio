@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container } from "./Container";
 import { siteConfig } from "@/config";
 
@@ -16,6 +16,31 @@ export function Header() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMenuOpen) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isMenuOpen]);
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 border-b border-border-dim glass">
@@ -76,23 +101,40 @@ export function Header() {
         </button>
       </Container>
 
+      {/* Mobile Navigation Overlay */}
+      <div
+        className={`md:hidden fixed inset-0 top-16 bg-black/60 backdrop-blur-sm transition-opacity duration-200 ease-out ${
+          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={closeMenu}
+        aria-hidden="true"
+      />
+
       {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
-        <nav aria-label="Navegación principal" className="md:hidden border-t border-border-dim glass">
-          <Container className="py-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={closeMenu}
-                className="text-sm font-medium text-text-dim hover:text-white hover:bg-white/5 transition-colors duration-200 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-white focus-visible:bg-white/5"
-              >
-                {link.label}
-              </a>
-            ))}
-          </Container>
-        </nav>
-      )}
+      <nav
+        aria-label="Navegación principal"
+        className={`md:hidden absolute top-full left-0 w-full border-t border-border-dim glass transition-all duration-200 ease-out ${
+          isMenuOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-2 pointer-events-none"
+        }`}
+      >
+        <Container className="py-4 flex flex-col gap-1">
+          {navLinks.map((link, index) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={closeMenu}
+              className="text-sm font-medium text-text-dim hover:text-white hover:bg-white/5 transition-all duration-200 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-white focus-visible:bg-white/5"
+              style={{
+                transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms",
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </Container>
+      </nav>
     </header>
   );
 }
