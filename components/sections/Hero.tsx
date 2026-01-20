@@ -1,9 +1,11 @@
 import { Container } from "@/components/ui";
+import { HeroBackgroundCanvas } from "./HeroBackgroundCanvas";
 
 export function Hero() {
   return (
-    <section className="min-h-[90vh] flex flex-col justify-center py-16 md:py-20 bg-bg-dark">
-      <Container className="flex flex-col gap-8 md:gap-10">
+    <section className="relative min-h-[90vh] flex flex-col justify-center py-16 md:py-20 bg-bg-dark overflow-hidden">
+      <HeroBackgroundCanvas />
+      <Container className="relative z-10 flex flex-col gap-8 md:gap-10">
         <div className="flex flex-col gap-4">
           <span className="font-mono text-primary text-sm tracking-widest uppercase">
             Full Stack Software Engineer
