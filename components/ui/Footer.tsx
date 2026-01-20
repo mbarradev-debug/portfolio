@@ -89,7 +89,7 @@ export function Footer() {
         </div>
       </Container>
 
-      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs text-zinc-600">
+      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs text-zinc-500">
         <p>© {currentYear} {siteConfig.author.name}. Todos los derechos reservados.</p>
         <p>Diseñado con código.</p>
       </Container>
