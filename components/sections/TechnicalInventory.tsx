@@ -1,17 +1,12 @@
 import { Container, AnimatedSection } from "@/components/ui";
-// [EXPERIMENTAL] Iconos de categoría para mejorar el escaneo visual
-// Justificación: Ayuda a identificar rápidamente cada categoría sin leer el título
-// Para revertir: eliminar imports, quitar icon de SkillCategory, eliminar iconos del render
 import { Monitor, Server, Cloud, Wrench, type LucideIcon } from "lucide-react";
 
 interface SkillCategory {
   title: string;
   skills: string[];
-  // [EXPERIMENTAL] Icono opcional por categoría
   icon?: LucideIcon;
 }
 
-// [EXPERIMENTAL] Iconos asignados por categoría - solo 1 icono por categoría
 const skillCategories: SkillCategory[] = [
   {
     title: "Frontend",
@@ -57,7 +52,6 @@ export function TechnicalInventory() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {skillCategories.map((category) => (
               <div key={category.title} className="space-y-4">
-                {/* [EXPERIMENTAL] Icono + título para mejor escaneo visual */}
                 <h3 className="font-bold text-white border-b border-primary/30 pb-2 inline-flex items-center gap-2">
                   {category.icon && (
                     <category.icon

@@ -1,12 +1,7 @@
 import { Container } from "./Container";
 import { siteConfig } from "@/config";
-// [EXPERIMENTAL] Icono de Lucide para email
-// Justificación: Mejora el reconocimiento visual de enlaces de contacto
-// Para revertir: eliminar import y restaurar SVG inline original
 import { Mail } from "lucide-react";
 
-// [EXPERIMENTAL] Iconos SVG inline para redes sociales (GitHub y LinkedIn)
-// Lucide deprecated sus iconos de marcas, usamos SVGs directos
 const GitHubIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
@@ -52,7 +47,6 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap justify-center md:justify-start items-center gap-6 md:gap-8">
-          {/* [EXPERIMENTAL] Iconos sociales - icono + texto para mejor reconocimiento */}
           <a
             href={siteConfig.links.github}
             target="_blank"
@@ -88,9 +82,8 @@ export function Footer() {
         </div>
       </Container>
 
-      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs text-zinc-500">
+      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 flex justify-center md:justify-start text-xs text-zinc-500">
         <p>© {currentYear} {siteConfig.author.name}. Todos los derechos reservados.</p>
-        <p>Diseñado con código.</p>
       </Container>
     </footer>
   );
