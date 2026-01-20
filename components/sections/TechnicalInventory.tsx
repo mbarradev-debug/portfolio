@@ -46,9 +46,9 @@ export function TechnicalInventory() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {skillCategories.map((category) => (
               <div key={category.title} className="space-y-4">
-                <h4 className="font-bold text-white border-b border-primary/30 pb-2 inline-block">
+                <h3 className="font-bold text-white border-b border-primary/30 pb-2 inline-block">
                   {category.title}
-                </h4>
+                </h3>
                 <ul className="space-y-2 text-sm text-text-dim">
                   {category.skills.map((skill) => (
                     <li key={skill}>{skill}</li>

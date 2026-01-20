@@ -11,9 +11,9 @@ export function Footer() {
     >
       <Container className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold text-white">
+          <p className="text-2xl font-bold text-white">
             {siteConfig.author.name}
-          </h2>
+          </p>
           <p className="text-text-dim">
             Construyendo sistemas pensados para durar.
           </p>
