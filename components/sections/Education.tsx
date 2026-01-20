@@ -21,18 +21,18 @@ const educationItems: EducationItem[] = [
 
 export function Education() {
   return (
-    <section className="py-16 md:py-20 bg-bg-dark">
+    <section className="py-16 md:py-20 bg-bg-base">
       <Container>
-        <AnimatedSection className="border-t border-border-dim pt-8 md:pt-12">
-          <h2 className="text-2xl font-bold text-white mb-6 md:mb-8">Educación</h2>
+        <AnimatedSection className="border-t border-border pt-8 md:pt-12">
+          <h2 className="text-2xl font-bold text-text-primary mb-6 md:mb-8">Educación</h2>
 
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {educationItems.map((item) => (
               <div key={item.degree}>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-text-primary">
                   {item.institution}
                 </h3>
-                <p className="text-text-dim">{item.degree}</p>
+                <p className="text-text-secondary">{item.degree}</p>
                 <p className="text-sm text-primary mt-1">{item.period}</p>
               </div>
             ))}

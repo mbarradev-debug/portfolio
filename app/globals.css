@@ -5,35 +5,91 @@
    Based on: reference/design/portfolio.html
 
    This file defines:
-   - Color tokens (semantic naming)
+   - Color tokens (semantic naming, theme-aware)
    - Typography system (Space Grotesk + Inter)
    - Global base styles
    - Tailwind theme configuration
+
+   Theme Strategy:
+   - All colors use CSS custom properties
+   - Dark mode is default (via .dark class on html)
+   - Light mode activates via .light class on html
+   - Tokens use semantic names, not color names
    ============================================================================= */
 
 /* -----------------------------------------------------------------------------
-   CSS Custom Properties (Design Tokens)
+   CSS Custom Properties (Design Tokens) - DARK MODE (Default)
    ----------------------------------------------------------------------------- */
 
-:root {
+:root,
+.dark {
   /* Primary Colors */
   --color-primary: #2563EB;
-  --color-primary-dark: #1d4ed8;
+  --color-primary-hover: #1d4ed8;
+  --color-on-primary: #FFFFFF;
 
   /* Background Colors */
-  --color-bg-dark: #0A0A0A;
-  --color-bg-deep: #050505;
+  --color-bg-base: #0A0A0A;
+  --color-bg-elevated: #050505;
   --color-bg-footer: #000000;
 
   /* Text Colors */
-  --color-text-light: #F3F4F6;
-  --color-text-dim: #9CA3AF;
+  --color-text-primary: #F3F4F6;
+  --color-text-secondary: #9CA3AF;
+  --color-text-tertiary: #71717A;
 
   /* Border Colors */
-  --color-border-dim: #1F2937;
+  --color-border: #1F2937;
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
+
+  /* Interactive States */
+  --color-surface-hover: rgba(255, 255, 255, 0.05);
+  --color-surface-hover-strong: rgba(255, 255, 255, 0.1);
+  --color-overlay: rgba(0, 0, 0, 0.6);
 
   /* Selection */
   --color-selection-bg: rgba(37, 99, 235, 0.3);
+
+  /* Glass Effect */
+  --color-glass-bg: rgba(10, 10, 10, 0.8);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* -----------------------------------------------------------------------------
+   CSS Custom Properties - LIGHT MODE
+   ----------------------------------------------------------------------------- */
+
+.light {
+  /* Primary Colors */
+  --color-primary: #2563EB;
+  --color-primary-hover: #1E40AF;
+  --color-on-primary: #FFFFFF;
+
+  /* Background Colors */
+  --color-bg-base: #F8FAFC;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-footer: #FFFFFF;
+
+  /* Text Colors */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #64748B;
+  --color-text-tertiary: #94A3B8;
+
+  /* Border Colors */
+  --color-border: #CBD5E1;
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+
+  /* Interactive States */
+  --color-surface-hover: rgba(0, 0, 0, 0.04);
+  --color-surface-hover-strong: rgba(0, 0, 0, 0.08);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  /* Selection */
+  --color-selection-bg: rgba(37, 99, 235, 0.15);
+
+  /* Glass Effect */
+  --color-glass-bg: rgba(255, 255, 255, 0.85);
+  --color-glass-border: rgba(0, 0, 0, 0.08);
 }
 
 /* -----------------------------------------------------------------------------
@@ -41,15 +97,22 @@
    ----------------------------------------------------------------------------- */
 
 @theme inline {
-  /* Colors - Semantic tokens */
+  /* Colors - Semantic tokens (theme-aware) */
   --color-primary: var(--color-primary);
-  --color-primary-dark: var(--color-primary-dark);
-  --color-bg-dark: var(--color-bg-dark);
-  --color-bg-deep: var(--color-bg-deep);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-on-primary: var(--color-on-primary);
+  --color-bg-base: var(--color-bg-base);
+  --color-bg-elevated: var(--color-bg-elevated);
   --color-bg-footer: var(--color-bg-footer);
-  --color-text-light: var(--color-text-light);
-  --color-text-dim: var(--color-text-dim);
-  --color-border-dim: var(--color-border-dim);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-glass-border: var(--color-glass-border);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-surface-hover-strong: var(--color-surface-hover-strong);
+  --color-overlay: var(--color-overlay);
 
   /* Typography - Font Families */
   --font-display: var(--font-display), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -72,9 +135,10 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
   line-height: 1.6;
+  transition: background-color 0.2s ease-out, color 0.2s ease-out;
 }
 
 /* -----------------------------------------------------------------------------
@@ -91,7 +155,7 @@ h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--color-text-light);
+  color: var(--color-text-primary);
 }
 
 /* -----------------------------------------------------------------------------
@@ -105,11 +169,10 @@ h6 {
 
 /* -----------------------------------------------------------------------------
    Links - Base styles
-   Note: Transitions are handled via Tailwind utility classes in components
+   Note: Color is handled via Tailwind utility classes in components
    ----------------------------------------------------------------------------- */
 
 a {
-  color: inherit;
   text-decoration: none;
 }
 
@@ -127,7 +190,7 @@ a {
    ----------------------------------------------------------------------------- */
 
 .glass {
-  background: rgba(10, 10, 10, 0.8);
+  background: var(--color-glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }

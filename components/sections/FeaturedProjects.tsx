@@ -26,10 +26,10 @@ const projects: Project[] = [
 
 export function FeaturedProjects() {
   return (
-    <section id="work" className="py-16 md:py-24 bg-bg-deep">
+    <section id="work" className="py-16 md:py-24 bg-bg-elevated">
       <Container>
         <AnimatedSection>
-          <h2 className="text-3xl font-bold text-white mb-8 md:mb-12">
+          <h2 className="text-3xl font-bold text-text-primary mb-8 md:mb-12">
             Proyectos Destacados
           </h2>
 
@@ -37,14 +37,14 @@ export function FeaturedProjects() {
           {projects.map((project, index) => (
             <article
               key={index}
-              className="group rounded-xl bg-bg-dark border border-border-dim p-6 md:p-8 transition-colors duration-200 ease-out hover:border-primary/50 hover:bg-white/[0.02]"
+              className="group rounded-xl bg-bg-base border border-border p-6 md:p-8 transition-colors duration-200 ease-out hover:border-primary/50 hover:bg-surface-hover"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-white transition-colors duration-200 ease-out group-hover:text-primary">
+                <h3 className="text-2xl font-bold text-text-primary transition-colors duration-200 ease-out group-hover:text-primary">
                   {project.title}
                 </h3>
                 <svg
-                  className="w-5 h-5 text-text-dim transition-colors duration-200 ease-out group-hover:text-primary"
+                  className="w-5 h-5 text-text-secondary transition-colors duration-200 ease-out group-hover:text-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -61,17 +61,17 @@ export function FeaturedProjects() {
 
               <div className="space-y-6">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-text-dim">
+                  <span className="text-xs font-mono uppercase tracking-wider text-text-secondary">
                     El Problema
                   </span>
-                  <p className="text-white mt-1">{project.problem}</p>
+                  <p className="text-text-primary mt-1">{project.problem}</p>
                 </div>
 
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-text-dim">
+                  <span className="text-xs font-mono uppercase tracking-wider text-text-secondary">
                     La Solución
                   </span>
-                  <p className="text-text-dim mt-1 text-sm leading-relaxed">
+                  <p className="text-text-secondary mt-1 text-sm leading-relaxed">
                     {project.solution}
                   </p>
                 </div>

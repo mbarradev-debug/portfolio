@@ -34,14 +34,14 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      className="bg-bg-footer py-16 md:py-20 border-t border-border-dim text-center md:text-left"
+      className="bg-bg-footer py-16 md:py-20 border-t border-border text-center md:text-left"
     >
       <Container className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
         <div className="flex flex-col gap-2">
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-bold text-text-primary">
             {siteConfig.author.name}
           </p>
-          <p className="text-text-dim">
+          <p className="text-text-secondary">
             Construyendo sistemas pensados para durar.
           </p>
         </div>
@@ -51,7 +51,7 @@ export function Footer() {
             href={siteConfig.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors duration-200 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
+            className="group flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors duration-200 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
           >
             <GitHubIcon className="transition-colors duration-200 ease-out group-hover:text-primary" />
             <span className="text-sm font-medium">GitHub</span>
@@ -61,7 +61,7 @@ export function Footer() {
             href={siteConfig.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors duration-200 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
+            className="group flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors duration-200 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
           >
             <LinkedInIcon className="transition-colors duration-200 ease-out group-hover:text-primary" />
             <span className="text-sm font-medium">LinkedIn</span>
@@ -69,7 +69,7 @@ export function Footer() {
 
           <a
             href={`mailto:${siteConfig.author.email}`}
-            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors duration-200 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
+            className="group flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors duration-200 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
           >
             <Mail
               size={18}
@@ -82,7 +82,7 @@ export function Footer() {
         </div>
       </Container>
 
-      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 flex justify-center md:justify-start text-xs text-zinc-500">
+      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-border-subtle flex justify-center md:justify-start text-xs text-text-tertiary">
         <p>© {currentYear} {siteConfig.author.name}. Todos los derechos reservados.</p>
       </Container>
     </footer>

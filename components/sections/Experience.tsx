@@ -58,30 +58,30 @@ const experiences: ExperienceItem[] = [
 
 export function Experience() {
   return (
-    <section id="experience" className="py-16 md:py-24 bg-bg-dark">
+    <section id="experience" className="py-16 md:py-24 bg-bg-base">
       <Container>
         <AnimatedSection>
-          <h2 className="text-3xl font-bold text-white mb-12 md:mb-16">Experiencia</h2>
+          <h2 className="text-3xl font-bold text-text-primary mb-12 md:mb-16">Experiencia</h2>
 
-          <div className="relative border-l border-border-dim ml-3 md:ml-6 space-y-12 md:space-y-16">
+          <div className="relative border-l border-border ml-3 md:ml-6 space-y-12 md:space-y-16">
           {experiences.map((exp, index) => (
             <div key={index} className="relative pl-8 md:pl-12">
               <div
-                className={`absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full ring-4 ring-bg-dark ${
-                  exp.isCurrent ? "bg-primary" : "bg-border-dim"
+                className={`absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full ring-4 ring-bg-base ${
+                  exp.isCurrent ? "bg-primary" : "bg-border"
                 }`}
               />
 
               <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
-                <h3 className="text-xl font-bold text-white">{exp.role}</h3>
-                <span className="font-mono text-sm text-text-dim">
+                <h3 className="text-xl font-bold text-text-primary">{exp.role}</h3>
+                <span className="font-mono text-sm text-text-secondary">
                   {exp.period}
                 </span>
               </div>
 
               <div className="text-primary font-medium mb-4">{exp.company}</div>
 
-              <ul className="list-disc list-outside ml-4 space-y-2 text-text-dim marker:text-primary/50">
+              <ul className="list-disc list-outside ml-4 space-y-2 text-text-secondary marker:text-primary/50">
                 {exp.description.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}

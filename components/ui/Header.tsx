@@ -43,12 +43,12 @@ export function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 border-b border-border-dim glass">
+    <header className="fixed top-0 left-0 w-full z-50 bg-bg-base">
       <Container className="h-16 flex items-center justify-between">
         {/* Logo / Home link */}
         <a
           href="#"
-          className="font-display font-bold text-xl tracking-tight text-white hover:text-primary transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark rounded"
+          className="font-display font-bold text-xl tracking-tight text-text-primary hover:text-primary transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base rounded"
         >
           {siteConfig.author.name}
         </a>
@@ -59,10 +59,9 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative text-sm font-medium text-text-dim hover:text-white transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:text-white py-1"
+              className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:text-text-primary py-1"
             >
               {link.label}
-              <span className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-200 ease-out group-hover:w-full group-focus-visible:w-full" />
             </a>
           ))}
         </nav>
@@ -71,7 +70,7 @@ export function Header() {
         <button
           type="button"
           onClick={toggleMenu}
-          className="md:hidden text-white p-2 -mr-2 rounded transition-colors duration-200 ease-out hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
+          className="md:hidden text-text-primary p-2 -mr-2 rounded transition-colors duration-200 ease-out hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
           aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={isMenuOpen}
         >
@@ -103,7 +102,7 @@ export function Header() {
 
       {/* Mobile Navigation Overlay */}
       <div
-        className={`md:hidden fixed inset-0 top-16 bg-black/60 backdrop-blur-sm transition-opacity duration-200 ease-out ${
+        className={`md:hidden fixed inset-0 top-16 bg-overlay backdrop-blur-sm transition-opacity duration-200 ease-out ${
           isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={closeMenu}
@@ -113,7 +112,7 @@ export function Header() {
       {/* Mobile Navigation Menu */}
       <nav
         aria-label="Navegación principal"
-        className={`md:hidden absolute top-full left-0 w-full border-t border-border-dim glass transition-all duration-200 ease-out ${
+        className={`md:hidden absolute top-full left-0 w-full bg-bg-base transition-all duration-200 ease-out ${
           isMenuOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -125,7 +124,7 @@ export function Header() {
               key={link.href}
               href={link.href}
               onClick={closeMenu}
-              className="text-sm font-medium text-text-dim hover:text-white hover:bg-white/5 transition-all duration-200 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-white focus-visible:bg-white/5"
+              className="text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-all duration-200 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-text-primary focus-visible:bg-surface-hover"
               style={{
                 transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms",
               }}
