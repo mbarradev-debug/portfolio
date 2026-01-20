@@ -5,10 +5,10 @@ import { Container } from "./Container";
 import { siteConfig } from "@/config";
 
 const navLinks = [
-  { href: "#work", label: "Work" },
-  { href: "#experience", label: "Experience" },
-  { href: "#philosophy", label: "Philosophy" },
-  { href: "#contact", label: "Contact" },
+  { href: "#philosophy", label: "Filosofía" },
+  { href: "#experience", label: "Experiencia" },
+  { href: "#work", label: "Proyectos" },
+  { href: "#contact", label: "Contacto" },
 ] as const;
 
 export function Header() {
