@@ -3,6 +3,7 @@ import {
   Philosophy,
   Experience,
   FeaturedProjects,
+  TechnicalInventory,
 } from "@/components/sections";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Philosophy />
       <Experience />
       <FeaturedProjects />
+      <TechnicalInventory />
     </>
   );
 }
