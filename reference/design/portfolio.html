@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Miguel Barra | Full Stack Engineer Portfolio</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2563EB", // Technical Blue
+                        "primary-dark": "#1d4ed8",
+                        "background-dark": "#0A0A0A", // Dark Neutral
+                        "background-deep": "#050505", // Slightly deeper for contrast
+                        "footer-black": "#000000",
+                        "text-light": "#F3F4F6",
+                        "text-dim": "#9CA3AF",
+                        "border-dim": "#1F2937",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom utilities for scrollbar and subtle effects */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #F3F4F6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary/30 selection:text-white">
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 w-full z-50 border-b border-border-dim glass-nav">
+<div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+<a class="font-display font-bold text-xl tracking-tight text-white hover:text-primary transition-colors" href="#">
+                Miguel Barra
+            </a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-text-dim hover:text-white transition-colors" href="#work">Work</a>
+<a class="text-sm font-medium text-text-dim hover:text-white transition-colors" href="#experience">Experience</a>
+<a class="text-sm font-medium text-text-dim hover:text-white transition-colors" href="#philosophy">Philosophy</a>
+<a class="text-sm font-medium text-text-dim hover:text-white transition-colors" href="#contact">Contact</a>
+</div>
+<!-- Mobile Menu Icon (Placeholder for responsive) -->
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="w-full flex flex-col pt-16">
+<!-- Hero Section -->
+<section class="min-h-[90vh] flex flex-col justify-center px-6 py-20 bg-background-dark">
+<div class="max-w-5xl mx-auto w-full flex flex-col gap-10">
+<div class="flex flex-col gap-4">
+<span class="font-mono text-primary text-sm tracking-widest uppercase">Full Stack Software Engineer</span>
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white max-w-4xl">
+                        Opinionated and engineering-driven, focused on scalable systems, long-term maintainability, and product-first thinking.
+                    </h1>
+</div>
+<p class="text-xl text-text-dim max-w-2xl font-light leading-relaxed">
+                    Building production-grade infrastructure and specialized in high-throughput systems that scale gracefully.
+                </p>
+<div class="flex flex-wrap gap-4 mt-4">
+<a class="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark" href="#work">
+                        View Selected Work
+                    </a>
+<a class="inline-flex h-12 items-center justify-center rounded-lg border border-border-dim bg-transparent px-8 text-sm font-semibold text-white transition-colors hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-background-dark" href="#contact">
+                        Get in Touch
+                    </a>
+</div>
+</div>
+</section>
+<!-- Philosophy Section -->
+<section class="py-24 px-6 bg-background-deep border-y border-border-dim" id="philosophy">
+<div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_2fr] gap-12 items-start">
+<div>
+<h2 class="text-3xl font-bold text-white mb-4">Philosophy</h2>
+<div class="w-12 h-1 bg-primary rounded-full"></div>
+</div>
+<div class="flex flex-col gap-8">
+<blockquote class="text-2xl md:text-3xl font-display font-medium leading-tight text-white">
+                        "Maintainability is not an afterthought; it is the foundation of scale."
+                    </blockquote>
+<div class="prose prose-invert prose-lg text-text-dim">
+<p>
+                            I prioritize clear system ownership and maintainability over hype cycles. In a world obsessed with the newest framework, I focus on boring technology that works. Reliable systems are built on predictable patterns, rigorous testing, and code that explains itself.
+                        </p>
+<p class="mt-4">
+                            My approach is simple: Write code for the human who will maintain it six months from now—even if that human is me.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Experience Section -->
+<section class="py-24 px-6 bg-background-dark" id="experience">
+<div class="max-w-5xl mx-auto">
+<h2 class="text-3xl font-bold text-white mb-16">Experience</h2>
+<div class="relative border-l border-border-dim ml-3 md:ml-6 space-y-16">
+<!-- Role 1 -->
+<div class="relative pl-8 md:pl-12">
+<div class="absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full bg-primary ring-4 ring-background-dark"></div>
+<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
+<h3 class="text-xl font-bold text-white">Senior Engineer</h3>
+<span class="font-mono text-sm text-text-dim">2021 — Present</span>
+</div>
+<div class="text-primary font-medium mb-4">Forcast</div>
+<ul class="list-disc list-outside ml-4 space-y-2 text-text-dim marker:text-primary/50">
+<li>Architecture Focus: Led the migration from monolithic architecture to domain-driven microservices.</li>
+<li>Reduced system latency by 40% through aggressive caching strategies and database indexing optimization.</li>
+<li>Mentored junior engineers and established rigorous code review standards.</li>
+</ul>
+</div>
+<!-- Role 2 -->
+<div class="relative pl-8 md:pl-12">
+<div class="absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full bg-border-dim ring-4 ring-background-dark"></div>
+<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
+<h3 class="text-xl font-bold text-white">Software Engineer</h3>
+<span class="font-mono text-sm text-text-dim">2019 — 2021</span>
+</div>
+<div class="text-primary font-medium mb-4">DOB Protocol</div>
+<ul class="list-disc list-outside ml-4 space-y-2 text-text-dim marker:text-primary/50">
+<li>Blockchain Data: Built high-reliability ingestion pipelines for on-chain data analysis.</li>
+<li>Implemented event-driven architecture handling 500k+ events per minute.</li>
+</ul>
+</div>
+<!-- Role 3 -->
+<div class="relative pl-8 md:pl-12">
+<div class="absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full bg-border-dim ring-4 ring-background-dark"></div>
+<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
+<h3 class="text-xl font-bold text-white">Full Stack Dev</h3>
+<span class="font-mono text-sm text-text-dim">2017 — 2019</span>
+</div>
+<div class="text-primary font-medium mb-4">E-Hive</div>
+<ul class="list-disc list-outside ml-4 space-y-2 text-text-dim marker:text-primary/50">
+<li>Early Stage Scaling: Employee #3. Built the MVP and scaled it to the first 10,000 users.</li>
+<li>Full ownership of the React frontend and Node.js backend services.</li>
+</ul>
+</div>
+<!-- Role 4 -->
+<div class="relative pl-8 md:pl-12">
+<div class="absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full bg-border-dim ring-4 ring-background-dark"></div>
+<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
+<h3 class="text-xl font-bold text-white">Junior Dev</h3>
+<span class="font-mono text-sm text-text-dim">2015 — 2017</span>
+</div>
+<div class="text-primary font-medium mb-4">ITS Solutions</div>
+<ul class="list-disc list-outside ml-4 space-y-2 text-text-dim marker:text-primary/50">
+<li>Foundational work in legacy system maintenance and incremental refactoring.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Projects Section -->
+<section class="py-24 px-6 bg-[#050505]" id="work">
+<div class="max-w-5xl mx-auto">
+<h2 class="text-3xl font-bold text-white mb-12">Featured Projects</h2>
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Project Card 1 -->
+<div class="group relative rounded-xl bg-background-dark border border-border-dim p-8 hover:border-primary/50 transition-all duration-300">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold text-white group-hover:text-primary transition-colors">SaaS Platform Scaling</h3>
+<span class="material-symbols-outlined text-text-dim group-hover:text-primary transition-colors">arrow_outward</span>
+</div>
+<div class="space-y-6">
+<div>
+<span class="text-xs font-mono uppercase tracking-wider text-text-dim">The Problem</span>
+<p class="text-white mt-1">Monolithic bottleneck causing 2s+ latency during peak load.</p>
+</div>
+<div>
+<span class="text-xs font-mono uppercase tracking-wider text-text-dim">The Solution</span>
+<p class="text-text-dim mt-1 text-sm leading-relaxed">
+                                    Decomposed critical paths into independent microservices. Introduced read-replicas for heavy reporting queries and implemented a Redis caching layer for frequent user configurations.
+                                </p>
+</div>
+<div class="pt-4 flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">Node.js</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">AWS ECS</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">Docker</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">PostgreSQL</span>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="group relative rounded-xl bg-background-dark border border-border-dim p-8 hover:border-primary/50 transition-all duration-300">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold text-white group-hover:text-primary transition-colors">High-Throughput Data Integration</h3>
+<span class="material-symbols-outlined text-text-dim group-hover:text-primary transition-colors">arrow_outward</span>
+</div>
+<div class="space-y-6">
+<div>
+<span class="text-xs font-mono uppercase tracking-wider text-text-dim">The Problem</span>
+<p class="text-white mt-1">Data loss during third-party API downtime and rate limiting issues.</p>
+</div>
+<div>
+<span class="text-xs font-mono uppercase tracking-wider text-text-dim">The Solution</span>
+<p class="text-text-dim mt-1 text-sm leading-relaxed">
+                                    Architected an event-driven ingestion system with dead-letter queues. Implemented intelligent backoff retry logic and decoupled ingestion from processing.
+                                </p>
+</div>
+<div class="pt-4 flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">Golang</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">Apache Kafka</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">Redis</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Section -->
+<section class="py-24 px-6 bg-background-dark border-t border-border-dim">
+<div class="max-w-5xl mx-auto">
+<h2 class="text-3xl font-bold text-white mb-12">Technical Skills</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+<div class="space-y-4">
+<h4 class="font-bold text-white border-b border-primary/30 pb-2 inline-block">Frontend</h4>
+<ul class="space-y-2 text-sm text-text-dim">
+<li>React / Next.js</li>
+<li>TypeScript</li>
+<li>Tailwind CSS</li>
+<li>State Management (Zustand)</li>
+<li>Performance Optimization</li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-white border-b border-primary/30 pb-2 inline-block">Backend</h4>
+<ul class="space-y-2 text-sm text-text-dim">
+<li>Node.js / Express</li>
+<li>Golang</li>
+<li>Python (FastAPI)</li>
+<li>PostgreSQL</li>
+<li>Redis</li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-white border-b border-primary/30 pb-2 inline-block">Cloud &amp; DevOps</h4>
+<ul class="space-y-2 text-sm text-text-dim">
+<li>AWS (ECS, Lambda, RDS)</li>
+<li>Docker &amp; Kubernetes</li>
+<li>CI/CD (GitHub Actions)</li>
+<li>Terraform (IaC)</li>
+<li>Monitoring (Datadog)</li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-white border-b border-primary/30 pb-2 inline-block">Tools</h4>
+<ul class="space-y-2 text-sm text-text-dim">
+<li>Git / GitHub</li>
+<li>Jira / Linear</li>
+<li>Figma (Dev Handoff)</li>
+<li>Postman</li>
+<li>Linux / Bash</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Education Section -->
+<section class="py-20 px-6 bg-background-dark">
+<div class="max-w-5xl mx-auto border-t border-border-dim pt-12">
+<h2 class="text-2xl font-bold text-white mb-8">Education</h2>
+<div class="grid md:grid-cols-2 gap-8">
+<div>
+<h3 class="text-lg font-bold text-white">Universidad Andrés Bello</h3>
+<p class="text-text-dim">Computer Science Engineering</p>
+<p class="text-sm text-primary mt-1">2018 - 2021</p>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Duoc UC</h3>
+<p class="text-text-dim">Software Analysis and Programming</p>
+<p class="text-sm text-primary mt-1">2014 - 2017</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-footer-black py-20 px-6 text-center md:text-left border-t border-border-dim" id="contact">
+<div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-2">
+<h2 class="text-2xl font-bold text-white">Miguel Barra</h2>
+<p class="text-text-dim">Building systems for the long term.</p>
+</div>
+<div class="flex items-center gap-8">
+<a class="group flex items-center gap-2 text-text-dim hover:text-white transition-colors" href="#">
+<span class="text-sm font-medium">GitHub</span>
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-colors">arrow_outward</span>
+</a>
+<a class="group flex items-center gap-2 text-text-dim hover:text-white transition-colors" href="#">
+<span class="text-sm font-medium">LinkedIn</span>
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-colors">arrow_outward</span>
+</a>
+<a class="group flex items-center gap-2 text-text-dim hover:text-white transition-colors" href="mailto:hello@miguelbarra.dev">
+<span class="text-sm font-medium">Email</span>
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-colors">mail</span>
+</a>
+</div>
+</div>
+<div class="max-w-5xl mx-auto mt-16 pt-8 border-t border-white/10 flex justify-between text-xs text-zinc-600">
+<p>© 2024 Miguel Barra. All rights reserved.</p>
+<p>Designed with Code.</p>
+</div>
+</footer>
+</body></html>
