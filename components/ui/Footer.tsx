@@ -7,9 +7,9 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      className="bg-bg-footer py-20 border-t border-border-dim text-center md:text-left"
+      className="bg-bg-footer py-16 md:py-20 border-t border-border-dim text-center md:text-left"
     >
-      <Container className="flex flex-col md:flex-row justify-between items-center gap-8">
+      <Container className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
         <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-bold text-white">
             {siteConfig.author.name}
@@ -19,7 +19,7 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="flex items-center gap-8">
+        <div className="flex flex-wrap justify-center md:justify-start items-center gap-6 md:gap-8">
           <a
             href={siteConfig.links.github}
             target="_blank"
@@ -89,7 +89,7 @@ export function Footer() {
         </div>
       </Container>
 
-      <Container className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-600">
+      <Container className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs text-zinc-600">
         <p>© {currentYear} {siteConfig.author.name}. Todos los derechos reservados.</p>
         <p>Diseñado con código.</p>
       </Container>

@@ -58,11 +58,11 @@ const experiences: ExperienceItem[] = [
 
 export function Experience() {
   return (
-    <section id="experience" className="py-24 bg-bg-dark">
+    <section id="experience" className="py-16 md:py-24 bg-bg-dark">
       <Container>
-        <h2 className="text-3xl font-bold text-white mb-16">Experiencia</h2>
+        <h2 className="text-3xl font-bold text-white mb-12 md:mb-16">Experiencia</h2>
 
-        <div className="relative border-l border-border-dim ml-3 md:ml-6 space-y-16">
+        <div className="relative border-l border-border-dim ml-3 md:ml-6 space-y-12 md:space-y-16">
           {experiences.map((exp, index) => (
             <div key={index} className="relative pl-8 md:pl-12">
               <div

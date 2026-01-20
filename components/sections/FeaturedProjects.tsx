@@ -26,17 +26,17 @@ const projects: Project[] = [
 
 export function FeaturedProjects() {
   return (
-    <section id="work" className="py-24 bg-bg-deep">
+    <section id="work" className="py-16 md:py-24 bg-bg-deep">
       <Container>
-        <h2 className="text-3xl font-bold text-white mb-12">
+        <h2 className="text-3xl font-bold text-white mb-8 md:mb-12">
           Proyectos Destacados
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <article
               key={index}
-              className="rounded-xl bg-bg-dark border border-border-dim p-8"
+              className="rounded-xl bg-bg-dark border border-border-dim p-6 md:p-8"
             >
               <h3 className="text-2xl font-bold text-white mb-6">
                 {project.title}

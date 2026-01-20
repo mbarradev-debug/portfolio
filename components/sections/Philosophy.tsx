@@ -4,9 +4,9 @@ export function Philosophy() {
   return (
     <section
       id="philosophy"
-      className="py-24 bg-bg-deep border-y border-border-dim"
+      className="py-16 md:py-24 bg-bg-deep border-y border-border-dim"
     >
-      <Container className="grid md:grid-cols-[1fr_2fr] gap-12 items-start">
+      <Container className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-12 items-start">
         <div>
           <h2 className="text-3xl font-bold text-white mb-4">Filosofía</h2>
           <div className="w-12 h-1 bg-primary rounded-full" />
