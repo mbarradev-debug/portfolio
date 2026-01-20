@@ -1,4 +1,4 @@
-import { Container } from "@/components/ui";
+import { Container, AnimatedSection } from "@/components/ui";
 
 interface Project {
   title: string;
@@ -28,19 +28,36 @@ export function FeaturedProjects() {
   return (
     <section id="work" className="py-16 md:py-24 bg-bg-deep">
       <Container>
-        <h2 className="text-3xl font-bold text-white mb-8 md:mb-12">
-          Proyectos Destacados
-        </h2>
+        <AnimatedSection>
+          <h2 className="text-3xl font-bold text-white mb-8 md:mb-12">
+            Proyectos Destacados
+          </h2>
 
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <article
               key={index}
-              className="rounded-xl bg-bg-dark border border-border-dim p-6 md:p-8"
+              className="group rounded-xl bg-bg-dark border border-border-dim p-6 md:p-8 transition-all duration-300 ease-out hover:border-primary hover:bg-white/[0.02] hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
             >
-              <h3 className="text-2xl font-bold text-white mb-6">
-                {project.title}
-              </h3>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-white transition-colors duration-300 ease-out group-hover:text-primary">
+                  {project.title}
+                </h3>
+                <svg
+                  className="w-5 h-5 text-text-dim transition-all duration-300 ease-out group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                  />
+                </svg>
+              </div>
 
               <div className="space-y-6">
                 <div>
@@ -63,7 +80,7 @@ export function FeaturedProjects() {
                   {project.stack.map((tech, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20"
+                      className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20 transition-colors duration-200 ease-out hover:bg-primary/20"
                     >
                       {tech}
                     </span>
@@ -72,7 +89,8 @@ export function FeaturedProjects() {
               </div>
             </article>
           ))}
-        </div>
+          </div>
+        </AnimatedSection>
       </Container>
     </section>
   );

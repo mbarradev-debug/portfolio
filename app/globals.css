@@ -105,12 +105,12 @@ h6 {
 
 /* -----------------------------------------------------------------------------
    Links - Base styles
+   Note: Transitions are handled via Tailwind utility classes in components
    ----------------------------------------------------------------------------- */
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 /* -----------------------------------------------------------------------------

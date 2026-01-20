@@ -23,7 +23,7 @@ export function Header() {
         {/* Logo / Home link */}
         <a
           href="#"
-          className="font-display font-bold text-xl tracking-tight text-white hover:text-primary transition-colors"
+          className="font-display font-bold text-xl tracking-tight text-white hover:text-primary hover:scale-[1.02] transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark rounded"
         >
           {siteConfig.author.name}
         </a>
@@ -34,7 +34,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-text-dim hover:text-white transition-colors"
+              className="relative text-sm font-medium text-text-dim opacity-80 hover:text-primary hover:opacity-100 hover:-translate-y-0.5 transition-all duration-300 ease-out focus-visible:outline-none focus-visible:text-primary focus-visible:opacity-100 rounded py-1"
             >
               {link.label}
             </a>
@@ -45,7 +45,7 @@ export function Header() {
         <button
           type="button"
           onClick={toggleMenu}
-          className="md:hidden text-white p-2 -mr-2"
+          className="md:hidden text-white p-2 -mr-2 rounded transition-colors duration-200 ease-out hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
           aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={isMenuOpen}
         >
@@ -78,13 +78,13 @@ export function Header() {
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <nav className="md:hidden border-t border-border-dim glass">
-          <Container className="py-4 flex flex-col gap-4">
+          <Container className="py-4 flex flex-col gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={closeMenu}
-                className="text-sm font-medium text-text-dim hover:text-white transition-colors py-2"
+                className="text-sm font-medium text-text-dim opacity-80 hover:text-primary hover:opacity-100 hover:bg-white/5 hover:translate-x-1 transition-all duration-300 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-primary focus-visible:bg-white/5"
               >
                 {link.label}
               </a>

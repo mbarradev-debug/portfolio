@@ -1,4 +1,4 @@
-import { Container } from "@/components/ui";
+import { Container, AnimatedSection } from "@/components/ui";
 
 interface EducationItem {
   degree: string;
@@ -23,7 +23,7 @@ export function Education() {
   return (
     <section className="py-16 md:py-20 bg-bg-dark">
       <Container>
-        <div className="border-t border-border-dim pt-8 md:pt-12">
+        <AnimatedSection className="border-t border-border-dim pt-8 md:pt-12">
           <h2 className="text-2xl font-bold text-white mb-6 md:mb-8">Educación</h2>
 
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -37,7 +37,7 @@ export function Education() {
               </div>
             ))}
           </div>
-        </div>
+        </AnimatedSection>
       </Container>
     </section>
   );

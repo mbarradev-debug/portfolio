@@ -24,11 +24,11 @@ export function Footer() {
             href={siteConfig.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors"
+            className="group flex items-center gap-2 text-text-dim opacity-80 hover:text-white hover:opacity-100 hover:-translate-y-0.5 transition-all duration-300 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
           >
             <span className="text-sm font-medium">GitHub</span>
             <svg
-              className="w-[18px] h-[18px] group-hover:text-primary transition-colors"
+              className="w-[18px] h-[18px] transition-all duration-300 ease-out group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -47,11 +47,11 @@ export function Footer() {
             href={siteConfig.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors"
+            className="group flex items-center gap-2 text-text-dim opacity-80 hover:text-white hover:opacity-100 hover:-translate-y-0.5 transition-all duration-300 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
           >
             <span className="text-sm font-medium">LinkedIn</span>
             <svg
-              className="w-[18px] h-[18px] group-hover:text-primary transition-colors"
+              className="w-[18px] h-[18px] transition-all duration-300 ease-out group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -68,11 +68,11 @@ export function Footer() {
 
           <a
             href={`mailto:${siteConfig.author.email}`}
-            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors"
+            className="group flex items-center gap-2 text-text-dim opacity-80 hover:text-white hover:opacity-100 hover:-translate-y-0.5 transition-all duration-300 ease-out rounded py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-footer"
           >
             <span className="text-sm font-medium">Email</span>
             <svg
-              className="w-[18px] h-[18px] group-hover:text-primary transition-colors"
+              className="w-[18px] h-[18px] transition-all duration-300 ease-out group-hover:text-primary group-hover:scale-110"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
