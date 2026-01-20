@@ -19,6 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
+  authors: [{ name: siteConfig.author.name }],
 };
 
 export default function RootLayout({
@@ -27,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="es" className="dark">
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
       >
