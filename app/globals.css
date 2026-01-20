@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
+/* =============================================================================
+   DESIGN SYSTEM - Global Styles
+   Based on: reference/design/portfolio.html
+
+   This file defines:
+   - Color tokens (semantic naming)
+   - Typography system (Space Grotesk + Inter)
+   - Global base styles
+   - Tailwind theme configuration
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   CSS Custom Properties (Design Tokens)
+   ----------------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary Colors */
+  --color-primary: #2563EB;
+  --color-primary-dark: #1d4ed8;
+
+  /* Background Colors */
+  --color-bg-dark: #0A0A0A;
+  --color-bg-deep: #050505;
+  --color-bg-footer: #000000;
+
+  /* Text Colors */
+  --color-text-light: #F3F4F6;
+  --color-text-dim: #9CA3AF;
+
+  /* Border Colors */
+  --color-border-dim: #1F2937;
+
+  /* Selection */
+  --color-selection-bg: rgba(37, 99, 235, 0.3);
 }
+
+/* -----------------------------------------------------------------------------
+   Tailwind CSS 4 Theme Configuration
+   ----------------------------------------------------------------------------- */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors - Semantic tokens */
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-bg-dark: var(--color-bg-dark);
+  --color-bg-deep: var(--color-bg-deep);
+  --color-bg-footer: var(--color-bg-footer);
+  --color-text-light: var(--color-text-light);
+  --color-text-dim: var(--color-text-dim);
+  --color-border-dim: var(--color-border-dim);
+
+  /* Typography - Font Families */
+  --font-display: var(--font-display), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body), "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* -----------------------------------------------------------------------------
+   Global Base Styles
+   ----------------------------------------------------------------------------- */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* -----------------------------------------------------------------------------
+   Typography - Headings
+   All headings use Space Grotesk (display font)
+   ----------------------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text-light);
+}
+
+/* -----------------------------------------------------------------------------
+   Text Selection
+   ----------------------------------------------------------------------------- */
+
+::selection {
+  background-color: var(--color-selection-bg);
+  color: white;
+}
+
+/* -----------------------------------------------------------------------------
+   Links - Base styles
+   ----------------------------------------------------------------------------- */
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* -----------------------------------------------------------------------------
+   Focus States - Accessibility
+   ----------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* -----------------------------------------------------------------------------
+   Utility: Glass Effect (for navigation)
+   ----------------------------------------------------------------------------- */
+
+.glass {
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
