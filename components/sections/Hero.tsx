@@ -20,13 +20,13 @@ export function Hero() {
         <div className="flex flex-wrap gap-4 mt-4">
           <a
             href="#work"
-            className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-all duration-300 ease-out hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25 active:translate-y-0 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
+            className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-semibold text-white transition-all duration-200 ease-out hover:bg-primary-dark hover:scale-[1.02] active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
           >
             Ver proyectos
           </a>
           <a
             href="#contact"
-            className="inline-flex h-12 items-center justify-center rounded-lg border border-border-dim bg-transparent px-8 text-sm font-semibold text-white transition-all duration-300 ease-out hover:bg-white/10 hover:border-white/30 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
+            className="inline-flex h-12 items-center justify-center rounded-lg border border-border-dim bg-transparent px-8 text-sm font-semibold text-white transition-all duration-200 ease-out hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
           >
             Contacto
           </a>

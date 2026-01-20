@@ -37,14 +37,14 @@ export function FeaturedProjects() {
           {projects.map((project, index) => (
             <article
               key={index}
-              className="group rounded-xl bg-bg-dark border border-border-dim p-6 md:p-8 transition-all duration-300 ease-out hover:border-primary hover:bg-white/[0.02] hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+              className="group rounded-xl bg-bg-dark border border-border-dim p-6 md:p-8 transition-colors duration-200 ease-out hover:border-primary/50 hover:bg-white/[0.02]"
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-white transition-colors duration-300 ease-out group-hover:text-primary">
+                <h3 className="text-2xl font-bold text-white transition-colors duration-200 ease-out group-hover:text-primary">
                   {project.title}
                 </h3>
                 <svg
-                  className="w-5 h-5 text-text-dim transition-all duration-300 ease-out group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="w-5 h-5 text-text-dim transition-colors duration-200 ease-out group-hover:text-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

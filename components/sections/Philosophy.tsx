@@ -15,8 +15,8 @@ export function Philosophy() {
 
           <div className="flex flex-col gap-8">
             <blockquote className="text-2xl md:text-3xl font-display font-medium leading-tight text-white">
-              "La mantenibilidad no es un extra: es la base de cualquier sistema
-              que quiera escalar."
+              &ldquo;La mantenibilidad no es un extra: es la base de cualquier sistema
+              que quiera escalar.&rdquo;
             </blockquote>
 
             <p className="text-lg text-text-dim leading-relaxed">

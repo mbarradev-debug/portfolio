@@ -23,7 +23,7 @@ export function Header() {
         {/* Logo / Home link */}
         <a
           href="#"
-          className="font-display font-bold text-xl tracking-tight text-white hover:text-primary hover:scale-[1.02] transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark rounded"
+          className="font-display font-bold text-xl tracking-tight text-white hover:text-primary transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark rounded"
         >
           {siteConfig.author.name}
         </a>
@@ -34,9 +34,10 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="relative text-sm font-medium text-text-dim opacity-80 hover:text-primary hover:opacity-100 hover:-translate-y-0.5 transition-all duration-300 ease-out focus-visible:outline-none focus-visible:text-primary focus-visible:opacity-100 rounded py-1"
+              className="group relative text-sm font-medium text-text-dim hover:text-white transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:text-white py-1"
             >
               {link.label}
+              <span className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-200 ease-out group-hover:w-full group-focus-visible:w-full" />
             </a>
           ))}
         </nav>
@@ -84,7 +85,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={closeMenu}
-                className="text-sm font-medium text-text-dim opacity-80 hover:text-primary hover:opacity-100 hover:bg-white/5 hover:translate-x-1 transition-all duration-300 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-primary focus-visible:bg-white/5"
+                className="text-sm font-medium text-text-dim hover:text-white hover:bg-white/5 transition-colors duration-200 ease-out py-3 px-2 -mx-2 rounded focus-visible:outline-none focus-visible:text-white focus-visible:bg-white/5"
               >
                 {link.label}
               </a>
