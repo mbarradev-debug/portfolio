@@ -1,10 +1,97 @@
 import { Container } from "./Container";
+import { siteConfig } from "@/config";
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-bg-footer border-t border-border-dim">
-      <Container className="py-20">
-        {/* Footer content will be implemented in a future task */}
+    <footer
+      id="contact"
+      className="bg-bg-footer py-20 border-t border-border-dim text-center md:text-left"
+    >
+      <Container className="flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-bold text-white">
+            {siteConfig.author.name}
+          </h2>
+          <p className="text-text-dim">
+            Construyendo sistemas pensados para durar.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-8">
+          <a
+            href={siteConfig.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors"
+          >
+            <span className="text-sm font-medium">GitHub</span>
+            <svg
+              className="w-[18px] h-[18px] group-hover:text-primary transition-colors"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 17L17 7M17 7H7M17 7V17"
+              />
+            </svg>
+          </a>
+
+          <a
+            href={siteConfig.links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors"
+          >
+            <span className="text-sm font-medium">LinkedIn</span>
+            <svg
+              className="w-[18px] h-[18px] group-hover:text-primary transition-colors"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 17L17 7M17 7H7M17 7V17"
+              />
+            </svg>
+          </a>
+
+          <a
+            href={`mailto:${siteConfig.author.email}`}
+            className="group flex items-center gap-2 text-text-dim hover:text-white transition-colors"
+          >
+            <span className="text-sm font-medium">Email</span>
+            <svg
+              className="w-[18px] h-[18px] group-hover:text-primary transition-colors"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </a>
+        </div>
+      </Container>
+
+      <Container className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-600">
+        <p>© {currentYear} {siteConfig.author.name}. Todos los derechos reservados.</p>
+        <p>Diseñado con código.</p>
       </Container>
     </footer>
   );
