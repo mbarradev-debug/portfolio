@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import { siteConfig } from "@/config";
 import { Header, Footer } from "@/components/ui";
+import { ThemeProvider } from "@/components/providers";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -28,13 +30,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="dark">
+    <html lang="es" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
       >
-        <Header />
-        <main className="w-full flex flex-col pt-16">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          <main className="w-full flex flex-col pt-16">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
