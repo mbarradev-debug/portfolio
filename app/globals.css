@@ -49,6 +49,7 @@
 
   /* Selection */
   --color-selection-bg: rgba(37, 99, 235, 0.3);
+  --color-selection-text: #FFFFFF;
 
   /* Glass Effect */
   --color-glass-bg: rgba(10, 10, 10, 0.8);
@@ -85,7 +86,8 @@
   --color-overlay: rgba(0, 0, 0, 0.4);
 
   /* Selection */
-  --color-selection-bg: rgba(37, 99, 235, 0.15);
+  --color-selection-bg: rgba(37, 99, 235, 0.25);
+  --color-selection-text: #1E3A8A;
 
   /* Glass Effect */
   --color-glass-bg: rgba(255, 255, 255, 0.85);
@@ -185,7 +187,7 @@ h6 {
 
 ::selection {
   background-color: var(--color-selection-bg);
-  color: white;
+  color: var(--color-selection-text);
 }
 
 /* -----------------------------------------------------------------------------

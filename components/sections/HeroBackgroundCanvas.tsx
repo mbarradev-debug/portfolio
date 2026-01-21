@@ -16,9 +16,10 @@ const CONFIG = {
   connectionDistance: 160,
   lineWidth: 1,
 
-  // Colors
+  // Colors - theme-aware (dark mode / light mode)
   primaryColor: "37, 99, 235",
-  whiteColor: "255, 255, 255",
+  secondaryColorDark: "255, 255, 255", // White nodes for dark mode
+  secondaryColorLight: "51, 65, 85", // Slate-700 nodes for light mode
   nodeOpacity: 0.35,
   lineOpacity: 0.12,
 
@@ -87,6 +88,15 @@ interface Node {
   radius: number;
   phase: number;
   isWhite: boolean;
+}
+
+/**
+ * Get current theme from DOM class list.
+ * Falls back to "dark" if no class is present.
+ */
+function getCurrentTheme(): "dark" | "light" {
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.classList.contains("light") ? "light" : "dark";
 }
 
 export function HeroBackgroundCanvas() {
@@ -283,9 +293,13 @@ export function HeroBackgroundCanvas() {
       }
     }
 
-    // Draw nodes
+    // Draw nodes - read theme from DOM for reactive updates
+    const secondaryColor = getCurrentTheme() === "light"
+      ? CONFIG.secondaryColorLight
+      : CONFIG.secondaryColorDark;
+
     for (const node of nodes) {
-      const color = node.isWhite ? CONFIG.whiteColor : CONFIG.primaryColor;
+      const color = node.isWhite ? secondaryColor : CONFIG.primaryColor;
       ctx.fillStyle = `rgba(${color}, ${CONFIG.nodeOpacity * scrollOpacity})`;
       ctx.beginPath();
       ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
