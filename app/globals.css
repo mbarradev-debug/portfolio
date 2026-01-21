@@ -126,6 +126,28 @@
 }
 
 /* -----------------------------------------------------------------------------
+   Theme Transition
+   Smooth color transitions when switching between dark/light modes.
+   Applied globally to avoid per-component configuration.
+   ----------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+}
+
+/* Disable transitions for elements that handle their own */
+[data-no-theme-transition],
+[data-no-theme-transition] *,
+.no-theme-transition,
+.no-theme-transition * {
+  transition-property: none;
+}
+
+/* -----------------------------------------------------------------------------
    Global Base Styles
    ----------------------------------------------------------------------------- */
 
@@ -138,7 +160,6 @@ body {
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
   line-height: 1.6;
-  transition: background-color 0.2s ease-out, color 0.2s ease-out;
 }
 
 /* -----------------------------------------------------------------------------
