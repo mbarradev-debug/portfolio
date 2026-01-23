@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import { siteConfig } from "@/config";
 import { Header, Footer } from "@/components/ui";
 import { ThemeProvider } from "@/components/providers";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
       >
+        <GoogleAnalytics />
         <ThemeProvider>
           <Header />
           <main className="w-full flex flex-col pt-16">{children}</main>
