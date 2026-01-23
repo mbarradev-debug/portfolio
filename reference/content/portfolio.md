@@ -109,6 +109,29 @@ Cada proyecto debe incluir:
 
 ---
 
+### Divisapp
+**URL:** https://divisapp.vercel.app
+
+**Contexto / problema**
+> Los indicadores económicos chilenos (UF, UTM, dólar, euro, etc.) están dispersos en múltiples fuentes, dificultando su consulta rápida y seguimiento.
+
+**Solución técnica**
+> Dashboard centralizado que consume APIs externas para mostrar indicadores en tiempo real, con conversor de divisas y sistema de alertas personalizables.
+
+**Decisiones y trade-offs**
+> Se priorizó simplicidad sobre features: arquitectura sin backend propio para reducir complejidad operacional, usando APIs públicas y almacenamiento local para preferencias.
+
+**Stack**
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Vercel
+
+**Resultado**
+> MVP funcional desplegado en producción con módulos de dashboard, conversor, alertas y configuración operativos.
+
+---
+
 ## 7. Stack Técnico
 
 **Frontend**
