@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# miguelbarra.dev
 
-## Getting Started
+Personal portfolio built with Next.js 16, Tailwind CSS v4, and TypeScript.
 
-First, run the development server:
+---
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint     # ESLint
+npm run format   # Prettier (write)
+npm run format:check  # Prettier (check only)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Node 20+ required.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+```
+.
+├── app/                  # Next.js App Router — routes, layouts, pages
+├── components/           # Reusable UI components
+├── data/                 # Static CV/portfolio constants (no fetching logic)
+│   └── portfolio.ts      # Single source of truth for all portfolio content
+├── hooks/                # Custom React hooks
+├── lib/                  # Shared utilities
+│   └── utils.ts          # cn() helper (clsx + tailwind-merge)
+├── public/               # Static assets
+└── types/                # TypeScript type definitions
+    └── portfolio.ts      # Types for portfolio data structures
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Conventions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Files and folders
+- **kebab-case** for all files and folders: `hero-section.tsx`, `use-scroll.ts`
+- **PascalCase** for React component names (matches the export, not the file)
+- One component per file
 
-## Deploy on Vercel
+### Exports
+- Each directory exposes a barrel `index.ts` re-exporting its public API
+- Import from the barrel, not from individual files: `import { cn } from '@/lib'`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### TypeScript
+- Strict mode enabled — no `any`, no implicit returns
+- Static data files use `as const satisfies <Type>` for full type-safety with literal inference
+- All types live in `types/`, imported via `@/types`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Styling
+- Tailwind utility classes for all styling
+- `cn()` from `@/lib` for conditional class merging
+- No inline styles, no CSS Modules unless Tailwind is insufficient
+
+### Components
+- Server Components by default; add `'use client'` only when required
+- Props interfaces defined inline above the component, named `<ComponentName>Props`
