@@ -1,26 +1,151 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens — Dark Mode (default) ──────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --bg-base:       #0A0A0F;
+  --bg-surface:    #111118;
+  --bg-elevated:   #1A1A24;
+  --bg-border:     #252535;
+
+  /* Text */
+  --text-primary:   #F0EFE8;
+  --text-secondary: #A09FA8;
+  --text-muted:     #5A5966;
+
+  /* Accent */
+  --accent:         #4F8EF7;
+  --accent-hover:   #6BA3FF;
+  --accent-subtle:  #1C2D4F;
+  --accent-alt:     #3ECFB2;
+
+  /* Lines & Shadows */
+  --line:           rgba(255, 255, 255, 0.07);
+  --shadow-card:    0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3);
+  --shadow-glow:    0 0 40px rgba(79, 142, 247, 0.15);
+
+  /* Typography scale (fluid, clamp-based) */
+  --text-xs:   clamp(0.7rem,  1.5vw, 0.75rem);
+  --text-sm:   clamp(0.8rem,  1.8vw, 0.875rem);
+  --text-base: clamp(0.9rem,  2vw,   1rem);
+  --text-lg:   clamp(1rem,    2.5vw, 1.125rem);
+  --text-xl:   clamp(1.1rem,  3vw,   1.375rem);
+  --text-2xl:  clamp(1.4rem,  4vw,   1.875rem);
+  --text-3xl:  clamp(1.8rem,  5vw,   2.5rem);
+  --text-4xl:  clamp(2.5rem,  7vw,   3.75rem);
+  --text-hero: clamp(3.5rem,  10vw,  6rem);
+
+  /* Spacing (4px base scale) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Motion */
+  --ease-out-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quad: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-spring:      cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast:   150ms;
+  --dur-normal: 280ms;
+  --dur-slow:   480ms;
+  --dur-hero:   900ms;
 }
 
+/* ─── Light Mode ────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  --bg-base:       #F7F6F2;
+  --bg-surface:    #FFFFFF;
+  --bg-elevated:   #EDECEB;
+  --bg-border:     #DDDBD6;
+
+  --text-primary:   #0F0E14;
+  --text-secondary: #5A5870;
+  --text-muted:     #9896A4;
+
+  --accent:         #2B6EE8;
+  --accent-hover:   #1A5DD4;
+  --accent-subtle:  #EBF1FD;
+  --accent-alt:     #198A73;
+
+  --line:           rgba(0, 0, 0, 0.08);
+  --shadow-card:    0 2px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-glow:    0 0 30px rgba(43, 110, 232, 0.1);
+}
+
+/* ─── Tailwind v4 Theme Mapping ─────────────────────────────────── */
+/*
+ * @theme inline: maps CSS custom properties to Tailwind utility classes.
+ * Replaces tailwind.config.ts theme.extend in Tailwind v4.
+ * --color-* → bg-*, text-*, border-* utilities
+ * --font-*  → font-* utilities
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-base:          var(--bg-base);
+  --color-surface:       var(--bg-surface);
+  --color-elevated:      var(--bg-elevated);
+  --color-border:        var(--bg-border);
+  --color-primary:       var(--text-primary);
+  --color-secondary:     var(--text-secondary);
+  --color-muted:         var(--text-muted);
+  --color-accent:        var(--accent);
+  --color-accent-hover:  var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-alt:    var(--accent-alt);
+
+  --font-display: var(--font-syne);
+  --font-body:    var(--font-dm-sans);
+  --font-mono:    var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ──────────────────────────────────────────────────────── */
+html {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+/* ─── Theme Transition ──────────────────────────────────────────── */
+/*
+ * Applied via JS before toggling data-theme, removed after 300ms.
+ * Avoids blanket transitions on all elements at all times.
+ */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease !important;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
