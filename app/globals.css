@@ -139,6 +139,31 @@ html.theme-transition *::after {
     box-shadow 300ms ease !important;
 }
 
+/* ─── Hero Entrance Animations ─────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-name    { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo)   0ms both; }
+.hero-role    { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 120ms both; }
+.hero-tagline { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 240ms both; }
+.hero-ctas    { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 360ms both; }
+.hero-avatar  { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 480ms both; }
+
+/* ─── Avatar ────────────────────────────────────────────────────── */
+.avatar {
+  border-radius: 50%;
+  background-color: var(--bg-elevated);
+  border: 2px solid var(--bg-border);
+  box-shadow: 0 0 0 6px var(--bg-surface), 0 0 0 8px var(--bg-border), var(--shadow-card);
+  transition: transform var(--dur-slow) var(--ease-spring);
+}
+
+.avatar:hover {
+  transform: scale(1.03);
+}
+
 /* ─── Reduced Motion ────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,

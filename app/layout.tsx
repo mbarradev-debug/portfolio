@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import Script from 'next/script'
 import { Navbar } from '@/components/navbar'
 import './globals.css'
 
@@ -70,15 +71,14 @@ export default function RootLayout({
       data-theme="dark"
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <head>
-        {/* Prevent flash of wrong theme on reload when user has a saved preference */}
-        <script
+      <body className="min-h-full flex flex-col">
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})()`,
           }}
         />
-      </head>
-      <body className="min-h-full flex flex-col">
         <header>
           <Navbar />
         </header>
