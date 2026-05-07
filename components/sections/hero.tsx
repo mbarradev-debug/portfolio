@@ -89,15 +89,14 @@ export function HeroSection() {
 
 function Avatar() {
   return (
-    <div className="avatar">
-      <Image
-        src="/images/profile.webp"
-        alt="Miguel Barra — Full Stack Developer"
-        fill
-        sizes="(max-width: 768px) 160px, 200px"
-        style={{ objectFit: 'cover' }}
-        priority
-      />
-    </div>
+    <Image
+      className="avatar"
+      src="/images/profile.webp"
+      alt="Miguel Barra — Full Stack Developer"
+      width={200}
+      height={200}
+      sizes="(max-width: 768px) 160px, 200px"
+      priority
+    />
   )
 }

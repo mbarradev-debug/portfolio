@@ -153,11 +153,10 @@ html.theme-transition *::after {
 
 /* ─── Avatar ────────────────────────────────────────────────────── */
 .avatar {
-  position: relative;
   width: clamp(140px, 20vw, 200px);
   height: clamp(140px, 20vw, 200px);
   border-radius: 50%;
-  overflow: hidden;
+  object-fit: cover;
   border: 2px solid var(--bg-border);
   box-shadow:
     0 0 0 6px var(--bg-surface),
