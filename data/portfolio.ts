@@ -14,7 +14,36 @@ export const portfolio: PortfolioData = {
   },
   experience: [],
   education: [],
-  projects: [],
+  projects: [
+    {
+      name: 'Divisapp',
+      tagline: 'Indicadores económicos chilenos en un solo lugar',
+      problem:
+        'La información sobre UF, dólar e IPC está dispersa en múltiples sitios oficiales, sin historial visual ni conversión integrada.',
+      solution:
+        'Centraliza los indicadores desde la API mindicador.cl/api, con conversión de divisas, historial de los últimos 30 días y gráficos de fluctuación.',
+      outcome:
+        'Herramienta de uso cotidiano para consultar y convertir indicadores económicos sin saltar entre sitios.',
+      url: 'https://divisapp.vercel.app',
+      repo: 'https://github.com/mbarradev-debug/divisapp',
+      stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+      featured: true,
+    },
+    {
+      name: 'Bolsillo',
+      tagline: 'Gestión de boletas de honorarios para independientes',
+      problem:
+        'Los trabajadores independientes en Chile deben gestionar sus boletas del SII manualmente, un proceso tedioso y propenso a errores.',
+      solution:
+        'App mobile-first que simplifica la emisión y seguimiento de boletas de honorarios, reduciendo la fricción del proceso administrativo.',
+      outcome:
+        'Simplifica un proceso burocrático frecuente para freelancers chilenos, reduciendo el tiempo dedicado a trámites del SII.',
+      url: 'https://bolsillo-rho.vercel.app',
+      repo: 'https://github.com/mbarradev-debug/bolsillo',
+      stack: ['Next.js', 'Supabase', 'PostgreSQL', 'Tailwind CSS', 'Shadcn/ui'],
+      featured: false,
+    },
+  ],
   skills: [
     {
       category: 'frontend',
