@@ -153,15 +153,28 @@ html.theme-transition *::after {
 
 /* ─── Avatar ────────────────────────────────────────────────────── */
 .avatar {
+  position: relative;
+  width: clamp(140px, 20vw, 200px);
+  height: clamp(140px, 20vw, 200px);
   border-radius: 50%;
-  background-color: var(--bg-elevated);
+  overflow: hidden;
   border: 2px solid var(--bg-border);
-  box-shadow: 0 0 0 6px var(--bg-surface), 0 0 0 8px var(--bg-border), var(--shadow-card);
-  transition: transform var(--dur-slow) var(--ease-spring);
+  box-shadow:
+    0 0 0 6px var(--bg-surface),
+    0 0 0 8px var(--bg-border),
+    var(--shadow-card);
+  transition:
+    transform var(--dur-slow) var(--ease-spring),
+    box-shadow var(--dur-slow) var(--ease-spring);
 }
 
 .avatar:hover {
   transform: scale(1.03);
+  box-shadow:
+    0 0 0 6px var(--bg-surface),
+    0 0 0 8px var(--bg-border),
+    var(--shadow-card),
+    var(--shadow-glow);
 }
 
 /* ─── Reduced Motion ────────────────────────────────────────────── */
