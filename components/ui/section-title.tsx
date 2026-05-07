@@ -13,7 +13,7 @@ export function SectionTitle({ children, number, className }: SectionTitleProps)
       {number && (
         <span
           aria-hidden="true"
-          className="font-display font-extrabold leading-none text-primary pointer-events-none select-none absolute -top-4 -right-4"
+          className="font-display font-extrabold leading-none text-primary pointer-events-none select-none absolute -top-2 right-0"
           style={{
             fontSize: 'clamp(6rem, 15vw, 10rem)',
             opacity: 0.03,
