@@ -1,5 +1,7 @@
 import { SectionTitle } from '@/components/ui/section-title'
 import { ExperienceCard } from '@/components/ui/experience-card'
+import { Reveal } from '@/components/ui/reveal'
+import { StaggerList, StaggerItem } from '@/components/ui/stagger-list'
 import { portfolio } from '@/data/portfolio'
 
 export function ExperienceSection() {
@@ -10,7 +12,9 @@ export function ExperienceSection() {
       style={{ paddingBlock: 'clamp(5rem, 10vw, 9rem)' }}
     >
       <div className="relative mx-auto w-full max-w-[1100px] px-4 md:px-6 xl:px-8">
-        <SectionTitle number="04">Experiencia</SectionTitle>
+        <Reveal>
+          <SectionTitle number="04">Experiencia</SectionTitle>
+        </Reveal>
 
         {/* Timeline */}
         <div className="relative">
@@ -21,11 +25,13 @@ export function ExperienceSection() {
             aria-hidden="true"
           />
 
-          <div className="flex flex-col gap-12">
+          <StaggerList className="flex flex-col gap-12">
             {portfolio.experience.map((item, index) => (
-              <ExperienceCard key={item.company} {...item} isFirst={index === 0} />
+              <StaggerItem key={item.company}>
+                <ExperienceCard {...item} isFirst={index === 0} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerList>
         </div>
       </div>
     </section>
