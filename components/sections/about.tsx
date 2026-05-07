@@ -7,6 +7,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
+      aria-label="Sobre mí"
       className="relative"
       style={{ paddingBlock: 'clamp(5rem, 10vw, 9rem)' }}
     >

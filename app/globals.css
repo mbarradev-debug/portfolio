@@ -11,7 +11,7 @@
   /* Text */
   --text-primary:   #F0EFE8;
   --text-secondary: #A09FA8;
-  --text-muted:     #5A5966;
+  --text-muted:     #78768A; /* was #5A5966 — lifted to 4.8:1 contrast on bg-base */
 
   /* Accent */
   --accent:         #4F8EF7;
@@ -68,7 +68,7 @@
 
   --text-primary:   #0F0E14;
   --text-secondary: #5A5870;
-  --text-muted:     #9896A4;
+  --text-muted:     #6B6876; /* was #9896A4 — darkened to 4.8:1 contrast on bg-base */
 
   --accent:         #2B6EE8;
   --accent-hover:   #1A5DD4;
@@ -122,6 +122,36 @@ body {
   font-size: var(--text-base);
   line-height: 1.65;
   overflow-x: clip;
+}
+
+/* ─── Focus Visible ─────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─── Skip Link ─────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid #fff;
+  outline-offset: -4px;
 }
 
 /* ─── Theme Toggle Icons ────────────────────────────────────────── */

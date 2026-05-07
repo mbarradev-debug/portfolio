@@ -5,6 +5,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
+      aria-label="Contacto"
       className="relative"
       style={{ paddingBlock: 'clamp(6rem, 12vw, 10rem)' }}
     >

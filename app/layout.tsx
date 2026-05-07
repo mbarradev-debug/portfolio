@@ -80,6 +80,9 @@ export default function RootLayout({
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a href="#main-content" className="skip-link">
+          Saltar al contenido principal
+        </a>
         <Script
           id="theme-init"
           strategy="beforeInteractive"
@@ -90,7 +93,7 @@ export default function RootLayout({
         <header>
           <Navbar />
         </header>
-        <main className="flex-1 pt-16">{children}</main>
+        <main id="main-content" className="flex-1 pt-16">{children}</main>
         <Footer />
       </body>
     </html>

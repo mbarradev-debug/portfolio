@@ -8,6 +8,7 @@ export function ProjectsSection() {
   return (
     <section
       id="projects"
+      aria-label="Proyectos"
       className="relative"
       style={{ paddingBlock: 'clamp(5rem, 10vw, 9rem)' }}
     >
