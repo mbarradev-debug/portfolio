@@ -1,19 +1,45 @@
 import type { PortfolioData } from '@/types'
 
-export const portfolio = {
+export const portfolio: PortfolioData = {
   personal: {
     name: 'Miguel Barra',
-    title: 'Software Engineer',
+    title: 'Full Stack Developer',
     email: 'mbarra.git@gmail.com',
     location: 'Santiago, Chile',
-    bio: 'Software engineer focused on building clean, performant web products.',
+    bio: 'Full Stack Developer con más de 3 años de experiencia construyendo aplicaciones web en producción. React, Next.js, TypeScript.',
     socials: [
       { label: 'GitHub', url: 'https://github.com/mbarradev-debug' },
-      { label: 'LinkedIn', url: 'https://linkedin.com/in/miguelbarra' },
+      { label: 'LinkedIn', url: 'https://linkedin.com/in/miguelbarrarios' },
     ],
   },
   experience: [],
   education: [],
   projects: [],
-  skills: [],
-} as const satisfies PortfolioData
+  skills: [
+    {
+      category: 'frontend',
+      label: 'Frontend',
+      items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Angular', 'Shadcn/ui'],
+    },
+    {
+      category: 'backend',
+      label: 'Backend',
+      items: ['Node.js', 'NestJS', 'ASP.NET MVC (.NET)', 'REST APIs', 'Prisma ORM'],
+    },
+    {
+      category: 'databases',
+      label: 'Bases de datos',
+      items: ['PostgreSQL', 'Oracle PL/SQL', 'Supabase'],
+    },
+    {
+      category: 'infrastructure',
+      label: 'Infraestructura',
+      items: ['Docker', 'GCP', 'Vercel', 'CI/CD', 'Git / GitHub'],
+    },
+    {
+      category: 'mobile',
+      label: 'Mobile',
+      items: ['Flutter', 'Ionic (Angular)'],
+    },
+  ],
+}
