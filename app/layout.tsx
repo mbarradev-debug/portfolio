@@ -49,15 +49,21 @@ export const metadata: Metadata = {
     siteName: 'Miguel Barra',
     title: siteTitle,
     description: siteDescription,
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: siteTitle }],
   },
   twitter: {
     card: 'summary_large_image',
     title: siteTitle,
     description: siteDescription,
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon',
   },
 }
 
