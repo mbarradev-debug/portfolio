@@ -189,6 +189,10 @@ html.theme-transition *::after {
 .hero-ctas    { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 360ms both; }
 .hero-avatar  { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 480ms both; }
 
+@media (prefers-reduced-motion: reduce) {
+  .hero-name, .hero-role, .hero-tagline, .hero-ctas, .hero-avatar { animation: none; }
+}
+
 /* ─── Form inputs ───────────────────────────────────────────────── */
 .contact-input {
   width: 100%;
