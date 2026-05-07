@@ -70,6 +70,7 @@ export default function RootLayout({
     <html
       lang="es"
       data-theme="dark"
+      suppressHydrationWarning
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
