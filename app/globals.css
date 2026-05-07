@@ -123,6 +123,13 @@ body {
   line-height: 1.65;
 }
 
+/* ─── Theme Toggle Icons ────────────────────────────────────────── */
+/* Both icons are always in the DOM; CSS shows the correct one.     */
+/* Prevents hydration mismatch from JS reading localStorage.        */
+.theme-icon-moon { display: none; }
+[data-theme="light"] .theme-icon-moon { display: block; }
+[data-theme="light"] .theme-icon-sun  { display: none; }
+
 /* ─── Theme Transition ──────────────────────────────────────────── */
 /*
  * Applied via JS before toggling data-theme, removed after 300ms.

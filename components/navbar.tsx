@@ -18,7 +18,7 @@ const SECTION_IDS = NAV_LINKS.map((l) => l.href.slice(1))
 export function Navbar() {
   const scrolled = useScrolled()
   const active = useActiveSection(SECTION_IDS)
-  const { theme, toggleTheme } = useTheme()
+  const { toggleTheme } = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   function closeMobile() {
@@ -74,12 +74,12 @@ export function Navbar() {
                 )
               })}
             </ul>
-            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <ThemeToggle onToggle={toggleTheme} />
           </div>
 
           {/* Mobile controls */}
           <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <ThemeToggle onToggle={toggleTheme} />
             <button
               aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={mobileOpen}
@@ -141,14 +141,16 @@ export function Navbar() {
   )
 }
 
-function ThemeToggle({ theme, onToggle }: { theme: string; onToggle: () => void }) {
+function ThemeToggle({ onToggle }: { onToggle: () => void }) {
   return (
     <button
       onClick={onToggle}
-      aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+      aria-label="Cambiar tema"
       className="rounded-md p-2 text-secondary transition-colors duration-150 hover:bg-elevated hover:text-primary"
     >
-      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+      {/* Both icons rendered; CSS controls which is visible via data-theme on <html> */}
+      <span className="theme-icon-sun" aria-hidden="true"><SunIcon /></span>
+      <span className="theme-icon-moon" aria-hidden="true"><MoonIcon /></span>
     </button>
   )
 }
