@@ -1,7 +1,11 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  poweredByHeader: false,
+  experimental: {
+    inlineCss: true,
+    optimizePackageImports: ['framer-motion'],
+  },
+}
 
-export default nextConfig;
+export default nextConfig

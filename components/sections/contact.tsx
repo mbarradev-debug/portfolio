@@ -1,5 +1,9 @@
-import { ContactForm } from '@/components/ui/contact-form'
+import dynamic from 'next/dynamic'
 import { Reveal } from '@/components/ui/reveal'
+
+const ContactForm = dynamic(() =>
+  import('@/components/ui/contact-form').then((m) => m.ContactForm)
+)
 
 export function ContactSection() {
   return (
