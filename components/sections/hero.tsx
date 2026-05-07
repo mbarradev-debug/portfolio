@@ -67,6 +67,14 @@ export function HeroSection() {
                 Ver proyectos ↓
               </Button>
               <Button
+                href="/cv-miguel-barra.pdf"
+                variant="outline"
+                size="lg"
+                download
+              >
+                Descargar CV ↓
+              </Button>
+              <Button
                 href="https://github.com/mbarradev"
                 variant="ghost"
                 size="lg"
