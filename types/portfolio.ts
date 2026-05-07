@@ -15,10 +15,11 @@ export interface PersonalInfo {
 export interface WorkExperience {
   company: string
   role: string
+  type: string
+  location: string
   start: string
   end: string | null
-  description: string
-  stack: string[]
+  highlights: string[]
 }
 
 export interface Education {

@@ -12,7 +12,35 @@ export const portfolio: PortfolioData = {
       { label: 'LinkedIn', url: 'https://linkedin.com/in/miguelbarrarios' },
     ],
   },
-  experience: [],
+  experience: [
+    {
+      company: 'Forcast',
+      role: 'Full Stack Developer',
+      type: 'Consultoría de desarrollo de software',
+      location: 'Santiago',
+      start: 'Jul 2024',
+      end: 'Ene 2026',
+      highlights: [
+        'Desarrollé un módulo completo de un SaaS B2B para ITS Solutions: diseño de esquema de base de datos en PostgreSQL, implementación de autenticación con Firebase y construcción del frontend con Next.js, React y Prisma ORM.',
+        'Desarrollé el módulo de escaneo QR en E-Hive (app de gestión de carga para vehículos eléctricos), utilizando Angular e integrándolo con microservicios desplegados en Docker.',
+        'Optimicé el rendimiento de aplicaciones Next.js mediante mejoras en estrategias de renderizado (SSR/SSG) y carga de datos, reduciendo tiempos de respuesta perceptibles por el usuario.',
+        'Diseñé e integré APIs RESTful para comunicación entre servicios frontend y backend en entornos de producción.',
+      ],
+    },
+    {
+      company: 'Valuesite Ltda.',
+      role: 'Full Stack Developer',
+      type: 'Desarrollo de soluciones para sector salud',
+      location: 'Santiago',
+      start: 'Mar 2022',
+      end: 'Jul 2024',
+      highlights: [
+        'Participé en la modernización del sistema legacy de iSalud (Isapre de Codelco), migrando funcionalidades críticas del frontend y mejorando la experiencia de la sucursal virtual utilizada por miles de afiliados.',
+        'Desarrollé microservicios en ASP.NET MVC (.NET) e integré la lógica de negocio con base de datos Oracle mediante procedimientos almacenados y funciones PL/SQL.',
+        'Colaboré en la integración de múltiples sistemas empresariales, garantizando continuidad operacional en plataformas de uso interno.',
+      ],
+    },
+  ],
   education: [],
   projects: [
     {
