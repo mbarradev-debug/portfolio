@@ -1,36 +1,20 @@
-import { useCallback, useSyncExternalStore } from 'react'
+'use client'
 
-type Theme = 'dark' | 'light'
-
-function subscribe(callback: () => void) {
-  const observer = new MutationObserver(callback)
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-theme'],
-  })
-  return () => observer.disconnect()
-}
-
-function getSnapshot(): Theme {
-  return (document.documentElement.getAttribute('data-theme') as Theme) ?? 'dark'
-}
-
-function getServerSnapshot(): Theme {
-  return 'dark'
-}
+import { useCallback } from 'react'
+import { useTheme as useNextTheme } from 'next-themes'
 
 export function useTheme() {
-  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const { resolvedTheme, setTheme } = useNextTheme()
+  const theme = resolvedTheme ?? 'dark'
 
   const toggleTheme = useCallback(() => {
-    const next: Theme = theme === 'dark' ? 'light' : 'dark'
+    const next = theme === 'dark' ? 'light' : 'dark'
     document.documentElement.classList.add('theme-transition')
-    document.documentElement.setAttribute('data-theme', next)
-    localStorage.setItem('theme', next)
+    setTheme(next)
     setTimeout(() => {
       document.documentElement.classList.remove('theme-transition')
     }, 300)
-  }, [theme])
+  }, [theme, setTheme])
 
   return { theme, toggleTheme }
 }
