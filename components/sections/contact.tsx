@@ -1,4 +1,5 @@
 import { ContactForm } from '@/components/ui/contact-form'
+import { Reveal } from '@/components/ui/reveal'
 
 export function ContactSection() {
   return (
@@ -9,7 +10,7 @@ export function ContactSection() {
     >
       <div className="mx-auto w-full max-w-[1100px] px-4 md:px-6 xl:px-8">
         {/* Heading — centrado, simple, directo */}
-        <div className="mb-10 text-center">
+        <Reveal className="mb-10 text-center">
           <h2
             className="font-display font-bold text-primary"
             style={{ fontSize: 'var(--text-4xl)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
@@ -22,10 +23,10 @@ export function ContactSection() {
           >
             Disponible para proyectos freelance y oportunidades full-time.
           </p>
-        </div>
+        </Reveal>
 
         {/* Contact links — visible email + social */}
-        <div className="mb-10 flex flex-wrap items-center justify-center gap-6">
+        <Reveal delay={0.1} className="mb-10 flex flex-wrap items-center justify-center gap-6">
           <a
             href="mailto:mbarra.git@gmail.com"
             className="font-mono text-accent transition-colors duration-150 hover:text-accent-hover"
@@ -51,12 +52,12 @@ export function ContactSection() {
           >
             GitHub ↗
           </a>
-        </div>
+        </Reveal>
 
         {/* Form */}
-        <div className="mx-auto w-full max-w-[560px]">
+        <Reveal delay={0.2} className="mx-auto w-full max-w-[560px]">
           <ContactForm />
-        </div>
+        </Reveal>
       </div>
     </section>
   )
