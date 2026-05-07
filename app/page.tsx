@@ -1,4 +1,5 @@
 import { HeroSection } from '@/components/sections/hero'
+import { AboutSection } from '@/components/sections/about'
 import { PageWrapper } from '@/components/page-wrapper'
 
 export default function Home() {
@@ -6,7 +7,7 @@ export default function Home() {
     <>
       <HeroSection />
       <PageWrapper>
-        <section id="about" />
+        <AboutSection />
         <section id="projects" />
         <section id="experience" />
         <section id="skills" />

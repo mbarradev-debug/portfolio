@@ -38,10 +38,16 @@ export interface Project {
   featured: boolean
 }
 
+export interface SkillCategory {
+  category: string
+  label: string
+  items: string[]
+}
+
 export interface PortfolioData {
   personal: PersonalInfo
   experience: WorkExperience[]
   education: Education[]
   projects: Project[]
-  skills: string[]
+  skills: SkillCategory[]
 }
