@@ -5,6 +5,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
+      aria-label="Inicio"
       className="relative flex min-h-screen items-center"
       style={{
         paddingTop: 'clamp(8rem, 18vw, 14rem)',

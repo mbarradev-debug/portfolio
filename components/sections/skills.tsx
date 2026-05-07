@@ -8,6 +8,7 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
+      aria-label="Skills"
       className="relative"
       style={{ paddingBlock: 'clamp(4rem, 8vw, 7rem)' }}
     >

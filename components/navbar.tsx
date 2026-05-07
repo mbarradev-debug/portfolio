@@ -43,6 +43,7 @@ export function Navbar() {
           {/* Logo */}
           <a
             href="#"
+            aria-label="Miguel Barra — inicio"
             onClick={closeMobile}
             className="font-display text-lg font-bold tracking-tight text-primary transition-colors duration-150 hover:text-accent"
           >
@@ -106,6 +107,7 @@ export function Navbar() {
       {/* Mobile drawer */}
       <aside
         aria-label="Navegación móvil"
+        aria-hidden={!mobileOpen}
         className={cn(
           'fixed inset-y-0 right-0 z-50 w-64 md:hidden',
           'flex flex-col px-6 pb-8 pt-20',

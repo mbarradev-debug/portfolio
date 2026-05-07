@@ -8,6 +8,7 @@ export function ExperienceSection() {
   return (
     <section
       id="experience"
+      aria-label="Experiencia"
       className="relative"
       style={{ paddingBlock: 'clamp(5rem, 10vw, 9rem)' }}
     >
