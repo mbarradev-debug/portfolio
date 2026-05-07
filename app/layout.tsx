@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import Script from 'next/script'
 import { Navbar } from '@/components/navbar'
+import { Footer } from '@/components/footer'
 import './globals.css'
 
 const syne = Syne({
@@ -83,7 +84,7 @@ export default function RootLayout({
           <Navbar />
         </header>
         <main className="flex-1 pt-16">{children}</main>
-        <footer />
+        <Footer />
       </body>
     </html>
   )
