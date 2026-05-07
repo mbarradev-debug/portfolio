@@ -31,7 +31,10 @@ export interface Education {
 
 export interface Project {
   name: string
-  description: string
+  tagline: string
+  problem: string
+  solution: string
+  outcome: string
   url: string | null
   repo: string | null
   stack: string[]

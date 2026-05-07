@@ -151,6 +151,25 @@ html.theme-transition *::after {
 .hero-ctas    { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 360ms both; }
 .hero-avatar  { animation: fadeSlideUp var(--dur-hero) var(--ease-out-expo) 480ms both; }
 
+/* ─── Card ──────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-border);
+  border-radius: 12px;
+  padding: var(--space-8);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--dur-normal) var(--ease-out-expo),
+    box-shadow var(--dur-normal) var(--ease-out-expo),
+    border-color var(--dur-normal) ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  border-color: rgba(79, 142, 247, 0.25);
+}
+
 /* ─── Avatar ────────────────────────────────────────────────────── */
 .avatar {
   width: clamp(140px, 20vw, 200px);
