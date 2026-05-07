@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 export function HeroSection() {
@@ -88,15 +89,14 @@ export function HeroSection() {
 
 function Avatar() {
   return (
-    <div
-      className="avatar flex select-none items-center justify-center font-display font-bold text-secondary"
-      style={{
-        width: 'clamp(140px, 20vw, 200px)',
-        height: 'clamp(140px, 20vw, 200px)',
-        fontSize: 'var(--text-3xl)',
-      }}
-    >
-      MB
-    </div>
+    <Image
+      className="avatar"
+      src="/images/profile.webp"
+      alt="Miguel Barra — Full Stack Developer"
+      width={200}
+      height={200}
+      sizes="(max-width: 768px) 160px, 200px"
+      priority
+    />
   )
 }
