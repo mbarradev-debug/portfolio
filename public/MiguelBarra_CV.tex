@@ -1,0 +1,108 @@
+\documentclass[10.5pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[left=1.1cm,top=1.1cm,right=1.1cm,bottom=1.0cm]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+\definecolor{accentcolor}{RGB}{30, 80, 160}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accentcolor,
+  linkcolor=accentcolor
+}
+
+\titleformat{\section}
+  {\large\bfseries\color{accentcolor}}
+  {}{0em}{}
+  [\vspace{-4pt}\rule{\linewidth}{0.5pt}\vspace{2pt}]
+
+\titlespacing{\section}{0pt}{8pt}{4pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\setlist[itemize]{noitemsep, topsep=2pt, leftmargin=1.2em}
+
+\begin{document}
+
+%% ─── ENCABEZADO ─────────────────────────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries Miguel Barra}\\[3pt]
+  {\large Full Stack Developer --- React $\cdot$ Next.js $\cdot$ TypeScript}\\[5pt]
+  Santiago, Chile\enspace\textbullet\enspace
+  \href{mailto:mbarra.git@gmail.com}{mbarra.git@gmail.com}\enspace\textbullet\enspace
+  +56 9 4081 9076\\[2pt]
+  \href{https://miguelbarra.cl}{miguelbarra.cl}\enspace\textbullet\enspace
+  \href{https://github.com/mbarradev}{github.com/mbarradev}\enspace\textbullet\enspace
+  \href{https://www.linkedin.com/in/miguelbarrarios}{linkedin.com/in/miguelbarrarios}
+\end{center}
+
+\vspace{2pt}
+
+%% ─── PERFIL PROFESIONAL ──────────────────────────────────────────────────────
+\section{Perfil Profesional}
+
+Full Stack Developer con más de 2 años de experiencia entregando productos en producción para los sectores público y privado. Ha construido desde cero un SaaS completo para transformación digital municipal, modernizado plataformas de salud utilizadas por más de 18.000 beneficiarios de Codelco, y desarrollado herramientas propias orientadas al mercado chileno. Especializado en React, Next.js y TypeScript, con manejo del stack completo: diseño de base de datos, desarrollo de APIs, autenticación e infraestructura en la nube.
+
+\vspace{4pt}
+
+%% ─── EXPERIENCIA PROFESIONAL ─────────────────────────────────────────────────
+\section{Experiencia Profesional}
+
+\textbf{Full Stack Developer --- Forcast} \hfill \textit{Jul 2024 -- Ene 2026}\\
+{\small Consultoría de desarrollo de software, Santiago}
+
+\begin{itemize}
+  \item \textbf{ITS Solutions (DOM Digital):} Construí de cero un SaaS para digitalizar la gestión de trámites de construcción municipal (DOM), reemplazando un sistema legacy en Microsoft Project. Diseñé el esquema de base de datos en PostgreSQL, implementé autenticación con Firebase, desarrollé el frontend en Next.js y el backend en Node.js, y coordiné directamente con el cliente para iterar sobre requerimientos. La plataforma fue desplegada en Azure.
+  \item \textbf{E-Hive} (app de gestión de carga eléctrica): Desarrollé en solitario el módulo completo de escaneo QR en Angular, que verifica la patente del vehículo contra la base de datos y habilita el inicio de carga eléctrica a través de los microservicios de la plataforma, integrados en Docker.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Full Stack Developer --- Valuesite Ltda.} \hfill \textit{Mar 2022 -- Jul 2024}\\
+{\small Desarrollo de soluciones para sector salud, Santiago}
+
+\begin{itemize}
+  \item Modernizé la Sucursal Virtual de \textbf{iSalud} (Isapre de Codelco), plataforma utilizada por más de \textbf{18.000 afiliados} y sus cargas familiares para gestionar bonos, reembolsos y certificados en línea. Migré funcionalidades críticas del frontend legacy y conecté la interfaz con el backend existente.
+  \item Implementé nuevos métodos en microservicios \textbf{ASP.NET MVC (.NET)} para exponer datos de la base de datos Oracle (PL/SQL): listado de médicos por especialidad, consulta de pacientes y otros flujos clínicos requeridos por el frontend.
+\end{itemize}
+
+\vspace{4pt}
+
+%% ─── PROYECTO DESTACADO ──────────────────────────────────────────────────────
+\section{Proyecto Destacado}
+
+\textbf{Pulso} --- \href{https://pulso-self.vercel.app}{pulso-self.vercel.app}
+\begin{itemize}
+  \item Herramienta de diagnóstico financiero para deudores del crédito CAE en Chile. Determina en tiempo real si el usuario está en zona de riesgo de embargo por la TGR según su saldo, ingreso y estado de pago, y entrega un plan de acción concreto.
+  \item Construida con Next.js 16 App Router, Supabase (Postgres + RLS) y Resend; desplegada en Vercel. Incluye wizard de 3 pasos, generación de informes PDF server-side, alertas mensuales por email vía cron jobs, y cobertura de tests unitarios y E2E con Vitest y Playwright.
+\end{itemize}
+
+\vspace{4pt}
+
+%% ─── HABILIDADES TÉCNICAS ────────────────────────────────────────────────────
+\section{Habilidades Técnicas}
+
+\begin{tabular}{@{}ll}
+\textbf{Frontend}       & React, Next.js, TypeScript, Tailwind CSS, Angular, Shadcn/ui \\[2pt]
+\textbf{Backend}        & Node.js, NestJS, ASP.NET MVC (.NET), REST APIs, Prisma ORM \\[2pt]
+\textbf{Bases de datos} & PostgreSQL, Oracle PL/SQL, Supabase \\[2pt]
+\textbf{Infraestructura}& Docker, Azure, GCP, Vercel, CI/CD, Git / GitHub, Firebase Auth \\[2pt]
+\textbf{Mobile}         & Flutter, Ionic (Angular) \\
+\end{tabular}
+
+\vspace{4pt}
+
+%% ─── EDUCACIÓN ───────────────────────────────────────────────────────────────
+\section{Educación}
+
+\textbf{Ingeniería en Computación e Informática} --- Universidad Andrés Bello \hfill Titulado 2025
+
+\end{document}
