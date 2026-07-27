@@ -20,6 +20,10 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Legacy reference (temporal)
+
+La carpeta [`/legacy-reference`](./legacy-reference/README.md) contiene una copia exacta del sitio estatico original, usada como fuente de verdad durante la migracion a Next.js. No es importada por la aplicacion y se eliminara al finalizar la migracion (ver PMB-034).
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

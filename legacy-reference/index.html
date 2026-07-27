@@ -1,0 +1,211 @@
+<!--
+  Prototipo de layout inspirado en craftz.dog (github.com/craftzdog/craftzdog-homepage, MIT).
+  Réplica de estructura/estilos/animaciones; contenido con datos reales de Miguel Barra (CV).
+  Sin framework todavía (HTML/CSS/JS vanilla) — a definir en la fase de proyecto completo.
+-->
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Miguel Barra - Desarrollador Full Stack</title>
+<meta name="description" content="Portfolio de Miguel Barra, desarrollador full stack especializado en React, Next.js y TypeScript." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="12" fill="currentColor"/>
+          <text x="12" y="16.5" text-anchor="middle" font-family="'M PLUS Rounded 1c', sans-serif" font-weight="700" font-size="12" fill="#fff">M</text>
+        </svg>
+      </span>
+      <span class="logo-text">Miguel Barra</span>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+      <a href="#proyectos" class="nav-link">Proyectos</a>
+      <a href="https://github.com/mbarradev-debug" class="nav-link nav-link--icon" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.79-.25.79-.55v-1.94c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.58.24 2.75.12 3.04.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.22.66.8.55A10.51 10.51 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a href="https://www.linkedin.com/in/miguelbarrarios" class="nav-link nav-link--icon" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+        <span>LinkedIn</span>
+      </a>
+      <a href="mailto:mbarra.git@gmail.com" class="nav-link">Contacto</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V2m0 20v-2M4 12H2m20 0h-2M5.64 5.64 4.22 4.22m15.56 1.42 1.42-1.42M5.64 18.36l-1.42 1.42m15.56-1.42 1.42 1.42M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      </button>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#top">Inicio</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="https://github.com/mbarradev-debug" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/miguelbarrarios" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:mbarra.git@gmail.com">Contacto</a>
+  </div>
+</nav>
+
+<main class="page" id="top">
+  <div class="container content">
+
+    <div class="scene-wrap">
+      <div id="scene" class="scene"></div>
+      <div class="scene-loader" id="sceneLoader">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <article class="article">
+
+      <div class="glass-box reveal">
+        ¡Hola! Soy desarrollador full stack desde Santiago, Chile.
+      </div>
+
+      <div class="hero reveal">
+        <div class="hero-text">
+          <h2 class="page-title">Miguel Barra</h2>
+          <p class="tagline">Desarrollador Full Stack &mdash; React &middot; Next.js &middot; TypeScript</p>
+        </div>
+        <div class="avatar-wrap">
+          <div class="avatar">
+            <img src="profile-avatar.jpg" width="100" height="100" alt="Foto de Miguel Barra" loading="eager" />
+          </div>
+        </div>
+      </div>
+
+      <section class="section reveal" style="--delay:0.1s">
+        <h3 class="section-title">Trabajo</h3>
+        <p class="paragraph">
+          Miguel es desarrollador full stack con más de 2 años de experiencia entregando productos en
+          producción para los sectores público y privado. Construyó desde cero un SaaS para
+          transformación digital municipal, modernizó plataformas de salud utilizadas por más de
+          18.000 beneficiarios de Codelco, y desarrolla herramientas propias orientadas al mercado
+          chileno. Su stack principal es React, Next.js y TypeScript, cubriendo diseño de base de
+          datos, APIs, autenticación e infraestructura en la nube. Actualmente construye
+          <a class="link" href="https://pulso-cyan-zeta.vercel.app" target="_blank" rel="noopener">Pulso</a>,
+          un dashboard de indicadores económicos de Chile en tiempo casi real.
+        </p>
+        <div class="cta-wrap">
+          <a href="#proyectos" class="btn btn-solid">
+            Ver proyectos
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </section>
+
+      <section class="section reveal" style="--delay:0.2s">
+        <h3 class="section-title">Bio</h3>
+        <div class="bio-item"><span class="bio-year">2022 &ndash; 2023</span>Desarrollador full stack en Valuesite Ltda. &mdash; modernización de plataformas de salud para Codelco (iSalud).</div>
+        <div class="bio-item"><span class="bio-year">2024</span>Práctica profesional en Ewreka &mdash; desarrollo móvil con Flutter.</div>
+        <div class="bio-item"><span class="bio-year">2025</span>Titulado en Ingeniería en Computación e Informática, Universidad Andrés Bello.</div>
+        <div class="bio-item"><span class="bio-year">2025 &ndash; 2026</span>Desarrollador full stack en Forcast &mdash; SaaS de gestión municipal (DOM Digital) y app de carga eléctrica (E-Hive).</div>
+      </section>
+
+      <section class="section reveal" style="--delay:0.3s">
+        <h3 class="section-title">Stack</h3>
+        <div class="bio-item"><span class="bio-year">Frontend</span>React, Next.js, TypeScript, Tailwind CSS, Angular, Shadcn/ui</div>
+        <div class="bio-item"><span class="bio-year">Backend</span>Node.js, NestJS, ASP.NET MVC (.NET), REST APIs, Prisma ORM</div>
+        <div class="bio-item"><span class="bio-year">Datos</span>PostgreSQL, Oracle PL/SQL, Supabase</div>
+        <div class="bio-item"><span class="bio-year">Infra</span>Docker, Azure, GCP, Vercel, CI/CD, Git, Firebase Auth</div>
+        <div class="bio-item"><span class="bio-year">Mobile</span>Flutter, Ionic (Angular)</div>
+      </section>
+
+      <section class="section reveal" style="--delay:0.3s">
+        <h3 class="section-title">En la web</h3>
+        <ul class="link-list">
+          <li>
+            <a href="https://github.com/mbarradev-debug" class="btn btn-ghost" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.79-.25.79-.55v-1.94c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.58.24 2.75.12 3.04.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.22.66.8.55A10.51 10.51 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5Z"/></svg>
+              @mbarradev-debug
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/miguelbarrarios" class="btn btn-ghost" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+              miguelbarrarios
+            </a>
+          </li>
+          <li>
+            <a href="https://miguelbarra.cl" class="btn btn-ghost" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9s1.3-6.3 3.8-9Z"/></svg>
+              miguelbarra.cl
+            </a>
+          </li>
+          <li>
+            <a href="mailto:mbarra.git@gmail.com" class="btn btn-ghost">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6" stroke-linecap="round"/></svg>
+              mbarra.git@gmail.com
+            </a>
+          </li>
+        </ul>
+
+        <h3 id="proyectos" class="section-title">Proyectos</h3>
+        <div class="grid-2">
+          <a href="https://pulso-cyan-zeta.vercel.app" class="grid-item" target="_blank" rel="noopener">
+            <div class="thumb thumb-image">
+              <img src="https://pulso-cyan-zeta.vercel.app/opengraph-image?0ca38ad918dcc728" alt="Pulso — Dashboard de indicadores económicos de Chile" loading="lazy" />
+            </div>
+            <p class="grid-title">Pulso</p>
+            <p class="grid-caption">Dashboard de indicadores económicos de Chile</p>
+          </a>
+          <a href="https://github.com/mbarradev-debug/pulso" class="grid-item" target="_blank" rel="noopener">
+            <div class="thumb thumb-app">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.79-.25.79-.55v-1.94c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.58.24 2.75.12 3.04.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.22.66.8.55A10.51 10.51 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5Z"/></svg>
+            </div>
+            <p class="grid-title">Código fuente</p>
+            <p class="grid-caption">Repositorio de Pulso en GitHub</p>
+          </a>
+        </div>
+
+        <h3 class="section-title">Contacto</h3>
+        <p class="paragraph-plain">
+          ¿Buscas un desarrollador full stack para tu equipo o proyecto? Escríbeme y conversemos.
+        </p>
+        <div class="cta-wrap">
+          <a href="mailto:mbarra.git@gmail.com" class="btn btn-solid">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="currentColor" stroke-width="2"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="2"/></svg>
+            Escríbeme
+          </a>
+        </div>
+      </section>
+
+    </article>
+
+    <footer class="footer">&copy; <span id="year"></span> Miguel Barra. Todos los derechos reservados.</footer>
+  </div>
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="js/scene.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
