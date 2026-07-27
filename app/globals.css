@@ -1,28 +1,99 @@
 @import "tailwindcss";
 
+/*
+ * Legacy site toggles theme via a `data-theme` attribute (see
+ * /legacy-reference/css/style.css), not OS preference. Match that
+ * strategy so `dark:` utilities respond to the attribute instead of
+ * `prefers-color-scheme`. The attribute itself is set by ThemeProvider
+ * (PMB-007) — until then, `dark:` utilities never activate.
+ */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @source not "../legacy-reference/**/*";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette (theme-independent), ported from /legacy-reference/css/style.css */
+  --brand-teal-500: #319795;
+  --brand-teal-600: #2c7a7b;
+  --brand-teal-200: #81e6d9;
+  --brand-grass-teal: #88ccca;
+  --brand-purple-500: #805ad5;
+  --brand-orange-200: #fbd38d;
+}
+
+:root,
+[data-theme="light"] {
+  --bg: #f0e7db;
+  --text: #1a202c;
+  --text-soft: rgba(26, 32, 44, 0.75);
+  --link: #3d7aed;
+  --nav-bg: rgba(255, 255, 255, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --underline: #525252;
+  --ghost-text: var(--brand-teal-600);
+  --toggle-bg: var(--brand-purple-500);
+  --toggle-fg: #ffffff;
+  --avatar-border: rgba(255, 255, 255, 0.8);
+  --thumb-bg: rgba(0, 0, 0, 0.05);
+  --border-soft: rgba(0, 0, 0, 0.08);
+  --scrollbar: rgba(0, 0, 0, 0.15);
+  --thumb-app-from: #d9f4f2;
+  --thumb-app-to: #88ccca;
+  --thumb-app-text: #1f6b69;
+}
+
+[data-theme="dark"] {
+  --bg: #202023;
+  --text: rgba(255, 255, 255, 0.92);
+  --text-soft: rgba(255, 255, 255, 0.6);
+  --link: #ff63c3;
+  --nav-bg: rgba(32, 32, 35, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --underline: #a3a3a3;
+  --ghost-text: var(--brand-teal-200);
+  --toggle-bg: var(--brand-orange-200);
+  --toggle-fg: #1a202c;
+  --avatar-border: rgba(255, 255, 255, 0.3);
+  --thumb-bg: rgba(255, 255, 255, 0.06);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --scrollbar: rgba(255, 255, 255, 0.2);
+  --thumb-app-from: #123634;
+  --thumb-app-to: #1f6b69;
+  --thumb-app-text: #9be3df;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-brand-teal-500: var(--brand-teal-500);
+  --color-brand-teal-600: var(--brand-teal-600);
+  --color-brand-teal-200: var(--brand-teal-200);
+  --color-brand-grass-teal: var(--brand-grass-teal);
+  --color-brand-purple-500: var(--brand-purple-500);
+  --color-brand-orange-200: var(--brand-orange-200);
+
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-link: var(--link);
+  --color-nav-bg: var(--nav-bg);
+  --color-glass-bg: var(--glass-bg);
+  --color-underline: var(--underline);
+  --color-ghost-text: var(--ghost-text);
+  --color-toggle-bg: var(--toggle-bg);
+  --color-toggle-fg: var(--toggle-fg);
+  --color-avatar-border: var(--avatar-border);
+  --color-thumb-bg: var(--thumb-bg);
+  --color-border-soft: var(--border-soft);
+  --color-scrollbar: var(--scrollbar);
+  --color-thumb-app-from: var(--thumb-app-from);
+  --color-thumb-app-to: var(--thumb-app-to);
+  --color-thumb-app-text: var(--thumb-app-text);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
 }
