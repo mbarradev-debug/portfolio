@@ -6,13 +6,55 @@ import {
   useContext,
   useEffect,
   useLayoutEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { animate } from "framer-motion";
 
 export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "theme";
+
+// Custom properties that differ between [data-theme="light"] and
+// [data-theme="dark"] in app/globals.css. Tweened on toggle so the switch
+// reads as a transition instead of the instant swap the CSS cascade does
+// on its own — every Tailwind color utility resolves through one of these
+// via `@theme inline`, so animating them here covers the whole page.
+const THEME_VARS = [
+  "--bg",
+  "--text",
+  "--text-soft",
+  "--link",
+  "--nav-bg",
+  "--glass-bg",
+  "--underline",
+  "--ghost-text",
+  "--toggle-bg",
+  "--toggle-fg",
+  "--avatar-border",
+  "--thumb-bg",
+  "--border-soft",
+  "--scrollbar",
+  "--thumb-app-from",
+  "--thumb-app-to",
+  "--thumb-app-text",
+] as const;
+
+const THEME_TRANSITION_SECONDS = 0.4;
+
+function readThemeVars(root: HTMLElement): Record<string, string> {
+  const computed = getComputedStyle(root);
+  const values: Record<string, string> = {};
+  for (const name of THEME_VARS) {
+    values[name] = computed.getPropertyValue(name).trim();
+  }
+  return values;
+}
+
+function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 type ThemeContextValue = {
   theme: Theme;
@@ -45,6 +87,7 @@ function readInitialTheme(): Theme {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme_] = useState<Theme>(readInitialTheme);
+  const isFirstRun = useRef(true);
 
   // React's own hydration commit for <html> strips `data-theme` shortly
   // after mount, since it's not part of React's rendered attribute set for
@@ -52,7 +95,43 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // useLayoutEffect re-asserts it synchronously before the browser paints,
   // on every commit, so it self-heals regardless of what stripped it.
   useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    const root = document.documentElement;
+
+    // First commit just re-applies the theme the blocking script already
+    // painted — nothing changed, so nothing to animate.
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      root.setAttribute("data-theme", theme);
+      return;
+    }
+
+    if (prefersReducedMotion()) {
+      root.setAttribute("data-theme", theme);
+      THEME_VARS.forEach((name) => root.style.removeProperty(name));
+      return;
+    }
+
+    const from = readThemeVars(root);
+    root.setAttribute("data-theme", theme);
+    const to = readThemeVars(root);
+
+    // Pin the outgoing colors as inline overrides so the attribute swap
+    // above doesn't jump instantly, then tween each one to its new value.
+    THEME_VARS.forEach((name) => root.style.setProperty(name, from[name]));
+
+    const controls = animate(
+      root,
+      Object.fromEntries(THEME_VARS.map((name) => [name, to[name]])),
+      {
+        duration: THEME_TRANSITION_SECONDS,
+        ease: "easeInOut",
+        onComplete: () => {
+          THEME_VARS.forEach((name) => root.style.removeProperty(name));
+        },
+      },
+    );
+
+    return () => controls.stop();
   }, [theme]);
 
   const setTheme = useCallback((next: Theme) => {
