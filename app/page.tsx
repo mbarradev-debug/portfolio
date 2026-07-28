@@ -1,9 +1,33 @@
 import type { Metadata } from "next";
 import { Avatar } from "@/components/avatar";
+import { BioList } from "@/components/bio-list";
 import { Button } from "@/components/button";
 import { GlassBox } from "@/components/glass-box";
 import { MascotScene } from "@/components/mascot-scene";
 import { SectionTitle } from "@/components/section-title";
+
+const bioItems = [
+  {
+    label: "2022 – 2023",
+    description:
+      "Desarrollador full stack en Valuesite Ltda. — modernización de plataformas de salud para Codelco (iSalud).",
+  },
+  {
+    label: "2024",
+    description:
+      "Práctica profesional en Ewreka — desarrollo móvil con Flutter.",
+  },
+  {
+    label: "2025",
+    description:
+      "Titulado en Ingeniería en Computación e Informática, Universidad Andrés Bello.",
+  },
+  {
+    label: "2025 – 2026",
+    description:
+      "Desarrollador full stack en Forcast — SaaS de gestión municipal (DOM Digital) y app de carga eléctrica (E-Hive).",
+  },
+];
 
 const ArrowIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -86,6 +110,11 @@ export default function Home() {
               Ver proyectos
             </Button>
           </div>
+        </section>
+
+        <section className="mb-6">
+          <SectionTitle>Bio</SectionTitle>
+          <BioList items={bioItems} />
         </section>
       </div>
     </main>
