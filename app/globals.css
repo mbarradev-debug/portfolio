@@ -88,12 +88,26 @@
   --color-thumb-app-to: var(--thumb-app-to);
   --color-thumb-app-text: var(--thumb-app-text);
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /*
+   * Typography, ported from /legacy-reference/css/style.css.
+   * --font-heading is self-hosted via next/font/google (app/layout.tsx);
+   * --font-body is a system font stack, loaded directly (no webfont).
+   */
+  --font-heading: var(--font-mplus-rounded), sans-serif;
+  --font-body:
+    -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* Type scale: every distinct font-size found in /legacy-reference/css/style.css */
+  --text-caption: 14px; /* .grid-caption, .footer */
+  --text-button: 15px; /* .btn */
+  --text-body: 16px; /* body, .nav-link */
+  --text-logo: 18px; /* .logo-text */
+  --text-section-title: 20px; /* .section-title */
+  --text-page-title: 36px; /* .page-title */
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
 }
