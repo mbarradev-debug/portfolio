@@ -240,7 +240,7 @@ export default function Home() {
                 Ver proyectos
               </Button>
               <Button
-                href="/cv-placeholder.pdf"
+                href="/cv-miguel-barra.pdf"
                 download
                 variant="ghost"
                 icon={DownloadIcon}
