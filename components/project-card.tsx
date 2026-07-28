@@ -6,7 +6,7 @@ type ProjectCardImage = {
   alt: string;
 };
 
-type ProjectCardProps = {
+export type ProjectCardProps = {
   href: string;
   title: string;
   description: string;
