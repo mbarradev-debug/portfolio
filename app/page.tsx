@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArticleReveal } from "@/components/article-reveal";
 import { Avatar } from "@/components/avatar";
 import { BioList } from "@/components/bio-list";
 import { Button } from "@/components/button";
@@ -7,6 +8,7 @@ import { IconLink } from "@/components/icon-link";
 import { MascotScene } from "@/components/mascot-scene";
 import type { ProjectCardProps } from "@/components/project-card";
 import { ProjectsGrid } from "@/components/projects-grid";
+import { Reveal } from "@/components/reveal";
 import { SectionTitle } from "@/components/section-title";
 
 const bioItems = [
@@ -153,12 +155,14 @@ export default function Home() {
           <MascotScene />
         </div>
 
-        <article>
-          <GlassBox>
-            ¡Hola! Soy desarrollador full stack desde Santiago, Chile.
-          </GlassBox>
+        <ArticleReveal>
+          <Reveal>
+            <GlassBox>
+              ¡Hola! Soy desarrollador full stack desde Santiago, Chile.
+            </GlassBox>
+          </Reveal>
 
-          <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
+          <Reveal className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
             <div className="grow">
               <h2 className="font-heading text-page-title mb-1 font-extrabold tracking-[-0.02em]">
                 Miguel Barra
@@ -173,109 +177,110 @@ export default function Home() {
                 alt="Foto de Miguel Barra"
               />
             </div>
-          </div>
-        </article>
+          </Reveal>
 
-        <section className="mb-6">
-          <SectionTitle>Trabajo</SectionTitle>
-          <p className="text-justify indent-[1em] hyphens-auto">
-            Miguel es desarrollador full stack con más de 2 años de experiencia
-            entregando productos en producción para los sectores público y
-            privado. Construyó desde cero un SaaS para transformación digital
-            municipal, modernizó plataformas de salud utilizadas por más de
-            18.000 beneficiarios de Codelco, y desarrolla herramientas propias
-            orientadas al mercado chileno. Su stack principal es React, Next.js
-            y TypeScript, cubriendo diseño de base de datos, APIs, autenticación
-            e infraestructura en la nube. Actualmente construye{" "}
-            <a
-              href="https://pulso-cyan-zeta.vercel.app"
-              target="_blank"
-              rel="noopener"
-              className="text-link underline-offset-[3px] hover:underline"
-            >
-              Pulso
-            </a>
-            , un dashboard de indicadores económicos de Chile en tiempo casi
-            real.
-          </p>
-          <div className="my-4 text-center">
-            <Button href="#proyectos" variant="solid" icon={ArrowIcon}>
-              Ver proyectos
-            </Button>
-          </div>
-        </section>
-
-        <section className="mb-6">
-          <SectionTitle>Bio</SectionTitle>
-          <BioList items={bioItems} />
-        </section>
-
-        <section className="mb-6">
-          <SectionTitle>Stack</SectionTitle>
-          <BioList items={stackItems} />
-        </section>
-
-        <section className="mb-6">
-          <SectionTitle>En la web</SectionTitle>
-          <ul className="mb-4">
-            <li className="mb-0.5">
-              <IconLink
-                href="https://github.com/mbarradev-debug"
-                icon={GithubIcon}
+          <Reveal as="section" delay={0.1} className="mb-6">
+            <SectionTitle>Trabajo</SectionTitle>
+            <p className="text-justify indent-[1em] hyphens-auto">
+              Miguel es desarrollador full stack con más de 2 años de
+              experiencia entregando productos en producción para los sectores
+              público y privado. Construyó desde cero un SaaS para
+              transformación digital municipal, modernizó plataformas de salud
+              utilizadas por más de 18.000 beneficiarios de Codelco, y
+              desarrolla herramientas propias orientadas al mercado chileno. Su
+              stack principal es React, Next.js y TypeScript, cubriendo diseño
+              de base de datos, APIs, autenticación e infraestructura en la
+              nube. Actualmente construye{" "}
+              <a
+                href="https://pulso-cyan-zeta.vercel.app"
                 target="_blank"
                 rel="noopener"
+                className="text-link underline-offset-[3px] hover:underline"
               >
-                @mbarradev-debug
-              </IconLink>
-            </li>
-            <li className="mb-0.5">
-              <IconLink
-                href="https://www.linkedin.com/in/miguelbarrarios"
-                icon={LinkedinIcon}
-                target="_blank"
-                rel="noopener"
-              >
-                miguelbarrarios
-              </IconLink>
-            </li>
-            <li className="mb-0.5">
-              <IconLink
-                href="https://miguelbarra.cl"
-                icon={SiteIcon}
-                target="_blank"
-                rel="noopener"
-              >
-                miguelbarra.cl
-              </IconLink>
-            </li>
-            <li className="mb-0.5">
-              <IconLink href="mailto:mbarra.git@gmail.com" icon={MailIcon}>
-                mbarra.git@gmail.com
-              </IconLink>
-            </li>
-          </ul>
+                Pulso
+              </a>
+              , un dashboard de indicadores económicos de Chile en tiempo casi
+              real.
+            </p>
+            <div className="my-4 text-center">
+              <Button href="#proyectos" variant="solid" icon={ArrowIcon}>
+                Ver proyectos
+              </Button>
+            </div>
+          </Reveal>
 
-          <SectionTitle id="proyectos">Proyectos</SectionTitle>
-          <ProjectsGrid items={projectItems} />
-        </section>
+          <Reveal as="section" delay={0.2} className="mb-6">
+            <SectionTitle>Bio</SectionTitle>
+            <BioList items={bioItems} />
+          </Reveal>
 
-        <section className="mb-6">
-          <SectionTitle>Contacto</SectionTitle>
-          <p>
-            ¿Buscas un desarrollador full stack para tu equipo o proyecto?
-            Escríbeme y conversemos.
-          </p>
-          <div className="my-4 text-center">
-            <Button
-              href="mailto:mbarra.git@gmail.com"
-              variant="solid"
-              icon={ContactMailIcon}
-              iconPosition="leading"
-            >
-              Escríbeme
-            </Button>
-          </div>
-        </section>
+          <Reveal as="section" delay={0.3} className="mb-6">
+            <SectionTitle>Stack</SectionTitle>
+            <BioList items={stackItems} />
+          </Reveal>
+
+          <Reveal as="section" delay={0.3} className="mb-6">
+            <SectionTitle>En la web</SectionTitle>
+            <ul className="mb-4">
+              <li className="mb-0.5">
+                <IconLink
+                  href="https://github.com/mbarradev-debug"
+                  icon={GithubIcon}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  @mbarradev-debug
+                </IconLink>
+              </li>
+              <li className="mb-0.5">
+                <IconLink
+                  href="https://www.linkedin.com/in/miguelbarrarios"
+                  icon={LinkedinIcon}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  miguelbarrarios
+                </IconLink>
+              </li>
+              <li className="mb-0.5">
+                <IconLink
+                  href="https://miguelbarra.cl"
+                  icon={SiteIcon}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  miguelbarra.cl
+                </IconLink>
+              </li>
+              <li className="mb-0.5">
+                <IconLink href="mailto:mbarra.git@gmail.com" icon={MailIcon}>
+                  mbarra.git@gmail.com
+                </IconLink>
+              </li>
+            </ul>
+
+            <SectionTitle id="proyectos">Proyectos</SectionTitle>
+            <ProjectsGrid items={projectItems} />
+          </Reveal>
+
+          <Reveal as="section" delay={0.3} className="mb-6">
+            <SectionTitle>Contacto</SectionTitle>
+            <p>
+              ¿Buscas un desarrollador full stack para tu equipo o proyecto?
+              Escríbeme y conversemos.
+            </p>
+            <div className="my-4 text-center">
+              <Button
+                href="mailto:mbarra.git@gmail.com"
+                variant="solid"
+                icon={ContactMailIcon}
+                iconPosition="leading"
+              >
+                Escríbeme
+              </Button>
+            </div>
+          </Reveal>
+        </ArticleReveal>
       </div>
 
       <footer className="text-caption mt-2 text-center opacity-40">
