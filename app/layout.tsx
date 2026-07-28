@@ -44,6 +44,10 @@ const mPlusRounded1c = M_PLUS_Rounded_1c({
 });
 
 export const metadata: Metadata = {
+  // Required for the opengraph-image/twitter-image file conventions to
+  // resolve to absolute URLs (miguelbarra.cl is this portfolio's own
+  // production domain, per the "En la web" section's site link).
+  metadataBase: new URL("https://miguelbarra.cl"),
   title: "Miguel Barra - Desarrollador Full Stack",
   description:
     "Portfolio de Miguel Barra, desarrollador full stack especializado en React, Next.js y TypeScript.",

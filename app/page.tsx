@@ -136,10 +136,28 @@ const projectItems: ProjectCardProps[] = [
   },
 ];
 
+const TITLE = "Miguel Barra - Desarrollador Full Stack";
+const DESCRIPTION =
+  "Portfolio de Miguel Barra, desarrollador full stack especializado en React, Next.js y TypeScript.";
+
 export const metadata: Metadata = {
-  title: "Miguel Barra - Desarrollador Full Stack",
-  description:
-    "Portfolio de Miguel Barra, desarrollador full stack especializado en React, Next.js y TypeScript.",
+  title: TITLE,
+  description: DESCRIPTION,
+  // og:image / twitter:image come from opengraph-image.tsx and
+  // twitter-image.tsx (Next.js file convention) — not set here.
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "https://miguelbarra.cl",
+    siteName: TITLE,
+    locale: "es_CL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 // Ported from /legacy-reference/index.html (main.page > .container.content)
