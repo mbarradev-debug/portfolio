@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/**
+ * Heading font, ported from /legacy-reference/css/style.css
+ * (--font-heading: 'M PLUS Rounded 1c', sans-serif). `fallback` uses the
+ * same system stack legacy defines as --font-body, so a failed webfont
+ * load degrades to the project's real body font instead of a generic
+ * sans-serif.
+ */
+const mPlusRounded1c = M_PLUS_Rounded_1c({
+  weight: ["700", "800"],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mplus-rounded",
+  fallback: [
+    "-apple-system",
+    "system-ui",
+    "Segoe UI",
+    "Helvetica",
+    "Arial",
+    "sans-serif",
+  ],
 });
 
 export const metadata: Metadata = {
@@ -23,10 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${mPlusRounded1c.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
