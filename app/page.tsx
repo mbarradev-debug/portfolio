@@ -29,6 +29,23 @@ const bioItems = [
   },
 ];
 
+const stackItems = [
+  {
+    label: "Frontend",
+    description: "React, Next.js, TypeScript, Tailwind CSS, Angular, Shadcn/ui",
+  },
+  {
+    label: "Backend",
+    description: "Node.js, NestJS, ASP.NET MVC (.NET), REST APIs, Prisma ORM",
+  },
+  { label: "Datos", description: "PostgreSQL, Oracle PL/SQL, Supabase" },
+  {
+    label: "Infra",
+    description: "Docker, Azure, GCP, Vercel, CI/CD, Git, Firebase Auth",
+  },
+  { label: "Mobile", description: "Flutter, Ionic (Angular)" },
+];
+
 const ArrowIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <path
@@ -115,6 +132,11 @@ export default function Home() {
         <section className="mb-6">
           <SectionTitle>Bio</SectionTitle>
           <BioList items={bioItems} />
+        </section>
+
+        <section className="mb-6">
+          <SectionTitle>Stack</SectionTitle>
+          <BioList items={stackItems} />
         </section>
       </div>
     </main>
