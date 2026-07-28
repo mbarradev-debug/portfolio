@@ -209,11 +209,17 @@ export default function Home() {
               stack principal es React, Next.js y TypeScript, cubriendo diseño
               de base de datos, APIs, autenticación e infraestructura en la
               nube. Actualmente construye{" "}
+              {/*
+                Underline is always-on, not hover-only (PMB-030/Lighthouse):
+                --link darkened for AA contrast against --bg is only 2.84:1
+                against the surrounding paragraph text, below the 3:1 that
+                link-in-text-block requires when color is the only cue.
+              */}
               <a
                 href="https://pulso-cyan-zeta.vercel.app"
                 target="_blank"
                 rel="noopener"
-                className="text-link underline-offset-[3px] hover:underline"
+                className="text-link underline underline-offset-[3px]"
               >
                 Pulso
               </a>

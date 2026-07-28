@@ -31,6 +31,12 @@ const THEME_INIT_SCRIPT = `(function () {
 const mPlusRounded1c = M_PLUS_Rounded_1c({
   weight: ["700", "800"],
   subsets: ["latin"],
+  // false, not the default true (PMB-030/Lighthouse): this build preloads
+  // every unicode-range chunk of the font regardless of `subsets`, not just
+  // latin — 120 <link rel="preload"> tags, ~1.7MB, tanking LCP. `display:
+  // swap` already avoids invisible text, so turning preload off lets the
+  // browser fetch only the latin chunk it actually needs to render.
+  preload: false,
   display: "swap",
   variable: "--font-mplus-rounded",
   fallback: [
