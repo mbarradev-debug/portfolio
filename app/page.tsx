@@ -1,65 +1,50 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { Avatar } from "@/components/avatar";
+import { GlassBox } from "@/components/glass-box";
+import { MascotScene } from "@/components/mascot-scene";
 
+export const metadata: Metadata = {
+  title: "Miguel Barra - Desarrollador Full Stack",
+  description:
+    "Portfolio de Miguel Barra, desarrollador full stack especializado en React, Next.js y TypeScript.",
+};
+
+// Ported from /legacy-reference/index.html (main.page > .container.content)
+// and css/style.css (.page, .content, .hero, .hero-text, .page-title,
+// .tagline, .avatar-wrap). sm: (640px) is Tailwind's default breakpoint
+// and matches legacy's @media (max-width: 640px) exactly, so the
+// mobile-collapse classes need no arbitrary values.
 export default function Home() {
   return (
-    <div className="font-body flex flex-col flex-1 items-center justify-center bg-zinc-50 dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main id="top" className="pb-8">
+      <div className="mx-auto max-w-[768px] px-4 pt-14">
+        <div className="mx-auto mb-2 h-[260px] w-full max-w-[300px]">
+          <MascotScene />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="bg-text text-bg flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <article>
+          <GlassBox>
+            ¡Hola! Soy desarrollador full stack desde Santiago, Chile.
+          </GlassBox>
+
+          <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
+            <div className="grow">
+              <h2 className="font-heading text-page-title mb-1 font-extrabold tracking-[-0.02em]">
+                Miguel Barra
+              </h2>
+              <p className="text-text-soft">
+                Desarrollador Full Stack — React · Next.js · TypeScript
+              </p>
+            </div>
+            <div className="mt-4 shrink-0 text-center sm:mt-0 sm:ml-6">
+              <Avatar
+                src="/avatar-placeholder.png"
+                alt="Foto de Miguel Barra"
+              />
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
   );
 }
