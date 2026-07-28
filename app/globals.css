@@ -111,3 +111,18 @@ body {
   color: var(--text);
   font-family: var(--font-body);
 }
+
+/*
+ * Ported from /legacy-reference/css/style.css's Reset (html { scroll-
+ * behavior: smooth }) and its reduced-motion override — needed so the
+ * "Ver proyectos" CTA (PMB-021) scrolls smoothly to #proyectos.
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
