@@ -101,6 +101,13 @@ const MailIcon = (
   </svg>
 );
 
+const ContactMailIcon = (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <path d="M3 6h18v12H3z" stroke="currentColor" strokeWidth="2" />
+    <path d="m3 7 9 6 9-6" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
+
 const projectItems: ProjectCardProps[] = [
   {
     href: "https://pulso-cyan-zeta.vercel.app",
@@ -251,7 +258,30 @@ export default function Home() {
           <SectionTitle id="proyectos">Proyectos</SectionTitle>
           <ProjectsGrid items={projectItems} />
         </section>
+
+        <section className="mb-6">
+          <SectionTitle>Contacto</SectionTitle>
+          <p>
+            ¿Buscas un desarrollador full stack para tu equipo o proyecto?
+            Escríbeme y conversemos.
+          </p>
+          <div className="my-4 text-center">
+            <Button
+              href="mailto:mbarra.git@gmail.com"
+              variant="solid"
+              icon={ContactMailIcon}
+              iconPosition="leading"
+            >
+              Escríbeme
+            </Button>
+          </div>
+        </section>
       </div>
+
+      <footer className="text-caption mt-2 text-center opacity-40">
+        © {new Date().getFullYear()} Miguel Barra. Todos los derechos
+        reservados.
+      </footer>
     </main>
   );
 }
