@@ -9,8 +9,6 @@
  */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-@source not "../legacy-reference/**/*";
-
 :root {
   /* Brand palette (theme-independent), ported from /legacy-reference/css/style.css */
   --brand-teal-500: #319795;
