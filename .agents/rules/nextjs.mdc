@@ -1,0 +1,19 @@
+---
+description: Next.js 16 App Router & React 19 rules
+globs: app/**/*.{ts,tsx,css}, components/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Next.js 16 & React 19 Guidelines
+
+1. **App Router Conventions**:
+   - Keep page containers server-rendered when possible.
+   - Use `'use client'` only on components requiring interactive state, DOM hooks, or browser APIs.
+   - Heavy client components (like Three.js scenes) MUST be dynamically loaded via `next/dynamic(..., { ssr: false })`.
+
+2. **Font & Performance**:
+   - `next/font` is configured in `app/layout.tsx`. Keep `preload: false` for font subsets with large CJK chunks as documented in `docs/lighthouse-audit.md`.
+
+3. **Styling & Themes**:
+   - CSS variables in `app/globals.css` define theme surfaces (`--bg`, `--fg`, `--card-bg`, etc.) and brand accents (`--brand-teal-500`, `--brand-teal-600`, `--brand-teal-700`).
+   - Theme toggle is managed via `ThemeProvider` in `app/theme-provider.tsx` matching `dark` / `light` root HTML classes.

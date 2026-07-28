@@ -1,0 +1,20 @@
+---
+description: Vitest Unit Testing & Playwright E2E guidelines
+globs: components/**/*.test.tsx, e2e/**/*.spec.ts, vitest.config.ts, playwright.config.ts
+alwaysApply: false
+---
+
+# Testing & Quality Verification Rules
+
+1. **Unit Testing (Vitest + React Testing Library)**:
+   - Co-locate test files alongside components: `components/<component-name>.test.tsx`.
+   - Run tests using `npm run test`.
+   - Ensure component props, interactions, and accessible DOM queries (`getByRole`, `getByText`) are covered.
+
+2. **E2E Testing (Playwright)**:
+   - Specs live in `e2e/*.spec.ts`.
+   - Run tests using `npm run test:e2e`.
+   - Verify critical user flows: navigation links, mobile drawer menu, scroll CTA, and theme persistence across page loads.
+
+3. **Pre-flight Checks**:
+   - Always run `npm run test`, `npm run lint`, and `npm run format:check` before submitting pull requests or finishing tasks.
