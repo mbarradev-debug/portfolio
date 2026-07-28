@@ -96,6 +96,7 @@ export function MobileNavPanel() {
 
   return (
     <div
+      data-testid="mobile-nav-panel"
       className={`border-border-soft flex flex-col overflow-hidden px-4 [transition:max-height_0.3s_ease,opacity_0.25s_ease] md:hidden ${
         open
           ? "max-h-[320px] pt-2 pb-4 opacity-100"
