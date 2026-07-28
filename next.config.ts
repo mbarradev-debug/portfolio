@@ -48,6 +48,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pulso-cyan-zeta.vercel.app",
+      },
+    ],
+  },
   async headers() {
     return [
       {
