@@ -13,10 +13,6 @@ export const metadata: Metadata = {
  * is set locally on each panel since these isolated routes don't wire up
  * the real theme toggle. Hover to check the scale transition.
  *
- * No real profile photo exists in /legacy-reference yet (PMB-001 only
- * copied markup/styles, no images), so this route uses a generated
- * placeholder — /public/avatar-placeholder.png — until the real photo is
- * added by a future ticket (Hero, PMB-020).
  */
 
 function ThemePanel({ theme }: { theme: "light" | "dark" }) {
@@ -26,7 +22,7 @@ function ThemePanel({ theme }: { theme: "light" | "dark" }) {
       className="bg-bg text-text flex-1 rounded-lg border border-black/10 p-6"
     >
       <h2 className="mb-4 text-lg font-semibold capitalize">{theme} theme</h2>
-      <Avatar src="/avatar-placeholder.png" alt="Foto de Miguel Barra" />
+      <Avatar src="/avatar.jpg" alt="Foto de Miguel Barra" />
     </div>
   );
 }

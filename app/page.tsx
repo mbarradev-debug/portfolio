@@ -190,10 +190,7 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-4 shrink-0 text-center sm:mt-0 sm:ml-6">
-              <Avatar
-                src="/avatar-placeholder.png"
-                alt="Foto de Miguel Barra"
-              />
+              <Avatar src="/avatar.jpg" alt="Foto de Miguel Barra" />
             </div>
           </Reveal>
 
