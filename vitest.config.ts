@@ -9,6 +9,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
-    exclude: ["node_modules", "legacy-reference", ".next"],
+    // e2e/ holds Playwright specs (playwright.config.ts's testDir) — they
+    // use an incompatible test() API and must never be picked up here.
+    exclude: ["node_modules", "legacy-reference", ".next", "e2e"],
   },
 });
