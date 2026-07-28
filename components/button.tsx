@@ -40,7 +40,10 @@ const baseClasses =
   "aria-disabled:opacity-50";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  solid: "bg-brand-teal-500 text-white hover:bg-brand-teal-600",
+  // teal-600/700, not legacy's teal-500 — white text on teal-500 is
+  // 3.51:1, below WCAG AA's 4.5:1 (found via Lighthouse, PMB-030).
+  // teal-600 reaches 5.03:1; teal-700 is proportionally darker for hover.
+  solid: "bg-brand-teal-600 text-white hover:bg-brand-teal-700",
   // rgba(49, 151, 149, .12) is the fixed hover tint from .btn-ghost:hover —
   // legacy never tokenized it per theme, so it's kept as-is here.
   ghost: "text-ghost-text hover:bg-[rgba(49,151,149,0.12)]",

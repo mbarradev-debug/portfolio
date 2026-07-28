@@ -8,7 +8,7 @@ describe("Button", () => {
     render(<Button variant="solid">Ver proyectos</Button>);
 
     const button = screen.getByRole("button", { name: "Ver proyectos" });
-    expect(button.className).toContain("bg-brand-teal-500");
+    expect(button.className).toContain("bg-brand-teal-600");
   });
 
   it("renders the ghost variant with its ghost-text color", () => {

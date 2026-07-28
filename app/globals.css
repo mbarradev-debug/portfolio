@@ -19,6 +19,14 @@
   --brand-grass-teal: #88ccca;
   --brand-purple-500: #805ad5;
   --brand-orange-200: #fbd38d;
+  /*
+   * Not from legacy — added for PMB-030 (Lighthouse audit). White text on
+   * --brand-teal-500 is 3.51:1, below WCAG AA's 4.5:1 for normal text.
+   * teal-600/700 keep the same hue, just darker, and only replace
+   * teal-500 in Button's solid variant (its one text-on-color use);
+   * teal-500 itself is untouched everywhere else (icons, focus rings).
+   */
+  --brand-teal-700: #215c5d;
 }
 
 :root,
@@ -26,7 +34,13 @@
   --bg: #f0e7db;
   --text: #1a202c;
   --text-soft: rgba(26, 32, 44, 0.75);
-  --link: #3d7aed;
+  /*
+   * Not legacy's #3d7aed — darkened for PMB-030 (Lighthouse audit):
+   * #3d7aed on --bg was 3.3:1, below WCAG AA's 4.5:1. This keeps the same
+   * hue/saturation, just darker, and reaches 4.69:1. Dark theme's --link
+   * (#ff63c3) already passes at 6.05:1 and is untouched.
+   */
+  --link: #155ce2;
   --nav-bg: rgba(255, 255, 255, 0.25);
   --glass-bg: rgba(255, 255, 255, 0.55);
   --underline: #525252;
@@ -65,6 +79,7 @@
 @theme inline {
   --color-brand-teal-500: var(--brand-teal-500);
   --color-brand-teal-600: var(--brand-teal-600);
+  --color-brand-teal-700: var(--brand-teal-700);
   --color-brand-teal-200: var(--brand-teal-200);
   --color-brand-grass-teal: var(--brand-grass-teal);
   --color-brand-purple-500: var(--brand-purple-500);
