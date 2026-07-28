@@ -1,7 +1,21 @@
 import type { Metadata } from "next";
 import { Avatar } from "@/components/avatar";
+import { Button } from "@/components/button";
 import { GlassBox } from "@/components/glass-box";
 import { MascotScene } from "@/components/mascot-scene";
+import { SectionTitle } from "@/components/section-title";
+
+const ArrowIcon = (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M9 6l6 6-6 6"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 export const metadata: Metadata = {
   title: "Miguel Barra - Desarrollador Full Stack",
@@ -44,6 +58,35 @@ export default function Home() {
             </div>
           </div>
         </article>
+
+        <section className="mb-6">
+          <SectionTitle>Trabajo</SectionTitle>
+          <p className="text-justify indent-[1em] hyphens-auto">
+            Miguel es desarrollador full stack con más de 2 años de experiencia
+            entregando productos en producción para los sectores público y
+            privado. Construyó desde cero un SaaS para transformación digital
+            municipal, modernizó plataformas de salud utilizadas por más de
+            18.000 beneficiarios de Codelco, y desarrolla herramientas propias
+            orientadas al mercado chileno. Su stack principal es React, Next.js
+            y TypeScript, cubriendo diseño de base de datos, APIs, autenticación
+            e infraestructura en la nube. Actualmente construye{" "}
+            <a
+              href="https://pulso-cyan-zeta.vercel.app"
+              target="_blank"
+              rel="noopener"
+              className="text-link underline-offset-[3px] hover:underline"
+            >
+              Pulso
+            </a>
+            , un dashboard de indicadores económicos de Chile en tiempo casi
+            real.
+          </p>
+          <div className="my-4 text-center">
+            <Button href="#proyectos" variant="solid" icon={ArrowIcon}>
+              Ver proyectos
+            </Button>
+          </div>
+        </section>
       </div>
     </main>
   );
