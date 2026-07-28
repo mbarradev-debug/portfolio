@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import { useSyncExternalStore } from "react";
 import { useTheme } from "@/app/theme-provider";
 
@@ -8,8 +9,8 @@ import { useTheme } from "@/app/theme-provider";
 // via ThemeProvider, already wired in PMB-007). Icon shown = the theme
 // you'd switch *to*: moon while light, sun while dark — same as legacy's
 // `:root[data-theme='light'] .icon-moon` / `[data-theme='dark'] .icon-sun`.
-const iconBaseClasses =
-  "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 [transition:opacity_0.3s_ease,transform_0.4s_ease]";
+const faceClasses =
+  "bg-toggle-bg text-toggle-fg absolute inset-0 flex items-center justify-center rounded-md [backface-visibility:hidden]";
 
 function noopSubscribe() {
   return () => {};
@@ -34,6 +35,7 @@ export function ThemeToggle() {
   // mismatch on aria-label/icon state, then switch to the real theme.
   const mounted = useHasMounted();
   const isLight = !mounted || theme === "light";
+  const reduceMotion = useReducedMotion();
 
   return (
     <button
@@ -42,39 +44,50 @@ export function ThemeToggle() {
       aria-label={`Tema ${isLight ? "claro" : "oscuro"} activo, cambiar a tema ${
         isLight ? "oscuro" : "claro"
       }`}
-      className="bg-toggle-bg text-toggle-fg relative inline-flex size-10 items-center justify-center rounded-md transition-[background-color,transform] duration-150 hover:scale-105"
+      className="relative inline-flex size-10 transition-transform duration-150 hover:scale-105"
+      style={{ perspective: "200px" }}
     >
-      <svg
-        aria-hidden="true"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className={`${iconBaseClasses} ${
-          isLight
-            ? "rotate-0 scale-100 opacity-100"
-            : "-rotate-90 scale-50 opacity-0"
-        }`}
+      {/* Classic flip-card rig: both faces sit stacked, each with
+          backface-visibility hidden, and the back face is pre-rotated
+          180deg. Rotating this wrapper 0<->180 flips the whole button —
+          background and icon together — like a card/window turning over,
+          instead of just crossfading the icon inside a static button. */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ transformStyle: "preserve-3d" }}
+        initial={false}
+        animate={{ rotateX: isLight ? 0 : 180 }}
+        transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeInOut" }}
       >
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
-      </svg>
-      <svg
-        aria-hidden="true"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        className={`${iconBaseClasses} ${
-          isLight
-            ? "rotate-90 scale-50 opacity-0"
-            : "rotate-0 scale-100 opacity-100"
-        }`}
-      >
-        <path d="M12 4V2m0 20v-2M4 12H2m20 0h-2M5.64 5.64 4.22 4.22m15.56 1.42 1.42-1.42M5.64 18.36l-1.42 1.42m15.56-1.42 1.42 1.42M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" />
-      </svg>
+        <div className={faceClasses}>
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+          </svg>
+        </div>
+        <div
+          className={faceClasses}
+          style={{ transform: "rotateX(180deg)" }}
+        >
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <path d="M12 4V2m0 20v-2M4 12H2m20 0h-2M5.64 5.64 4.22 4.22m15.56 1.42 1.42-1.42M5.64 18.36l-1.42 1.42m15.56-1.42 1.42 1.42M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" />
+          </svg>
+        </div>
+      </motion.div>
     </button>
   );
 }
