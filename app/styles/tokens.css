@@ -1,0 +1,156 @@
+/**
+ * Design tokens — the single source of visual truth for the whole site.
+ * Full reference and usage rules: CLAUDE.md → "Sistema de design tokens".
+ *
+ * Three layers:
+ *   1. Primitives  — raw values (ported 1:1 from the legacy index.html :root).
+ *   2. Scales      — spacing / type / line-height / tracking / shadow.
+ *   3. Semantics   — intent-named tokens (--color-bg, --color-accent, …).
+ *
+ * Components MUST use layer 3 (semantic) tokens, never layers 1–2 directly and
+ * never a raw value. Dark mode, when it lands, only re-maps layer 3.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ─── 1. Primitives ──────────────────────────────────────────────────── */
+
+  /* Colour — ported verbatim from the legacy :root */
+  --cream: #fcfcfa;
+  --hero-bg-1: #dcdbd4;
+  --hero-bg-2: #c7c6bd;
+  --ink: #15181a;
+  --ink-soft: #4a4d47;
+  --muted: #70726b;
+  --line: #dcdad2;
+  --green: #c9f59a;
+  --green-dark: #9fd66a;
+  --teal: #445e5f;
+  --teal-dark: #222f30;
+  --card-gray: #e6e4df;
+  --white: #ffffff;
+
+  /* Radius — ported verbatim */
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  /* Motion — ported verbatim */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.16s;
+  --dur-mid: 0.3s;
+  --dur-reveal: 0.55s;
+
+  /* Typeface families — self-hosted via next/font (see app/layout.tsx).
+     Fallback stacks match the legacy site. */
+  --font-sans: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-mono: var(--font-jetbrains), "Courier New", monospace;
+
+  /* ─── 2. Scales ──────────────────────────────────────────────────────── */
+
+  /* Spacing — 4px base. Components round to this scale. */
+  --space-px: 1px;
+  --space-3xs: 0.25rem; /* 4  */
+  --space-2xs: 0.5rem; /* 8  */
+  --space-xs: 0.75rem; /* 12 */
+  --space-sm: 1rem; /* 16 */
+  --space-md: 1.5rem; /* 24 */
+  --space-lg: 2rem; /* 32 */
+  --space-xl: 3rem; /* 48 */
+  --space-2xl: 4rem; /* 64 */
+  --space-3xl: 6rem; /* 96 */
+  --space-4xl: 8rem; /* 128 */
+
+  /* Type scale — rem, fluid where the legacy site was fluid */
+  --text-2xs: 0.6875rem; /* 11 — mono micro-labels          */
+  --text-xs: 0.75rem; /* 12 — mono labels, captions      */
+  --text-sm: 0.875rem; /* 14 — small body, UI text        */
+  --text-base: 1rem; /* 16 — body                       */
+  --text-md: 1.125rem; /* 18 — lead paragraph             */
+  --text-lg: 1.375rem; /* 22 — large standfirst           */
+  --text-xl: 1.75rem; /* 28 — sub-headings               */
+  --text-2xl: clamp(2rem, 4vw, 3rem); /* section titles      */
+  --text-3xl: clamp(2.5rem, 6vw, 4.5rem); /* page titles     */
+  --text-display: clamp(2.75rem, 8vw, 7rem); /* hero         */
+
+  /* Line height */
+  --leading-none: 1;
+  --leading-tight: 1.1; /* display + headings */
+  --leading-snug: 1.25;
+  --leading-normal: 1.5; /* body */
+  --leading-relaxed: 1.65;
+
+  /* Letter spacing */
+  --tracking-tighter: -0.025em; /* large display */
+  --tracking-tight: -0.02em; /* headings */
+  --tracking-normal: 0em;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.08em; /* mono uppercase labels */
+  --tracking-widest: 0.1em;
+
+  /* Elevation */
+  --shadow-hairline: 0 1px 0 rgba(0, 0, 0, 0.03); /* ported verbatim */
+  --shadow-sm: 0 1px 2px rgba(21, 24, 26, 0.06), 0 1px 1px rgba(21, 24, 26, 0.04);
+  --shadow-md: 0 8px 24px -8px rgba(30, 20, 40, 0.18);
+  --shadow-lg: 0 30px 60px -20px rgba(30, 20, 40, 0.35); /* ported verbatim */
+
+  /* ─── 3. Semantic tokens ─────────────────────────────────────────────── */
+
+  /* Surfaces & text */
+  --color-bg: var(--cream);
+  --color-surface: var(--white);
+  --color-surface-sunken: var(--card-gray);
+  --color-surface-inverse: var(--teal-dark);
+  --color-surface-inverse-soft: var(--teal);
+
+  --color-text: var(--ink);
+  --color-text-soft: var(--ink-soft);
+  --color-text-muted: var(--muted);
+  --color-text-inverse: var(--white);
+  --color-text-on-accent: var(--teal-dark);
+
+  --color-border: var(--line);
+
+  /* Accent */
+  --color-accent: var(--green);
+  --color-accent-strong: var(--green-dark);
+
+  /* Hero gradient */
+  --color-hero-from: var(--hero-bg-1);
+  --color-hero-to: var(--hero-bg-2);
+
+  /* Semantic radius */
+  --radius-chip: var(--radius-sm);
+  --radius-control: var(--radius-md);
+  --radius-card: var(--radius-lg);
+  --radius-pill: 999px;
+
+  /* Semantic motion */
+  --ease-standard: var(--ease-out);
+  --duration-press: var(--dur-fast);
+  --duration-transition: var(--dur-mid);
+  --duration-reveal: var(--dur-reveal);
+}
+
+/**
+ * Dark mode — structure only, NOT active yet.
+ * When implemented: switch `color-scheme` to `light dark`, re-map the layer-3
+ * tokens below, and tune the values. No component code changes.
+ */
+/*
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #15181a;
+    --color-surface: #1d2123;
+    --color-surface-sunken: #24282a;
+    --color-text: #f4f3ee;
+    --color-text-soft: #c8c8c0;
+    --color-text-muted: #8b8d85;
+    --color-border: #333733;
+    --color-accent: var(--green);
+    --color-accent-strong: var(--green-dark);
+  }
+}
+*/

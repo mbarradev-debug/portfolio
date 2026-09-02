@@ -122,6 +122,8 @@ Antes de marcar una issue como lista / abrir la PR:
 - [ ] `npm run format:check` limpio.
 - [ ] Cambios acotados al alcance de la issue (sin arreglos "de paso" no pedidos).
 - [ ] RSC por defecto; `"use client"` sólo donde de verdad hace falta.
+- [ ] Sin valores visuales a mano: colores/radios/duraciones sólo desde
+      `app/styles/tokens.css`; los componentes usan tokens semánticos.
 - [ ] `CLAUDE.md` / `AGENTS.md` actualizados si cambió contexto o convenciones.
 - [ ] Nueva entrada en la **Bitácora de decisiones**.
 - [ ] `README.md` actualizado si cambió el arranque del proyecto.
@@ -151,3 +153,8 @@ Registro append-only. Cada issue añade una fila con **fecha (YYYY-MM-DD)**, la
 | 2026-09-02 | PMB-004 | `process.env` prohibido fuera de `env.ts` vía ESLint `no-restricted-properties`; `next.config.ts` migrado a `env.NODE_ENV`.                                                       |
 | 2026-09-02 | PMB-004 | Separación server/client la garantiza t3-env en **runtime** (lanza al acceder desde cliente) + el bundling de Next, no el compilador.                                             |
 | 2026-09-02 | PMB-004 | `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_RATE_LIMIT` quedan `optional()` hasta PMB-015. Única requerida hoy: `NEXT_PUBLIC_SITE_URL`.                                      |
+| 2026-09-02 | PMB-005 | Design tokens en `app/styles/tokens.css` en 3 capas (primitivos 1:1 del legacy / escalas / semánticos); componentes usan sólo la capa semántica.                                  |
+| 2026-09-02 | PMB-005 | Tokens expuestos a Tailwind con `@theme inline` en `globals.css` (permite re-map en runtime para dark mode).                                                                      |
+| 2026-09-02 | PMB-005 | Tipografías: Plus Jakarta Sans / Playfair Display italic / JetBrains Mono vía `next/font/google` (self-hosted, `variable`).                                                       |
+| 2026-09-02 | PMB-005 | Dark mode: estructura preparada (bloque `@media` comentado en `tokens.css`), no activado.                                                                                         |
+| 2026-09-02 | PMB-005 | `app/page.tsx` (placeholder de CNA) sustituido por un home mínimo basado en tokens con link a `/design-system`; UI real desde PMB-007.                                            |
