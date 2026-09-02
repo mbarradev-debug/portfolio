@@ -1,12 +1,23 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 
-import { env } from "./env";
+// Side-effect import: validates environment variables early, before the build
+// starts (throws with a clear message if a required var is missing).
+import "./env";
+
+const withNextIntl = createNextIntlPlugin();
 
 /**
  * Security headers. The rationale for every directive and header lives in
  * `CLAUDE.md` → "Cabeceras de seguridad". Keep both in sync.
+ *
+ * `headers()` is resolved at build time, before the validated `env` from
+ * `@/env` is reliably populated (its `NODE_ENV` default would win). Next.js
+ * owns `process.env.NODE_ENV` at config-evaluation time, so read it directly
+ * here — this file is exempt from the "no process.env" lint rule for exactly
+ * this reason.
  */
-const isProd = env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === "production";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -65,4 +76,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

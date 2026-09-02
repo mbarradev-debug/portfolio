@@ -25,7 +25,9 @@ todo el equipo.
 - Variables de entorno centralizadas y validadas en `env.ts` (PMB-004): Zod +
   `@t3-oss/env-nextjs`, `process.env` prohibido fuera de `env.ts` por ESLint.
 - Sistema de design tokens en `app/styles/tokens.css` + 3 tipografías vía
-  `next/font` (PMB-005). Página de referencia: `/design-system`.
+  `next/font` (PMB-005). Página de referencia: `/{locale}/design-system`.
+- i18n operativo con **next-intl** (PMB-006): rutas `/es` y `/en`, proxy de
+  negociación de locale, mensajes tipados. El copy real se extrae en PMB-009.
 - La home es un placeholder mínimo (link a `/design-system`); la UI real se
   reconstruye a partir de PMB-007.
 
@@ -54,6 +56,7 @@ todo el equipo.
 | Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)                                  |
 | Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo)                                 |
 | Config / env       | `env.ts` — `@t3-oss/env-nextjs` + Zod (ver abajo)                                            |
+| i18n               | `next-intl` (`i18n/`, `proxy.ts`) — locales `es` / `en` (ver abajo)                          |
 
 ## Cabeceras de seguridad
 
@@ -100,10 +103,22 @@ mayor impacto. `experimental.sri` tampoco resuelve los `<script>` inline del
 payload RSC. **Revisar en PMB-006**: si el middleware de i18n vuelve dinámicas las
 rutas de todos modos, mover la CSP a `proxy.ts` con nonce + `'strict-dynamic'`.
 
-### Redirect `/` → locale por defecto
+### Orden: proxy de i18n vs. headers
 
-Se **delega en el middleware de i18n de PMB-006**. Añadir un redirect en
-`next.config.ts` ahora daría 404 (todavía no existe `app/[locale]`).
+1. **`proxy.ts`** (middleware next-intl) corre **primero**: negocia el locale,
+   redirige `/` → `/{locale}` (307) y prefijos desconocidos al fallback `es`.
+2. Luego el enrutado de Next resuelve la página.
+3. `headers()` de `next.config.ts` aplica la CSP y las cabeceras a la respuesta
+   final. Las redirecciones 307 del proxy también llevan las cabeceras.
+
+No hay conflicto: el proxy sólo redirige/reescribe rutas; no toca la CSP.
+
+### `NODE_ENV` en `next.config.ts`
+
+`headers()` se resuelve en build, antes de que `@/env` esté poblado (su default
+`NODE_ENV` ganaría y `isProd` sería `false` → CSP con `'unsafe-eval'` y sin HSTS
+en producción). Por eso `next.config.ts` lee `process.env.NODE_ENV` **directo**
+(lo controla Next en ese momento) y está exento de la regla ESLint `no-process-env`.
 
 ## Variables de entorno
 
@@ -135,6 +150,44 @@ variables: [ … path: ['NEXT_PUBLIC_SITE_URL'] … ]`).
   runtime + bundling.
 - Las variables de contacto son `optional()` hasta PMB-015, que las hará
   requeridas.
+
+## Internacionalización (i18n)
+
+**next-intl** (estándar de App Router). Config en `i18n/`, proxy en `proxy.ts`,
+plugin en `next.config.ts` (`withNextIntl`).
+
+| Aspecto               | Decisión                                                                                                                                                                          |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Locales               | `['es', 'en']`, `defaultLocale: 'es'`                                                                                                                                             |
+| Estrategia de prefijo | **`localePrefix: 'always'`** — toda ruta lleva prefijo (`/es/…`, `/en/…`); `/` redirige al locale negociado. Elegido sobre `as-needed` para URLs simétricas y `hreflang` estable. |
+| Negociación           | prefijo de URL → `Accept-Language` → `defaultLocale`                                                                                                                              |
+| Fallback              | locale no soportado (`/fr`) → el proxy antepone `es` (`/es/fr`) → 404 localizado, **nunca 500**                                                                                   |
+| Locale inválido       | `initLocale()` (en `i18n/locale.ts`) llama `notFound()` y hace `setRequestLocale`                                                                                                 |
+
+### Archivos
+
+```
+i18n/routing.ts      defineRouting (locales, defaultLocale, localePrefix)
+i18n/navigation.ts   Link, redirect, usePathname, useRouter, getPathname (tipados)
+i18n/request.ts      getRequestConfig → carga messages/{locale}.json
+i18n/locale.ts       initLocale(locale): valida + setRequestLocale (usar en cada page/layout de [locale])
+proxy.ts             createMiddleware(routing) + matcher que excluye api/_next/assets
+global.d.ts          augmenta next-intl AppConfig (Locale + Messages tipados)
+messages/{es,en}.json  catálogos (se llenan en PMB-009)
+```
+
+### Reglas
+
+- **Navegación entre rutas**: usa `Link` / `redirect` / `useRouter` de
+  `@/i18n/navigation`, nunca `next/link` ni `next/navigation` (perderían el
+  prefijo de locale).
+- **Toda page/layout bajo `app/[locale]/`** llama `initLocale(locale)` al inicio
+  (valida el locale y habilita render estático).
+- **Claves de mensajes tipadas**: referenciar una clave inexistente en
+  `t('…')` es error de compilación (augmentación en `global.d.ts` contra
+  `messages/en.json`).
+- El `matcher` del proxy excluye `api`, `_next`, `_vercel` y archivos con
+  extensión → no interfiere con `/public` ni las APIs.
 
 ## Sistema de design tokens
 
@@ -175,13 +228,14 @@ Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
 
 ### Capa 2 · Escalas (nuevas, coherentes)
 
-| Grupo        | Tokens                                                                                                                |
-| ------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Espaciado    | `--space-px`, `--space-3xs`(4) `2xs`(8) `xs`(12) `sm`(16) `md`(24) `lg`(32) `xl`(48) `2xl`(64) `3xl`(96) `4xl`(128)   |
-| Tipografía   | `--text-2xs`(11) `xs`(12) `sm`(14) `base`(16) `md`(18) `lg`(22) `xl`(28) · `--text-2xl/3xl/display` fluidos (`clamp`) |
-| Interlineado | `--leading-none/tight`(1.1)`/snug/normal`(1.5)`/relaxed`(1.65)                                                        |
-| Tracking     | `--tracking-tighter`(−.025em) `tight` `normal` `wide` `wider`(.08em, labels mono) `widest`                            |
-| Sombra       | `--shadow-hairline` (1:1), `--shadow-sm`, `--shadow-md`, `--shadow-lg` (1:1)                                          |
+| Grupo        | Tokens                                                                                                                                                                                                                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Espaciado    | `--space-3xs`(4) … `--space-4xl`(128). **En componentes usa la escala numérica de Tailwind** (`p-4`, `gap-6`, `py-24`) — no se remapea `--spacing-*` porque los nombres t-shirt chocan con `--container-*` y romperían `max-w-*`. `--space-*` documenta los pasos y sirve para `var()`. |
+| Anchos       | `--measure` (44rem, columna de lectura) → `max-w-measure` · `--page-width` (64rem) → `max-w-page`                                                                                                                                                                                       |
+| Tipografía   | `--text-2xs`(11) `xs`(12) `sm`(14) `base`(16) `md`(18) `lg`(22) `xl`(28) · `--text-2xl/3xl/display` fluidos (`clamp`)                                                                                                                                                                   |
+| Interlineado | `--leading-none/tight`(1.1)`/snug/normal`(1.5)`/relaxed`(1.65)                                                                                                                                                                                                                          |
+| Tracking     | `--tracking-tighter`(−.025em) `tight` `normal` `wide` `wider`(.08em, labels mono) `widest`                                                                                                                                                                                              |
+| Sombra       | `--shadow-hairline` (1:1), `--shadow-sm`, `--shadow-md`, `--shadow-lg` (1:1)                                                                                                                                                                                                            |
 
 ### Capa 3 · Semánticos (usar estos)
 
@@ -217,19 +271,22 @@ a `light dark`.
 
 ```
 app/
-  [locale]/          Rutas localizadas (page, layout, loading, error por idioma)
-  layout.tsx         Root layout (html/body, providers globales)
+  layout.tsx         Root layout passthrough (`return children`)
+  [locale]/          Rutas localizadas — raíz real (layout con html/body, page, not-found, …)
   styles/tokens.css  Design tokens (única fuente de valores visuales)
-components/           Componentes de UI reutilizables (Server salvo que necesiten cliente)
-content/             Contenido del sitio (proyectos, experiencia, testimonios) como datos tipados
-messages/            Catálogos de traducción por idioma (es.json, en.json, …)
-lib/                 Utilidades puras, helpers de datos, configuración compartida
+  globals.css        Tailwind + @theme + estilos base
+i18n/                routing, navigation, request, locale (config next-intl)
+proxy.ts             Middleware de i18n (negociación de locale)
+messages/            Catálogos de traducción por idioma (es.json, en.json)
+components/           Componentes de UI reutilizables (Server salvo que necesiten cliente)   ← pendiente
+content/             Contenido del sitio como datos tipados                                    ← pendiente
+lib/                 Utilidades puras, helpers de datos, config compartida                     ← pendiente
 public/              Assets estáticos servidos desde "/"
 references/          Sitio estático original (sólo local, en .gitignore)
 ```
 
-> Hoy sólo existen `app/` y `public/`. El resto se crea a medida que las issues
-> lo necesiten; esta es la forma canónica cuando se cree cada carpeta.
+> `components/`, `content/` y `lib/` aún no existen; se crean cuando una issue lo
+> necesite, con esta forma canónica.
 
 ## Convenciones de código
 
@@ -262,8 +319,6 @@ references/          Sitio estático original (sólo local, en .gitignore)
 
 ## Decisiones abiertas
 
-- Librería de i18n (`next-intl` vs. solución propia sobre `[locale]`). Se decidirá
-  al abordar la ruta localizada.
 - Estrategia de animación (CSS puro vs. librería) para reproducir el hero original.
 - Origen del contenido: archivos `.ts` tipados vs. MDX vs. CMS. Por defecto,
   archivos `.ts` en `content/` hasta que haya razón para más.

@@ -53,18 +53,14 @@
   --tracking-wider: var(--tracking-wider);
   --tracking-widest: var(--tracking-widest);
 
-  /* Spacing */
-  --spacing-px: var(--space-px);
-  --spacing-3xs: var(--space-3xs);
-  --spacing-2xs: var(--space-2xs);
-  --spacing-xs: var(--space-xs);
-  --spacing-sm: var(--space-sm);
-  --spacing-md: var(--space-md);
-  --spacing-lg: var(--space-lg);
-  --spacing-xl: var(--space-xl);
-  --spacing-2xl: var(--space-2xl);
-  --spacing-3xl: var(--space-3xl);
-  --spacing-4xl: var(--space-4xl);
+  /* Spacing: Tailwind's numeric scale (`p-4` = 1rem = 4 × --spacing) is the
+     source. `--space-*` in tokens.css names the semantic steps for `var()` use
+     and docs — we don't remap `--spacing-*` here because t-shirt keys collide
+     with Tailwind's `--container-*` scale (breaks `max-w-*`). */
+
+  /* Content widths (own names — must not collide with `--container-{3xs..7xl}`) */
+  --container-measure: var(--measure); /* comfortable reading column */
+  --container-page: var(--page-width); /* wide page / canvas content */
 
   /* Radius */
   --radius-chip: var(--radius-chip);
