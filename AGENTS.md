@@ -91,6 +91,19 @@ Comprobar:
 - En el navegador (DevTools → Console): cargar la home y confirmar **cero
   violaciones de CSP** (fuentes, imágenes y vídeo cargan).
 
+## Cómo verificar i18n
+
+```bash
+npm run build && npm run start
+curl -sI http://localhost:3000/                       # 307 → /es
+curl -sI -H 'Accept-Language: en' http://localhost:3000/   # 307 → /en
+curl -sI -H 'Accept-Language: fr' http://localhost:3000/   # 307 → /es (fallback)
+curl -s -o /dev/null -w '%{http_code}\n' http://localhost:3000/es/fr   # 404, no 500
+```
+
+`/es` y `/en` deben renderizar texto distinto (leído de `messages/`). Referenciar
+una clave inexistente en `t('…')` debe fallar en `npm run typecheck`.
+
 ## Flujo de ramas
 
 - **Una rama por issue**, creada desde `main` actualizado.
@@ -135,26 +148,32 @@ Antes de marcar una issue como lista / abrir la PR:
 Registro append-only. Cada issue añade una fila con **fecha (YYYY-MM-DD)**, la
 **issue** y la **decisión** (con el porqué en una línea).
 
-| Fecha      | Issue   | Decisión                                                                                                                                                                          |
-| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-02 | PMB-001 | **Sin directorio `src/`**: estructura plana con `app/` en la raíz; menos indirección para un sitio pequeño.                                                                       |
-| 2026-09-02 | PMB-001 | **Gestor de paquetes: npm** (lockfile `package-lock.json` ya presente en el scaffold; cero setup extra).                                                                          |
-| 2026-09-02 | PMB-001 | **Next.js `16.3.4`** (App Router + Turbopack por defecto) como versión base del proyecto.                                                                                         |
-| 2026-09-02 | PMB-001 | `index.html` legacy movido a `/references` (en `.gitignore`); assets reales del portfolio en `/public`.                                                                           |
-| 2026-09-02 | PMB-002 | Se crean `CLAUDE.md` (contexto) y `AGENTS.md` (operativa) con protocolo "leer al iniciar / actualizar al finalizar" y esta bitácora.                                              |
-| 2026-09-02 | PMB-002 | Arquitectura objetivo fijada: **RSC por defecto, Client Components sólo como hojas**; estructura `app/[locale]`, `components/`, `content/`, `messages/`, `lib/`.                  |
-| 2026-09-02 | PMB-003 | Cabeceras de seguridad y CSP en `next.config.ts` (`headers()` estático), no en middleware.                                                                                        |
-| 2026-09-02 | PMB-003 | CSP `script-src` con `'unsafe-inline'` en vez de nonce: el nonce forzaría render dinámico en todo el sitio (choca con SSG); riesgo bajo sin auth/formularios. Revisar en PMB-006. |
-| 2026-09-02 | PMB-003 | Sin Google Fonts en la CSP: `next/font` sirve las fuentes self-hosted.                                                                                                            |
-| 2026-09-02 | PMB-003 | `Strict-Transport-Security` sólo en producción (`NODE_ENV === 'production'`).                                                                                                     |
-| 2026-09-02 | PMB-003 | Redirect `/` → locale por defecto delegado al middleware de i18n de PMB-006 (aún no existe `app/[locale]`).                                                                       |
-| 2026-09-02 | PMB-003 | `images.formats = ['image/avif', 'image/webp']`; `remotePatterns` vacío (sin imágenes remotas por ahora).                                                                         |
-| 2026-09-02 | PMB-004 | Variables de entorno centralizadas en `env.ts` con `@t3-oss/env-nextjs` + Zod (bloques `server` / `client` / `shared`).                                                           |
-| 2026-09-02 | PMB-004 | `process.env` prohibido fuera de `env.ts` vía ESLint `no-restricted-properties`; `next.config.ts` migrado a `env.NODE_ENV`.                                                       |
-| 2026-09-02 | PMB-004 | Separación server/client la garantiza t3-env en **runtime** (lanza al acceder desde cliente) + el bundling de Next, no el compilador.                                             |
-| 2026-09-02 | PMB-004 | `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_RATE_LIMIT` quedan `optional()` hasta PMB-015. Única requerida hoy: `NEXT_PUBLIC_SITE_URL`.                                      |
-| 2026-09-02 | PMB-005 | Design tokens en `app/styles/tokens.css` en 3 capas (primitivos 1:1 del legacy / escalas / semánticos); componentes usan sólo la capa semántica.                                  |
-| 2026-09-02 | PMB-005 | Tokens expuestos a Tailwind con `@theme inline` en `globals.css` (permite re-map en runtime para dark mode).                                                                      |
-| 2026-09-02 | PMB-005 | Tipografías: Plus Jakarta Sans / Playfair Display italic / JetBrains Mono vía `next/font/google` (self-hosted, `variable`).                                                       |
-| 2026-09-02 | PMB-005 | Dark mode: estructura preparada (bloque `@media` comentado en `tokens.css`), no activado.                                                                                         |
-| 2026-09-02 | PMB-005 | `app/page.tsx` (placeholder de CNA) sustituido por un home mínimo basado en tokens con link a `/design-system`; UI real desde PMB-007.                                            |
+| Fecha      | Issue   | Decisión                                                                                                                                                                                                        |
+| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-02 | PMB-001 | **Sin directorio `src/`**: estructura plana con `app/` en la raíz; menos indirección para un sitio pequeño.                                                                                                     |
+| 2026-09-02 | PMB-001 | **Gestor de paquetes: npm** (lockfile `package-lock.json` ya presente en el scaffold; cero setup extra).                                                                                                        |
+| 2026-09-02 | PMB-001 | **Next.js `16.3.4`** (App Router + Turbopack por defecto) como versión base del proyecto.                                                                                                                       |
+| 2026-09-02 | PMB-001 | `index.html` legacy movido a `/references` (en `.gitignore`); assets reales del portfolio en `/public`.                                                                                                         |
+| 2026-09-02 | PMB-002 | Se crean `CLAUDE.md` (contexto) y `AGENTS.md` (operativa) con protocolo "leer al iniciar / actualizar al finalizar" y esta bitácora.                                                                            |
+| 2026-09-02 | PMB-002 | Arquitectura objetivo fijada: **RSC por defecto, Client Components sólo como hojas**; estructura `app/[locale]`, `components/`, `content/`, `messages/`, `lib/`.                                                |
+| 2026-09-02 | PMB-003 | Cabeceras de seguridad y CSP en `next.config.ts` (`headers()` estático), no en middleware.                                                                                                                      |
+| 2026-09-02 | PMB-003 | CSP `script-src` con `'unsafe-inline'` en vez de nonce: el nonce forzaría render dinámico en todo el sitio (choca con SSG); riesgo bajo sin auth/formularios. Revisar en PMB-006.                               |
+| 2026-09-02 | PMB-003 | Sin Google Fonts en la CSP: `next/font` sirve las fuentes self-hosted.                                                                                                                                          |
+| 2026-09-02 | PMB-003 | `Strict-Transport-Security` sólo en producción (`NODE_ENV === 'production'`).                                                                                                                                   |
+| 2026-09-02 | PMB-003 | Redirect `/` → locale por defecto delegado al middleware de i18n de PMB-006 (aún no existe `app/[locale]`).                                                                                                     |
+| 2026-09-02 | PMB-003 | `images.formats = ['image/avif', 'image/webp']`; `remotePatterns` vacío (sin imágenes remotas por ahora).                                                                                                       |
+| 2026-09-02 | PMB-004 | Variables de entorno centralizadas en `env.ts` con `@t3-oss/env-nextjs` + Zod (bloques `server` / `client` / `shared`).                                                                                         |
+| 2026-09-02 | PMB-004 | `process.env` prohibido fuera de `env.ts` vía ESLint `no-restricted-properties`; `next.config.ts` migrado a `env.NODE_ENV`.                                                                                     |
+| 2026-09-02 | PMB-004 | Separación server/client la garantiza t3-env en **runtime** (lanza al acceder desde cliente) + el bundling de Next, no el compilador.                                                                           |
+| 2026-09-02 | PMB-004 | `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_RATE_LIMIT` quedan `optional()` hasta PMB-015. Única requerida hoy: `NEXT_PUBLIC_SITE_URL`.                                                                    |
+| 2026-09-02 | PMB-005 | Design tokens en `app/styles/tokens.css` en 3 capas (primitivos 1:1 del legacy / escalas / semánticos); componentes usan sólo la capa semántica.                                                                |
+| 2026-09-02 | PMB-005 | Tokens expuestos a Tailwind con `@theme inline` en `globals.css` (permite re-map en runtime para dark mode).                                                                                                    |
+| 2026-09-02 | PMB-005 | Tipografías: Plus Jakarta Sans / Playfair Display italic / JetBrains Mono vía `next/font/google` (self-hosted, `variable`).                                                                                     |
+| 2026-09-02 | PMB-005 | Dark mode: estructura preparada (bloque `@media` comentado en `tokens.css`), no activado.                                                                                                                       |
+| 2026-09-02 | PMB-005 | `app/page.tsx` (placeholder de CNA) sustituido por un home mínimo basado en tokens con link a `/design-system`; UI real desde PMB-007.                                                                          |
+| 2026-09-02 | PMB-006 | i18n con **next-intl** (estándar App Router). `localePrefix: 'always'`; `/` redirige por `Accept-Language` con fallback a `es`.                                                                                 |
+| 2026-09-02 | PMB-006 | Middleware en `proxy.ts` (nombre de Next 16, no `middleware.ts`). Orden: proxy → routing → `headers()` de `next.config.ts`.                                                                                     |
+| 2026-09-02 | PMB-006 | Todas las rutas bajo `app/[locale]/`; `app/layout.tsx` es passthrough (`return children`). Helper `i18n/locale.ts#initLocale` en cada page/layout.                                                              |
+| 2026-09-02 | PMB-006 | Locale no soportado (`/fr`) → proxy reescribe a `/es/fr` → 404 localizado, nunca 500.                                                                                                                           |
+| 2026-09-02 | PMB-006 | **Fix regresión PMB-004**: `next.config.ts` vuelve a `process.env.NODE_ENV` (vía `env.NODE_ENV` daba `isProd=false` en build → CSP con `unsafe-eval` y sin HSTS). Exento en ESLint.                             |
+| 2026-09-02 | PMB-006 | **Fix PMB-005**: no se remapea `--spacing-*` (los nombres t-shirt chocaban con `--container-*` y rompían `max-w-*`). Componentes usan la escala numérica de Tailwind; `--measure` / `--page-width` para anchos. |

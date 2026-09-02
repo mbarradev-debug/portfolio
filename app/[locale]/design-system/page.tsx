@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 
+import { initLocale } from "@/i18n/locale";
+
 export const metadata: Metadata = {
   title: "Design system",
   robots: { index: false },
@@ -81,7 +83,7 @@ const DURATIONS = ["--duration-press", "--duration-transition", "--duration-reve
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="gap-md border-border pt-lg flex flex-col border-t">
+    <section className="border-border flex flex-col gap-6 border-t pt-8">
       <h2 className="text-text-muted font-mono text-xs tracking-wider uppercase">{title}</h2>
       {children}
     </section>
@@ -90,7 +92,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Swatch({ token }: { token: string }) {
   return (
-    <div className="gap-2xs flex flex-col">
+    <div className="flex flex-col gap-2">
       <div
         className="rounded-chip border-border h-16 w-full border"
         style={{ background: `var(${token})` }}
@@ -100,10 +102,13 @@ function Swatch({ token }: { token: string }) {
   );
 }
 
-export default function DesignSystemPage() {
+export default async function DesignSystemPage({ params }: PageProps<"/[locale]/design-system">) {
+  const { locale } = await params;
+  initLocale(locale);
+
   return (
-    <main className="gap-2xl px-md py-2xl mx-auto flex w-full max-w-5xl flex-col">
-      <header className="gap-xs flex flex-col">
+    <main className="max-w-page mx-auto flex w-full flex-col gap-16 px-6 py-16">
+      <header className="flex flex-col gap-3">
         <p className="text-text-muted font-mono text-xs tracking-wider uppercase">
           Portfolio · PMB-005
         </p>
@@ -116,7 +121,7 @@ export default function DesignSystemPage() {
       </header>
 
       <Section title="Tipografías">
-        <div className="gap-md flex flex-col">
+        <div className="flex flex-col gap-6">
           <p className="font-sans text-xl">
             Sans · Plus Jakarta Sans — cuerpo, UI y titulares
             <span className="text-text-muted block text-sm">
@@ -139,9 +144,9 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Escala tipográfica">
-        <div className="gap-sm flex flex-col">
+        <div className="flex flex-col gap-4">
           {TYPE_SCALE.map((token) => (
-            <div key={token} className="gap-md flex items-baseline">
+            <div key={token} className="flex items-baseline gap-6">
               <code className="text-2xs text-text-muted w-28 shrink-0 font-mono">{token}</code>
               <span
                 className="leading-tight tracking-tight"
@@ -155,7 +160,7 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Color · primitivos">
-        <div className="gap-md grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
           {PRIMITIVE_COLORS.map((token) => (
             <Swatch key={token} token={token} />
           ))}
@@ -163,7 +168,7 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Color · semánticos (usar estos en componentes)">
-        <div className="gap-md grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
           {SEMANTIC_COLORS.map((token) => (
             <Swatch key={token} token={token} />
           ))}
@@ -171,9 +176,9 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Espaciado">
-        <div className="gap-2xs flex flex-col">
+        <div className="flex flex-col gap-2">
           {SPACE_SCALE.map((token) => (
-            <div key={token} className="gap-md flex items-center">
+            <div key={token} className="flex items-center gap-6">
               <code className="text-2xs text-text-muted w-24 shrink-0 font-mono">{token}</code>
               <span className="bg-accent h-4" style={{ width: `var(${token})` } as CSSProperties} />
             </div>
@@ -182,9 +187,9 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Radios">
-        <div className="gap-md flex flex-wrap">
+        <div className="flex flex-wrap gap-6">
           {RADII.map((token) => (
-            <div key={token} className="gap-2xs flex flex-col items-center">
+            <div key={token} className="flex flex-col items-center gap-2">
               <div
                 className="border-border bg-surface-sunken size-20 border"
                 style={{ borderRadius: `var(${token})` } as CSSProperties}
@@ -196,9 +201,9 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Sombras">
-        <div className="gap-xl bg-bg p-md flex flex-wrap">
+        <div className="bg-bg flex flex-wrap gap-12 p-6">
           {SHADOWS.map((token) => (
-            <div key={token} className="gap-2xs flex flex-col items-center">
+            <div key={token} className="flex flex-col items-center gap-2">
               <div
                 className="rounded-card bg-surface size-20"
                 style={{ boxShadow: `var(${token})` } as CSSProperties}
@@ -210,7 +215,7 @@ export default function DesignSystemPage() {
       </Section>
 
       <Section title="Motion">
-        <ul className="gap-2xs flex flex-col">
+        <ul className="flex flex-col gap-2">
           <li className="text-text-soft font-mono text-xs">
             --ease-standard ·{" "}
             <span style={{ font: "inherit" }}>cubic-bezier(0.22, 1, 0.36, 1)</span>

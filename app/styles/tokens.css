@@ -50,18 +50,24 @@
 
   /* ─── 2. Scales ──────────────────────────────────────────────────────── */
 
-  /* Spacing — 4px base. Components round to this scale. */
+  /* Spacing — 4px base. In components use Tailwind's numeric scale
+     (`p-4` = 1rem = --space-sm, `py-24` = 6rem = --space-3xl). These names map
+     the semantic steps for `var()` use and documentation. */
   --space-px: 1px;
-  --space-3xs: 0.25rem; /* 4  */
-  --space-2xs: 0.5rem; /* 8  */
-  --space-xs: 0.75rem; /* 12 */
-  --space-sm: 1rem; /* 16 */
-  --space-md: 1.5rem; /* 24 */
-  --space-lg: 2rem; /* 32 */
-  --space-xl: 3rem; /* 48 */
-  --space-2xl: 4rem; /* 64 */
-  --space-3xl: 6rem; /* 96 */
-  --space-4xl: 8rem; /* 128 */
+  --space-3xs: 0.25rem; /* 4   →  p-1  */
+  --space-2xs: 0.5rem; /* 8    →  p-2  */
+  --space-xs: 0.75rem; /* 12   →  p-3  */
+  --space-sm: 1rem; /* 16      →  p-4  */
+  --space-md: 1.5rem; /* 24    →  p-6  */
+  --space-lg: 2rem; /* 32      →  p-8  */
+  --space-xl: 3rem; /* 48      →  p-12 */
+  --space-2xl: 4rem; /* 64     →  p-16 */
+  --space-3xl: 6rem; /* 96     →  p-24 */
+  --space-4xl: 8rem; /* 128    →  p-32 */
+
+  /* Content widths */
+  --measure: 44rem; /* comfortable reading column (~72 car.) */
+  --page-width: 64rem; /* wide page / canvas content           */
 
   /* Type scale — rem, fluid where the legacy site was fluid */
   --text-2xs: 0.6875rem; /* 11 — mono micro-labels          */

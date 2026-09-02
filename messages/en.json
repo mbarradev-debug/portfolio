@@ -1,0 +1,18 @@
+{
+  "Home": {
+    "eyebrow": "Portfolio · Miguel Barra",
+    "titleBefore": "I build full-stack products and take them to ",
+    "titleEmphasis": "production",
+    "body": "Site under reconstruction. The design system is already defined — check the tokens on the reference page.",
+    "cta": "View design system"
+  },
+  "LocaleBadge": {
+    "label": "Current language",
+    "value": "English"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for doesn't exist.",
+    "cta": "Back to home"
+  }
+}

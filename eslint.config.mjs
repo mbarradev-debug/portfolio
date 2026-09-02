@@ -13,11 +13,12 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
-  // `process.env` may only be read in `env.ts`, which validates it. Everywhere
-  // else, import the typed `env` from `@/env`.
+  // `process.env` may only be read in `env.ts` (which validates it) and in
+  // `next.config.ts` (build-time `NODE_ENV`, owned by Next before `env` is
+  // populated). Everywhere else, import the typed `env` from `@/env`.
   {
     name: "portfolio/no-direct-process-env",
-    ignores: ["env.ts"],
+    ignores: ["env.ts", "next.config.ts"],
     rules: {
       "no-restricted-properties": [
         "error",
