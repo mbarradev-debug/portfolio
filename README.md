@@ -16,8 +16,9 @@ en `/references` (no versionado).
 | Bundler            | Turbopack (default en Next 16)              | —                                                                                                                          |
 | Estilos            | Tailwind CSS v4                             | Incluido en el scaffold.                                                                                                   |
 
-Estas decisiones se replicarán en `CLAUDE.md` / `AGENTS.md` en la issue siguiente
-(PMB-002).
+El contexto completo del proyecto (objetivo, arquitectura objetivo, convenciones)
+está en [`CLAUDE.md`](./CLAUDE.md); las convenciones operativas (ramas, commits,
+protocolo de trabajo, bitácora de decisiones) en [`AGENTS.md`](./AGENTS.md).
 
 ## Requisitos
 
@@ -63,6 +64,10 @@ public/              Assets estáticos servidos desde "/"
 references/          Sitio estático original (sólo local, en .gitignore)
 .husky/              Hooks de Git
 ```
+
+La estructura de carpetas **objetivo** (`app/[locale]`, `components/`, `content/`,
+`messages/`, `lib/`) y su justificación están documentadas en `CLAUDE.md`; se irá
+creando a medida que las issues lo requieran.
 
 ## `.gitignore`
 
