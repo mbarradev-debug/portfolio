@@ -55,6 +55,26 @@ desarrollo.
 | `npm run format`       | Prettier `--write` sobre todo el repo.                         |
 | `npm run format:check` | Prettier `--check` (no modifica; útil en CI).                  |
 
+## Cómo verificar las cabeceras de seguridad
+
+La política vive en `next.config.ts`; su justificación en `CLAUDE.md` →
+"Cabeceras de seguridad".
+
+```bash
+npm run build && npm run start        # servidor de producción en :3000
+curl -sI http://localhost:3000        # inspecciona las cabeceras de respuesta
+```
+
+Comprobar:
+
+- Presentes: `Content-Security-Policy`, `X-Frame-Options` (`DENY`),
+  `X-Content-Type-Options` (`nosniff`), `Referrer-Policy`, `Permissions-Policy`.
+- `X-Powered-By` **ausente**.
+- `Strict-Transport-Security` presente con `npm run start` (producción) y
+  **ausente** con `npm run dev`.
+- En el navegador (DevTools → Console): cargar la home y confirmar **cero
+  violaciones de CSP** (fuentes, imágenes y vídeo cargan).
+
 ## Flujo de ramas
 
 - **Una rama por issue**, creada desde `main` actualizado.
@@ -97,11 +117,17 @@ Antes de marcar una issue como lista / abrir la PR:
 Registro append-only. Cada issue añade una fila con **fecha (YYYY-MM-DD)**, la
 **issue** y la **decisión** (con el porqué en una línea).
 
-| Fecha      | Issue   | Decisión                                                                                                                                                         |
-| ---------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-02 | PMB-001 | **Sin directorio `src/`**: estructura plana con `app/` en la raíz; menos indirección para un sitio pequeño.                                                      |
-| 2026-09-02 | PMB-001 | **Gestor de paquetes: npm** (lockfile `package-lock.json` ya presente en el scaffold; cero setup extra).                                                         |
-| 2026-09-02 | PMB-001 | **Next.js `16.3.4`** (App Router + Turbopack por defecto) como versión base del proyecto.                                                                        |
-| 2026-09-02 | PMB-001 | `index.html` legacy movido a `/references` (en `.gitignore`); assets reales del portfolio en `/public`.                                                          |
-| 2026-09-02 | PMB-002 | Se crean `CLAUDE.md` (contexto) y `AGENTS.md` (operativa) con protocolo "leer al iniciar / actualizar al finalizar" y esta bitácora.                             |
-| 2026-09-02 | PMB-002 | Arquitectura objetivo fijada: **RSC por defecto, Client Components sólo como hojas**; estructura `app/[locale]`, `components/`, `content/`, `messages/`, `lib/`. |
+| Fecha      | Issue   | Decisión                                                                                                                                                                          |
+| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-02 | PMB-001 | **Sin directorio `src/`**: estructura plana con `app/` en la raíz; menos indirección para un sitio pequeño.                                                                       |
+| 2026-09-02 | PMB-001 | **Gestor de paquetes: npm** (lockfile `package-lock.json` ya presente en el scaffold; cero setup extra).                                                                          |
+| 2026-09-02 | PMB-001 | **Next.js `16.3.4`** (App Router + Turbopack por defecto) como versión base del proyecto.                                                                                         |
+| 2026-09-02 | PMB-001 | `index.html` legacy movido a `/references` (en `.gitignore`); assets reales del portfolio en `/public`.                                                                           |
+| 2026-09-02 | PMB-002 | Se crean `CLAUDE.md` (contexto) y `AGENTS.md` (operativa) con protocolo "leer al iniciar / actualizar al finalizar" y esta bitácora.                                              |
+| 2026-09-02 | PMB-002 | Arquitectura objetivo fijada: **RSC por defecto, Client Components sólo como hojas**; estructura `app/[locale]`, `components/`, `content/`, `messages/`, `lib/`.                  |
+| 2026-09-02 | PMB-003 | Cabeceras de seguridad y CSP en `next.config.ts` (`headers()` estático), no en middleware.                                                                                        |
+| 2026-09-02 | PMB-003 | CSP `script-src` con `'unsafe-inline'` en vez de nonce: el nonce forzaría render dinámico en todo el sitio (choca con SSG); riesgo bajo sin auth/formularios. Revisar en PMB-006. |
+| 2026-09-02 | PMB-003 | Sin Google Fonts en la CSP: `next/font` sirve las fuentes self-hosted.                                                                                                            |
+| 2026-09-02 | PMB-003 | `Strict-Transport-Security` sólo en producción (`NODE_ENV === 'production'`).                                                                                                     |
+| 2026-09-02 | PMB-003 | Redirect `/` → locale por defecto delegado al middleware de i18n de PMB-006 (aún no existe `app/[locale]`).                                                                       |
+| 2026-09-02 | PMB-003 | `images.formats = ['image/avif', 'image/webp']`; `remotePatterns` vacío (sin imágenes remotas por ahora).                                                                         |

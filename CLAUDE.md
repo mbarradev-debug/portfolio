@@ -20,6 +20,8 @@ todo el equipo.
   conserva en `/references/index.html` (en `.gitignore`, sólo consulta local).
 - Scaffold Next.js operativo (PMB-001): tooling, lint/format/typecheck, hooks de
   pre-commit y assets reales en `/public`.
+- Cabeceras de seguridad configuradas en `next.config.ts` (PMB-003): CSP + headers
+  anti-clickjacking/sniffing, HSTS en producción, sin `X-Powered-By`.
 - La home todavía muestra la página de bienvenida de `create-next-app`; aún no se
   ha reconstruido la UI real.
 
@@ -36,16 +38,67 @@ todo el equipo.
 
 ## Stack
 
-| Capa               | Elección                                                    |
-| ------------------ | ----------------------------------------------------------- |
-| Framework          | Next.js `16.3.4` (App Router, Turbopack por defecto)        |
-| UI                 | React 19                                                    |
-| Lenguaje           | TypeScript, `strict: true`                                  |
-| Estilos            | Tailwind CSS v4                                             |
-| Fuentes            | `next/font` (self-hosted, sin requests a Google en runtime) |
-| Gestor de paquetes | **npm** (lockfile `package-lock.json`)                      |
-| Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier       |
-| Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck) |
+| Capa               | Elección                                                     |
+| ------------------ | ------------------------------------------------------------ |
+| Framework          | Next.js `16.3.4` (App Router, Turbopack por defecto)         |
+| UI                 | React 19                                                     |
+| Lenguaje           | TypeScript, `strict: true`                                   |
+| Estilos            | Tailwind CSS v4                                              |
+| Fuentes            | `next/font` (self-hosted, sin requests a Google en runtime)  |
+| Gestor de paquetes | **npm** (lockfile `package-lock.json`)                       |
+| Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier        |
+| Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)  |
+| Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo) |
+
+## Cabeceras de seguridad
+
+Configuradas en `next.config.ts` (`headers()` para `/:path*`). Todo cambio en la
+política debe reflejarse aquí.
+
+### Content-Security-Policy
+
+| Directiva                   | Valor                                               | Motivo                                                                                                                                                                                        |
+| --------------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default-src`               | `'self'`                                            | Base restrictiva: sólo el propio origen salvo que una directiva lo amplíe.                                                                                                                    |
+| `script-src`                | `'self' 'unsafe-inline'` (+ `'unsafe-eval'` en dev) | Next App Router inyecta el payload RSC en `<script>` inline por página, no hasheables de forma estable. `'unsafe-eval'` sólo lo pide React en dev (overlay de errores). Ver "Decisión" abajo. |
+| `style-src`                 | `'self' 'unsafe-inline'`                            | Next/React inyectan `<style>` inline; la inyección de estilos no es vector de XSS.                                                                                                            |
+| `img-src`                   | `'self' data: blob:`                                | Assets de `/public` + optimizador de imágenes de Next (previews `data:`/`blob:`).                                                                                                             |
+| `media-src`                 | `'self'`                                            | Vídeo del hero servido desde `/public`.                                                                                                                                                       |
+| `font-src`                  | `'self'`                                            | Fuentes self-hosted por `next/font`; sin orígenes externos (ni Google Fonts).                                                                                                                 |
+| `connect-src`               | `'self'`                                            | No hay APIs de terceros; fetch/XHR sólo al propio origen.                                                                                                                                     |
+| `object-src`                | `'none'`                                            | Bloquea `<object>`/`<embed>`/plugins.                                                                                                                                                         |
+| `base-uri`                  | `'self'`                                            | Impide inyección de `<base>` para secuestrar rutas relativas.                                                                                                                                 |
+| `form-action`               | `'self'`                                            | Los formularios sólo pueden enviar al propio origen.                                                                                                                                          |
+| `frame-ancestors`           | `'none'`                                            | Nadie puede embeber el sitio (anti-clickjacking, refuerza `X-Frame-Options`).                                                                                                                 |
+| `upgrade-insecure-requests` | —                                                   | Fuerza HTTPS en subrecursos.                                                                                                                                                                  |
+
+### Otras cabeceras
+
+| Cabecera                    | Valor                                                                | Motivo                                                                       |
+| --------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `X-Frame-Options`           | `DENY`                                                               | Anti-clickjacking para navegadores antiguos sin CSP `frame-ancestors`.       |
+| `X-Content-Type-Options`    | `nosniff`                                                            | El navegador no adivina el MIME type; evita ejecución por confusión.         |
+| `Referrer-Policy`           | `strict-origin-when-cross-origin`                                    | Envía la URL completa same-origin, sólo el origen cross-origin, nada a HTTP. |
+| `Permissions-Policy`        | `camera=(), microphone=(), geolocation=(), browsing-topics=()`       | Desactiva APIs sensibles del dispositivo y Topics; el sitio no las usa.      |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` (**sólo producción**) | Fuerza HTTPS 2 años; no se emite en dev para no fijar HSTS en `localhost`.   |
+| `X-Powered-By`              | _(eliminada)_                                                        | `poweredByHeader: false` — no revelar el framework.                          |
+
+### Decisión: `script-src` con `'unsafe-inline'` en vez de nonce
+
+Eliminar `'unsafe-inline'` de `script-src` exige CSP con nonce por request vía
+`proxy.ts`, lo que obliga a **render dinámico en todas las rutas** (sin SSG, ISR,
+PPR ni caché de CDN) — choca con la arquitectura estática del proyecto. Para un
+sitio sin auth, sin contenido de usuario y sin formularios con datos sensibles, el
+riesgo residual de `'unsafe-inline'` es bajo, y `object-src 'none'`, `base-uri
+'self'`, `frame-ancestors 'none'` y `form-action 'self'` cierran los vectores de
+mayor impacto. `experimental.sri` tampoco resuelve los `<script>` inline del
+payload RSC. **Revisar en PMB-006**: si el middleware de i18n vuelve dinámicas las
+rutas de todos modos, mover la CSP a `proxy.ts` con nonce + `'strict-dynamic'`.
+
+### Redirect `/` → locale por defecto
+
+Se **delega en el middleware de i18n de PMB-006**. Añadir un redirect en
+`next.config.ts` ahora daría 404 (todavía no existe `app/[locale]`).
 
 ## Estructura de carpetas objetivo
 
