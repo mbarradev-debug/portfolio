@@ -28,8 +28,11 @@ todo el equipo.
   `next/font` (PMB-005). Página de referencia: `/{locale}/design-system`.
 - i18n operativo con **next-intl** (PMB-006): rutas `/es` y `/en`, proxy de
   negociación de locale, mensajes tipados. El copy real se extrae en PMB-009.
-- La home es un placeholder mínimo (link a `/design-system`); la UI real se
-  reconstruye a partir de PMB-007.
+- Layout raíz ensamblado (PMB-007): `<html lang>`, fuentes, skip-link,
+  header/footer landmarks, `Providers`, `loading`/`error`/`not-found`, metadata
+  y `viewport` base.
+- La home y el header/footer son placeholders mínimos; la UI real se reconstruye
+  desde PMB-011.
 
 ## Arquitectura objetivo
 
@@ -189,6 +192,55 @@ messages/{es,en}.json  catálogos (se llenan en PMB-009)
 - El `matcher` del proxy excluye `api`, `_next`, `_vercel` y archivos con
   extensión → no interfiere con `/public` ni las APIs.
 
+## Layout raíz y providers
+
+### Anatomía
+
+```
+app/layout.tsx            passthrough (`return children`) — no html/body
+app/[locale]/layout.tsx   layout real:
+  <html lang={locale} class="{fuentes next/font} h-full antialiased">
+    <body class="flex min-h-full flex-col">
+      <a.skip-link href="#top">          ← visible sólo al enfocar con teclado
+      <Providers locale messages>        ← árbol de providers cliente
+        <SiteHeader/>                    ← <header> landmark, FUERA de <main>
+        <main id="top" class="flex flex-1 flex-col">{children}</main>
+        <SiteFooter/>                    ← <footer> landmark, FUERA de <main>
+      </Providers>
+```
+
+Las **páginas no renderizan `<main>`** (lo pone el layout); devuelven una
+`<section>` / `<div>` que rellena el `<main>` (`flex-1`).
+
+### Providers
+
+`components/Providers.tsx` (`"use client"`) es el único punto de contexto de
+cliente. Hoy sólo `NextIntlClientProvider` (recibe `locale` + `messages` del
+layout servidor). Para añadir otro provider (tema, analítica, query client) se
+anida **aquí dentro**, sin tocar el layout.
+
+### UI del sistema
+
+| Archivo                      | Qué                                                                                                        |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `app/[locale]/loading.tsx`   | Fallback de Suspense (Client, `useTranslations`). Se muestra en navegaciones lentas.                       |
+| `app/[locale]/error.tsx`     | Error boundary del segmento (Client). Props `{ error, retry }` (Next 16 — no `reset`). Botón de reintento. |
+| `app/[locale]/not-found.tsx` | 404 localizado **con chrome**, para `notFound()` explícito desde páginas (con contexto de locale).         |
+| `app/not-found.tsx`          | 404 global (documento propio, sin chrome, en `es`). Cubre URLs totalmente sin ruta, incl. `/xx/typo`.      |
+
+> **Límite conocido**: una URL sin ruta bajo un locale válido (`/en/typo`) cae en
+> el 404 global (en `es`), no en el localizado con chrome. Un catch-all
+> `[locale]/[...rest]` lo arreglaría pero flashea `loading.tsx` en SSR sin JS y
+> devuelve 200 en vez de 404. Se revisa si molesta (o con PPR más adelante).
+
+### Metadata / viewport (base)
+
+`generateMetadata` en `app/[locale]/layout.tsx` (locale-aware): `metadataBase`
+desde `env`, `title.template` `"%s · Miguel Barra"`, `description`, `openGraph` /
+`twitter` genéricos, `alternates.languages` (`es` / `en` / `x-default`). El
+detalle fino (OG images, etc.) es PMB-016. `viewport`: `colorScheme: "light"`,
+`themeColor: "#15181a"` (`--ink`).
+
 ## Sistema de design tokens
 
 Fuente única del idioma visual. Definido en **`app/styles/tokens.css`** (importado
@@ -272,21 +324,25 @@ a `light dark`.
 ```
 app/
   layout.tsx         Root layout passthrough (`return children`)
-  [locale]/          Rutas localizadas — raíz real (layout con html/body, page, not-found, …)
+  not-found.tsx      404 global (documento propio)
+  [locale]/          Rutas localizadas — raíz real: layout (html/body/providers),
+                     page, loading, error, not-found
   styles/tokens.css  Design tokens (única fuente de valores visuales)
-  globals.css        Tailwind + @theme + estilos base
+  globals.css        Tailwind + @theme + estilos base + .skip-link
 i18n/                routing, navigation, request, locale (config next-intl)
 proxy.ts             Middleware de i18n (negociación de locale)
 messages/            Catálogos de traducción por idioma (es.json, en.json)
-components/           Componentes de UI reutilizables (Server salvo que necesiten cliente)   ← pendiente
-content/             Contenido del sitio como datos tipados                                    ← pendiente
-lib/                 Utilidades puras, helpers de datos, config compartida                     ← pendiente
+components/
+  Providers.tsx      Árbol de providers cliente
+  layout/            SiteHeader, SiteFooter
+content/             Contenido del sitio como datos tipados                     ← pendiente
+lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
 public/              Assets estáticos servidos desde "/"
 references/          Sitio estático original (sólo local, en .gitignore)
 ```
 
-> `components/`, `content/` y `lib/` aún no existen; se crean cuando una issue lo
-> necesite, con esta forma canónica.
+> `content/` y `lib/` aún no existen; se crean cuando una issue lo necesite, con
+> esta forma canónica.
 
 ## Convenciones de código
 
