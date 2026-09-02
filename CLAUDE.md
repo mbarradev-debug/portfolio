@@ -22,6 +22,8 @@ todo el equipo.
   pre-commit y assets reales en `/public`.
 - Cabeceras de seguridad configuradas en `next.config.ts` (PMB-003): CSP + headers
   anti-clickjacking/sniffing, HSTS en producción, sin `X-Powered-By`.
+- Variables de entorno centralizadas y validadas en `env.ts` (PMB-004): Zod +
+  `@t3-oss/env-nextjs`, `process.env` prohibido fuera de `env.ts` por ESLint.
 - La home todavía muestra la página de bienvenida de `create-next-app`; aún no se
   ha reconstruido la UI real.
 
@@ -49,6 +51,7 @@ todo el equipo.
 | Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier        |
 | Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)  |
 | Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo) |
+| Config / env       | `env.ts` — `@t3-oss/env-nextjs` + Zod (ver abajo)            |
 
 ## Cabeceras de seguridad
 
@@ -100,6 +103,37 @@ rutas de todos modos, mover la CSP a `proxy.ts` con nonce + `'strict-dynamic'`.
 Se **delega en el middleware de i18n de PMB-006**. Añadir un redirect en
 `next.config.ts` ahora daría 404 (todavía no existe `app/[locale]`).
 
+## Variables de entorno
+
+Validadas una sola vez al arrancar en `env.ts` (`@t3-oss/env-nextjs` + Zod).
+**Nunca leas `process.env` directamente** — importa `env` desde `@/env` (ESLint
+lo bloquea con `no-restricted-properties`, excepto en `env.ts`). El único
+consumidor de `process.env` es `env.ts`; `next.config.ts` ya usa `env`.
+
+Si falta una variable requerida o tiene formato inválido, el build/dev **se
+detiene** con un mensaje que nombra la variable (`❌ Invalid environment
+variables: [ … path: ['NEXT_PUBLIC_SITE_URL'] … ]`).
+
+### Inventario
+
+| Variable               | Ámbito | Requerida          | Formato                         | Uso                                           |
+| ---------------------- | ------ | ------------------ | ------------------------------- | --------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL` | client | **Sí**             | URL absoluta                    | `metadataBase` y URLs absolutas de OpenGraph. |
+| `NODE_ENV`             | shared | no (`development`) | `development\|test\|production` | Modo de ejecución (lo inyecta Next).          |
+| `RESEND_API_KEY`       | server | no (→ PMB-015)     | string no vacío                 | Envío de emails del formulario de contacto.   |
+| `CONTACT_TO_EMAIL`     | server | no (→ PMB-015)     | email                           | Destinatario de los envíos del formulario.    |
+| `CONTACT_RATE_LIMIT`   | server | no                 | entero positivo                 | Límite de envíos por IP/hora (opcional).      |
+| `SKIP_ENV_VALIDATION`  | build  | no                 | cualquier valor                 | Salta la validación (builds de contenedor).   |
+
+- **client** (`NEXT_PUBLIC_*`): tipadas y disponibles en navegador y servidor.
+- **server**: sólo en código de servidor. Acceder a ellas desde un Client
+  Component **lanza en runtime** (t3-env: _"Attempted to access a server-side
+  environment variable on the client"_); además Next nunca las incluye en el
+  bundle de cliente. La separación no es error de compilación: la garantía es
+  runtime + bundling.
+- Las variables de contacto son `optional()` hasta PMB-015, que las hará
+  requeridas.
+
 ## Estructura de carpetas objetivo
 
 ```
@@ -126,6 +160,8 @@ references/          Sitio estático original (sólo local, en .gitignore)
 - **Imports absolutos** con el alias `@/*` (raíz del proyecto). Nada de
   `../../../`.
 - **Sin `src/`**: código y configuración conviven en la raíz.
+- **Nunca `process.env`** fuera de `env.ts`; importa `env` desde `@/env` (ESLint
+  lo bloquea).
 - Formato y orden de imports los fija Prettier + ESLint; no pelear con el
   formateador.
 - Prettier: comillas dobles, `semi: true`, `printWidth: 100`, plugin de Tailwind

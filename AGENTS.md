@@ -43,6 +43,22 @@ npm run dev                  # http://localhost:3000
 Con eso el sitio corre en local. No hace falta ningún servicio externo para
 desarrollo.
 
+### Configurar `.env.local`
+
+`env.ts` valida las variables al arrancar (Zod + `@t3-oss/env-nextjs`). Si falta
+una requerida, `npm run dev` / `npm run build` **falla** nombrando la variable.
+
+1. `cp .env.example .env.local`
+2. Rellena **`NEXT_PUBLIC_SITE_URL`** (la única requerida hoy; en local vale
+   `http://localhost:3000`).
+3. Deja vacías las de servidor (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`,
+   `CONTACT_RATE_LIMIT`) hasta que PMB-015 las necesite.
+4. `.env.local` está en `.gitignore` — no lo commitees. El inventario completo
+   está en `CLAUDE.md` → "Variables de entorno".
+
+En el código: importa `env` desde `@/env`, nunca `process.env` (ESLint lo
+bloquea).
+
 ## Scripts npm
 
 | Script                 | Para qué                                                       |
@@ -131,3 +147,7 @@ Registro append-only. Cada issue añade una fila con **fecha (YYYY-MM-DD)**, la
 | 2026-09-02 | PMB-003 | `Strict-Transport-Security` sólo en producción (`NODE_ENV === 'production'`).                                                                                                     |
 | 2026-09-02 | PMB-003 | Redirect `/` → locale por defecto delegado al middleware de i18n de PMB-006 (aún no existe `app/[locale]`).                                                                       |
 | 2026-09-02 | PMB-003 | `images.formats = ['image/avif', 'image/webp']`; `remotePatterns` vacío (sin imágenes remotas por ahora).                                                                         |
+| 2026-09-02 | PMB-004 | Variables de entorno centralizadas en `env.ts` con `@t3-oss/env-nextjs` + Zod (bloques `server` / `client` / `shared`).                                                           |
+| 2026-09-02 | PMB-004 | `process.env` prohibido fuera de `env.ts` vía ESLint `no-restricted-properties`; `next.config.ts` migrado a `env.NODE_ENV`.                                                       |
+| 2026-09-02 | PMB-004 | Separación server/client la garantiza t3-env en **runtime** (lanza al acceder desde cliente) + el bundling de Next, no el compilador.                                             |
+| 2026-09-02 | PMB-004 | `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_RATE_LIMIT` quedan `optional()` hasta PMB-015. Única requerida hoy: `NEXT_PUBLIC_SITE_URL`.                                      |

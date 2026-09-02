@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
+import { env } from "./env";
+
 /**
  * Security headers. The rationale for every directive and header lives in
  * `CLAUDE.md` → "Cabeceras de seguridad". Keep both in sync.
  */
-const isProd = process.env.NODE_ENV === "production";
+const isProd = env.NODE_ENV === "production";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
