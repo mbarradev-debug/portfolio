@@ -24,8 +24,10 @@ todo el equipo.
   anti-clickjacking/sniffing, HSTS en producción, sin `X-Powered-By`.
 - Variables de entorno centralizadas y validadas en `env.ts` (PMB-004): Zod +
   `@t3-oss/env-nextjs`, `process.env` prohibido fuera de `env.ts` por ESLint.
-- La home todavía muestra la página de bienvenida de `create-next-app`; aún no se
-  ha reconstruido la UI real.
+- Sistema de design tokens en `app/styles/tokens.css` + 3 tipografías vía
+  `next/font` (PMB-005). Página de referencia: `/design-system`.
+- La home es un placeholder mínimo (link a `/design-system`); la UI real se
+  reconstruye a partir de PMB-007.
 
 ## Arquitectura objetivo
 
@@ -40,18 +42,18 @@ todo el equipo.
 
 ## Stack
 
-| Capa               | Elección                                                     |
-| ------------------ | ------------------------------------------------------------ |
-| Framework          | Next.js `16.3.4` (App Router, Turbopack por defecto)         |
-| UI                 | React 19                                                     |
-| Lenguaje           | TypeScript, `strict: true`                                   |
-| Estilos            | Tailwind CSS v4                                              |
-| Fuentes            | `next/font` (self-hosted, sin requests a Google en runtime)  |
-| Gestor de paquetes | **npm** (lockfile `package-lock.json`)                       |
-| Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier        |
-| Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)  |
-| Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo) |
-| Config / env       | `env.ts` — `@t3-oss/env-nextjs` + Zod (ver abajo)            |
+| Capa               | Elección                                                                                     |
+| ------------------ | -------------------------------------------------------------------------------------------- |
+| Framework          | Next.js `16.3.4` (App Router, Turbopack por defecto)                                         |
+| UI                 | React 19                                                                                     |
+| Lenguaje           | TypeScript, `strict: true`                                                                   |
+| Estilos            | Tailwind CSS v4 + design tokens (`app/styles/tokens.css`)                                    |
+| Fuentes            | `next/font/google` self-hosted: Plus Jakarta Sans / Playfair Display italic / JetBrains Mono |
+| Gestor de paquetes | **npm** (lockfile `package-lock.json`)                                                       |
+| Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier                                        |
+| Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)                                  |
+| Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo)                                 |
+| Config / env       | `env.ts` — `@t3-oss/env-nextjs` + Zod (ver abajo)                                            |
 
 ## Cabeceras de seguridad
 
@@ -134,12 +136,90 @@ variables: [ … path: ['NEXT_PUBLIC_SITE_URL'] … ]`).
 - Las variables de contacto son `optional()` hasta PMB-015, que las hará
   requeridas.
 
+## Sistema de design tokens
+
+Fuente única del idioma visual. Definido en **`app/styles/tokens.css`** (importado
+desde `app/globals.css`) y expuesto a Tailwind vía `@theme inline`. Página viva de
+referencia: **`/design-system`**.
+
+### Regla de uso (obligatoria)
+
+- Los componentes usan **sólo tokens semánticos** (capa 3): `--color-bg`,
+  `--color-text`, `--color-accent`, `--radius-card`, … — **intención, no valor**.
+- **Nunca** un valor crudo (hex, px de radio, duración) ni un primitivo (capa 1)
+  ni un valor de escala (capa 2) directamente en un componente.
+- En Tailwind: `bg-bg`, `text-text-soft`, `rounded-card`, `font-serif`,
+  `text-xl`, `p-md`, `shadow-lg`, `ease-standard`, etc. (mapeados en
+  `globals.css`). Para lo no mapeado: `style={{ … : "var(--token)" }}`.
+- El único sitio con valores crudos es `tokens.css`. El dark mode (cuando llegue)
+  sólo re-mapea la capa 3 — cero cambios en componentes.
+
+### Capa 1 · Primitivos (portados 1:1 del `:root` legacy)
+
+| Token          | Valor                            | Token          | Valor     |
+| -------------- | -------------------------------- | -------------- | --------- |
+| `--cream`      | `#fcfcfa`                        | `--teal`       | `#445e5f` |
+| `--hero-bg-1`  | `#dcdbd4`                        | `--teal-dark`  | `#222f30` |
+| `--hero-bg-2`  | `#c7c6bd`                        | `--card-gray`  | `#e6e4df` |
+| `--ink`        | `#15181a`                        | `--white`      | `#ffffff` |
+| `--ink-soft`   | `#4a4d47`                        | `--radius-lg`  | `28px`    |
+| `--muted`      | `#70726b`                        | `--radius-md`  | `18px`    |
+| `--line`       | `#dcdad2`                        | `--radius-sm`  | `12px`    |
+| `--green`      | `#c9f59a`                        | `--dur-fast`   | `0.16s`   |
+| `--green-dark` | `#9fd66a`                        | `--dur-mid`    | `0.3s`    |
+| `--ease-out`   | `cubic-bezier(0.22, 1, 0.36, 1)` | `--dur-reveal` | `0.55s`   |
+
+Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
+`--font-sans` = Plus Jakarta Sans · `--font-serif` = Playfair Display _italic_
+(decorativo) · `--font-mono` = JetBrains Mono.
+
+### Capa 2 · Escalas (nuevas, coherentes)
+
+| Grupo        | Tokens                                                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Espaciado    | `--space-px`, `--space-3xs`(4) `2xs`(8) `xs`(12) `sm`(16) `md`(24) `lg`(32) `xl`(48) `2xl`(64) `3xl`(96) `4xl`(128)   |
+| Tipografía   | `--text-2xs`(11) `xs`(12) `sm`(14) `base`(16) `md`(18) `lg`(22) `xl`(28) · `--text-2xl/3xl/display` fluidos (`clamp`) |
+| Interlineado | `--leading-none/tight`(1.1)`/snug/normal`(1.5)`/relaxed`(1.65)                                                        |
+| Tracking     | `--tracking-tighter`(−.025em) `tight` `normal` `wide` `wider`(.08em, labels mono) `widest`                            |
+| Sombra       | `--shadow-hairline` (1:1), `--shadow-sm`, `--shadow-md`, `--shadow-lg` (1:1)                                          |
+
+### Capa 3 · Semánticos (usar estos)
+
+| Token                                | Mapea a                 | Uso                             |
+| ------------------------------------ | ----------------------- | ------------------------------- |
+| `--color-bg`                         | `--cream`               | Fondo de página                 |
+| `--color-surface`                    | `--white`               | Tarjetas, paneles               |
+| `--color-surface-sunken`             | `--card-gray`           | Insets, campos                  |
+| `--color-surface-inverse`            | `--teal-dark`           | Secciones oscuras               |
+| `--color-surface-inverse-soft`       | `--teal`                | Secciones oscuras (variante)    |
+| `--color-text`                       | `--ink`                 | Texto principal                 |
+| `--color-text-soft`                  | `--ink-soft`            | Texto secundario                |
+| `--color-text-muted`                 | `--muted`               | Meta, captions, labels          |
+| `--color-text-inverse`               | `--white`               | Texto sobre superficies oscuras |
+| `--color-text-on-accent`             | `--teal-dark`           | Texto sobre `--color-accent`    |
+| `--color-border`                     | `--line`                | Hairlines, divisores            |
+| `--color-accent`                     | `--green`               | Acento primario (pills, CTAs)   |
+| `--color-accent-strong`              | `--green-dark`          | Hover / énfasis del acento      |
+| `--color-hero-from` / `-to`          | `--hero-bg-1/2`         | Gradiente del hero              |
+| `--radius-chip/control/card`         | `--radius-sm/md/lg`     | Chips / controles / tarjetas    |
+| `--radius-pill`                      | `999px`                 | Botones pill                    |
+| `--ease-standard`                    | `--ease-out`            | Curva estándar                  |
+| `--duration-press/transition/reveal` | `--dur-fast/mid/reveal` | Feedback / transición / reveal  |
+
+### Dark mode
+
+`color-scheme: light` declarado. La estructura está preparada: hay un bloque
+`@media (prefers-color-scheme: dark)` **comentado** en `tokens.css` que re-mapea
+la capa 3. Para activarlo: descomentar, ajustar valores y cambiar `color-scheme`
+a `light dark`.
+
 ## Estructura de carpetas objetivo
 
 ```
 app/
   [locale]/          Rutas localizadas (page, layout, loading, error por idioma)
   layout.tsx         Root layout (html/body, providers globales)
+  styles/tokens.css  Design tokens (única fuente de valores visuales)
 components/           Componentes de UI reutilizables (Server salvo que necesiten cliente)
 content/             Contenido del sitio (proyectos, experiencia, testimonios) como datos tipados
 messages/            Catálogos de traducción por idioma (es.json, en.json, …)
@@ -162,6 +242,8 @@ references/          Sitio estático original (sólo local, en .gitignore)
 - **Sin `src/`**: código y configuración conviven en la raíz.
 - **Nunca `process.env`** fuera de `env.ts`; importa `env` desde `@/env` (ESLint
   lo bloquea).
+- **Sólo tokens semánticos** en componentes (ver "Sistema de design tokens").
+  Nada de hex, px de radio ni duraciones a mano fuera de `app/styles/tokens.css`.
 - Formato y orden de imports los fija Prettier + ESLint; no pelear con el
   formateador.
 - Prettier: comillas dobles, `semi: true`, `printWidth: 100`, plugin de Tailwind

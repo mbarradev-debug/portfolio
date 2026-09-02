@@ -1,18 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 
 import { env } from "@/env";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/** Body / UI. Variable font — exposed as `--font-jakarta`, aliased to `--font-sans`. */
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jakarta",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+/** Decorative italic only (headlines accents) — `--font-playfair` → `--font-serif`. */
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  display: "swap",
+  style: "italic",
+  variable: "--font-playfair",
+});
+
+/** Code / eyebrow labels — `--font-jetbrains` → `--font-mono`. */
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +35,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${jakarta.variable} ${playfair.variable} ${jetbrainsMono.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
