@@ -70,9 +70,26 @@ Cubre: `node_modules`, `.next`, `out`, `build`, `coverage`, `.env*`
 (excepto `.env.example`), `/references`, `.DS_Store`, `*.tsbuildinfo`,
 `next-env.d.ts`.
 
+## `/references`
+
+Contiene `index.html`, el sitio estático original, conservado sólo como material
+de consulta durante la migración. Está en `.gitignore` (`/references`) y no forma
+parte del build.
+
 ## Inventario de `/public`
 
-Assets actualmente en el repo (scaffold de `create-next-app`):
+### Assets del portfolio
+
+| Archivo               | Uso                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| `avatar-900.jpg`      | Retrato optimizado (900 px). Imagen de Open Graph / Twitter y foto en la sección de testimonios.  |
+| `avatar.jpeg`         | Retrato original sin optimizar. Fuente para regenerar recortes/tamaños; no se sirve directamente. |
+| `hero.mp4`            | Vídeo de fondo del hero (carga diferida, `muted`/`loop`).                                         |
+| `hero-poster.jpg`     | Póster del `<video>` del hero: primer frame mientras el vídeo no ha cargado.                      |
+| `opengraph-image.png` | Imagen social alternativa (previsualización al compartir el enlace).                              |
+| `miguelbarra-cv.pdf`  | CV descargable enlazado desde el hero / contacto.                                                 |
+
+### Assets del scaffold (`create-next-app`)
 
 | Archivo      | Uso                                                       |
 | ------------ | --------------------------------------------------------- |
@@ -82,8 +99,5 @@ Assets actualmente en el repo (scaffold de `create-next-app`):
 | `vercel.svg` | Logo de Vercel en la página de bienvenida del scaffold.   |
 | `window.svg` | Icono decorativo de la página de bienvenida del scaffold. |
 
-> **Pendiente**: los assets del portfolio real descritos en la issue
-> (`avatar-900.jpg`, `avatar.jpeg`, `hero.mp4`, `hero-poster.jpg`,
-> `opengraph-image.png`, `miguelbarra-cv.pdf`) todavía no están en el repositorio.
-> Cuando se incorporen, añadir aquí una fila por archivo con su uso y retirar los
-> SVG del scaffold que dejen de utilizarse.
+> Los SVG del scaffold se retirarán cuando se reconstruya la home real y dejen de
+> usarse.
