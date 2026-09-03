@@ -13,7 +13,8 @@
 }
 
 .label {
-  max-width: 14rem;
+  /* Loose guard against misuse — a real CTA label is far shorter (DBO-1228). */
+  max-width: 22rem;
   border-radius: var(--radius-pill);
   background: var(--color-text);
   padding: var(--space-sm) var(--space-md);
@@ -23,6 +24,14 @@
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
+}
+
+/* Desktop has room to spare — keep the CTA on one line. Below this the label
+   may wrap so the pill never overflows a narrow phone. */
+@media (min-width: 768px) {
+  .label {
+    white-space: nowrap;
+  }
 }
 
 .pill:active {
