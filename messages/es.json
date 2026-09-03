@@ -17,7 +17,7 @@
     "cases": "Casos de estudio",
     "services": "Servicios",
     "projects": "Proyectos",
-    "contact": "Contacto"
+    "contact": "Hablemos"
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -29,7 +29,7 @@
   "Hero": {
     "title": "Construyo productos full stack y los llevo a producción.",
     "subtitle": "Más de 2 años entregando software para clientes públicos y privados en Chile, con React, Next.js y TypeScript y dominio de todo el stack.",
-    "cta": "¿Tienes un proyecto en mente?"
+    "cta": "Hablemos"
   },
   "About": {
     "badge": "Miguel Barra",
@@ -99,7 +99,6 @@
   },
   "Footer": {
     "heading": "¿Tienes una idea nueva o un producto a medio construir? Puedo llevarlo de punta a punta.",
-    "contactCta": "Contáctame",
     "navLabel": "Navegación del pie de página",
     "navHeading": "Navegar",
     "connectHeading": "Conectar",

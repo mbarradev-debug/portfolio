@@ -9,7 +9,7 @@ import { MobileNav } from "./MobileNav";
 import styles from "./SiteHeader.module.css";
 
 /**
- * Fixed site header (Server): wordmark, section nav, Contacto CTA, the (Client)
+ * Fixed site header (Server): wordmark, section nav, contact CTA, the (Client)
  * `LanguageSwitcher`, and the (Client) `MobileNav` — burger + full-screen menu.
  */
 export async function SiteHeader() {

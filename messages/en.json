@@ -17,7 +17,7 @@
     "cases": "Case studies",
     "services": "Services",
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Let's talk"
   },
   "LocaleSwitcher": {
     "label": "Language",
@@ -29,7 +29,7 @@
   "Hero": {
     "title": "I build full-stack products and ship them to production.",
     "subtitle": "Over 2 years shipping software for public- and private-sector clients in Chile, with React, Next.js and TypeScript and a firm grip on the whole stack.",
-    "cta": "Got a project in mind?"
+    "cta": "Let's talk"
   },
   "About": {
     "badge": "Miguel Barra",
@@ -99,7 +99,6 @@
   },
   "Footer": {
     "heading": "Got a new idea or a half-built product? I can take it end to end.",
-    "contactCta": "Get in touch",
     "navLabel": "Footer navigation",
     "navHeading": "Navigate",
     "connectHeading": "Connect",
