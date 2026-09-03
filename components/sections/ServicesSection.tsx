@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 
 import { getTranslations } from "next-intl/server";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { BackendIcon, DataIcon, FrontendIcon, type IconProps } from "@/components/ui";
 import { services } from "@/content";
 import type { ServiceIcon } from "@/content";
@@ -28,7 +29,7 @@ export async function ServicesSection() {
       {services.map((service, i) => {
         const Icon = ICON[service.icon];
         return (
-          <article key={service.key} className={`${styles.card} ${TONE[i]}`}>
+          <Reveal key={service.key} className={`${styles.card} ${TONE[i]}`}>
             <div className={styles.top}>
               <span className={styles.icon}>
                 <Icon />
@@ -39,7 +40,7 @@ export async function ServicesSection() {
               <h3 className={styles.title}>{t(`${service.key}.title`)}</h3>
               <p className={styles.desc}>{t(`${service.key}.desc`)}</p>
             </div>
-          </article>
+          </Reveal>
         );
       })}
     </section>

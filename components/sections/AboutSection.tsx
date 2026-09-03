@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { Badge, Button } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 
@@ -12,7 +13,7 @@ export async function AboutSection() {
 
   return (
     <section id="about" className={styles.about} aria-labelledby="about-title">
-      <div className={styles.card}>
+      <Reveal className={styles.card}>
         <div>
           <div className={styles.badgeRow}>
             <Badge>{t("badge")}</Badge>
@@ -48,7 +49,7 @@ export async function AboutSection() {
             </Link>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

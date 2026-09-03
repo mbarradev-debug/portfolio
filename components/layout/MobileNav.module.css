@@ -1,0 +1,84 @@
+/* Burger (visible ≤900px) + full-screen menu. Tokens only (PMB-005). */
+.burger {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: var(--radius-chip);
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform var(--duration-press) var(--ease-standard);
+}
+.burger:active {
+  transform: scale(0.92);
+}
+
+@media (max-width: 900px) {
+  .burger {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burger:active {
+    transform: none;
+  }
+}
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding-inline: var(--space-xl);
+  background: color-mix(in srgb, var(--color-text) 97%, transparent);
+}
+
+.close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: var(--radius-chip);
+  background: color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
+  color: var(--color-text-inverse);
+  font-size: 1.125rem;
+  cursor: pointer;
+}
+
+.link {
+  width: 100%;
+  padding-block: var(--space-sm);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
+  color: var(--color-text-inverse);
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+@media (max-width: 760px) {
+  .dialog {
+    padding-inline: var(--space-lg);
+  }
+}

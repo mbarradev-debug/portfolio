@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { ArrowUpRightIcon, Badge, CircleArrow } from "@/components/ui";
 import { caseStudies, pickLocale } from "@/content";
 
@@ -33,7 +34,7 @@ export async function CaseStudiesSection() {
           </div>
         </div>
 
-        <article className={styles.card}>
+        <Reveal className={styles.card}>
           <div className={styles.media} style={{ background: study.gradient }}>
             <div className={styles.mock}>
               <div className={styles.mockBar} aria-hidden="true">
@@ -69,7 +70,7 @@ export async function CaseStudiesSection() {
               <CircleArrow size="lg" icon={<ArrowUpRightIcon />} />
             </a>
           </div>
-        </article>
+        </Reveal>
       </div>
     </section>
   );

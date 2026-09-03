@@ -1,12 +1,14 @@
 import { getTranslations } from "next-intl/server";
 
+import { HeroReveal } from "@/components/motion/HeroReveal";
 import { PillButton } from "@/components/ui";
 
+import { HeroVideo } from "./HeroVideo";
 import styles from "./HeroSection.module.css";
 
 /**
- * Full-viewport hero (Server). The animated background `<video>` and its logic
- * are a slot filled by `HeroVideo` in PMB-012.
+ * Full-viewport hero (Server). `HeroVideo` (Client leaf) fills the background;
+ * `HeroReveal` (Client leaf) fades the content in on load.
  */
 export async function HeroSection() {
   const t = await getTranslations("Hero");
@@ -14,11 +16,11 @@ export async function HeroSection() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.bg} aria-hidden="true">
-        {/* HeroVideo slot — PMB-012 */}
+        <HeroVideo src="/hero.mp4" poster="/hero-poster.jpg" />
       </div>
       <div className={styles.overlay} aria-hidden="true" />
 
-      <div className={styles.content}>
+      <HeroReveal className={styles.content}>
         <h1 id="hero-title" className={styles.title}>
           {t("title")}
         </h1>
@@ -30,7 +32,7 @@ export async function HeroSection() {
             </PillButton>
           </div>
         </div>
-      </div>
+      </HeroReveal>
     </section>
   );
 }
