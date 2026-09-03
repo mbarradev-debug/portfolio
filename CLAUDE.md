@@ -626,7 +626,7 @@ trae `url`; si no, "Hablemos" → `/#contacto`.
 - El header es `position: fixed`; `main` lleva `padding-top: var(--header-height)`
   y el `HeroSection` lo contrarresta con `margin-top` negativo para quedar detrás.
 - Media queries 1:1 con la referencia: burger a ≤900px, servicios 3→1 a ≤900px,
-  hero anclado abajo a ≤900px, header sin Contacto/idioma a ≤760px.
+  hero anclado abajo a ≤900px, header sin el CTA de contacto ni el idioma a ≤760px.
 
 ## Estructura de carpetas objetivo
 

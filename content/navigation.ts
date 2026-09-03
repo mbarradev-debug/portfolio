@@ -13,7 +13,7 @@ export const navItems: readonly NavItem[] = [
   { key: "contact", href: "#contacto" },
 ];
 
-/** The links shown in the fixed header (Contacto is a separate CTA button). */
+/** The links shown in the fixed header (the contact item renders as a separate CTA button). */
 export const headerNav = navItems.filter(
   (item) => item.key === "about" || item.key === "cases" || item.key === "projects"
 );
