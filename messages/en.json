@@ -34,12 +34,11 @@
   "About": {
     "badge": "Miguel Barra",
     "photoAlt": "Portrait of Miguel Barra, Full Stack Developer",
-    "heading": "I bring frontend, backend and infrastructure together",
     "body": "I'm a Full Stack Developer with over 2 years shipping software for the public and private sectors: a SaaS to digitise municipal paperwork, the overhaul of a Codelco health insurer's member portal, and my own tools for the Chilean market. I work with React, Next.js and TypeScript, and move comfortably across the whole stack: database, APIs, authentication and infrastructure.",
     "talk": "Let's talk",
     "downloadCv": "Download my CV",
     "readTestimonials": "Read the recommendations",
-    "headingMuted": "to ship complete products that work end to end."
+    "headingRich": "I bring frontend, backend and infrastructure together <muted>to ship complete products that work end to end.</muted>"
   },
   "Testimonials": {
     "heading": "Recommendations",
@@ -89,21 +88,11 @@
     "backToTop": "Back to top",
     "copyright": "© {year} Miguel Barra. All rights reserved."
   },
-  "Loading": {
-    "label": "Loading…"
-  },
   "Error": {
     "eyebrow": "Error",
     "title": "Something went wrong",
     "body": "An unexpected error occurred. You can try again.",
     "retry": "Try again"
-  },
-  "Home": {
-    "eyebrow": "Portfolio · Miguel Barra",
-    "title": "I build full-stack products and ship them to production.",
-    "body": "Site under reconstruction. The design system is already defined — check the tokens on the reference page.",
-    "cta": "View design system",
-    "latestProject": "{name} · {year} — {summary}"
   },
   "NotFound": {
     "eyebrow": "404",

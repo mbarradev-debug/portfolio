@@ -58,20 +58,27 @@ export interface TechItem {
   readonly label: string;
 }
 
+/** Keys under the `Nav` message namespace that name a navigable section. */
+export type NavKey = "about" | "cases" | "services" | "projects" | "contact";
+
 export interface NavItem {
   /** i18n message key: the visible label is `Nav.<key>` in `messages/` (PMB-009). */
-  readonly key: string;
+  readonly key: NavKey;
+  /** In-page anchor, e.g. `"#about"`. */
   readonly href: string;
 }
+
+export type ServiceKey = "frontend" | "backend" | "data";
+export type ServiceIcon = "frontend" | "backend" | "cloud";
 
 export interface ServiceCard {
   /** Display index, e.g. `"01."`. */
   readonly index: string;
   /** Semantic icon key, mapped to an icon component in PMB-011. */
-  readonly icon: string;
+  readonly icon: ServiceIcon;
   /**
    * i18n key: title/description are `Services.<key>.title` / `.desc` in
    * `messages/` (marketing copy → PMB-009).
    */
-  readonly key: string;
+  readonly key: ServiceKey;
 }
