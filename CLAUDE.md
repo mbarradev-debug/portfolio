@@ -165,6 +165,7 @@ plugin en `next.config.ts` (`withNextIntl`).
 | Estrategia de prefijo | **`localePrefix: 'always'`** — toda ruta lleva prefijo (`/es/…`, `/en/…`); `/` redirige al locale negociado. Elegido sobre `as-needed` para URLs simétricas y `hreflang` estable. |
 | Negociación           | prefijo de URL → `Accept-Language` → `defaultLocale`                                                                                                                              |
 | Fallback              | locale no soportado (`/fr`) → el proxy antepone `es` (`/es/fr`) → 404 localizado, **nunca 500**                                                                                   |
+| Zona horaria          | `America/Santiago` fija en `i18n/request.ts` (formateo de fechas determinista server/cliente)                                                                                     |
 | Locale inválido       | `initLocale()` (en `i18n/locale.ts`) llama `notFound()` y hace `setRequestLocale`                                                                                                 |
 
 ### Archivos
