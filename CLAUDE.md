@@ -31,6 +31,8 @@ todo el equipo.
 - Layout raíz ensamblado (PMB-007): `<html lang>`, fuentes, skip-link,
   header/footer landmarks, `Providers`, `loading`/`error`/`not-found`, metadata
   y `viewport` base.
+- Capa de contenido tipada en `content/` (PMB-008): testimonios, casos,
+  proyectos, tech stack, nav, servicios — migrados del `index.html` legacy.
 - La home y el header/footer son placeholders mínimos; la UI real se reconstruye
   desde PMB-011.
 
@@ -242,6 +244,45 @@ desde `env`, `title.template` `"%s · Miguel Barra"`, `description`, `openGraph`
 detalle fino (OG images, etc.) es PMB-016. `viewport`: `colorScheme: "light"`,
 `themeColor: "#15181a"` (`--ink`).
 
+## Capa de contenido
+
+"Lo que dice el sitio", tipado y separado de los componentes. Vive en
+**`content/`**. Los strings puramente de UI (botones, "Cargando", labels de nav)
+**no** van aquí — esos son `messages/` (PMB-009).
+
+### Archivos
+
+```
+content/types.ts        Interfaces de todos los dominios + Localized<T> / pickLocale
+content/testimonials.ts  testimonials: Testimonial[]
+content/case-studies.ts  caseStudies: CaseStudy[]
+content/projects.ts      projects: Project[]
+content/tech-stack.ts    techStackRows: TechItem[][]  (2 filas, como el marquee legacy)
+content/navigation.ts    navItems: NavItem[]  (label vía messages Nav.<key>)
+content/services.ts      services: ServiceCard[]
+content/index.ts         barrel — `import { projects, pickLocale } from "@/content"`
+```
+
+### Contenido por idioma
+
+Los campos que difieren por locale son `Localized<T>` = `{ es: T; en: T }`:
+títulos y descripciones de casos y proyectos, `imageAlt`, `role` de testimonios,
+`title`/`desc` de servicios. Se resuelven con `pickLocale(value, locale)`.
+
+- Las **citas** de testimonios (`quote`) NO se traducen — se guardan verbatim en
+  su idioma original.
+- Los `label` de tech-stack se guardan en su forma canónica (`"Next.js"`); el
+  look en mayúsculas del marquee es CSS.
+
+### Añadir un item
+
+1. Añade el objeto al array del dominio en `content/<dominio>.ts`.
+2. Rellena **todos** los campos `Localized` con `es` y `en` (TS obliga).
+3. Un campo que falta o está mal escrito es error de compilación en el consumidor.
+
+`caseStudies` tiene un `TODO(PMB-008)` para el segundo caso de Pulso (extensión de
+Chrome), pendiente de descripción/stack/link.
+
 ## Sistema de design tokens
 
 Fuente única del idioma visual. Definido en **`app/styles/tokens.css`** (importado
@@ -336,13 +377,13 @@ messages/            Catálogos de traducción por idioma (es.json, en.json)
 components/
   Providers.tsx      Árbol de providers cliente
   layout/            SiteHeader, SiteFooter
-content/             Contenido del sitio como datos tipados                     ← pendiente
+content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
 lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
 public/              Assets estáticos servidos desde "/"
 references/          Sitio estático original (sólo local, en .gitignore)
 ```
 
-> `content/` y `lib/` aún no existen; se crean cuando una issue lo necesite, con
+> `lib/` aún no existe; se crea cuando una issue lo necesite, con
 > esta forma canónica.
 
 ## Convenciones de código
@@ -377,8 +418,6 @@ references/          Sitio estático original (sólo local, en .gitignore)
 ## Decisiones abiertas
 
 - Estrategia de animación (CSS puro vs. librería) para reproducir el hero original.
-- Origen del contenido: archivos `.ts` tipados vs. MDX vs. CMS. Por defecto,
-  archivos `.ts` en `content/` hasta que haya razón para más.
 - Plataforma de despliegue (Vercel es el candidato por defecto).
 
 ## Bitácora de decisiones
