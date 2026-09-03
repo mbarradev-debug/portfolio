@@ -14,10 +14,10 @@
 
 .ghost {
   margin-top: var(--space-2xs);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-weight: 700;
   font-size: var(--text-3xl);
+  letter-spacing: var(--tracking-tight);
   color: color-mix(in srgb, var(--color-text-inverse) 14%, transparent);
 }
 

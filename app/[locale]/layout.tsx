@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { Providers } from "@/components/Providers";
@@ -19,14 +19,6 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
 });
 
-/** Decorative italic only (headline accents) — `--font-playfair` → `--font-serif`. */
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  display: "swap",
-  style: "italic",
-  variable: "--font-playfair",
-});
-
 /** Code / eyebrow labels — `--font-jetbrains` → `--font-mono`. */
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -34,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
 });
 
-const fontVariables = `${jakarta.variable} ${playfair.variable} ${jetbrainsMono.variable}`;
+const fontVariables = `${jakarta.variable} ${jetbrainsMono.variable}`;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

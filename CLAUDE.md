@@ -24,8 +24,9 @@ todo el equipo.
   anti-clickjacking/sniffing, HSTS en producción, sin `X-Powered-By`.
 - Variables de entorno centralizadas y validadas en `env.ts` (PMB-004): Zod +
   `@t3-oss/env-nextjs`, `process.env` prohibido fuera de `env.ts` por ESLint.
-- Sistema de design tokens en `app/styles/tokens.css` + 3 tipografías vía
-  `next/font` (PMB-005). Página de referencia: `/{locale}/design-system`.
+- Sistema de design tokens en `app/styles/tokens.css` + 2 tipografías vía
+  `next/font` (PMB-005; sin serif desde DBO-1226 — sans + mono). Página de
+  referencia: `/{locale}/design-system`.
 - i18n operativo con **next-intl** (PMB-006): rutas `/es` y `/en`, proxy de
   negociación de locale, mensajes tipados.
 - Todo el copy de la UI extraído a `messages/{es,en}.json` con traducción EN
@@ -63,19 +64,19 @@ todo el equipo.
 
 ## Stack
 
-| Capa               | Elección                                                                                     |
-| ------------------ | -------------------------------------------------------------------------------------------- |
-| Framework          | Next.js `16.3.4` (App Router, Turbopack por defecto)                                         |
-| UI                 | React 19                                                                                     |
-| Lenguaje           | TypeScript, `strict: true`                                                                   |
-| Estilos            | Tailwind CSS v4 + design tokens (`app/styles/tokens.css`)                                    |
-| Fuentes            | `next/font/google` self-hosted: Plus Jakarta Sans / Playfair Display italic / JetBrains Mono |
-| Gestor de paquetes | **npm** (lockfile `package-lock.json`)                                                       |
-| Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier                                        |
-| Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)                                  |
-| Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo)                                 |
-| Config / env       | `env.ts` — `@t3-oss/env-nextjs` + Zod (ver abajo)                                            |
-| i18n               | `next-intl` (`i18n/`, `proxy.ts`) — locales `es` / `en` (ver abajo)                          |
+| Capa               | Elección                                                                       |
+| ------------------ | ------------------------------------------------------------------------------ |
+| Framework          | Next.js `16.3.4` (App Router, Turbopack por defecto)                           |
+| UI                 | React 19                                                                       |
+| Lenguaje           | TypeScript, `strict: true`                                                     |
+| Estilos            | Tailwind CSS v4 + design tokens (`app/styles/tokens.css`)                      |
+| Fuentes            | `next/font/google` self-hosted: Plus Jakarta Sans / JetBrains Mono (sin serif) |
+| Gestor de paquetes | **npm** (lockfile `package-lock.json`)                                         |
+| Lint / formato     | ESLint (`eslint-config-next`, flat config) + Prettier                          |
+| Hooks              | Husky + lint-staged (pre-commit: lint + format + typecheck)                    |
+| Seguridad          | CSP + cabeceras de seguridad en `next.config.ts` (ver abajo)                   |
+| Config / env       | `env.ts` — `@t3-oss/env-nextjs` + Zod (ver abajo)                              |
+| i18n               | `next-intl` (`i18n/`, `proxy.ts`) — locales `es` / `en` (ver abajo)            |
 
 ## Cabeceras de seguridad
 
@@ -406,7 +407,7 @@ referencia: **`/design-system`**.
   `--color-text`, `--color-accent`, `--radius-card`, … — **intención, no valor**.
 - **Nunca** un valor crudo (hex, px de radio, duración) ni un primitivo (capa 1)
   ni un valor de escala (capa 2) directamente en un componente.
-- En Tailwind: `bg-bg`, `text-text-soft`, `rounded-card`, `font-serif`,
+- En Tailwind: `bg-bg`, `text-text-soft`, `rounded-card`, `font-sans`,
   `text-xl`, `p-md`, `shadow-lg`, `ease-standard`, etc. (mapeados en
   `globals.css`). Para lo no mapeado: `style={{ … : "var(--token)" }}`.
 - El único sitio con valores crudos es `tokens.css`. El dark mode (cuando llegue)
@@ -429,8 +430,11 @@ referencia: **`/design-system`**.
 | `--ease-out`   | `cubic-bezier(0.22, 1, 0.36, 1)` |                |           |
 
 Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
-`--font-sans` = Plus Jakarta Sans · `--font-serif` = Playfair Display _italic_
-(decorativo) · `--font-mono` = JetBrains Mono.
+`--font-sans` = Plus Jakarta Sans · `--font-mono` = JetBrains Mono. **No hay
+serif** (DBO-1226): el wordmark, los títulos fantasma y los `<h1>` de error/404
+usan la sans, sin itálica. Wordmark = `--font-sans` 600, `tracking-tight`.
+El `app/not-found.tsx` global no carga `next/font`, así que su `<h1>` cae a la
+sans de sistema (`"Helvetica Neue", Arial`).
 
 ### Capa 2 · Escalas (nuevas, coherentes)
 
