@@ -1,0 +1,97 @@
+/* All colours, radii, motion and type from the design tokens (PMB-005). */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform var(--duration-press) var(--ease-standard),
+    background-color var(--duration-transition) var(--ease-standard),
+    border-color var(--duration-transition) var(--ease-standard),
+    color var(--duration-transition) var(--ease-standard);
+}
+
+/* ── Sizes ───────────────────────────────────────────────────────────────── */
+.sm {
+  padding: var(--space-2xs) var(--space-sm);
+}
+.md {
+  padding: var(--space-xs) var(--space-md);
+}
+
+/* ── Variants ────────────────────────────────────────────────────────────── */
+.dark {
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+}
+.light {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.outline {
+  background: transparent;
+  color: var(--color-text-soft);
+  border-color: var(--color-border);
+}
+.link {
+  padding: 0 0 var(--space-3xs);
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-soft);
+}
+
+/* ── Interaction (hover only where a real pointer exists) ─────────────────── */
+@media (hover: hover) {
+  .dark:hover,
+  .light:hover {
+    transform: translateY(-2px);
+  }
+  .outline:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+  .link:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+}
+
+.button:not(.link):active {
+  transform: scale(0.96);
+}
+
+/* ── Disabled ────────────────────────────────────────────────────────────── */
+.button:disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition-property: background-color, border-color, color;
+  }
+  @media (hover: hover) {
+    .dark:hover,
+    .light:hover {
+      transform: none;
+    }
+  }
+  .button:not(.link):active {
+    transform: none;
+  }
+}

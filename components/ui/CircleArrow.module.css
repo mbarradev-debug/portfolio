@@ -1,0 +1,49 @@
+/* Green circle with an arrow — rotates 45° on hover. Colours/radii/motion from
+   the design tokens (PMB-005); the circle diameter is a control size, for which
+   the token system has no scale. */
+.circle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-text);
+  transition:
+    transform var(--duration-transition) var(--ease-standard),
+    background-color var(--duration-transition) var(--ease-standard);
+}
+
+.sm {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 0.9rem;
+}
+.md {
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1.25rem;
+}
+.lg {
+  width: 3.75rem;
+  height: 3.75rem;
+  font-size: 1.4rem;
+}
+
+@media (hover: hover) {
+  .circle:hover {
+    transform: rotate(45deg);
+    background: var(--color-accent-strong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle {
+    transition-property: background-color;
+  }
+  @media (hover: hover) {
+    .circle:hover {
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,59 @@
+/* Label pill + green circle arrow. Colours/radii/motion/type from tokens (PMB-005). */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--duration-press) var(--ease-standard);
+}
+
+.label {
+  max-width: 14rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-inverse);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.pill:active {
+  transform: scale(0.96);
+}
+
+@media (hover: hover) {
+  .pill:hover .arrow {
+    transform: rotate(45deg);
+    background: var(--color-accent-strong);
+  }
+}
+
+.pill:disabled,
+.pill[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
+  .pill:active {
+    transform: none;
+  }
+  @media (hover: hover) {
+    .pill:hover .arrow {
+      transform: none;
+    }
+  }
+}
