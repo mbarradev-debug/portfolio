@@ -61,15 +61,16 @@ bloquea).
 
 ## Scripts npm
 
-| Script                 | Para qué                                                       |
-| ---------------------- | -------------------------------------------------------------- |
-| `npm run dev`          | Servidor de desarrollo (Turbopack) en `http://localhost:3000`. |
-| `npm run build`        | Build de producción.                                           |
-| `npm run start`        | Sirve el build de producción (requiere `build` previo).        |
-| `npm run lint`         | ESLint sobre todo el repo.                                     |
-| `npm run typecheck`    | `tsc --noEmit` con `strict: true`.                             |
-| `npm run format`       | Prettier `--write` sobre todo el repo.                         |
-| `npm run format:check` | Prettier `--check` (no modifica; útil en CI).                  |
+| Script                   | Para qué                                                              |
+| ------------------------ | --------------------------------------------------------------------- |
+| `npm run dev`            | Servidor de desarrollo (Turbopack) en `http://localhost:3000`.        |
+| `npm run build`          | Build de producción.                                                  |
+| `npm run start`          | Sirve el build de producción (requiere `build` previo).               |
+| `npm run lint`           | ESLint sobre todo el repo.                                            |
+| `npm run typecheck`      | `tsc --noEmit` con `strict: true`.                                    |
+| `npm run format`         | Prettier `--write` sobre todo el repo.                                |
+| `npm run format:check`   | Prettier `--check` (no modifica; útil en CI).                         |
+| `npm run messages:check` | Verifica que `messages/es.json` y `en.json` tengan las mismas claves. |
 
 ## Cómo verificar las cabeceras de seguridad
 
@@ -132,7 +133,8 @@ Antes de marcar una issue como lista / abrir la PR:
 
 - [ ] Todos los criterios de aceptación de la issue se cumplen.
 - [ ] `npm run lint`, `npm run typecheck` y `npm run build` pasan en verde.
-- [ ] `npm run format:check` limpio.
+- [ ] `npm run format:check` y `npm run messages:check` limpios.
+- [ ] Ningún texto de UI hardcodeado: todo vía `messages/` (lo verifica ESLint).
 - [ ] Cambios acotados al alcance de la issue (sin arreglos "de paso" no pedidos).
 - [ ] RSC por defecto; `"use client"` sólo donde de verdad hace falta.
 - [ ] Sin valores visuales a mano: colores/radios/duraciones sólo desde
@@ -186,3 +188,6 @@ Registro append-only. Cada issue añade una fila con **fecha (YYYY-MM-DD)**, la
 | 2026-09-02 | PMB-008 | Capa de contenido en `content/` (un archivo por dominio + `types.ts` + barrel). Sin `any`; todo `readonly`. Campos con variante por idioma como `Localized<T>` (`{ es, en }`) + `pickLocale`.                   |
 | 2026-09-02 | PMB-008 | Citas de testimonios NO se traducen (verbatim). Labels de tech-stack en forma canónica (`"Next.js"`), no en mayúsculas (eso es CSS). `repoUrl` de Pulso añadido desde el CV.                                    |
 | 2026-09-02 | PMB-008 | Nav y servicios también migrados a `content/` (tienen tipo en la issue y datos en la referencia); el 2º caso de Pulso queda como `TODO(PMB-008)` en `case-studies.ts`.                                          |
+| 2026-09-02 | PMB-009 | Todo el copy de la UI en `messages/{es,en}.json`, namespace por sección en `PascalCase`. EN = traducción profesional. `content/services.ts` pasa a sólo estructura (`key`); su texto va a `Services.<key>`.     |
+| 2026-09-02 | PMB-009 | Regla ESLint `react/jsx-no-literals` (`app/**`, `components/**`; excluye `**/design-system/**`). `npm run messages:check` (`scripts/check-messages.mjs`) verifica que ambos catálogos tengan las mismas claves. |
+| 2026-09-02 | PMB-009 | ICU con placeholders para valores dinámicos (`Cases.counter`, `Footer.copyright`). `year` se pasa como string para que ICU no lo formatee como número ("2.026").                                                |

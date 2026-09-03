@@ -9,14 +9,88 @@
   },
   "Nav": {
     "label": "Main navigation",
-    "home": "Home"
+    "mobileLabel": "Mobile navigation",
+    "logo": "Miguel Barra",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "about": "About",
+    "cases": "Case studies",
+    "services": "Services",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "current": "Current language: {language}",
+    "switchTo": "Switch to {language}",
+    "es": "Español",
+    "en": "English"
+  },
+  "Hero": {
+    "title": "I build full-stack products and ship them to production.",
+    "subtitle": "Over 2 years shipping software for public- and private-sector clients in Chile, with React, Next.js and TypeScript and a firm grip on the whole stack.",
+    "cta": "Got a project in mind?"
+  },
+  "About": {
+    "badge": "Miguel Barra",
+    "photoAlt": "Portrait of Miguel Barra, Full Stack Developer",
+    "heading": "I bring frontend, backend and infrastructure together",
+    "body": "I'm a Full Stack Developer with over 2 years shipping software for the public and private sectors: a SaaS to digitise municipal paperwork, the overhaul of a Codelco health insurer's member portal, and my own tools for the Chilean market. I work with React, Next.js and TypeScript, and move comfortably across the whole stack: database, APIs, authentication and infrastructure.",
+    "talk": "Let's talk",
+    "downloadCv": "Download my CV",
+    "readTestimonials": "Read the recommendations",
+    "headingMuted": "to ship complete products that work end to end."
+  },
+  "Testimonials": {
+    "heading": "Recommendations",
+    "selectLabel": "Select a recommendation",
+    "dotLabel": "View recommendation {index}",
+    "viewOnLinkedin": "View on LinkedIn",
+    "source": "Source: LinkedIn"
+  },
+  "Services": {
+    "heading": "Services",
+    "frontend": {
+      "title": "Frontend",
+      "desc": "Fast, accessible and maintainable interfaces with React, Next.js, TypeScript and Tailwind CSS."
+    },
+    "backend": {
+      "title": "Backend & APIs",
+      "desc": "Solid business logic and REST APIs with Node.js, NestJS, ASP.NET and Python/Flask."
+    },
+    "data": {
+      "title": "Data & Cloud",
+      "desc": "Databases, containers and deployment: PostgreSQL, Oracle, Docker, Azure, GCP and Vercel, with CI/CD on GitHub Actions."
+    }
+  },
+  "Arsenal": {
+    "heading": "Tech stack"
+  },
+  "Cases": {
+    "heading": "Case studies",
+    "subtitle": "Not just what I build, but how I build it and how I test it.",
+    "counter": "{current} / {total}",
+    "previous": "Previous case",
+    "next": "Next case",
+    "linkDefault": "Let's talk",
+    "linkProject": "View the project"
+  },
+  "Projects": {
+    "badge": "Selected work",
+    "heading": "Projects",
+    "openExternal": "Open {name} in a new tab"
   },
   "Footer": {
-    "languages": "Languages",
-    "rights": "All rights reserved"
+    "heading": "Got a new idea or a half-built product? I can take it end to end.",
+    "contactCta": "Get in touch",
+    "navLabel": "Footer navigation",
+    "navHeading": "Navigate",
+    "connectHeading": "Connect",
+    "backToTop": "Back to top",
+    "copyright": "© {year} Miguel Barra. All rights reserved."
   },
   "Loading": {
-    "label": "Loading"
+    "label": "Loading…"
   },
   "Error": {
     "eyebrow": "Error",
@@ -26,14 +100,10 @@
   },
   "Home": {
     "eyebrow": "Portfolio · Miguel Barra",
-    "titleBefore": "I build full-stack products and take them to ",
-    "titleEmphasis": "production",
+    "title": "I build full-stack products and ship them to production.",
     "body": "Site under reconstruction. The design system is already defined — check the tokens on the reference page.",
-    "cta": "View design system"
-  },
-  "LocaleBadge": {
-    "label": "Current language",
-    "value": "English"
+    "cta": "View design system",
+    "latestProject": "{name} · {year} — {summary}"
   },
   "NotFound": {
     "eyebrow": "404",

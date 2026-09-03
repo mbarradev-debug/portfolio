@@ -9,14 +9,88 @@
   },
   "Nav": {
     "label": "Navegación principal",
-    "home": "Inicio"
+    "mobileLabel": "Navegación móvil",
+    "logo": "Miguel Barra",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "about": "Acerca de",
+    "cases": "Casos de estudio",
+    "services": "Servicios",
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "current": "Idioma actual: {language}",
+    "switchTo": "Cambiar a {language}",
+    "es": "Español",
+    "en": "English"
+  },
+  "Hero": {
+    "title": "Construyo productos full stack y los llevo a producción.",
+    "subtitle": "Más de 2 años entregando software para clientes públicos y privados en Chile, con React, Next.js y TypeScript y dominio de todo el stack.",
+    "cta": "¿Tienes un proyecto en mente?"
+  },
+  "About": {
+    "badge": "Miguel Barra",
+    "photoAlt": "Retrato de Miguel Barra, Full Stack Developer",
+    "heading": "Integro frontend, backend e infraestructura",
+    "body": "Soy Full Stack Developer con más de 2 años entregando software para los sectores público y privado: un SaaS para digitalizar trámites municipales, la modernización de la Sucursal Virtual de una Isapre de Codelco y herramientas propias para el mercado chileno. Trabajo con React, Next.js y TypeScript, y me muevo con soltura en todo el stack: base de datos, APIs, autenticación e infraestructura.",
+    "talk": "Hablemos",
+    "downloadCv": "Descarga mi CV",
+    "readTestimonials": "Lee las recomendaciones",
+    "headingMuted": "para entregar productos completos que funcionan de punta a punta."
+  },
+  "Testimonials": {
+    "heading": "Recomendaciones",
+    "selectLabel": "Seleccionar recomendación",
+    "dotLabel": "Ver recomendación {index}",
+    "viewOnLinkedin": "Ver en LinkedIn",
+    "source": "Fuente: LinkedIn"
+  },
+  "Services": {
+    "heading": "Servicios",
+    "frontend": {
+      "title": "Frontend",
+      "desc": "Interfaces rápidas, accesibles y fáciles de mantener con React, Next.js, TypeScript y Tailwind CSS."
+    },
+    "backend": {
+      "title": "Backend & APIs",
+      "desc": "Lógica de negocio y APIs REST sólidas con Node.js, NestJS, ASP.NET y Python/Flask."
+    },
+    "data": {
+      "title": "Datos & Cloud",
+      "desc": "Base de datos, contenedores y despliegue: PostgreSQL, Oracle, Docker, Azure, GCP y Vercel, con CI/CD en GitHub Actions."
+    }
+  },
+  "Arsenal": {
+    "heading": "Stack técnico"
+  },
+  "Cases": {
+    "heading": "Casos de estudio",
+    "subtitle": "No solo qué construyo, también cómo lo construyo y cómo lo pruebo.",
+    "counter": "{current} / {total}",
+    "previous": "Caso anterior",
+    "next": "Caso siguiente",
+    "linkDefault": "Hablemos",
+    "linkProject": "Ver el proyecto"
+  },
+  "Projects": {
+    "badge": "Trabajo seleccionado",
+    "heading": "Proyectos",
+    "openExternal": "Abrir {name} en una pestaña nueva"
   },
   "Footer": {
-    "languages": "Idiomas",
-    "rights": "Todos los derechos reservados"
+    "heading": "¿Tienes una idea nueva o un producto a medio construir? Puedo llevarlo de punta a punta.",
+    "contactCta": "Contáctame",
+    "navLabel": "Navegación del pie de página",
+    "navHeading": "Navegar",
+    "connectHeading": "Conectar",
+    "backToTop": "Volver arriba",
+    "copyright": "© {year} Miguel Barra. Todos los derechos reservados."
   },
   "Loading": {
-    "label": "Cargando"
+    "label": "Cargando…"
   },
   "Error": {
     "eyebrow": "Error",
@@ -26,14 +100,10 @@
   },
   "Home": {
     "eyebrow": "Portfolio · Miguel Barra",
-    "titleBefore": "Construyo productos full stack y los llevo a ",
-    "titleEmphasis": "producción",
+    "title": "Construyo productos full stack y los llevo a producción.",
     "body": "Sitio en reconstrucción. El sistema de diseño ya está definido — revisa los tokens en la página de referencia.",
-    "cta": "Ver design system"
-  },
-  "LocaleBadge": {
-    "label": "Idioma actual",
-    "value": "Español"
+    "cta": "Ver design system",
+    "latestProject": "{name} · {year} — {summary}"
   },
   "NotFound": {
     "eyebrow": "404",
