@@ -1,10 +1,12 @@
-/* Load-time fade for the hero content (never tied to scroll). Visible without
-   JS; only hidden once `html.js` is set and before `HeroReveal` runs. */
+/* Load-time fade for the hero content (never tied to scroll). Hidden until
+   `HeroReveal` adds `.in` on mount; the render-blocking stylesheet applies this
+   from the first paint. No JS → the layout's `<noscript>` style forces
+   `[data-reveal]` visible. */
 .reveal {
   transition: opacity 0.45s var(--ease-standard);
 }
 
-:global(html.js) .reveal:not(.in) {
+.reveal:not(.in) {
   opacity: 0;
 }
 
@@ -13,8 +15,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(html.js) .reveal,
-  :global(html.js) .reveal:not(.in) {
+  .reveal,
+  .reveal:not(.in) {
     opacity: 1;
     transition: none;
   }
