@@ -80,6 +80,23 @@
     "heading": "Proyectos",
     "openExternal": "Abrir {name} en una pestaña nueva"
   },
+  "Contact": {
+    "intro": "Cuéntame en qué estás trabajando y te respondo lo antes posible.",
+    "nameLabel": "Nombre",
+    "emailLabel": "Email",
+    "messageLabel": "Mensaje",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando…",
+    "successTitle": "¡Mensaje enviado!",
+    "successBody": "Gracias por escribir. Te respondo pronto.",
+    "errorGeneric": "No se pudo enviar el mensaje. Vuelve a intentarlo en un momento.",
+    "errorRateLimit": "Has enviado varios mensajes seguidos. Espera un rato antes de volver a intentarlo.",
+    "errorName": "El nombre debe tener entre 2 y 80 caracteres.",
+    "errorEmail": "Escribe un email válido.",
+    "errorMessage": "El mensaje debe tener entre 10 y 2000 caracteres.",
+    "directIntro": "O escríbeme directamente a",
+    "honeypotLabel": "No rellenes este campo"
+  },
   "Footer": {
     "heading": "¿Tienes una idea nueva o un producto a medio construir? Puedo llevarlo de punta a punta.",
     "contactCta": "Contáctame",

@@ -46,6 +46,9 @@ todo el equipo.
 - Sección de casos (PMB-014): `CaseStudiesSection` (Server) + `CaseStudiesCarousel`
   (Client hoja) — prev/next con wrap, contador, crossfade del panel, marco de
   navegador con captura (`next/image`) o mock de texto de fallback.
+- Formulario de contacto (PMB-015): Server Action `submitContact` (Zod + rate
+  limit + Resend), `ContactForm` (hoja Client con progressive enhancement),
+  montado en el footer sobre el ancla `#contacto`. Ver "Formulario de contacto".
 
 ## Arquitectura objetivo
 
@@ -149,14 +152,14 @@ variables: [ … path: ['NEXT_PUBLIC_SITE_URL'] … ]`).
 
 ### Inventario
 
-| Variable               | Ámbito | Requerida          | Formato                         | Uso                                           |
-| ---------------------- | ------ | ------------------ | ------------------------------- | --------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL` | client | **Sí**             | URL absoluta                    | `metadataBase` y URLs absolutas de OpenGraph. |
-| `NODE_ENV`             | shared | no (`development`) | `development\|test\|production` | Modo de ejecución (lo inyecta Next).          |
-| `RESEND_API_KEY`       | server | no (→ PMB-015)     | string no vacío                 | Envío de emails del formulario de contacto.   |
-| `CONTACT_TO_EMAIL`     | server | no (→ PMB-015)     | email                           | Destinatario de los envíos del formulario.    |
-| `CONTACT_RATE_LIMIT`   | server | no                 | entero positivo                 | Límite de envíos por IP/hora (opcional).      |
-| `SKIP_ENV_VALIDATION`  | build  | no                 | cualquier valor                 | Salta la validación (builds de contenedor).   |
+| Variable               | Ámbito | Requerida          | Formato                         | Uso                                                               |
+| ---------------------- | ------ | ------------------ | ------------------------------- | ----------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL` | client | **Sí**             | URL absoluta                    | `metadataBase` y URLs absolutas de OpenGraph.                     |
+| `NODE_ENV`             | shared | no (`development`) | `development\|test\|production` | Modo de ejecución (lo inyecta Next).                              |
+| `RESEND_API_KEY`       | server | **Sí** (PMB-015)   | string no vacío                 | Clave de Resend para enviar el formulario.                        |
+| `CONTACT_TO_EMAIL`     | server | **Sí** (PMB-015)   | email                           | Destino **y** remitente del email (dominio verificado en Resend). |
+| `CONTACT_RATE_LIMIT`   | server | no (5)             | entero positivo                 | Envíos por IP/hora. Default en `lib/contact.ts`.                  |
+| `SKIP_ENV_VALIDATION`  | build  | no                 | cualquier valor                 | Salta la validación (builds de contenedor).                       |
 
 - **client** (`NEXT_PUBLIC_*`): tipadas y disponibles en navegador y servidor.
 - **server**: sólo en código de servidor. Acceder a ellas desde un Client
@@ -164,8 +167,72 @@ variables: [ … path: ['NEXT_PUBLIC_SITE_URL'] … ]`).
   environment variable on the client"_); además Next nunca las incluye en el
   bundle de cliente. La separación no es error de compilación: la garantía es
   runtime + bundling.
-- Las variables de contacto son `optional()` hasta PMB-015, que las hará
-  requeridas.
+- `RESEND_API_KEY` y `CONTACT_TO_EMAIL` son **requeridas** desde PMB-015 (el
+  formulario es la vía principal de conversión). Builds de contenedor sin ellas:
+  `SKIP_ENV_VALIDATION`.
+
+## Formulario de contacto
+
+Sección de contacto en el footer (`#contacto`, el ancla a la que apuntan todos
+los CTA "Contáctame"). Reemplaza el `mailto:` legacy; el enlace de email directo
+se conserva como alternativa secundaria (funciona sin JS ni servidor).
+
+### Piezas
+
+```
+lib/contact.ts            Esquema Zod, tipos, límites, rate limiter en memoria (sin "use server")
+app/actions/contact.ts    Server Action submitContact ("use server" primera línea)
+components/contact/ContactForm.tsx   Hoja Client — useActionState, errores por campo, foco
+components/layout/SiteFooter.tsx     Server — monta heading + <ContactForm> + email directo
+messages/{es,en}.json → Contact      Todo el copy del formulario
+```
+
+### Contrato de `submitContact(prevState, formData)`
+
+- Firma de `useActionState`: `(prevState, formData) => Promise<ContactState>`.
+- **Nunca lanza**: todo camino devuelve `ContactState =
+{ success?: boolean; error?: string; fieldErrors?: Partial<Record<'name'|'email'|'message', string>> }`.
+  `{}` es el estado inicial.
+- **No revalida ninguna ruta**: el sitio no tiene datos cacheados que un envío
+  mute, así que no hay nada que invalidar (`revalidatePath`/`refresh` no se usan).
+- Lee `locale` de un `<input hidden>` (no del header de i18n — así funciona sin
+  JS); valida con `hasLocale`, cae a `es`. Los mensajes de error se localizan en
+  la action con `getTranslations({ locale, namespace: 'Contact' })`.
+
+### Flujo
+
+1. **Honeypot** (`company`, off-screen): si viene relleno → `{ success: true }`
+   sin enviar nada (descarte silencioso).
+2. **Zod** (`contactSchema` en `lib/contact.ts`): `name` 2–80, `email` válido
+   (≤254), `message` 10–2000, todo `.trim()`. Falla → `{ success: false,
+fieldErrors }` con el mensaje localizado por campo.
+3. **Rate limit** (`checkRateLimit`): ventana fija de 1 h sobre un `Map` en
+   proceso (básico — se reinicia al reiniciar, es por instancia). Límite =
+   `env.CONTACT_RATE_LIMIT ?? 5`. Excedido → `{ success: false, error }`.
+4. **Envío**: `fetch` server-side a `https://api.resend.com/emails` (sin SDK, sin
+   tocar la CSP — la CSP sólo rige el navegador). `from` y `to` =
+   `CONTACT_TO_EMAIL`; `reply_to` = email del visitante. Fallo de red o `!ok` →
+   se loguea y `{ success: false, error: errorGeneric }`.
+5. OK → `{ success: true }`.
+
+### `ContactForm` (hoja Client)
+
+- **Progressive enhancement**: `<form action={formAction}>` — sin JS el form hace
+  POST nativo a la action (Next inyecta los campos `$ACTION_*`) y el resultado se
+  renderiza en el servidor. Con JS: `useActionState` muestra errores inline,
+  estado `pending`, y un `useEffect` mueve el foco al primer campo inválido (o al
+  mensaje de resultado). El form lleva `noValidate`: **toda** la validación pasa
+  por el servidor para tener mensajes únicos y localizados (los atributos HTML
+  `required`/`type=email`/`minLength` quedan como semántica).
+- A11y: `<label>` visible por campo, `aria-invalid` + `aria-describedby` al id del
+  error, `role="status"` (éxito) / `role="alert"` (error de formulario).
+
+### Config del proveedor
+
+Resend. Requiere una cuenta (free tier basta) y que el dominio de
+`CONTACT_TO_EMAIL` esté verificado en Resend (o usar el email de la cuenta con el
+remitente `onboarding@resend.dev`). Sin `RESEND_API_KEY` válida la action
+devuelve `errorGeneric` — no rompe.
 
 ## Internacionalización (i18n)
 
@@ -358,7 +425,8 @@ referencia: **`/design-system`**.
 | `--line`       | `#dcdad2`                        | `--radius-sm`  | `12px`    |
 | `--green`      | `#c9f59a`                        | `--dur-fast`   | `0.16s`   |
 | `--green-dark` | `#9fd66a`                        | `--dur-mid`    | `0.3s`    |
-| `--ease-out`   | `cubic-bezier(0.22, 1, 0.36, 1)` | `--dur-reveal` | `0.55s`   |
+| `--red`        | `#b42318` (nuevo, PMB-015)       | `--dur-reveal` | `0.55s`   |
+| `--ease-out`   | `cubic-bezier(0.22, 1, 0.36, 1)` |                |           |
 
 Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
 `--font-sans` = Plus Jakarta Sans · `--font-serif` = Playfair Display _italic_
@@ -390,6 +458,7 @@ Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
 | `--color-text-inverse`               | `--white`               | Texto sobre superficies oscuras |
 | `--color-text-on-accent`             | `--teal-dark`           | Texto sobre `--color-accent`    |
 | `--color-border`                     | `--line`                | Hairlines, divisores            |
+| `--color-danger`                     | `--red` (`#b42318`)     | Errores de validación (PMB-015) |
 | `--color-accent`                     | `--green`               | Acento primario (pills, CTAs)   |
 | `--color-accent-strong`              | `--green-dark`          | Hover / énfasis del acento      |
 | `--color-hero-from` / `-to`          | `--hero-bg-1/2`         | Gradiente del hero              |
@@ -456,7 +525,8 @@ app/[locale]/layout.tsx  (Server)
       <CaseStudiesSection> id=casos   · <h2 id=cases-title>              →  <Reveal>
         <CaseStudiesCarousel/> ← CLIENT hoja — prev/next, contador, crossfade, marco navegador
       <ProjectsSection>    id=proyectos · filas-enlace                →  <Reveal> (stagger)
-  <SiteFooter>           (Server)
+  <SiteFooter>           (Server) · id=contacto · heading + email directo
+    <ContactForm/>        ← CLIENT hoja — Server Action, useActionState, PE
 ```
 
 ### Motion (PMB-012)
@@ -544,6 +614,7 @@ trae `url`; si no, "Hablemos" → `/#contacto`.
 
 ```
 app/
+  actions/           Server Actions ("use server") — contact.ts (PMB-015)
   layout.tsx         Root layout passthrough (`return children`)
   not-found.tsx      404 global (documento propio)
   [locale]/          Rutas localizadas — raíz real: layout (html/body/providers),
@@ -556,11 +627,12 @@ messages/            Catálogos de traducción por idioma (es.json, en.json)
 components/
   Providers.tsx      Árbol de providers cliente
   layout/            SiteHeader, SiteFooter (Server) · LanguageSwitcher, MobileNav (Client)
+  contact/           ContactForm (Client hoja) + CSS Module (PMB-015)
   ui/                Primitivos tipados + CSS Modules (ver "Primitivos de UI")
   sections/          Secciones Server de la home + hojas Client (HeroVideo, TestimonialsSlider, CaseStudiesCarousel)
   motion/            Reveal, HeroReveal (Client hojas — ver "Motion")
 content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
-lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
+lib/                 Utilidades y config compartida — contact.ts (esquema Zod + rate limiter)
 public/              Assets estáticos servidos desde "/"
 references/          Sitio estático original (sólo local, en .gitignore)
 ```

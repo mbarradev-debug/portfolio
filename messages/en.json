@@ -80,6 +80,23 @@
     "heading": "Projects",
     "openExternal": "Open {name} in a new tab"
   },
+  "Contact": {
+    "intro": "Tell me what you're working on and I'll get back to you as soon as I can.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Message sent!",
+    "successBody": "Thanks for reaching out. I'll reply soon.",
+    "errorGeneric": "The message couldn't be sent. Please try again in a moment.",
+    "errorRateLimit": "You've sent several messages in a row. Please wait a while before trying again.",
+    "errorName": "Name must be between 2 and 80 characters.",
+    "errorEmail": "Enter a valid email address.",
+    "errorMessage": "Message must be between 10 and 2000 characters.",
+    "directIntro": "Or email me directly at",
+    "honeypotLabel": "Do not fill in this field"
+  },
   "Footer": {
     "heading": "Got a new idea or a half-built product? I can take it end to end.",
     "contactCta": "Get in touch",
