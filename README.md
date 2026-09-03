@@ -29,9 +29,14 @@ protocolo de trabajo, bitácora de decisiones) en [`AGENTS.md`](./AGENTS.md).
 
 ```bash
 npm install
-cp .env.example .env.local   # ajusta valores si hace falta
+cp .env.example .env.local   # rellena las variables requeridas (ver abajo)
 npm run dev                  # http://localhost:3000
 ```
+
+`.env.local` requiere `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY` y
+`CONTACT_TO_EMAIL` (el arranque falla nombrando la que falte). Para desarrollo de
+UI sin enviar emails, cualquier valor no vacío sirve. Detalle en `AGENTS.md` →
+"Configurar `.env.local`".
 
 ## Scripts npm
 

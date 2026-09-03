@@ -30,6 +30,7 @@
   --teal-dark: #222f30;
   --card-gray: #e6e4df;
   --white: #ffffff;
+  --red: #b42318; /* new — form validation errors (PMB-015) */
 
   /* Radius — ported verbatim */
   --radius-lg: 28px;
@@ -119,6 +120,9 @@
 
   --color-border: var(--line);
 
+  /* Feedback */
+  --color-danger: var(--red);
+
   /* Accent */
   --color-accent: var(--green);
   --color-accent-strong: var(--green-dark);
@@ -155,6 +159,7 @@
     --color-text-soft: #c8c8c0;
     --color-text-muted: #8b8d85;
     --color-border: #333733;
+    --color-danger: #f97066;
     --color-accent: var(--green);
     --color-accent-strong: var(--green-dark);
   }

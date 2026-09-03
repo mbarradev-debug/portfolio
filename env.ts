@@ -14,10 +14,11 @@ export const env = createEnv({
    * throws at runtime.
    */
   server: {
-    // Contact form (PMB-015). Optional until that feature lands — make them
-    // required in that issue.
-    RESEND_API_KEY: z.string().min(1).optional(),
-    CONTACT_TO_EMAIL: z.email().optional(),
+    // Contact form (PMB-015). Required — the form is the site's primary
+    // conversion path. Container builds without them use SKIP_ENV_VALIDATION.
+    RESEND_API_KEY: z.string().min(1),
+    CONTACT_TO_EMAIL: z.email(),
+    // Submissions allowed per IP per hour. Optional — defaults in `lib/contact`.
     CONTACT_RATE_LIMIT: z.coerce.number().int().positive().optional(),
   },
 
