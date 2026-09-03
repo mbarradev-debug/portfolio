@@ -33,10 +33,14 @@ export interface CaseStudy {
   readonly date: string;
   readonly title: Localized<string>;
   readonly desc: Localized<string>;
-  /** Path under `/public`. */
-  readonly image: string;
-  readonly imageAlt: Localized<string>;
-  readonly url: string;
+  /** Screenshot path under `/public`. Absent → the text mock is rendered. */
+  readonly image?: string;
+  readonly imageAlt?: Localized<string>;
+  /** Text-mock fallback, shown only when `image` is absent. */
+  readonly mockTag?: string;
+  readonly mockHeadline?: Localized<string>;
+  /** External project URL. Absent → the card links to the contact anchor. */
+  readonly url?: string;
   /** CSS `background` value for the card. */
   readonly gradient: string;
 }

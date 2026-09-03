@@ -1,0 +1,227 @@
+/* Tokens only (PMB-005). Client leaf — heading + nav + one browser-framed card.
+   Ported 1:1 from the legacy `.case-*` block. */
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.heading {
+  margin-bottom: var(--space-2xs);
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.subtitle {
+  color: var(--color-text-soft);
+  font-size: var(--text-md);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+.counter {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+}
+.arrows {
+  display: flex;
+  gap: var(--space-2xs);
+}
+.arrow {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-transition) var(--ease-standard),
+    border-color var(--duration-transition) var(--ease-standard),
+    color var(--duration-transition) var(--ease-standard),
+    transform var(--duration-press) var(--ease-standard);
+}
+.arrow svg {
+  width: 1rem;
+  height: 1rem;
+}
+.arrow:active {
+  transform: scale(0.92);
+}
+@media (hover: hover) {
+  .arrow:hover {
+    border-color: var(--color-text);
+    background: var(--color-text);
+    color: var(--color-text-inverse);
+  }
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+.mock {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+.mockBar {
+  display: flex;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--color-surface-sunken);
+  border-bottom: 1px solid var(--color-border);
+}
+.mockBar span {
+  width: 0.5625rem;
+  height: 0.5625rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+}
+
+/* Screenshot: fixed aspect box so `next/image` reserves space (no layout shift). */
+.mockImage {
+  aspect-ratio: 1200 / 630;
+}
+.mockImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Text fallback when a case has no screenshot. */
+.mockText {
+  display: flex;
+  min-height: 13.75rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-lg) var(--space-md);
+}
+.mockTagLabel {
+  color: var(--color-accent-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+.mockHeadline {
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-2xl) var(--space-xl);
+}
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+.date {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+}
+.title {
+  margin-bottom: var(--space-sm);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+.desc {
+  margin-bottom: var(--space-lg);
+  color: var(--color-text-soft);
+  line-height: var(--leading-relaxed);
+}
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: inherit;
+  text-decoration: none;
+}
+.linkLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+/* Crossfade of the panels on case change (browser chrome stays put). */
+.info,
+.mockImage,
+.mockText {
+  transition: opacity var(--duration-transition) var(--ease-standard);
+}
+.card.fading .info,
+.card.fading .mockImage,
+.card.fading .mockText {
+  opacity: 0;
+}
+
+@media (max-width: 980px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .media {
+    padding: var(--space-md);
+  }
+  .info {
+    padding: var(--space-lg) var(--space-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info,
+  .mockImage,
+  .mockText {
+    transition: none;
+  }
+  .arrow {
+    transition: none;
+  }
+}

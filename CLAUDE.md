@@ -42,7 +42,10 @@ todo el equipo.
   interactividad** (PMB-012): `MobileNav`, `HeroVideo`, `Reveal`/`HeroReveal`.
 - Sección de testimonios (PMB-013): `TestimonialsSection` (Server) +
   `TestimonialsSlider` (Client hoja) — rotación, dots, autoplay, crossfade;
-  listo para 1 o N testimonios. Falta: carrusel de casos (PMB-014).
+  listo para 1 o N testimonios.
+- Sección de casos (PMB-014): `CaseStudiesSection` (Server) + `CaseStudiesCarousel`
+  (Client hoja) — prev/next con wrap, contador, crossfade del panel, marco de
+  navegador con captura (`next/image`) o mock de texto de fallback.
 
 ## Arquitectura objetivo
 
@@ -319,6 +322,11 @@ estructura (`key`, `index`, `icon`); su texto va en `messages/` (PMB-009).
 `caseStudies` tiene un `TODO(PMB-008)` para el segundo caso de Pulso (extensión de
 Chrome), pendiente de descripción/stack/link.
 
+En `CaseStudy`, `image` + `imageAlt`, `mockTag` + `mockHeadline` y `url` son
+**opcionales**: un caso trae imagen (`image` + `imageAlt`) **o** mock de texto
+(`mockTag` + `mockHeadline`); sin `url` el enlace cae al ancla de contacto. Ver
+"CaseStudiesCarousel (PMB-014)".
+
 ## Sistema de design tokens
 
 Fuente única del idioma visual. Definido en **`app/styles/tokens.css`** (importado
@@ -445,7 +453,8 @@ app/[locale]/layout.tsx  (Server)
         <TestimonialsSlider/> ← CLIENT hoja — <blockquote> rotatorio, dots, autoplay 6s
       <ServicesSection>    id=servicios · 3 cards desde content       →  <Reveal> (stagger)
       <ArsenalSection>     id=arsenal · marquee CSS + <ul.sr-only>
-      <CaseStudiesSection> id=casos   · card estática (carrusel → PMB-014)  →  <Reveal>
+      <CaseStudiesSection> id=casos   · <h2 id=cases-title>              →  <Reveal>
+        <CaseStudiesCarousel/> ← CLIENT hoja — prev/next, contador, crossfade, marco navegador
       <ProjectsSection>    id=proyectos · filas-enlace                →  <Reveal> (stagger)
   <SiteFooter>           (Server)
 ```
@@ -493,6 +502,31 @@ Los textos de UI (`photoAlt`, `selectLabel`, `dotLabel`, `viewOnLinkedin`,
 - **`prefers-reduced-motion`**: swap instantáneo (sin retardo ni transición; la
   media query anula `transition` y el efecto salta el `setTimeout`).
 
+### CaseStudiesCarousel (PMB-014)
+
+Hoja Client (`components/sections/CaseStudiesCarousel.tsx`). El padre
+`CaseStudiesSection` (Server) resuelve `content/case-studies` para el locale y le
+pasa `items: CarouselCase[]`. Los textos (`heading`, `subtitle`, `counter`,
+`previous`, `next`, `linkDefault`, `linkProject`) los lee la hoja con
+`useTranslations("Cases")`. La hoja renderiza el `<h2 id="cases-title">` (SSR
+igual); la sección sigue Server.
+
+- **1 caso**: la tarjeta sola, sin flechas.
+- **N casos**: prev/next con wrap, contador (ligado a `visibleIndex`, cambia con
+  la tarjeta), crossfade de opacidad del panel de info + media (el marco del
+  navegador no se mueve). Misma mecánica `index` / `visibleIndex` que el slider
+  de testimonios → un doble-clic rápido nunca deja la tarjeta a medias.
+- **`aria-live="polite"`** en la tarjeta anuncia el caso nuevo al navegar.
+- **`prefers-reduced-motion`**: cambio instantáneo.
+
+**Un caso con imagen** trae `image` (ruta bajo `/public`) + `imageAlt`
+(`Localized`): se renderiza con `next/image` (`width`/`height` 1200×630 + `sizes`,
+caja con `aspect-ratio` → sin layout shift) dentro del marco de navegador.
+**Un caso sin imagen** omite `image` y trae `mockTag` (string) + `mockHeadline`
+(`Localized`): se renderiza el mock de texto de fallback.
+**El enlace** es "Ver el proyecto" (`target="_blank" rel="noopener"`) si el caso
+trae `url`; si no, "Hablemos" → `/#contacto`.
+
 ### Convenciones de las secciones
 
 - Componente Server `export function XSection()` en `components/sections/`, un
@@ -523,7 +557,7 @@ components/
   Providers.tsx      Árbol de providers cliente
   layout/            SiteHeader, SiteFooter (Server) · LanguageSwitcher, MobileNav (Client)
   ui/                Primitivos tipados + CSS Modules (ver "Primitivos de UI")
-  sections/          Secciones Server de la home + hojas Client (HeroVideo, TestimonialsSlider)
+  sections/          Secciones Server de la home + hojas Client (HeroVideo, TestimonialsSlider, CaseStudiesCarousel)
   motion/            Reveal, HeroReveal (Client hojas — ver "Motion")
 content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
 lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
