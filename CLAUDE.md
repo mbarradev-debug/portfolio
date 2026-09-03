@@ -301,6 +301,7 @@ content/index.ts         barrel — `import { projects, pickLocale } from "@/con
 
 Los campos que difieren por locale son `Localized<T>` = `{ es: T; en: T }`:
 títulos y descripciones de casos y proyectos, `imageAlt`, `role` de testimonios.
+El `image` de un testimonio (retrato bajo `/public`) es opcional y no localizado.
 Se resuelven con `pickLocale(value, locale)`. Nav y servicios sólo guardan
 estructura (`key`, `index`, `icon`); su texto va en `messages/` (PMB-009).
 
@@ -469,13 +470,16 @@ Hoja Client (`components/sections/TestimonialsSlider.tsx`). El padre
 `TestimonialsSection` (Server) resuelve el contenido para el locale activo
 (`pickLocale` de `content/testimonials`) y le pasa por props:
 
-| Prop          | Tipo                                      | Qué                                     |
-| ------------- | ----------------------------------------- | --------------------------------------- |
-| `items`       | `{ quote; name; role }[]` (ya localizado) | Una recomendación por entrada.          |
-| `linkedinUrl` | `string`                                  | URL absoluta del CTA "Ver en LinkedIn". |
+| Prop          | Tipo                                              | Qué                                     |
+| ------------- | ------------------------------------------------- | --------------------------------------- |
+| `items`       | `{ quote; name; role; image? }[]` (ya localizado) | Una recomendación por entrada.          |
+| `linkedinUrl` | `string`                                          | URL absoluta del CTA "Ver en LinkedIn". |
 
-Los textos de UI (`selectLabel`, `dotLabel`, `viewOnLinkedin`, `source`) los lee
-la propia hoja con `useTranslations("Testimonials")`.
+Los textos de UI (`photoAlt`, `selectLabel`, `dotLabel`, `viewOnLinkedin`,
+`source`) los lee la propia hoja con `useTranslations("Testimonials")`.
+
+- **Avatar**: `next/image` (52×52, `object-fit: cover`) cuando el testimonio
+  trae `image` (ruta bajo `/public`); si no, cae al `UserIcon` genérico.
 
 - **1 testimonio**: se muestra la cita, los dots van `hidden` y **no hay
   autoplay** ni maquinaria de crossfade.

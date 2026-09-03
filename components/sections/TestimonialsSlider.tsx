@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { useTranslations } from "next-intl";
@@ -13,6 +14,8 @@ export type SliderTestimonial = {
   readonly quote: string;
   readonly name: string;
   readonly role: string;
+  /** Portrait under `/public`. Falls back to a generic avatar when absent. */
+  readonly image?: string;
 };
 
 type TestimonialsSliderProps = {
@@ -109,8 +112,17 @@ export function TestimonialsSlider({ items, linkedinUrl }: TestimonialsSliderPro
       <figure className={[styles.figure, fading && styles.fading].filter(Boolean).join(" ")}>
         <blockquote className={styles.quote}>{quoteText}</blockquote>
         <figcaption className={styles.author}>
-          <span className={styles.avatar} aria-hidden="true">
-            <UserIcon />
+          <span className={styles.avatar}>
+            {current.image ? (
+              <Image
+                src={current.image}
+                alt={t("photoAlt", { name: current.name })}
+                width={52}
+                height={52}
+              />
+            ) : (
+              <UserIcon aria-hidden="true" />
+            )}
           </span>
           <span className={styles.identity}>
             <span className={styles.name}>{current.name}</span>

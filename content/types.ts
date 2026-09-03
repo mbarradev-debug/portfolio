@@ -22,6 +22,8 @@ export interface Testimonial {
   readonly quote: string;
   readonly name: string;
   readonly role: Localized<string>;
+  /** Portrait path under `/public`. Falls back to a generic avatar when absent. */
+  readonly image?: string;
   /** Where the recommendation comes from (LinkedIn, email, …). Optional. */
   readonly source?: string;
 }

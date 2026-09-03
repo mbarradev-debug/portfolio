@@ -91,10 +91,16 @@
   justify-content: center;
   width: 52px;
   height: 52px;
+  overflow: hidden;
   border-radius: var(--radius-control);
   background: var(--color-surface);
   color: var(--color-surface-inverse-soft);
   font-size: var(--text-lg);
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .identity {

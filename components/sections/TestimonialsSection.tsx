@@ -23,6 +23,7 @@ export async function TestimonialsSection() {
     quote: item.quote,
     name: item.name,
     role: pickLocale(item.role, locale),
+    image: item.image,
   }));
 
   return (
