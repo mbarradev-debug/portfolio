@@ -42,6 +42,7 @@
   },
   "Testimonials": {
     "heading": "Recommendations",
+    "photoAlt": "Photo of {name}",
     "selectLabel": "Select a recommendation",
     "dotLabel": "View recommendation {index}",
     "viewOnLinkedin": "View on LinkedIn",

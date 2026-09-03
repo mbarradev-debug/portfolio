@@ -9,5 +9,6 @@ export const testimonials: readonly Testimonial[] = [
       es: "Fundadora de Ewreka Chile",
       en: "Founder of Ewreka Chile",
     },
+    image: "/paola-quiroga.jpeg",
   },
 ];
