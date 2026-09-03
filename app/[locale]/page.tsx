@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { pickLocale, projects } from "@/content";
 import { initLocale } from "@/i18n/locale";
 import { Link } from "@/i18n/navigation";
 
@@ -9,11 +10,15 @@ import { Link } from "@/i18n/navigation";
  * render different text. The `<main>` / header / footer come from the layout.
  */
 export default async function Home({ params }: PageProps<"/[locale]">) {
-  const { locale } = await params;
-  initLocale(locale);
+  const { locale: rawLocale } = await params;
+  const locale = initLocale(rawLocale);
 
   const t = await getTranslations("Home");
   const badge = await getTranslations("LocaleBadge");
+
+  // Smoke-consume the typed content layer (PMB-008). PMB-011 builds the real
+  // sections; this just proves the types resolve and are locale-aware.
+  const [latestProject] = projects;
 
   return (
     <section className="flex flex-1 flex-col justify-center px-6 py-24">
@@ -30,6 +35,12 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
         >
           {t("cta")}
         </Link>
+        {latestProject ? (
+          <p className="text-text-muted text-2xs font-mono">
+            {latestProject.name} · {latestProject.year} —{" "}
+            {pickLocale(latestProject.desc, locale).split(".")[0]}.
+          </p>
+        ) : null}
         <p className="text-text-muted text-2xs font-mono">
           {badge("label")}: {badge("value")}
         </p>
