@@ -433,8 +433,10 @@ Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
 `--font-sans` = Plus Jakarta Sans · `--font-mono` = JetBrains Mono. **No hay
 serif** (DBO-1226): el wordmark, los títulos fantasma y los `<h1>` de error/404
 usan la sans, sin itálica. Wordmark = `--font-sans` 600, `tracking-tight`.
-El `app/not-found.tsx` global no carga `next/font`, así que su `<h1>` cae a la
-sans de sistema (`"Helvetica Neue", Arial`).
+El titular del hero (`<h1>` en `HeroSection`) va en peso **600** con
+`--tracking-display` (−.03em) y `--text-display` sin cambios: a ~100px el peso
+400 se veía anémico (DBO-1230). El `app/not-found.tsx` global no carga
+`next/font`, así que su `<h1>` cae a la sans de sistema (`"Helvetica Neue", Arial`).
 
 ### Capa 2 · Escalas (nuevas, coherentes)
 
@@ -444,7 +446,7 @@ sans de sistema (`"Helvetica Neue", Arial`).
 | Anchos       | `--measure` (44rem, columna de lectura) → `max-w-measure` · `--page-width` (64rem) → `max-w-page`                                                                                                                                                                                       |
 | Tipografía   | `--text-2xs`(11) `xs`(12) `sm`(14) `base`(16) `md`(18) `lg`(22) `xl`(28) · `--text-2xl/3xl/display` fluidos (`clamp`)                                                                                                                                                                   |
 | Interlineado | `--leading-none/tight`(1.1)`/snug/normal`(1.5)`/relaxed`(1.65)                                                                                                                                                                                                                          |
-| Tracking     | `--tracking-tighter`(−.025em) `tight` `normal` `wide` `wider`(.08em, labels mono) `widest`                                                                                                                                                                                              |
+| Tracking     | `--tracking-display`(−.03em, titular del hero) `--tracking-tighter`(−.025em) `tight` `normal` `wide` `wider`(.08em, labels mono) `widest`                                                                                                                                               |
 | Sombra       | `--shadow-hairline` (1:1), `--shadow-sm`, `--shadow-md`, `--shadow-lg` (1:1)                                                                                                                                                                                                            |
 
 ### Capa 3 · Semánticos (usar estos)

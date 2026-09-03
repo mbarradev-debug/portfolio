@@ -89,6 +89,7 @@
   --leading-relaxed: 1.65;
 
   /* Letter spacing */
+  --tracking-display: -0.03em; /* hero title — weight 600 at ~100px, tighter to hold together */
   --tracking-tighter: -0.025em; /* large display */
   --tracking-tight: -0.02em; /* headings */
   --tracking-normal: 0em;
