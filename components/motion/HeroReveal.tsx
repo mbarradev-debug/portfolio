@@ -25,7 +25,10 @@ export function HeroReveal({ children, className }: { children: ReactNode; class
   }, []);
 
   return (
-    <div className={[styles.reveal, shown && styles.in, className].filter(Boolean).join(" ")}>
+    <div
+      data-reveal=""
+      className={[styles.reveal, shown && styles.in, className].filter(Boolean).join(" ")}
+    >
       {children}
     </div>
   );

@@ -508,7 +508,7 @@ la hoja Client sólo hace la parte que necesita el navegador.
 
 ```
 app/[locale]/layout.tsx  (Server)
-  <script>html.classList.add('js')</script>   — antes del primer paint
+  <noscript><style>[data-reveal]{opacity:1!important…}</style></noscript>  — fallback sin JS
   <SiteHeader>            (Server)
     <LanguageSwitcher/>    ← CLIENT hoja — cambia /es ↔ /en preservando ruta + ancla
     <MobileNav/>           ← CLIENT hoja — burger + dialog modal (portal a <body>)
@@ -534,14 +534,19 @@ app/[locale]/layout.tsx  (Server)
 - **`Reveal`** (`components/motion/`): wrapper Client. Fade + `translateY` al
   entrar en viewport (`IntersectionObserver`, `rootMargin` inferior negativo),
   stagger automático entre `[data-reveal]` hermanos. El hero se **excluye**.
+  `Reveal` y `HeroReveal` marcan su `<div>` con `data-reveal`.
 - **`HeroReveal`**: fade del contenido del hero **al cargar** (rAF + red de
   seguridad `setTimeout`), nunca ligado al scroll.
 - **`HeroVideo`**: descarga y reproduce el vídeo **solo si conviene** — sin
   `prefers-reduced-motion`, sin `saveData`, viewport `≥ 761px`. Si no, queda el
   poster. `playbackRate = 0.55`; fade-in con fallback 2.5s.
-- **Progressive enhancement**: el script inline añade `js` a `<html>` antes del
-  paint. El CSS oculta un `Reveal` **solo** bajo `html.js` y antes de `.in`
-  → **sin JS todo es visible**. `prefers-reduced-motion` → sin movimiento.
+- **Progressive enhancement (DBO-1225)**: el CSS oculta `.reveal:not(.in)` de
+  forma **incondicional** (la hoja de estilos bloquea el render → aplica desde el
+  primer paint, sin FOUC ni script). Sin JS el `.in` nunca llega, así que el
+  layout incluye `<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>`
+  que fuerza visibilidad. `prefers-reduced-motion` → sin movimiento. Ya **no**
+  hay clase `html.js` ni `<script>` inline ni `suppressHydrationWarning`
+  (causaban un error de consola al cambiar de locale — ver bitácora).
 
 ### TestimonialsSlider (PMB-013)
 

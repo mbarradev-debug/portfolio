@@ -82,18 +82,15 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const [messages, t] = await Promise.all([getMessages(), getTranslations("A11y")]);
 
   return (
-    // `suppressHydrationWarning`: the inline script below adds a `js` class to
-    // <html> before hydration; that's a deliberate, expected attribute diff.
-    <html
-      lang={activeLocale}
-      className={`${fontVariables} h-full antialiased`}
-      suppressHydrationWarning
-    >
+    <html lang={activeLocale} className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        {/* Marks JS as available before first paint, so `Reveal` can hide
-            below-fold content only when it can also un-hide it (no JS → visible). */}
-        <script
-          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        {/* Progressive enhancement: `Reveal` / `HeroReveal` hide their content
+            (CSS, from first paint) until JS adds `.in`. With no JS that never
+            happens, so this restores visibility. See CLAUDE.md → "Motion". */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: "<style>[data-reveal]{opacity:1!important;transform:none!important}</style>",
+          }}
         />
         <a href="#top" className="skip-link">
           {t("skipToContent")}

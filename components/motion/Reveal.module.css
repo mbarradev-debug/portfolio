@@ -1,13 +1,14 @@
-/* Scroll-reveal. Visible by default; only hidden once JS has run
-   (`html.js`) and before the element has entered the viewport. No JS → visible.
-   Tokens only (PMB-005). */
+/* Scroll-reveal. Hidden until the element gets `.in` (added by `Reveal` once it
+   enters the viewport). The stylesheet is render-blocking, so this applies from
+   the first paint — no pre-paint script needed. No JS → the layout's `<noscript>`
+   style forces `[data-reveal]` visible. Tokens only (PMB-005). */
 .reveal {
   transition:
     opacity var(--duration-reveal) var(--ease-standard),
     transform var(--duration-reveal) var(--ease-standard);
 }
 
-:global(html.js) .reveal:not(.in) {
+.reveal:not(.in) {
   opacity: 0;
   transform: translateY(1.125rem);
 }
@@ -18,8 +19,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(html.js) .reveal,
-  :global(html.js) .reveal:not(.in) {
+  .reveal,
+  .reveal:not(.in) {
     opacity: 1;
     transform: none;
     transition: none;
