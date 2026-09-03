@@ -1,4 +1,29 @@
 {
+  "Meta": {
+    "title": "Miguel Barra — Full Stack Developer",
+    "titleShort": "Miguel Barra",
+    "description": "Portfolio de Miguel Barra, Full Stack Developer en Santiago de Chile. Construye productos completos con React, Next.js y TypeScript y los lleva a producción."
+  },
+  "A11y": {
+    "skipToContent": "Saltar al contenido"
+  },
+  "Nav": {
+    "label": "Navegación principal",
+    "home": "Inicio"
+  },
+  "Footer": {
+    "languages": "Idiomas",
+    "rights": "Todos los derechos reservados"
+  },
+  "Loading": {
+    "label": "Cargando"
+  },
+  "Error": {
+    "eyebrow": "Error",
+    "title": "Algo salió mal",
+    "body": "Ha ocurrido un error inesperado. Puedes intentarlo de nuevo.",
+    "retry": "Reintentar"
+  },
   "Home": {
     "eyebrow": "Portfolio · Miguel Barra",
     "titleBefore": "Construyo productos full stack y los llevo a ",
@@ -11,6 +36,7 @@
     "value": "Español"
   },
   "NotFound": {
+    "eyebrow": "404",
     "title": "Página no encontrada",
     "body": "La ruta que buscas no existe.",
     "cta": "Volver al inicio"

@@ -78,10 +78,48 @@
   --ease-standard: var(--ease-standard);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* header height, so `#top` isn't hidden behind it */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
   line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Keyboard skip-link: off-screen until focused. */
+.skip-link {
+  position: fixed;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 100;
+  transform: translateY(-150%);
+  transition: transform var(--duration-transition) var(--ease-standard);
+  border-radius: var(--radius-control);
+  background: var(--color-text);
+  padding: var(--space-2xs) var(--space-sm);
+  color: var(--color-text-inverse);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }

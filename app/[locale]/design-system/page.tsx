@@ -107,8 +107,8 @@ export default async function DesignSystemPage({ params }: PageProps<"/[locale]/
   initLocale(locale);
 
   return (
-    <main className="max-w-page mx-auto flex w-full flex-col gap-16 px-6 py-16">
-      <header className="flex flex-col gap-3">
+    <div className="max-w-page mx-auto flex w-full flex-col gap-16 px-6 py-16">
+      <div className="flex flex-col gap-3">
         <p className="text-text-muted font-mono text-xs tracking-wider uppercase">
           Portfolio · PMB-005
         </p>
@@ -118,7 +118,7 @@ export default async function DesignSystemPage({ params }: PageProps<"/[locale]/
           todo se lee de una variable CSS definida en{" "}
           <code className="font-mono">app/styles/tokens.css</code>.
         </p>
-      </header>
+      </div>
 
       <Section title="Tipografías">
         <div className="flex flex-col gap-6">
@@ -227,6 +227,6 @@ export default async function DesignSystemPage({ params }: PageProps<"/[locale]/
           ))}
         </ul>
       </Section>
-    </main>
+    </div>
   );
 }

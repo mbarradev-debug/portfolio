@@ -4,9 +4,9 @@ import { initLocale } from "@/i18n/locale";
 import { Link } from "@/i18n/navigation";
 
 /**
- * Placeholder home. The real hero/landing is rebuilt in PMB-007+. Kept minimal
+ * Placeholder home. The real hero/landing is rebuilt in PMB-011. Kept minimal
  * and token-driven; copy comes from `messages/{locale}.json` so `/es` and `/en`
- * render different text.
+ * render different text. The `<main>` / header / footer come from the layout.
  */
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -16,8 +16,8 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const badge = await getTranslations("LocaleBadge");
 
   return (
-    <main className="flex flex-1 flex-col justify-center">
-      <div className="max-w-measure mx-auto flex w-full flex-col gap-6 px-6 py-24">
+    <section className="flex flex-1 flex-col justify-center px-6 py-24">
+      <div className="max-w-measure mx-auto flex w-full flex-col gap-6">
         <p className="text-text-muted font-mono text-xs tracking-wider uppercase">{t("eyebrow")}</p>
         <h1 className="text-text font-serif text-3xl leading-tight tracking-tight text-balance">
           {t("titleBefore")}
@@ -34,6 +34,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           {badge("label")}: {badge("value")}
         </p>
       </div>
-    </main>
+    </section>
   );
 }

@@ -3,17 +3,21 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 /**
- * Localised 404. Also the landing spot for unsupported locale prefixes: the
- * proxy rewrites e.g. `/fr` to `/es/fr`, which has no route and renders here
- * (a 404, never a 500). See `CLAUDE.md` → "Internacionalización (i18n)".
+ * Localised 404 with full site chrome. Rendered when a page inside a locale
+ * calls `notFound()` explicitly (e.g. a detail route with an unknown slug) —
+ * the page has already set the request locale, so translations resolve to it.
+ *
+ * Fully unmatched URLs (`/es/typo`) don't run a page, so they fall through to
+ * the global `app/not-found.tsx` instead — see `CLAUDE.md` → "Layout raíz…".
+ * The `<main>` / header / footer come from the layout.
  */
 export default async function NotFound() {
   const t = await getTranslations("NotFound");
 
   return (
-    <main className="flex flex-1 flex-col justify-center">
-      <div className="max-w-measure mx-auto flex w-full flex-col gap-6 px-6 py-24">
-        <p className="text-text-muted font-mono text-xs tracking-wider uppercase">404</p>
+    <section className="flex flex-1 flex-col justify-center px-6 py-24">
+      <div className="max-w-measure mx-auto flex w-full flex-col gap-6">
+        <p className="text-text-muted font-mono text-xs tracking-wider uppercase">{t("eyebrow")}</p>
         <h1 className="text-text font-serif text-3xl leading-tight tracking-tight">{t("title")}</h1>
         <p className="text-text-soft text-md max-w-prose">{t("body")}</p>
         <Link
@@ -23,6 +27,6 @@ export default async function NotFound() {
           {t("cta")}
         </Link>
       </div>
-    </main>
+    </section>
   );
 }
