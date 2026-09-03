@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { env } from "@/env";
 import { initLocale } from "@/i18n/locale";
+import { TIME_ZONE } from "@/i18n/request";
 import { routing } from "@/i18n/routing";
 
 import "../globals.css";
@@ -86,7 +87,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <a href="#top" className="skip-link">
           {t("skipToContent")}
         </a>
-        <Providers locale={activeLocale} messages={messages}>
+        <Providers locale={activeLocale} messages={messages} timeZone={TIME_ZONE}>
           <SiteHeader />
           <main id="top" className="flex flex-1 flex-col">
             {children}
