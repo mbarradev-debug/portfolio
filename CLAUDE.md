@@ -27,7 +27,9 @@ todo el equipo.
 - Sistema de design tokens en `app/styles/tokens.css` + 3 tipografías vía
   `next/font` (PMB-005). Página de referencia: `/{locale}/design-system`.
 - i18n operativo con **next-intl** (PMB-006): rutas `/es` y `/en`, proxy de
-  negociación de locale, mensajes tipados. El copy real se extrae en PMB-009.
+  negociación de locale, mensajes tipados.
+- Todo el copy de la UI extraído a `messages/{es,en}.json` con traducción EN
+  completa (PMB-009); regla ESLint contra literales en JSX.
 - Layout raíz ensamblado (PMB-007): `<html lang>`, fuentes, skip-link,
   header/footer landmarks, `Providers`, `loading`/`error`/`not-found`, metadata
   y `viewport` base.
@@ -195,6 +197,28 @@ messages/{es,en}.json  catálogos (se llenan en PMB-009)
 - El `matcher` del proxy excluye `api`, `_next`, `_vercel` y archivos con
   extensión → no interfiere con `/public` ni las APIs.
 
+### Copy de la UI — `messages/{es,en}.json`
+
+Todo el texto visible de la interfaz vive aquí (el contenido de dominio —
+proyectos, casos… — va en `content/`, ver abajo).
+
+- **Namespace por sección**, en `PascalCase`: `Meta`, `A11y`, `Nav`,
+  `LocaleSwitcher`, `Hero`, `About`, `Testimonials`, `Services`, `Arsenal`,
+  `Cases`, `Projects`, `Footer`, `Loading`, `Error`, `Home`, `NotFound`.
+- **`es.json`**: texto verbatim del sitio, con tildes correctas.
+  **`en.json`**: traducción profesional (no literal), registro cercano de "tú".
+- **Cero literales en JSX**: la regla ESLint `react/jsx-no-literals`
+  (`app/**`, `components/**`; excluye `**/design-system/**`) bloquea cualquier
+  texto suelto. Todo pasa por `useTranslations` / `getTranslations`.
+- **Valores dinámicos**: sintaxis ICU con placeholders `{name}` — ej.
+  `Cases.counter` = `"{current} / {total}"`, `Footer.copyright` = `"© {year} …"`
+  (pasar `year` como **string** para que ICU no lo formatee como número).
+- **Ambos catálogos tienen las mismas claves**: `npm run messages:check`
+  (`scripts/check-messages.mjs`) hace el diff y falla si divergen.
+- **Añadir una clave**: agrégala en el namespace correspondiente en **ambos**
+  archivos; `messages:check` y el typecheck (`global.d.ts` deriva `Messages` de
+  `en.json`) lo verifican.
+
 ## Layout raíz y providers
 
 ### Anatomía
@@ -259,15 +283,16 @@ content/case-studies.ts  caseStudies: CaseStudy[]
 content/projects.ts      projects: Project[]
 content/tech-stack.ts    techStackRows: TechItem[][]  (2 filas, como el marquee legacy)
 content/navigation.ts    navItems: NavItem[]  (label vía messages Nav.<key>)
-content/services.ts      services: ServiceCard[]
+content/services.ts      services: ServiceCard[]  (title/desc vía messages Services.<key>)
 content/index.ts         barrel — `import { projects, pickLocale } from "@/content"`
 ```
 
 ### Contenido por idioma
 
 Los campos que difieren por locale son `Localized<T>` = `{ es: T; en: T }`:
-títulos y descripciones de casos y proyectos, `imageAlt`, `role` de testimonios,
-`title`/`desc` de servicios. Se resuelven con `pickLocale(value, locale)`.
+títulos y descripciones de casos y proyectos, `imageAlt`, `role` de testimonios.
+Se resuelven con `pickLocale(value, locale)`. Nav y servicios sólo guardan
+estructura (`key`, `index`, `icon`); su texto va en `messages/` (PMB-009).
 
 - Las **citas** de testimonios (`quote`) NO se traducen — se guardan verbatim en
   su idioma original.

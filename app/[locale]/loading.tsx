@@ -16,7 +16,7 @@ export default function Loading() {
       className="flex flex-1 items-center justify-center px-6 py-24"
     >
       <span className="text-text-muted animate-pulse font-mono text-xs tracking-wider uppercase">
-        {t("label")}…
+        {t("label")}
       </span>
     </div>
   );

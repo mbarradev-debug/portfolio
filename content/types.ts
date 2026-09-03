@@ -69,6 +69,9 @@ export interface ServiceCard {
   readonly index: string;
   /** Semantic icon key, mapped to an icon component in PMB-011. */
   readonly icon: string;
-  readonly title: Localized<string>;
-  readonly desc: Localized<string>;
+  /**
+   * i18n key: title/description are `Services.<key>.title` / `.desc` in
+   * `messages/` (marketing copy → PMB-009).
+   */
+  readonly key: string;
 }
