@@ -30,6 +30,9 @@ todo el equipo.
   negociación de locale, mensajes tipados.
 - Todo el copy de la UI extraído a `messages/{es,en}.json` con traducción EN
   completa (PMB-009); regla ESLint contra literales en JSX.
+- Primitivos de UI tipados en `components/ui/` (PMB-010): `Button`,
+  `PillButton`, `CircleArrow`, `Badge`, `Tag`, `SectionHeading`, set de `Icon`s.
+  Verificación visual en `/[locale]/dev`.
 - Layout raíz ensamblado (PMB-007): `<html lang>`, fuentes, skip-link,
   header/footer landmarks, `Providers`, `loading`/`error`/`not-found`, metadata
   y `viewport` base.
@@ -386,6 +389,32 @@ Familias (self-hosted vía `next/font`, fallbacks del sitio legacy):
 la capa 3. Para activarlo: descomentar, ajustar valores y cambiar `color-scheme`
 a `light dark`.
 
+## Primitivos de UI
+
+Piezas reutilizables en `components/ui/` (`import { Button, Tag } from
+"@/components/ui"`). Estilos con **CSS Modules** (`*.module.css`) usando
+**exclusivamente tokens** de PMB-005 (`var(--…)`); las únicas medidas literales
+son diámetros de controles (44/52 px), para los que no hay escala de tokens.
+Todos exportan su tipo `Props`; sin `any`; `ref` como prop (React 19, sin
+`forwardRef`).
+
+| Primitivo        | Para qué                                                                                                                                                                                                                                                                |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`         | Botón/enlace polimórfico (`as="a"`). Variantes `dark` / `light` / `outline` / `link`, tamaños `sm` / `md`. Feedback `:active` (escala), hover con `@media (hover: hover)`.                                                                                              |
+| `PillButton`     | CTA compuesto: pastilla oscura + `CircleArrow` que rota 45° al hacer hover del control.                                                                                                                                                                                 |
+| `CircleArrow`    | El círculo verde con flecha (`sm` / `md` / `lg`); acepta otro `icon`.                                                                                                                                                                                                   |
+| `Badge`          | Eyebrow con punto de acento. `tone="inverse"` para secciones oscuras.                                                                                                                                                                                                   |
+| `Tag`            | Chip de tecnología. `tone="inverse"` para fondos oscuros.                                                                                                                                                                                                               |
+| `SectionHeading` | Eyebrow + título (+ subtítulo). `as` = `h1..h3`; `variant="ghost"` = título grande y desvaído.                                                                                                                                                                          |
+| `Icon` (set)     | SVGs de la referencia como componentes (`ArrowRightIcon`, `MenuIcon`, `FrontendIcon`, `GithubIcon`, …). **Decorativos por defecto**: `aria-hidden` + `focusable="false"`; se sobreescribe si el icono aporta significado. Tamaño = `font-size`, color = `currentColor`. |
+
+### Ruta de verificación: `/[locale]/dev`
+
+**Decisión: ruta de app, no Storybook.** Renderiza cada primitivo con sus
+variantes y estados (hover, `:active`, foco, disabled) usando el runtime real y
+los tokens ya cargados — sin dependencia ni build extra que mantener. `noindex`,
+igual que `/[locale]/design-system`.
+
 ## Estructura de carpetas objetivo
 
 ```
@@ -402,6 +431,7 @@ messages/            Catálogos de traducción por idioma (es.json, en.json)
 components/
   Providers.tsx      Árbol de providers cliente
   layout/            SiteHeader, SiteFooter
+  ui/                Primitivos tipados + CSS Modules (ver "Primitivos de UI")
 content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
 lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
 public/              Assets estáticos servidos desde "/"

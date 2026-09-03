@@ -13,6 +13,22 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Allow `_`-prefixed identifiers to be intentionally unused (e.g. discarding a
+  // prop while spreading the rest).
+  {
+    name: "portfolio/unused-vars-underscore",
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
+    },
+  },
   // `process.env` may only be read in `env.ts` (which validates it) and in
   // `next.config.ts` (build-time `NODE_ENV`, owned by Next before `env` is
   // populated). Everywhere else, import the typed `env` from `@/env`.
@@ -37,9 +53,9 @@ const eslintConfig = defineConfig([
   {
     name: "portfolio/no-jsx-literals",
     files: ["app/**/*.tsx", "components/**/*.tsx"],
-    // The design-system page is an internal (noindex) token reference full of
-    // technical identifiers, not product copy.
-    ignores: ["**/design-system/**"],
+    // The design-system and dev pages are internal (noindex) references full of
+    // technical labels, not product copy.
+    ignores: ["**/design-system/**", "**/dev/**"],
     rules: {
       "react/jsx-no-literals": [
         "error",
