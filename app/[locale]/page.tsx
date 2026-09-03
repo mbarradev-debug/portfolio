@@ -5,6 +5,7 @@ import {
   HeroSection,
   ProjectsSection,
   ServicesSection,
+  TestimonialsSection,
 } from "@/components/sections";
 import { initLocale } from "@/i18n/locale";
 
@@ -21,6 +22,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
     <>
       <HeroSection />
       <AboutSection />
+      <TestimonialsSection />
       <ServicesSection />
       <ArsenalSection />
       <CaseStudiesSection />

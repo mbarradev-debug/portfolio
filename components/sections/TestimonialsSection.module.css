@@ -1,0 +1,17 @@
+/* Tokens only (PMB-005). Teal band between About and Services. */
+.testimonials {
+  background: var(--color-surface-inverse-soft);
+  padding: var(--space-2xl) var(--space-md);
+  color: var(--color-text-inverse);
+}
+
+.inner {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+@media (max-width: 760px) {
+  .testimonials {
+    padding: var(--space-xl) var(--space-sm);
+  }
+}

@@ -40,7 +40,9 @@ todo el equipo.
   proyectos, tech stack, nav, servicios — migrados del `index.html` legacy.
 - Primitivos de UI (PMB-010), **home portada** (PMB-011) y **hojas Client de
   interactividad** (PMB-012): `MobileNav`, `HeroVideo`, `Reveal`/`HeroReveal`.
-  Falta: sliders de testimonios y casos (PMB-013/14).
+- Sección de testimonios (PMB-013): `TestimonialsSection` (Server) +
+  `TestimonialsSlider` (Client hoja) — rotación, dots, autoplay, crossfade;
+  listo para 1 o N testimonios. Falta: carrusel de casos (PMB-014).
 
 ## Arquitectura objetivo
 
@@ -438,6 +440,8 @@ app/[locale]/layout.tsx  (Server)
         <HeroVideo/>        ← CLIENT hoja — <video> lazy (0.55x, fade sobre poster)
         <HeroReveal>        ← CLIENT hoja — fade del contenido al cargar (rAF)
       <AboutSection>       id=about   · next/image, t.rich heading   →  <Reveal>
+      <TestimonialsSection> id=testimonios · fondo teal, <h2 sr-only>  →  <Reveal>
+        <TestimonialsSlider/> ← CLIENT hoja — <blockquote> rotatorio, dots, autoplay 6s
       <ServicesSection>    id=servicios · 3 cards desde content       →  <Reveal> (stagger)
       <ArsenalSection>     id=arsenal · marquee CSS + <ul.sr-only>
       <CaseStudiesSection> id=casos   · card estática (carrusel → PMB-014)  →  <Reveal>
@@ -458,6 +462,32 @@ app/[locale]/layout.tsx  (Server)
 - **Progressive enhancement**: el script inline añade `js` a `<html>` antes del
   paint. El CSS oculta un `Reveal` **solo** bajo `html.js` y antes de `.in`
   → **sin JS todo es visible**. `prefers-reduced-motion` → sin movimiento.
+
+### TestimonialsSlider (PMB-013)
+
+Hoja Client (`components/sections/TestimonialsSlider.tsx`). El padre
+`TestimonialsSection` (Server) resuelve el contenido para el locale activo
+(`pickLocale` de `content/testimonials`) y le pasa por props:
+
+| Prop          | Tipo                                      | Qué                                     |
+| ------------- | ----------------------------------------- | --------------------------------------- |
+| `items`       | `{ quote; name; role }[]` (ya localizado) | Una recomendación por entrada.          |
+| `linkedinUrl` | `string`                                  | URL absoluta del CTA "Ver en LinkedIn". |
+
+Los textos de UI (`selectLabel`, `dotLabel`, `viewOnLinkedin`, `source`) los lee
+la propia hoja con `useTranslations("Testimonials")`.
+
+- **1 testimonio**: se muestra la cita, los dots van `hidden` y **no hay
+  autoplay** ni maquinaria de crossfade.
+- **N testimonios**: dots (uno por testimonio, `≥44px` de área táctil,
+  `aria-current` en el activo, `role="group"` + `aria-label`), autoplay cada 6s
+  que **se reinicia al interactuar** (estado `interactions` en las deps del
+  efecto), y crossfade del `<blockquote>` (`opacity` vía clase `.fading`).
+- **Sin colas**: `index` es el destino único; `visibleIndex` sólo lo alcanza
+  cuando la cita saliente ya se desvaneció, así el texto nunca queda a medias
+  aunque se cambie rápido. El `setTimeout` del swap se cancela en cada cambio.
+- **`prefers-reduced-motion`**: swap instantáneo (sin retardo ni transición; la
+  media query anula `transition` y el efecto salta el `setTimeout`).
 
 ### Convenciones de las secciones
 
@@ -489,7 +519,7 @@ components/
   Providers.tsx      Árbol de providers cliente
   layout/            SiteHeader, SiteFooter (Server) · LanguageSwitcher, MobileNav (Client)
   ui/                Primitivos tipados + CSS Modules (ver "Primitivos de UI")
-  sections/          Secciones Server de la home + HeroVideo (Client)
+  sections/          Secciones Server de la home + hojas Client (HeroVideo, TestimonialsSlider)
   motion/            Reveal, HeroReveal (Client hojas — ver "Motion")
 content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
 lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente

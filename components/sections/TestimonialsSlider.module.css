@@ -1,0 +1,128 @@
+/* Tokens only (PMB-005). Sits on the teal section background from
+   TestimonialsSection — every colour here is the inverse (on-dark) scale. */
+
+.slider {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-2xl);
+}
+
+.dots {
+  display: flex;
+  gap: var(--space-3xs);
+}
+.dots[hidden] {
+  display: none;
+}
+
+/* 44×44 hit area; the visible bar is drawn inside the vertical padding via
+   background-clip. 44px is the documented control-size literal (PMB-010). */
+.dot {
+  width: 44px;
+  height: 44px;
+  padding: 20px 0;
+  border: 0;
+  border-radius: var(--radius-chip);
+  background-color: color-mix(in srgb, var(--color-text-inverse) 40%, transparent);
+  background-clip: content-box;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-transition) var(--ease-standard),
+    transform var(--duration-press) var(--ease-standard);
+}
+.dot:active {
+  transform: scale(0.92);
+}
+.dot.active {
+  background-color: var(--color-text-inverse);
+}
+
+.cta {
+  margin-left: auto;
+  padding-bottom: 0.1875rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-inverse) 30%, transparent);
+  color: color-mix(in srgb, var(--color-text-inverse) 85%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--duration-transition) var(--ease-standard);
+}
+.cta:hover {
+  color: var(--color-text-inverse);
+}
+
+.figure {
+  margin: 0;
+  transition: opacity var(--duration-transition) var(--ease-standard);
+}
+.figure.fading {
+  opacity: 0;
+}
+
+.quote {
+  max-width: var(--measure);
+  margin: 0;
+  color: var(--color-text-inverse);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: var(--leading-relaxed);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.avatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-surface-inverse-soft);
+  font-size: var(--text-lg);
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+}
+.name {
+  color: var(--color-text-inverse);
+  font-weight: 600;
+}
+.role {
+  color: color-mix(in srgb, var(--color-text-inverse) 82%, transparent);
+  font-size: var(--text-sm);
+}
+.source {
+  margin-top: var(--space-3xs);
+  color: color-mix(in srgb, var(--color-text-inverse) 66%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure {
+    transition: none;
+  }
+  .dot {
+    transition: none;
+  }
+}
