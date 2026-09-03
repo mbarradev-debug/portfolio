@@ -1,0 +1,71 @@
+/* Tokens only (PMB-005). 3 columns → 1 at ≤900px with compact cards. */
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 26rem;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.green {
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+}
+.dark {
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+.gray {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-on-accent);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.icon {
+  font-size: 2.75rem;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+}
+
+.title {
+  margin-bottom: var(--space-xs);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+}
+
+.desc {
+  max-width: 18rem;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+@media (max-width: 900px) {
+  .services {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    min-height: 0;
+    justify-content: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-md);
+  }
+  .desc {
+    max-width: none;
+  }
+}

@@ -34,12 +34,14 @@ todo el equipo.
   `PillButton`, `CircleArrow`, `Badge`, `Tag`, `SectionHeading`, set de `Icon`s.
   Verificación visual en `/[locale]/dev`.
 - Layout raíz ensamblado (PMB-007): `<html lang>`, fuentes, skip-link,
-  header/footer landmarks, `Providers`, `loading`/`error`/`not-found`, metadata
-  y `viewport` base.
+  header/footer landmarks, `Providers`, `error`/`not-found`, metadata y
+  `viewport` base.
 - Capa de contenido tipada en `content/` (PMB-008): testimonios, casos,
   proyectos, tech stack, nav, servicios — migrados del `index.html` legacy.
-- La home y el header/footer son placeholders mínimos; la UI real se reconstruye
-  desde PMB-011.
+- Primitivos de UI (PMB-010) y **home portada** (PMB-011): Header con nav +
+  `LanguageSwitcher`, secciones Server (Hero, About, Services, Arsenal,
+  CaseStudies, Projects). Falta: componentes Client de PMB-012 (vídeo del hero,
+  MobileMenu, reveal-on-scroll), sliders (PMB-013/14).
 
 ## Arquitectura objetivo
 
@@ -253,15 +255,19 @@ anida **aquí dentro**, sin tocar el layout.
 
 | Archivo                      | Qué                                                                                                        |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `app/[locale]/loading.tsx`   | Fallback de Suspense (Client, `useTranslations`). Se muestra en navegaciones lentas.                       |
 | `app/[locale]/error.tsx`     | Error boundary del segmento (Client). Props `{ error, retry }` (Next 16 — no `reset`). Botón de reintento. |
 | `app/[locale]/not-found.tsx` | 404 localizado **con chrome**, para `notFound()` explícito desde páginas (con contexto de locale).         |
 | `app/not-found.tsx`          | 404 global (documento propio, sin chrome, en `es`). Cubre URLs totalmente sin ruta, incl. `/xx/typo`.      |
 
+> **Sin `loading.tsx` en la raíz de `[locale]`**: un `loading.tsx` de segmento
+> mete la página tras un Suspense, y con contenido async (las secciones RSC de
+> la home) Next serializa el shell con el fallback incluso en SSG. Un sitio
+> estático no lo quiere. Cuando una ruta futura haga fetch lento, añade su
+> `loading.tsx` acotado a ese segmento.
+
 > **Límite conocido**: una URL sin ruta bajo un locale válido (`/en/typo`) cae en
-> el 404 global (en `es`), no en el localizado con chrome. Un catch-all
-> `[locale]/[...rest]` lo arreglaría pero flashea `loading.tsx` en SSR sin JS y
-> devuelve 200 en vez de 404. Se revisa si molesta (o con PPR más adelante).
+> el 404 global (en `es`), no en el localizado con chrome. Se revisa con PPR más
+> adelante.
 
 ### Metadata / viewport (base)
 
@@ -415,6 +421,39 @@ variantes y estados (hover, `:active`, foco, disabled) usando el runtime real y
 los tokens ya cargados — sin dependencia ni build extra que mantener. `noindex`,
 igual que `/[locale]/design-system`.
 
+## Árbol de la home
+
+Todo la home es **Server Component**. El único Client es `LanguageSwitcher`.
+
+```
+app/[locale]/layout.tsx  (Server)
+  <SiteHeader>            (Server)  — headerNav + Button "Contacto"
+    <LanguageSwitcher/>   (CLIENT)  — cambia /es ↔ /en preservando ruta + ancla
+    <button burger>       (Server, inerte — lo activa PMB-012)
+  <main>
+    app/[locale]/page.tsx (Server) — ensambla en orden:
+      <HeroSection>        id=hero-title · slot <video> → PMB-012
+      <AboutSection>       id=about   · next/image, PillButton/Button, t.rich heading
+      <ServicesSection>    id=servicios · 3 cards desde content/services + Icon set
+      <ArsenalSection>     id=arsenal · marquee CSS (pausa hover) + <ul.sr-only> real
+      <CaseStudiesSection> id=casos   · card estática · carrusel → PMB-014
+      <ProjectsSection>    id=proyectos · filas-enlace desde content/projects
+  <SiteFooter>           (Server)
+```
+
+### Convenciones de las secciones
+
+- Componente Server `export function XSection()` en `components/sections/`, un
+  `*.module.css` por sección, **solo tokens** (`var(--…)`).
+- `<section id="…" aria-labelledby="…-title">`; un `<h2 id="…-title">` por
+  sección; `<h3>` para tarjetas/filas.
+- Texto: `getTranslations("<Namespace>")`. Datos: `content/`. Locale para
+  `pickLocale`: `getLocale()`.
+- El header es `position: fixed`; `main` lleva `padding-top: var(--header-height)`
+  y el `HeroSection` lo contrarresta con `margin-top` negativo para quedar detrás.
+- Media queries 1:1 con la referencia: burger a ≤900px, servicios 3→1 a ≤900px,
+  hero anclado abajo a ≤900px, header sin Contacto/idioma a ≤760px.
+
 ## Estructura de carpetas objetivo
 
 ```
@@ -430,8 +469,9 @@ proxy.ts             Middleware de i18n (negociación de locale)
 messages/            Catálogos de traducción por idioma (es.json, en.json)
 components/
   Providers.tsx      Árbol de providers cliente
-  layout/            SiteHeader, SiteFooter
+  layout/            SiteHeader, SiteFooter, LanguageSwitcher (Client)
   ui/                Primitivos tipados + CSS Modules (ver "Primitivos de UI")
+  sections/          Secciones Server de la home (ver "Árbol de la home")
 content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
 lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
 public/              Assets estáticos servidos desde "/"

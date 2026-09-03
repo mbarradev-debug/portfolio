@@ -1,21 +1,54 @@
 import { getTranslations } from "next-intl/server";
 
+import { Button, MenuIcon } from "@/components/ui";
+import { headerNav } from "@/content";
 import { Link } from "@/i18n/navigation";
 
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import styles from "./SiteHeader.module.css";
+
 /**
- * Global banner. Intentionally minimal — the real navigation is built in
- * PMB-011. It exists here so every page gets the `<header>` landmark (outside
- * `<main>`) from the start.
+ * Fixed site header: wordmark, section nav, Contacto CTA, the (Client)
+ * `LanguageSwitcher` and a burger.
+ *
+ * The burger's menu is wired in PMB-012 (`MobileMenu`); here it's rendered with
+ * the right ARIA hooks (`aria-controls` / `aria-expanded`) but inert.
  */
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
 
   return (
-    <header className="border-border border-b">
-      <div className="max-w-page mx-auto flex w-full items-center justify-between px-6 py-4">
-        <Link href="/" className="font-serif text-lg tracking-tight">
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <Link href="/" className={styles.logo}>
           {t("logo")}
         </Link>
+
+        <nav className={styles.nav} aria-label={t("label")}>
+          {headerNav.map((item) => (
+            <Link key={item.key} href={`/${item.href}`} className={styles.navLink}>
+              {t(item.key)}
+            </Link>
+          ))}
+        </nav>
+
+        <div className={styles.right}>
+          <Button as="a" href="/#contacto" variant="dark" size="sm" className={styles.contact}>
+            {t("contact")}
+          </Button>
+          <span className={styles.switcher}>
+            <LanguageSwitcher />
+          </span>
+          <button
+            type="button"
+            className={styles.burger}
+            aria-label={t("openMenu")}
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+          >
+            <MenuIcon />
+          </button>
+        </div>
       </div>
     </header>
   );

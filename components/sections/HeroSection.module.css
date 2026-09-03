@@ -1,0 +1,135 @@
+/* Full-viewport hero. Atmosphere gradients derived from tokens via color-mix
+   (they're lighting, not palette). The <video> is a slot filled in PMB-012. */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  margin-top: calc(-1 * var(--header-height));
+  overflow: hidden;
+  padding: calc(var(--header-height) + var(--space-2xl)) var(--space-md) var(--space-2xl);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(
+      circle at 18% 20%,
+      color-mix(in srgb, var(--color-text-inverse) 50%, transparent),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      color-mix(in srgb, var(--color-text-muted) 40%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      155deg,
+      var(--color-hero-from),
+      var(--color-hero-to) 60%,
+      color-mix(in srgb, var(--color-hero-to) 82%, black)
+    );
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-text) 30%, transparent),
+      color-mix(in srgb, var(--color-text) 6%, transparent) 58%,
+      transparent
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-text) 28%, transparent),
+      color-mix(in srgb, var(--color-text) 36%, transparent) 45%,
+      color-mix(in srgb, var(--color-text) 54%, transparent)
+    );
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+.title {
+  margin-top: var(--space-lg);
+  color: var(--color-text-inverse);
+  font-family: var(--font-sans);
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: var(--tracking-tighter);
+  text-wrap: balance;
+  text-shadow: 0 2px 30px color-mix(in srgb, var(--color-text) 22%, transparent);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: auto;
+  padding-top: var(--space-2xl);
+}
+
+.subtitle {
+  max-width: 40rem;
+  color: var(--color-text-inverse);
+  font-size: var(--text-md);
+  font-weight: 500;
+  line-height: 1.55;
+  text-shadow: 0 1px 18px color-mix(in srgb, var(--color-text) 28%, transparent);
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    justify-content: flex-end;
+  }
+  .content {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: var(--space-lg);
+  }
+  .title {
+    margin-top: 0;
+    line-height: 1.1;
+  }
+  .bottom {
+    margin-top: 0;
+    padding-top: 0;
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-sm) var(--space-lg);
+  }
+  .content {
+    gap: var(--space-md);
+  }
+  .bottom {
+    gap: var(--space-sm);
+  }
+}

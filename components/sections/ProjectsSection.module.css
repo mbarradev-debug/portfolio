@@ -1,0 +1,111 @@
+/* Tokens only (PMB-005). Dark section. */
+.projects {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-inverse);
+  padding: var(--space-4xl) var(--space-md) var(--space-2xl);
+  color: var(--color-text-inverse);
+}
+
+.wrap {
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+.ghost {
+  margin-top: var(--space-2xs);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--text-3xl);
+  color: color-mix(in srgb, var(--color-text-inverse) 14%, transparent);
+}
+
+.list {
+  max-width: var(--page-width);
+  margin: var(--space-2xl) auto 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-text-inverse) 12%, transparent);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 4.375rem 1fr auto;
+  align-items: center;
+  gap: var(--space-lg);
+  padding-block: var(--space-lg);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-inverse) 12%, transparent);
+  color: var(--color-text-inverse);
+  text-decoration: none;
+  transition: transform var(--duration-transition) var(--ease-standard);
+}
+.row:active {
+  transform: translateX(0.375rem);
+}
+
+.year {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: color-mix(in srgb, var(--color-text-inverse) 62%, transparent);
+}
+
+.name {
+  margin-bottom: var(--space-2xs);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  transition: color var(--duration-transition) var(--ease-standard);
+}
+.ext {
+  margin-left: var(--space-3xs);
+  color: var(--color-accent);
+}
+
+.summary {
+  max-width: 35rem;
+  color: color-mix(in srgb, var(--color-text-inverse) 66%, transparent);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2xs);
+  max-width: 18rem;
+}
+
+@media (hover: hover) {
+  .row:hover {
+    transform: translateX(0.875rem);
+  }
+  .row:hover .name {
+    color: var(--color-accent);
+  }
+}
+
+@media (max-width: 760px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xs);
+  }
+  .tags {
+    justify-content: flex-start;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .name {
+    transition: none;
+  }
+  .row:active {
+    transform: none;
+  }
+  @media (hover: hover) {
+    .row:hover {
+      transform: none;
+    }
+  }
+}

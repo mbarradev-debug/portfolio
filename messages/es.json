@@ -34,12 +34,11 @@
   "About": {
     "badge": "Miguel Barra",
     "photoAlt": "Retrato de Miguel Barra, Full Stack Developer",
-    "heading": "Integro frontend, backend e infraestructura",
     "body": "Soy Full Stack Developer con más de 2 años entregando software para los sectores público y privado: un SaaS para digitalizar trámites municipales, la modernización de la Sucursal Virtual de una Isapre de Codelco y herramientas propias para el mercado chileno. Trabajo con React, Next.js y TypeScript, y me muevo con soltura en todo el stack: base de datos, APIs, autenticación e infraestructura.",
     "talk": "Hablemos",
     "downloadCv": "Descarga mi CV",
     "readTestimonials": "Lee las recomendaciones",
-    "headingMuted": "para entregar productos completos que funcionan de punta a punta."
+    "headingRich": "Integro frontend, backend e infraestructura <muted>para entregar productos completos que funcionan de punta a punta.</muted>"
   },
   "Testimonials": {
     "heading": "Recomendaciones",
@@ -89,21 +88,11 @@
     "backToTop": "Volver arriba",
     "copyright": "© {year} Miguel Barra. Todos los derechos reservados."
   },
-  "Loading": {
-    "label": "Cargando…"
-  },
   "Error": {
     "eyebrow": "Error",
     "title": "Algo salió mal",
     "body": "Ha ocurrido un error inesperado. Puedes intentarlo de nuevo.",
     "retry": "Reintentar"
-  },
-  "Home": {
-    "eyebrow": "Portfolio · Miguel Barra",
-    "title": "Construyo productos full stack y los llevo a producción.",
-    "body": "Sitio en reconstrucción. El sistema de diseño ya está definido — revisa los tokens en la página de referencia.",
-    "cta": "Ver design system",
-    "latestProject": "{name} · {year} — {summary}"
   },
   "NotFound": {
     "eyebrow": "404",
