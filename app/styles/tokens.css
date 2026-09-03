@@ -46,7 +46,6 @@
   /* Typeface families — self-hosted via next/font (see app/layout.tsx).
      Fallback stacks match the legacy site. */
   --font-sans: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
   --font-mono: var(--font-jetbrains), "Courier New", monospace;
 
   /* ─── 2. Scales ──────────────────────────────────────────────────────── */

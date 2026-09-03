@@ -18,7 +18,9 @@ export default async function NotFound() {
     <section className="flex flex-1 flex-col justify-center px-6 py-24">
       <div className="max-w-measure mx-auto flex w-full flex-col gap-6">
         <p className="text-text-muted font-mono text-xs tracking-wider uppercase">{t("eyebrow")}</p>
-        <h1 className="text-text font-serif text-3xl leading-tight tracking-tight">{t("title")}</h1>
+        <h1 className="text-text text-3xl leading-tight font-semibold tracking-tight">
+          {t("title")}
+        </h1>
         <p className="text-text-soft text-md max-w-prose">{t("body")}</p>
         <Link
           href="/"

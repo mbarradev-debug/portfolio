@@ -23,7 +23,9 @@ export default function GlobalNotFound() {
     <html lang={routing.defaultLocale}>
       <body className="text-text bg-bg flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
         <p className="text-text-muted font-mono text-xs tracking-wider uppercase">{t.eyebrow}</p>
-        <h1 className="font-serif text-3xl leading-tight tracking-tight">{t.title}</h1>
+        {/* This document doesn't load the `next/font` families (see note above),
+            so this heading uses the system UI sans. */}
+        <h1 className="text-3xl leading-tight font-semibold tracking-tight">{t.title}</h1>
         <p className="text-text-soft text-md max-w-prose">{t.body}</p>
         <Link
           href={`/${routing.defaultLocale}`}

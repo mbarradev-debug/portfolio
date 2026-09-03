@@ -112,7 +112,7 @@ export default async function DesignSystemPage({ params }: PageProps<"/[locale]/
         <p className="text-text-muted font-mono text-xs tracking-wider uppercase">
           Portfolio · PMB-005
         </p>
-        <h1 className="font-serif text-3xl leading-tight tracking-tight">Design system</h1>
+        <h1 className="text-3xl leading-tight font-semibold tracking-tight">Design system</h1>
         <p className="text-md text-text-soft max-w-prose">
           Referencia viva de los design tokens. Ningún valor de esta página está escrito a mano:
           todo se lee de una variable CSS definida en{" "}
@@ -123,15 +123,9 @@ export default async function DesignSystemPage({ params }: PageProps<"/[locale]/
       <Section title="Tipografías">
         <div className="flex flex-col gap-6">
           <p className="font-sans text-xl">
-            Sans · Plus Jakarta Sans — cuerpo, UI y titulares
+            Sans · Plus Jakarta Sans — cuerpo, UI, titulares y wordmark
             <span className="text-text-muted block text-sm">
               The quick brown fox jumps over the lazy dog · 0123456789
-            </span>
-          </p>
-          <p className="font-serif text-xl italic">
-            Serif · Playfair Display italic — acentos decorativos
-            <span className="text-text-muted block text-sm not-italic">
-              The quick brown fox jumps over the lazy dog
             </span>
           </p>
           <p className="font-mono text-xl">

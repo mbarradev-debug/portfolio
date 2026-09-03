@@ -15,7 +15,8 @@
 
 .title {
   color: var(--color-text);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-size: var(--text-2xl);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
