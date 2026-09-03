@@ -107,10 +107,15 @@ main {
   padding-top: var(--header-height);
 }
 
+/* Keyboard focus ring. Two-tone (ink outline + paper halo) so at least one layer
+   keeps ≥ 3:1 contrast on every surface — cream, white, teal and teal-dark
+   (DBO-1227). The `box-shadow` fills the offset gap; the `outline` is never
+   clipped and follows the element's own radius. */
 :focus-visible {
-  outline: 2px solid var(--color-accent-strong);
+  outline: 2px solid var(--color-text);
   outline-offset: 2px;
-  border-radius: 2px;
+  box-shadow: 0 0 0 4px var(--color-text-inverse);
+  border-radius: 3px;
 }
 
 /* Keyboard skip-link: off-screen until focused. */

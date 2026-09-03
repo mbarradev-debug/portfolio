@@ -471,6 +471,15 @@ sans de sistema (`"Helvetica Neue", Arial`).
 | `--ease-standard`                    | `--ease-out`            | Curva estándar                  |
 | `--duration-press/transition/reveal` | `--dur-fast/mid/reveal` | Feedback / transición / reveal  |
 
+### Foco de teclado
+
+`:focus-visible` en `globals.css` es un **anillo de dos tonos**: `outline` de
+`--color-text` (ink) + `box-shadow` de `--color-text-inverse` (paper) rellenando
+el `outline-offset`. Así al menos una capa mantiene ≥ 3:1 de contraste en cualquier
+superficie — cream, white, teal y teal-dark — sin overrides por sección (DBO-1227).
+El verde `--color-accent-strong` **no** vale como color de foco (1.7:1 sobre claro).
+Los componentes **no** deben hacer `outline: none` sin sustituto visible.
+
 ### Dark mode
 
 `color-scheme: light` declarado. La estructura está preparada: hay un bloque
