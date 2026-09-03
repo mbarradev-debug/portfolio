@@ -38,10 +38,9 @@ todo el equipo.
   `viewport` base.
 - Capa de contenido tipada en `content/` (PMB-008): testimonios, casos,
   proyectos, tech stack, nav, servicios — migrados del `index.html` legacy.
-- Primitivos de UI (PMB-010) y **home portada** (PMB-011): Header con nav +
-  `LanguageSwitcher`, secciones Server (Hero, About, Services, Arsenal,
-  CaseStudies, Projects). Falta: componentes Client de PMB-012 (vídeo del hero,
-  MobileMenu, reveal-on-scroll), sliders (PMB-013/14).
+- Primitivos de UI (PMB-010), **home portada** (PMB-011) y **hojas Client de
+  interactividad** (PMB-012): `MobileNav`, `HeroVideo`, `Reveal`/`HeroReveal`.
+  Falta: sliders de testimonios y casos (PMB-013/14).
 
 ## Arquitectura objetivo
 
@@ -421,25 +420,44 @@ variantes y estados (hover, `:active`, foco, disabled) usando el runtime real y
 los tokens ya cargados — sin dependencia ni build extra que mantener. `noindex`,
 igual que `/[locale]/design-system`.
 
-## Árbol de la home
+## Árbol de la home · patrón Server padre / Client hoja
 
-Todo la home es **Server Component**. El único Client es `LanguageSwitcher`.
+La home entera es **Server Component**. La interactividad son **hojas Client**,
+lo más abajo posible del árbol: los Server padres pasan datos/labels por props y
+la hoja Client sólo hace la parte que necesita el navegador.
 
 ```
 app/[locale]/layout.tsx  (Server)
-  <SiteHeader>            (Server)  — headerNav + Button "Contacto"
-    <LanguageSwitcher/>   (CLIENT)  — cambia /es ↔ /en preservando ruta + ancla
-    <button burger>       (Server, inerte — lo activa PMB-012)
+  <script>html.classList.add('js')</script>   — antes del primer paint
+  <SiteHeader>            (Server)
+    <LanguageSwitcher/>    ← CLIENT hoja — cambia /es ↔ /en preservando ruta + ancla
+    <MobileNav/>           ← CLIENT hoja — burger + dialog modal (portal a <body>)
   <main>
-    app/[locale]/page.tsx (Server) — ensambla en orden:
-      <HeroSection>        id=hero-title · slot <video> → PMB-012
-      <AboutSection>       id=about   · next/image, PillButton/Button, t.rich heading
-      <ServicesSection>    id=servicios · 3 cards desde content/services + Icon set
-      <ArsenalSection>     id=arsenal · marquee CSS (pausa hover) + <ul.sr-only> real
-      <CaseStudiesSection> id=casos   · card estática · carrusel → PMB-014
-      <ProjectsSection>    id=proyectos · filas-enlace desde content/projects
+    app/[locale]/page.tsx (Server):
+      <HeroSection>        id=hero-title
+        <HeroVideo/>        ← CLIENT hoja — <video> lazy (0.55x, fade sobre poster)
+        <HeroReveal>        ← CLIENT hoja — fade del contenido al cargar (rAF)
+      <AboutSection>       id=about   · next/image, t.rich heading   →  <Reveal>
+      <ServicesSection>    id=servicios · 3 cards desde content       →  <Reveal> (stagger)
+      <ArsenalSection>     id=arsenal · marquee CSS + <ul.sr-only>
+      <CaseStudiesSection> id=casos   · card estática (carrusel → PMB-014)  →  <Reveal>
+      <ProjectsSection>    id=proyectos · filas-enlace                →  <Reveal> (stagger)
   <SiteFooter>           (Server)
 ```
+
+### Motion (PMB-012)
+
+- **`Reveal`** (`components/motion/`): wrapper Client. Fade + `translateY` al
+  entrar en viewport (`IntersectionObserver`, `rootMargin` inferior negativo),
+  stagger automático entre `[data-reveal]` hermanos. El hero se **excluye**.
+- **`HeroReveal`**: fade del contenido del hero **al cargar** (rAF + red de
+  seguridad `setTimeout`), nunca ligado al scroll.
+- **`HeroVideo`**: descarga y reproduce el vídeo **solo si conviene** — sin
+  `prefers-reduced-motion`, sin `saveData`, viewport `≥ 761px`. Si no, queda el
+  poster. `playbackRate = 0.55`; fade-in con fallback 2.5s.
+- **Progressive enhancement**: el script inline añade `js` a `<html>` antes del
+  paint. El CSS oculta un `Reveal` **solo** bajo `html.js` y antes de `.in`
+  → **sin JS todo es visible**. `prefers-reduced-motion` → sin movimiento.
 
 ### Convenciones de las secciones
 
@@ -469,9 +487,10 @@ proxy.ts             Middleware de i18n (negociación de locale)
 messages/            Catálogos de traducción por idioma (es.json, en.json)
 components/
   Providers.tsx      Árbol de providers cliente
-  layout/            SiteHeader, SiteFooter, LanguageSwitcher (Client)
+  layout/            SiteHeader, SiteFooter (Server) · LanguageSwitcher, MobileNav (Client)
   ui/                Primitivos tipados + CSS Modules (ver "Primitivos de UI")
-  sections/          Secciones Server de la home (ver "Árbol de la home")
+  sections/          Secciones Server de la home + HeroVideo (Client)
+  motion/            Reveal, HeroReveal (Client hojas — ver "Motion")
 content/             Contenido del sitio como datos tipados (ver "Capa de contenido")
 lib/                 Utilidades puras, helpers de datos, config compartida      ← pendiente
 public/              Assets estáticos servidos desde "/"

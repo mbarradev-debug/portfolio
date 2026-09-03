@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { ArrowUpRightIcon, Badge, Tag } from "@/components/ui";
 import { pickLocale, projects } from "@/content";
 
@@ -22,30 +23,31 @@ export async function ProjectsSection() {
         {projects.map((project) => {
           const summary = pickLocale(project.desc, locale).split(".")[0];
           return (
-            <a
-              key={project.name}
-              className={styles.row}
-              href={project.url}
-              target="_blank"
-              rel="noopener"
-              aria-label={t("openExternal", { name: project.name })}
-            >
-              <div className={styles.year}>{project.year}</div>
-              <div>
-                <h3 className={styles.name}>
-                  {project.name}
-                  <ArrowUpRightIcon className={styles.ext} />
-                </h3>
-                <p className={styles.summary}>{summary}</p>
-              </div>
-              <div className={styles.tags}>
-                {project.tags.map((tag) => (
-                  <Tag key={tag} tone="inverse">
-                    {tag}
-                  </Tag>
-                ))}
-              </div>
-            </a>
+            <Reveal key={project.name}>
+              <a
+                className={styles.row}
+                href={project.url}
+                target="_blank"
+                rel="noopener"
+                aria-label={t("openExternal", { name: project.name })}
+              >
+                <div className={styles.year}>{project.year}</div>
+                <div>
+                  <h3 className={styles.name}>
+                    {project.name}
+                    <ArrowUpRightIcon className={styles.ext} />
+                  </h3>
+                  <p className={styles.summary}>{summary}</p>
+                </div>
+                <div className={styles.tags}>
+                  {project.tags.map((tag) => (
+                    <Tag key={tag} tone="inverse">
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
+              </a>
+            </Reveal>
           );
         })}
       </div>

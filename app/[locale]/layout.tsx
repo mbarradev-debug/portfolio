@@ -84,6 +84,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   return (
     <html lang={activeLocale} className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        {/* Marks JS as available before first paint, so `Reveal` can hide
+            below-fold content only when it can also un-hide it (no JS → visible). */}
+        <script
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
         <a href="#top" className="skip-link">
           {t("skipToContent")}
         </a>

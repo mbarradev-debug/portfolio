@@ -1,21 +1,21 @@
 import { getTranslations } from "next-intl/server";
 
-import { Button, MenuIcon } from "@/components/ui";
-import { headerNav } from "@/content";
+import { Button } from "@/components/ui";
+import { headerNav, navItems } from "@/content";
 import { Link } from "@/i18n/navigation";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { MobileNav } from "./MobileNav";
 import styles from "./SiteHeader.module.css";
 
 /**
- * Fixed site header: wordmark, section nav, Contacto CTA, the (Client)
- * `LanguageSwitcher` and a burger.
- *
- * The burger's menu is wired in PMB-012 (`MobileMenu`); here it's rendered with
- * the right ARIA hooks (`aria-controls` / `aria-expanded`) but inert.
+ * Fixed site header (Server): wordmark, section nav, Contacto CTA, the (Client)
+ * `LanguageSwitcher`, and the (Client) `MobileNav` — burger + full-screen menu.
  */
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
+
+  const itemLabels = Object.fromEntries(navItems.map((item) => [item.key, t(item.key)]));
 
   return (
     <header className={styles.header}>
@@ -39,15 +39,15 @@ export async function SiteHeader() {
           <span className={styles.switcher}>
             <LanguageSwitcher />
           </span>
-          <button
-            type="button"
-            className={styles.burger}
-            aria-label={t("openMenu")}
-            aria-controls="mobile-menu"
-            aria-expanded="false"
-          >
-            <MenuIcon />
-          </button>
+          <MobileNav
+            items={navItems}
+            itemLabels={itemLabels}
+            labels={{
+              open: t("openMenu"),
+              close: t("closeMenu"),
+              dialog: t("mobileLabel"),
+            }}
+          />
         </div>
       </div>
     </header>

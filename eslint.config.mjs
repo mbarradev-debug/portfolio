@@ -27,6 +27,9 @@ const eslintConfig = defineConfig([
           ignoreRestSiblings: true,
         },
       ],
+      // Advisory: `setState` inside an effect is the hydration-safe way to defer
+      // client-only state (mounted guards, matchMedia, IntersectionObserver).
+      "react-hooks/set-state-in-effect": "warn",
     },
   },
   // `process.env` may only be read in `env.ts` (which validates it) and in
