@@ -1,3 +1,4 @@
+import { RevealController } from "@/components/RevealController";
 import {
   About,
   Arsenal,
@@ -12,6 +13,7 @@ import {
 export default function Home() {
   return (
     <>
+      <RevealController />
       <main id="top">
         <Hero />
         <About />

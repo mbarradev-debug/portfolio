@@ -1,10 +1,52 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
 import { testimonials, testimonialsSection } from "@/content";
 import { PersonIcon } from "../icons";
 
+const SWAP_MS = 200;
+const AUTOPLAY_MS = 6000;
+
 export function Testimonials() {
-  // Estado inicial (primer testimonio). El slider llega en PNX-007.
-  const current = testimonials[0];
-  const single = testimonials.length <= 1;
+  const multiple = testimonials.length > 1;
+  const [index, setIndex] = useState(0);
+  const [fading, setFading] = useState(false);
+  const indexRef = useRef(0);
+  const swapTimer = useRef<number | undefined>(undefined);
+  const autoTimer = useRef<number | undefined>(undefined);
+
+  const show = useCallback((next: number) => {
+    indexRef.current = next;
+    setFading(true);
+    window.clearTimeout(swapTimer.current);
+    swapTimer.current = window.setTimeout(() => {
+      setIndex(next);
+      setFading(false);
+    }, SWAP_MS);
+  }, []);
+
+  const restartAutoplay = useCallback(() => {
+    if (!multiple) return;
+    window.clearInterval(autoTimer.current);
+    autoTimer.current = window.setInterval(() => {
+      show((indexRef.current + 1) % testimonials.length);
+    }, AUTOPLAY_MS);
+  }, [multiple, show]);
+
+  useEffect(() => {
+    restartAutoplay();
+    return () => {
+      window.clearInterval(autoTimer.current);
+      window.clearTimeout(swapTimer.current);
+    };
+  }, [restartAutoplay]);
+
+  const onDot = (i: number) => {
+    show(i);
+    restartAutoplay();
+  };
+
+  const current = testimonials[index];
 
   return (
     <section
@@ -23,8 +65,20 @@ export function Testimonials() {
             id="testiDots"
             role="tablist"
             aria-label="Seleccionar recomendación"
-            hidden={single}
-          />
+            hidden={!multiple}
+          >
+            {multiple &&
+              testimonials.map((t, i) => (
+                <button
+                  key={t.name}
+                  type="button"
+                  className={i === index ? "active" : undefined}
+                  aria-label={`Ver recomendación ${i + 1}`}
+                  aria-current={i === index ? "true" : "false"}
+                  onClick={() => onDot(i)}
+                />
+              ))}
+          </div>
           <a
             className="testi-cta"
             href={testimonialsSection.cta.href}
@@ -34,7 +88,10 @@ export function Testimonials() {
             {testimonialsSection.cta.label}
           </a>
         </div>
-        <blockquote className="testi-quote" id="testiQuote">
+        <blockquote
+          className={fading ? "testi-quote is-fading" : "testi-quote"}
+          id="testiQuote"
+        >
           {`“${current.quote}”`}
         </blockquote>
         <div className="testi-author">

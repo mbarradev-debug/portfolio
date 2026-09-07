@@ -1,4 +1,5 @@
 import { footer } from "@/content";
+import { BackToTop } from "../BackToTop";
 import { ArrowUp, ArrowUpRight } from "../icons";
 import { LangToggle } from "../LangToggle";
 
@@ -39,14 +40,9 @@ export function FooterCta() {
 
         <div className="footer-col">
           <h4>{footer.connectHeading}</h4>
-          <button
-            className="back-to-top"
-            id="toTop"
-            type="button"
-            aria-label="Volver arriba"
-          >
+          <BackToTop>
             <ArrowUp />
-          </button>
+          </BackToTop>
           <ul className="footer-connect-list">
             {footer.connect.map((link) => {
               const external = link.href.startsWith("http");

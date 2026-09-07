@@ -1280,13 +1280,30 @@ a.project-row:active {
   }
 }
 
-/* Puente hasta PNX-007: la clase `js` (añadida en el layout) desactiva el
-   fallback `html:not(.js) .reveal`, pero el IntersectionObserver que revela
-   los bloques aún no existe. Mantener el contenido visible mientras tanto;
-   PNX-007 elimina esta regla al montar el observador. */
-.js .reveal {
-  opacity: 1;
-  transform: none;
+/* ==========================================================================
+   INTERACTIVIDAD CLIENT (PNX-007) — estados de transición controlados por
+   los Client Components de sección.
+   ========================================================================== */
+
+/* Slider de testimonios: fundido + blur al cambiar de cita. */
+.testi-quote.is-fading {
+  opacity: 0;
+  filter: blur(5px);
+}
+
+/* Carrusel de casos: fundido + blur en la info y la imagen al cambiar. */
+.case-info.is-switching,
+.browser-body img.is-switching {
+  opacity: 0;
+  filter: blur(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testi-quote.is-fading,
+  .case-info.is-switching,
+  .browser-body img.is-switching {
+    filter: none;
+  }
 }
 
 /* ==========================================================================
