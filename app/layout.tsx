@@ -29,6 +29,8 @@ export const metadata: Metadata = {
   authors: [{ name: "Miguel Barra", url: SITE_URL }],
   // El canonical se declara por ruta (cada page.tsx), no aquí: un canonical
   // estático en el layout se hereda por toda ruta hija que no lo sobrescriba.
+  // La imagen social (og:image + twitter:image, con tipo, dimensiones y alt) la
+  // resuelve Next desde app/opengraph-image.png y app/opengraph-image.alt.txt.
   openGraph: {
     type: "website",
     title,
@@ -36,20 +38,11 @@ export const metadata: Metadata = {
     locale: "es_CL",
     url: "/",
     siteName,
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: title,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description: socialDescription,
-    images: ["/opengraph-image.png"],
   },
 };
 
