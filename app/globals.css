@@ -1,26 +1,258 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Design tokens — portados de references/index.html (:root) al tema de
+   Tailwind v4. `static` fuerza a emitir todas las variables aunque todavía
+   no haya utilidades que las usen (las secciones las consumen vía var()).
+   ========================================================================== */
+@theme static {
+  /* Paleta */
+  --color-cream: #fcfcfa;
+  --color-hero-bg-1: #dcdbd4;
+  --color-hero-bg-2: #c7c6bd;
+  --color-ink: #15181a;
+  --color-ink-soft: #4a4d47;
+  --color-muted: #70726b;
+  --color-line: #dcdad2;
+  --color-green: #c9f59a;
+  --color-green-dark: #9fd66a;
+  --color-teal: #445e5f;
+  --color-teal-dark: #222f30;
+  --color-card-gray: #e6e4df;
+  --color-white: #ffffff;
+
+  /* Radios */
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.16s;
+  --dur-mid: 0.3s;
+  --dur-reveal: 0.5s;
+
+  /* Tipografías (cargadas con next/font, expuestas como variables) */
+  --font-sans: var(--font-plus-jakarta), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), "Courier New", monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ==========================================================================
+   Reset y reglas globales (portadas de references/index.html)
+   ========================================================================== */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-cream);
+    color: var(--color-ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
+  }
+
+  ul {
+    list-style: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Utilidades globales
+   ========================================================================== */
+.wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 300;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateY(-160%);
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Sistema de revelado al hacer scroll
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Texto: recorrido más corto y algo más rápido que los bloques */
+h1.reveal,
+p.reveal {
+  transform: translateY(10px);
+  transition-duration: 0.45s;
+}
+
+/* Hero: visible al cargar (nunca ligado al scroll). Solo un fundido corto. */
+.hero .reveal {
+  transform: none;
+  transition: opacity 0.45s var(--ease-out);
+}
+
+.hero .reveal.in {
+  opacity: 1;
+}
+
+/* Sin JS no ocultamos nada */
+html:not(.js) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Foco visible: borde oscuro (legible sobre claro) + halo verde
+   (legible sobre oscuro). Variante sobre fondo oscuro.
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-green);
+}
+
+.nav-over-dark :focus-visible {
+  outline-color: #fff;
+}
+
+/* ==========================================================================
+   Marquee (keyframes del stack técnico)
+   ========================================================================== */
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   Preferencia de movimiento reducido: reduce, no elimina.
+   Conserva fundidos de opacidad/color; oculta el vídeo del hero;
+   pausa el marquee.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property:
+      opacity, background-color, color, border-color !important;
+    transition-duration: 0.2s !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  .hero-bg video {
+    display: none;
+  }
 }
