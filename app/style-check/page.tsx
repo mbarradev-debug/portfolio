@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Style check",
   robots: { index: false, follow: false },
 };
+
+// Harness de QA de diseño. Solo disponible en desarrollo: en producción la ruta
+// responde 404, así no suma superficie rastreable ni JS de sección al bundle.
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 const colors = [
   "cream",
@@ -28,6 +33,8 @@ const radii = ["sm", "md", "lg"];
  * y keyframes del marquee. No indexable, solo para QA de DBO-1258.
  */
 export default function StyleCheck() {
+  if (IS_PRODUCTION) notFound();
+
   return (
     <main
       id="top"
