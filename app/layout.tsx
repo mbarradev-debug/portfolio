@@ -55,29 +55,57 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-const personJsonLd = {
+// Grafo JSON-LD: WebSite + ProfilePage + Person enlazados por @id.
+const PERSON_ID = `${SITE_URL}/#person`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Miguel Barra",
-  jobTitle: "Full Stack Developer",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Santiago",
-    addressCountry: "CL",
-  },
-  knowsAbout: [
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Node.js",
-    "NestJS",
-    "PostgreSQL",
-    "Docker",
-    "Cloud",
-  ],
-  sameAs: [
-    "https://github.com/mbarradev-debug",
-    "https://www.linkedin.com/in/miguelbarrarios",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": WEBSITE_ID,
+      url: SITE_URL,
+      name: siteName,
+      inLanguage: "es-CL",
+      publisher: { "@id": PERSON_ID },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${SITE_URL}/#profilepage`,
+      url: SITE_URL,
+      name: title,
+      isPartOf: { "@id": WEBSITE_ID },
+      about: { "@id": PERSON_ID },
+      mainEntity: { "@id": PERSON_ID },
+      inLanguage: "es-CL",
+    },
+    {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: siteName,
+      url: SITE_URL,
+      jobTitle: "Full Stack Developer",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Santiago",
+        addressCountry: "CL",
+      },
+      knowsAbout: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Node.js",
+        "NestJS",
+        "PostgreSQL",
+        "Docker",
+        "Cloud",
+      ],
+      sameAs: [
+        "https://github.com/mbarradev-debug",
+        "https://www.linkedin.com/in/miguelbarrarios",
+      ],
+    },
   ],
 };
 
@@ -103,7 +131,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </body>
     </html>
