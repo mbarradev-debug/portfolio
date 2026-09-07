@@ -1,5 +1,6 @@
 import { footer } from "@/content";
 import { ArrowUp, ArrowUpRight } from "../icons";
+import { LangToggle } from "../LangToggle";
 
 export function FooterCta() {
   return (
@@ -21,14 +22,7 @@ export function FooterCta() {
             <span className="circle-arrow" aria-hidden="true">
               <ArrowUpRight stroke="#15181a" />
             </span>
-            <div className="footer-lang" role="group" aria-label="Idioma">
-              <button type="button" data-lang="en">
-                EN
-              </button>
-              <button type="button" data-lang="es" className="active">
-                ES
-              </button>
-            </div>
+            <LangToggle variant="footer" />
           </div>
         </div>
 

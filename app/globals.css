@@ -1288,3 +1288,286 @@ a.project-row:active {
   opacity: 1;
   transform: none;
 }
+
+/* ==========================================================================
+   HEADER / NAV / MENÚ MÓVIL (PNX-006) — portado de references/index.html.
+   El header y el overlay móvil son un Client Component hoja montado en el
+   layout. `.nav-scrolled` / `.nav-over-dark` los alterna PNX-007.
+   ========================================================================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 14px 24px;
+}
+.nav-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 10px 12px 10px 20px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  transition:
+    background-color var(--dur-mid) var(--ease-out),
+    box-shadow var(--dur-mid) var(--ease-out),
+    border-color var(--dur-mid) var(--ease-out);
+}
+.nav-scrolled .nav-inner {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 34px -14px rgba(0, 0, 0, 0.18);
+}
+.nav-over-dark .nav-inner {
+  background: rgba(18, 22, 24, 0.5);
+  border-color: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 10px 34px -16px rgba(0, 0, 0, 0.4);
+}
+.logo {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  transition:
+    opacity var(--dur-mid) var(--ease-out),
+    color var(--dur-mid) var(--ease-out);
+}
+.logo:active {
+  opacity: 0.6;
+}
+.nav-over-dark .logo {
+  color: #fff;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-links a {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 12px;
+  color: var(--color-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  transition: color var(--dur-mid) var(--ease-out);
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 7px;
+  height: 1px;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+.nav-over-dark .nav-links a {
+  color: rgba(255, 255, 255, 0.72);
+}
+.nav-over-dark .nav-links a::after {
+  background: #fff;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-contact {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+}
+.nav-over-dark .btn-contact {
+  background: #fff;
+  color: var(--color-ink);
+}
+.burger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--color-ink);
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-mid) var(--ease-out);
+}
+.burger:active {
+  transform: scale(0.92);
+}
+.burger svg {
+  width: 16px;
+  height: 16px;
+}
+.nav-over-dark .burger {
+  background: rgba(255, 255, 255, 0.16);
+}
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: #f1f0ec;
+  border-radius: 12px;
+  padding: 3px;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  transition: background-color var(--dur-mid) var(--ease-out);
+}
+.lang-toggle button {
+  padding: 8px 11px;
+  border-radius: 9px;
+  color: var(--color-ink-soft);
+  min-height: 34px;
+}
+.lang-toggle button.active {
+  background: var(--color-ink);
+  color: #fff;
+}
+.nav-over-dark .lang-toggle {
+  background: rgba(255, 255, 255, 0.14);
+}
+.nav-over-dark .lang-toggle button {
+  color: rgba(255, 255, 255, 0.75);
+}
+.nav-over-dark .lang-toggle button.active {
+  background: #fff;
+  color: var(--color-ink);
+}
+
+/* Menú móvil: overlay a pantalla completa. La referencia lo muestra con un
+   toggle de `display`; aquí se hace animable con opacity + un pequeño
+   desplazamiento (entrada ~180ms, salida ~140ms, ease-out fuerte). */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(20, 20, 18, 0.97);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 32px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition:
+    opacity 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    visibility 0s linear 140ms;
+}
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    opacity 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    visibility 0s linear 0s;
+}
+.mobile-menu a {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+.mobile-menu .close-btn {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.mobile-menu .close-btn:active {
+  transform: scale(0.94);
+}
+.mobile-menu .close-btn svg {
+  width: 18px;
+  height: 18px;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu {
+    transform: none;
+    transition:
+      opacity 120ms linear,
+      visibility 0s linear 120ms;
+  }
+  .mobile-menu.open {
+    transform: none;
+    transition:
+      opacity 120ms linear,
+      visibility 0s linear 0s;
+  }
+}
+
+@media (hover: hover) {
+  .nav-links a:hover {
+    color: var(--color-ink);
+  }
+  .nav-links a:hover::after {
+    transform: scaleX(1);
+  }
+  .nav-over-dark .nav-links a:hover {
+    color: #fff;
+  }
+  .btn-contact:hover {
+    transform: translateY(-2px);
+  }
+  .logo:hover {
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+  }
+  .burger {
+    display: flex;
+  }
+}
+@media (max-width: 760px) {
+  header {
+    padding: 10px 14px;
+  }
+  .nav-inner {
+    padding: 8px 8px 8px 16px;
+  }
+  .nav-right .btn-contact,
+  .nav-right .lang-toggle {
+    display: none;
+  }
+}

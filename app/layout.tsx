@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Header } from "@/components/Header";
 import { jetbrainsMono, playfairDisplay, plusJakartaSans } from "./fonts";
 import "./globals.css";
 
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="skip-link" href="#top">
           Saltar al contenido
         </a>
+        <Header />
         {children}
         <script
           type="application/ld+json"
