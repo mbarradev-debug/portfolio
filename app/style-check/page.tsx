@@ -29,7 +29,8 @@ const radii = ["sm", "md", "lg"];
  */
 export default function StyleCheck() {
   return (
-    <div
+    <main
+      id="top"
       className="wrap"
       style={{ paddingBlock: "64px", display: "grid", gap: "56px" }}
     >
@@ -250,6 +251,6 @@ export default function StyleCheck() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
