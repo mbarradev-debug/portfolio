@@ -6,13 +6,13 @@ import type { MetadataRoute } from "next";
 // cualquier despliegue, una señal de cambio poco fiable para los crawlers.
 const LAST_CONTENT_UPDATE = new Date("2026-09-07");
 
+// Solo rutas indexables. `/style-check` queda fuera por ser `noindex`.
+// Sin `changefreq` / `priority`: Google los ignora desde hace años.
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: "https://miguelbarra.cl",
       lastModified: LAST_CONTENT_UPDATE,
-      changeFrequency: "monthly",
-      priority: 1,
     },
   ];
 }
