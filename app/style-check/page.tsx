@@ -29,14 +29,10 @@ const radii = ["sm", "md", "lg"];
  */
 export default function StyleCheck() {
   return (
-    <main
+    <div
       className="wrap"
       style={{ paddingBlock: "64px", display: "grid", gap: "56px" }}
     >
-      <a className="skip-link" href="#tipografia">
-        Saltar a tipografía
-      </a>
-
       <header style={{ display: "grid", gap: "8px" }}>
         <p className="mono" style={{ color: "var(--color-muted)" }}>
           DBO-1258 · Style check
@@ -254,6 +250,6 @@ export default function StyleCheck() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
