@@ -6,8 +6,13 @@ import "./globals.css";
 const SITE_URL = "https://miguelbarra.cl";
 
 const title = "Miguel Barra — Full Stack Developer";
+// ≤160 caracteres: propuesta de valor + señal geográfica en los primeros ~120.
 const description =
-  "Miguel Barra, Full Stack Developer en Santiago de Chile. Construye productos completos con React, Next.js y TypeScript —frontend, backend, base de datos e infraestructura— y los lleva a producción.";
+  "Miguel Barra, Full Stack Developer en Santiago de Chile. Construyo productos completos con React, Next.js y TypeScript, de la base de datos a la nube.";
+// Versión para previews sociales (OG + Twitter): misma frase sin el nombre,
+// dentro del largo legible de las tarjetas.
+const socialDescription =
+  "Full Stack Developer en Santiago de Chile. Construyo productos completos con React, Next.js y TypeScript, de la base de datos a la nube.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -20,8 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     title,
-    description:
-      "Full Stack Developer en Santiago de Chile. Construye productos completos con React, Next.js y TypeScript y los lleva a producción: frontend, backend, base de datos e infraestructura.",
+    description: socialDescription,
     locale: "es_CL",
     url: "/",
     siteName: title,
@@ -37,8 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title,
-    description:
-      "Full Stack Developer en Santiago de Chile. Construye productos full stack con React, Next.js y TypeScript y los lleva a producción.",
+    description: socialDescription,
     images: ["/opengraph-image.png"],
   },
 };
