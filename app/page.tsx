@@ -11,6 +11,9 @@ import {
   Testimonials,
 } from "@/components/sections";
 
+// El home usa el `title.default` y la `description` del layout raíz. Cada ruta
+// nueva indexable debe exportar aquí su propio `title` (recibe el sufijo de
+// marca vía `title.template`) y su propia `description`.
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };

@@ -19,7 +19,12 @@ const socialDescription =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title,
+  // `default` es el title del home; `template` añade la marca a las rutas que
+  // exportan su propio `title` (p. ej. "Casos · Miguel Barra").
+  title: {
+    default: title,
+    template: `%s · ${siteName}`,
+  },
   description,
   authors: [{ name: "Miguel Barra", url: SITE_URL }],
   // El canonical se declara por ruta (cada page.tsx), no aquí: un canonical
