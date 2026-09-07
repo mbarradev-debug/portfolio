@@ -19,9 +19,8 @@ export const metadata: Metadata = {
   title,
   description,
   authors: [{ name: "Miguel Barra", url: SITE_URL }],
-  alternates: {
-    canonical: "/",
-  },
+  // El canonical se declara por ruta (cada page.tsx), no aquí: un canonical
+  // estático en el layout se hereda por toda ruta hija que no lo sobrescriba.
   openGraph: {
     type: "website",
     title,
