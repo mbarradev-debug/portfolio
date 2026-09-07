@@ -21,6 +21,18 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Dominio canónico: https://miguelbarra.cl (sin www), igual que metadataBase.
+  // http→https lo fuerza Vercel automáticamente. Ver DEPLOYMENT.md.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.miguelbarra.cl" }],
+        destination: "https://miguelbarra.cl/:path*",
+        statusCode: 301,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
