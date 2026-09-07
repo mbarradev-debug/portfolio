@@ -8,6 +8,7 @@ const MENU_LINKS = [...nav, navContact];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
   const menuRef = useRef<HTMLElement | null>(null);
   const burgerRef = useRef<HTMLButtonElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -56,9 +57,50 @@ export function Header() {
     };
   }, [open, closeMenu]);
 
+  // Header adaptativo: sombra al hacer scroll + cristal oscuro sobre secciones
+  // [data-nav-dark]. Portado de references/index.html.
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const darkSections = [
+      ...document.querySelectorAll<HTMLElement>("[data-nav-dark]"),
+    ];
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      header.classList.toggle("nav-scrolled", window.scrollY > 12);
+      const probe = header.getBoundingClientRect().bottom - 6;
+      let overDark = false;
+      for (const section of darkSections) {
+        const r = section.getBoundingClientRect();
+        if (r.top <= probe && r.bottom >= probe) {
+          overDark = true;
+          break;
+        }
+      }
+      header.classList.toggle("nav-over-dark", overDark);
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
   return (
     <>
-      <header>
+      <header ref={headerRef}>
         <div className="nav-inner">
           <a className="logo" href="#top">
             {site.logo}

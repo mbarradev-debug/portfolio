@@ -1,16 +1,45 @@
+"use client";
+
+import { useRef, useState } from "react";
 import { cases, casesSection } from "@/content";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "../icons";
 
-export function CaseStudies() {
-  const current = cases[0];
-  const total = String(cases.length).padStart(2, "0");
-  const single = cases.length <= 1;
+const SWAP_MS = 170;
 
+export function CaseStudies() {
+  const single = cases.length <= 1;
+  const total = String(cases.length).padStart(2, "0");
+
+  const [index, setIndex] = useState(0);
+  const [switching, setSwitching] = useState(false);
+  const lock = useRef(false);
+  const swapTimer = useRef<number | undefined>(undefined);
+
+  const go = (dir: number) => {
+    if (lock.current || single) return;
+    lock.current = true;
+    setSwitching(true);
+    window.clearTimeout(swapTimer.current);
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    swapTimer.current = window.setTimeout(
+      () => {
+        setIndex((prev) => (prev + dir + cases.length) % cases.length);
+        setSwitching(false);
+        lock.current = false;
+      },
+      reduce ? 0 : SWAP_MS,
+    );
+  };
+
+  const current = cases[index];
   const hasUrl = Boolean(current.url);
   const linkHref = current.url ?? casesSection.defaultHref;
   const linkLabel = hasUrl
     ? casesSection.linkLabelWithUrl
     : casesSection.linkLabelDefault;
+  const swapClass = switching ? " is-switching" : "";
 
   return (
     <section className="cases" id="casos" aria-labelledby="cases-title">
@@ -22,8 +51,8 @@ export function CaseStudies() {
           </div>
           <div className="cases-nav">
             <span className="cases-counter">
-              <span id="caseCounter">01</span> /{" "}
-              <span id="caseTotal">{total}</span>
+              <span id="caseCounter">{String(index + 1).padStart(2, "0")}</span>{" "}
+              / <span id="caseTotal">{total}</span>
             </span>
             <div
               className="cases-arrows"
@@ -34,6 +63,7 @@ export function CaseStudies() {
                 id="casePrev"
                 type="button"
                 aria-label="Caso anterior"
+                onClick={() => go(-1)}
               >
                 <ArrowLeft />
               </button>
@@ -42,6 +72,7 @@ export function CaseStudies() {
                 id="caseNext"
                 type="button"
                 aria-label="Caso siguiente"
+                onClick={() => go(1)}
               >
                 <ArrowRight />
               </button>
@@ -67,10 +98,11 @@ export function CaseStudies() {
                 id="caseMockBody"
               >
                 {current.image ? (
-                  // Imagen intercambiable por el carrusel (PNX-007); <img> plano
-                  // como en la referencia, no next/image.
+                  // Imagen intercambiable por el carrusel; <img> plano como en la
+                  // referencia, no next/image.
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
+                    className={swapClass.trim() || undefined}
                     src={current.image}
                     alt={current.imageAlt ?? ""}
                     loading="lazy"
@@ -85,7 +117,7 @@ export function CaseStudies() {
               </div>
             </div>
           </div>
-          <div className="case-info">
+          <div className={`case-info${swapClass}`}>
             <div className="case-meta">
               <span className="case-tag">
                 <span className="dot" />
