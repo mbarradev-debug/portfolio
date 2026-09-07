@@ -1,8 +1,10 @@
+import { hero, site } from "@/content";
+
 export default function Home() {
   return (
     <div className="wrap" style={{ paddingBlock: "120px" }}>
       <p className="mono" style={{ color: "var(--color-muted)" }}>
-        Miguel Barra — Full Stack Developer
+        {site.logo}
       </p>
       <h1
         style={{
@@ -13,7 +15,7 @@ export default function Home() {
           marginTop: "16px",
         }}
       >
-        Construyo productos full stack y los llevo a producción.
+        {hero.title}
       </h1>
     </div>
   );
