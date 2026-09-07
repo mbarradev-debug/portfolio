@@ -5,7 +5,10 @@ import "./globals.css";
 
 const SITE_URL = "https://miguelbarra.cl";
 
-const title = "Miguel Barra — Full Stack Developer";
+// Nombre de marca del sitio (og:site_name), sin sufijos.
+const siteName = "Miguel Barra";
+// <title>: identidad + rol + señal geográfica, ~55 caracteres.
+const title = "Miguel Barra — Full Stack Developer · Santiago de Chile";
 // ≤160 caracteres: propuesta de valor + señal geográfica en los primeros ~120.
 const description =
   "Miguel Barra, Full Stack Developer en Santiago de Chile. Construyo productos completos con React, Next.js y TypeScript, de la base de datos a la nube.";
@@ -27,7 +30,7 @@ export const metadata: Metadata = {
     description: socialDescription,
     locale: "es_CL",
     url: "/",
-    siteName: title,
+    siteName,
     images: [
       {
         url: "/opengraph-image.png",
