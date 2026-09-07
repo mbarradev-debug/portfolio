@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { RevealController } from "@/components/RevealController";
 import {
   About,
@@ -9,6 +10,10 @@ import {
   Services,
   Testimonials,
 } from "@/components/sections";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
