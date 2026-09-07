@@ -31,8 +31,12 @@ export const metadata: Metadata = {
   // estático en el layout se hereda por toda ruta hija que no lo sobrescriba.
   // La imagen social (og:image + twitter:image, con tipo, dimensiones y alt) la
   // resuelve Next desde app/opengraph-image.png y app/opengraph-image.alt.txt.
+  // og:type "profile": el sitio es una página sobre una persona, no un sitio
+  // genérico. LinkedIn / WhatsApp / Meta / X lo renderizan igual que "website".
   openGraph: {
-    type: "website",
+    type: "profile",
+    firstName: "Miguel",
+    lastName: "Barra",
     title,
     description: socialDescription,
     locale: "es_CL",
