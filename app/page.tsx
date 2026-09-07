@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="wrap" style={{ paddingBlock: "120px" }}>
+    <div className="wrap" style={{ paddingBlock: "120px" }}>
       <p className="mono" style={{ color: "var(--color-muted)" }}>
         Miguel Barra — Full Stack Developer
       </p>
@@ -15,6 +15,6 @@ export default function Home() {
       >
         Construyo productos full stack y los llevo a producción.
       </h1>
-    </main>
+    </div>
   );
 }
