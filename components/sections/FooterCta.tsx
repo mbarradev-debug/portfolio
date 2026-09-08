@@ -13,9 +13,9 @@ export function FooterCta() {
     >
       <div className="footer-top">
         <div>
-          <h2 className="footer-heading reveal" id="footer-title">
+          <p className="footer-heading reveal" id="footer-title">
             {footer.heading}
-          </h2>
+          </p>
           <div className="footer-actions">
             <a className="btn-dark btn-dark--light" href={footer.cta.href}>
               {footer.cta.label}

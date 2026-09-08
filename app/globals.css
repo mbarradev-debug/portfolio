@@ -968,7 +968,7 @@ html.reveal-armed .hero .reveal {
   border-color: rgba(255, 255, 255, 0.18);
   color: rgba(255, 255, 255, 0.7);
 }
-.projects h2.ghost {
+.projects .ghost {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
