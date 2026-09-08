@@ -210,8 +210,9 @@ export default function StyleCheck() {
         </h2>
         <p className="reveal in" style={{ maxWidth: "60ch", lineHeight: 1.6 }}>
           Este párrafo usa <code>.reveal.in</code>: opacidad 1 y sin
-          desplazamiento. Sin JS, el fallback <code>html:not(.js) .reveal</code>{" "}
-          lo deja igualmente visible.
+          desplazamiento. <code>.reveal</code> parte visible; solo se oculta
+          cuando <code>html.reveal-armed</code> está presente y aún no tiene{" "}
+          <code>.in</code>.
         </p>
       </section>
 
