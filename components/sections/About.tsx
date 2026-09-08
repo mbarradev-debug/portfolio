@@ -17,6 +17,8 @@ export function About() {
                 width={900}
                 height={900}
                 loading="lazy"
+                // El marco mide ~320px en desktop y ~240px en móvil (< 980px).
+                sizes="(max-width: 980px) 240px, 320px"
                 alt="Retrato de Miguel Barra, Full Stack Developer"
               />
             </div>
