@@ -7,12 +7,18 @@ type IdleWindow = Window & {
   cancelIdleCallback?: (id: number) => void;
 };
 
+// VP9 primero, H.264 de fallback. Ambos sin audio y muy comprimidos (~284 KB /
+// ~470 KB para 10 s); ver presupuesto en DEPLOYMENT.md.
+const SOURCES = [
+  { src: "/hero.webm", type: "video/webm" },
+  { src: "/hero.mp4", type: "video/mp4" },
+];
+
 /**
  * Vídeo de fondo del hero. Solo se carga si conviene (sin reduced-motion, sin
- * Save-Data y viewport >= 761px) y **después del LCP**: la descarga (~7 MB, ver
- * presupuesto en DEPLOYMENT.md) se difiere hasta el evento `load` + un hueco
- * ocioso, así nunca compite con los recursos críticos. Hasta entonces se ve el
- * poster.
+ * Save-Data y viewport >= 761px) y **después del LCP**: la descarga se difiere
+ * hasta el evento `load` + un hueco ocioso, así nunca compite con los recursos
+ * críticos. Hasta entonces se ve el poster.
  */
 export function HeroVideo() {
   const ref = useRef<HTMLVideoElement | null>(null);
@@ -48,7 +54,14 @@ export function HeroVideo() {
         },
         { once: true },
       );
-      video.src = video.dataset.src ?? "";
+      // Activa las <source> (llevan data-src para no cargar antes de tiempo).
+      video
+        .querySelectorAll<HTMLSourceElement>("source[data-src]")
+        .forEach((s) => {
+          s.src = s.dataset.src ?? "";
+          s.removeAttribute("data-src");
+        });
+      video.load();
       video.playbackRate = 0.55;
       video.autoplay = true;
       video.play().catch(() => {});
@@ -92,7 +105,10 @@ export function HeroVideo() {
       preload="none"
       tabIndex={-1}
       poster="/hero-poster.jpg"
-      data-src="/hero.mp4"
-    />
+    >
+      {SOURCES.map((s) => (
+        <source key={s.src} data-src={s.src} type={s.type} />
+      ))}
+    </video>
   );
 }

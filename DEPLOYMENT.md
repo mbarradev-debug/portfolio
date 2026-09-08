@@ -49,10 +49,20 @@ Regla general: las imágenes de contenido pasan por `next/image`; los assets
 estáticos de `public/` se optimizan antes de commitear y nada supera ~500 KB sin
 justificación.
 
-| Asset                                       | Presupuesto | Estado                                                                                                                                                                                                                                       |
-| ------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `public/hero.mp4` (vídeo de fondo del hero) | < 3 MB      | **~7 MB — pendiente re-encode.** Objetivo: H.264 ~1,5 Mbps a 1280 px, u opción WebM/AV1 + fallback MP4. La descarga ya se difiere a `load` + `requestIdleCallback` en `components/sections/HeroVideo.tsx`, así que nunca compite con el LCP. |
-| `public/hero-poster.jpg` (LCP del hero)     | < 80 KB     | ~48 KB — OK                                                                                                                                                                                                                                  |
-| `public/opengraph-image.png` / OG generada  | < 200 KB    | ~50 KB — OK                                                                                                                                                                                                                                  |
+El vídeo del hero se re-encodó desde el original de ~7 MB a 1280×720, 10 s, sin
+audio. `HeroVideo.tsx` sirve WebM con fallback MP4 vía `<source>`, y la descarga
+se difiere a `load` + `requestIdleCallback`, así que nunca compite con el LCP.
+Comando de referencia:
 
-La optimización final de assets forma parte de PNX-008 (Fase 3 — Paridad y Launch).
+```sh
+ffmpeg -i original.mp4 -an -c:v libvpx-vp9 -crf 33 -b:v 0 -row-mt 1 public/hero.webm
+ffmpeg -i original.mp4 -an -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p \
+  -profile:v high -movflags +faststart public/hero.mp4
+```
+
+| Asset                                                    | Presupuesto | Estado       |
+| -------------------------------------------------------- | ----------- | ------------ |
+| `public/hero.webm` (vídeo de fondo, VP9, sin audio)      | < 3 MB      | ~284 KB — OK |
+| `public/hero.mp4` (fallback H.264, sin audio, faststart) | < 3 MB      | ~470 KB — OK |
+| `public/hero-poster.jpg` (LCP del hero)                  | < 80 KB     | ~48 KB — OK  |
+| `public/opengraph-image.png` / OG generada               | < 200 KB    | ~50 KB — OK  |
