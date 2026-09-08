@@ -860,6 +860,7 @@ html.reveal-armed .hero .reveal {
 }
 .browser-body.has-image img {
   width: 100%;
+  height: auto;
   display: block;
 }
 .browser-body .tag {

@@ -14,6 +14,8 @@ export const cases: CaseStudy[] = [
     image: "/pulso-dashboard.png",
     imageAlt:
       "Dashboard Pulso mostrando UF, dólar, euro y cobre en tiempo real",
+    imageWidth: 1200,
+    imageHeight: 630,
     grad: "linear-gradient(155deg,#e7e5f0,#dde1ee 55%, #ece7f2)",
     url: "https://pulso-cyan-zeta.vercel.app",
   },

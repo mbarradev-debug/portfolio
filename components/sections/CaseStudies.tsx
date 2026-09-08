@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { cases, casesSection } from "@/content";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "../icons";
@@ -98,15 +99,13 @@ export function CaseStudies() {
                 id="caseMockBody"
               >
                 {current.image ? (
-                  // Imagen intercambiable por el carrusel; <img> plano como en la
-                  // referencia, no next/image.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     className={swapClass.trim() || undefined}
                     src={current.image}
                     alt={current.imageAlt ?? ""}
-                    loading="lazy"
-                    decoding="async"
+                    width={current.imageWidth ?? 1200}
+                    height={current.imageHeight ?? 630}
+                    sizes="(max-width: 980px) 100vw, 600px"
                   />
                 ) : (
                   <>
