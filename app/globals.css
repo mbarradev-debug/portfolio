@@ -306,7 +306,6 @@ html.reveal-armed .hero .reveal {
     transform var(--dur-fast) var(--ease-out),
     background-color var(--dur-mid) var(--ease-out),
     color var(--dur-mid) var(--ease-out),
-    box-shadow var(--dur-mid) var(--ease-out),
     border-color var(--dur-mid) var(--ease-out);
 }
 .pill-btn:active,
@@ -580,6 +579,22 @@ html.reveal-armed .hero .reveal {
   color: #fff;
   padding: 16px 24px;
   border-radius: 999px;
+  position: relative;
+}
+/* La elevación en hover se hace con la opacidad de una sombra pre-pintada en un
+   pseudo-elemento, no animando `box-shadow` (repintaría en cada frame). */
+.btn-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 12px 26px -14px rgba(21, 24, 26, 0.55);
+  opacity: 0;
+  transition: opacity var(--dur-mid) var(--ease-out);
+  pointer-events: none;
+}
+.btn-dark--light::after {
+  box-shadow: 0 12px 26px -14px rgba(0, 0, 0, 0.35);
 }
 .link-underline {
   font-family: var(--font-mono);
@@ -1214,10 +1229,9 @@ html.reveal-armed .hero .reveal {
   }
   .btn-dark:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 26px -14px rgba(21, 24, 26, 0.55);
   }
-  .btn-dark--light:hover {
-    box-shadow: 0 12px 26px -14px rgba(0, 0, 0, 0.35);
+  .btn-dark:hover::after {
+    opacity: 1;
   }
   .case-link:hover .circle-arrow {
     transform: translate(3px, -3px);
@@ -1314,13 +1328,20 @@ html.reveal-armed .hero .reveal {
    los Client Components de sección.
    ========================================================================== */
 
+/* `filter: blur()` en estos dos swaps: se compone en GPU pero es más caro que
+   `opacity` sola. Se mantiene porque son transiciones puntuales y cortas
+   (< --dur-mid), nunca simultáneas, y el blur enmascara el crossfade entre dos
+   estados de texto/imagen. `prefers-reduced-motion` lo quita. Si en el futuro
+   se añaden más elementos que hagan blur a la vez, pasar a crossfade de
+   opacidad. */
+
 /* Slider de testimonios: fundido + blur al cambiar de cita. */
 .testi-quote.is-fading {
   opacity: 0;
   filter: blur(5px);
 }
 
-/* Carrusel de casos: fundido + blur en la info y la imagen al cambiar. */
+/* Carrusel de proyectos: fundido + blur en la info y la imagen al cambiar. */
 .case-info.is-switching,
 .browser-body img.is-switching {
   opacity: 0;
@@ -1355,25 +1376,41 @@ header {
   align-items: center;
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
+  /* Un único valor de `backdrop-filter` en todos los estados: al cruzar una
+     sección oscura sólo cambian el fondo y el borde (que sí transicionan), sin
+     el salto de desenfoque de antes (10px -> 16px). */
+  backdrop-filter: blur(12px);
   border: 1px solid transparent;
   border-radius: 20px;
   padding: 10px 12px 10px 20px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03); /* hairline estática */
+  position: relative;
   transition:
     background-color var(--dur-mid) var(--ease-out),
-    box-shadow var(--dur-mid) var(--ease-out),
     border-color var(--dur-mid) var(--ease-out);
+}
+/* Sombra elevada al hacer scroll / sobre secciones oscuras: se cruza por
+   opacidad de un pseudo, no animando `box-shadow`. */
+.nav-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 10px 34px -14px rgba(0, 0, 0, 0.24);
+  opacity: 0;
+  transition: opacity var(--dur-mid) var(--ease-out);
+  pointer-events: none;
+}
+.nav-scrolled .nav-inner::after,
+.nav-over-dark .nav-inner::after {
+  opacity: 1;
 }
 .nav-scrolled .nav-inner {
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 10px 34px -14px rgba(0, 0, 0, 0.18);
 }
 .nav-over-dark .nav-inner {
   background: rgba(18, 22, 24, 0.5);
   border-color: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(16px) saturate(150%);
-  box-shadow: 0 10px 34px -16px rgba(0, 0, 0, 0.4);
 }
 .logo {
   font-size: 1.4rem;
