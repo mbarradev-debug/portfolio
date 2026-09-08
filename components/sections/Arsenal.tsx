@@ -20,10 +20,10 @@ export function Arsenal() {
   return (
     <section className="arsenal" aria-labelledby="arsenal-title">
       <div className="wrap">
-        <h2 className="badge" id="arsenal-title">
+        <p className="badge" id="arsenal-title">
           <span className="dot" aria-hidden="true" />
           {arsenalSection.badge}
-        </h2>
+        </p>
       </div>
       <ul className="sr-only" id="techList">
         {[...techRow1, ...techRow2].map((tech) => (

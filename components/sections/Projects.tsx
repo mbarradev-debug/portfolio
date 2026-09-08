@@ -51,13 +51,13 @@ export function Projects() {
       aria-labelledby="projects-title"
     >
       <div className="wrap">
-        <span className="badge">
+        <h2 className="badge" id="projects-title">
           <span className="dot" aria-hidden="true" />
           {projectsSection.badge}
-        </span>
-        <h2 className="ghost" id="projects-title">
-          {projectsSection.title}
         </h2>
+        <p className="ghost" aria-hidden="true">
+          {projectsSection.title}
+        </p>
       </div>
       <div className="project-list" id="projectList">
         {projects.map((project) => (
