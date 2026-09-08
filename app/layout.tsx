@@ -17,6 +17,11 @@ const description =
 const socialDescription =
   "Full Stack Developer en Santiago de Chile. Construyo productos completos con React, Next.js y TypeScript, de la base de datos a la nube.";
 
+// Token de verificación de propiedad en Google Search Console. Se inyecta por
+// entorno (env var `GOOGLE_SITE_VERIFICATION` en Vercel) para no versionarlo;
+// si no está definido, no se emite la meta. Ver DEPLOYMENT.md.
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   // `default` es el title del home; `template` añade la marca a las rutas que
@@ -48,6 +53,9 @@ export const metadata: Metadata = {
     title,
     description: socialDescription,
   },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
 };
 
 export const viewport: Viewport = {

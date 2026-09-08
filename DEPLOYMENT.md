@@ -43,6 +43,32 @@ done
 Esperado: las tres primeras devuelven `HTTP/… 301` (o `308` para las que resuelve
 Vercel) con `location: https://miguelbarra.cl…`; la última devuelve `200`.
 
+## Google Search Console
+
+Propiedad recomendada: **dominio** (`miguelbarra.cl`), que cubre todos los
+subdominios y esquemas de una sola vez.
+
+### Verificar la propiedad
+
+Elegir **una** vía:
+
+1. **DNS (recomendada para propiedad de dominio)**: en el panel del registrador
+   añadir el registro `TXT` que entrega GSC (`google-site-verification=…`) en la
+   raíz del dominio. Es la única opción para propiedades de tipo dominio y no
+   depende del deploy.
+2. **Meta tag (propiedad de prefijo de URL)**: copiar el `content` del tag
+   `google-site-verification` que da GSC y definirlo como variable de entorno
+   `GOOGLE_SITE_VERIFICATION` en _Vercel → Project → Settings → Environment
+   Variables_ (Production). `app/layout.tsx` la lee y Next emite
+   `<meta name="google-site-verification" …>` solo si está definida. Redeploy y
+   pulsar «Verificar».
+
+### Enviar el sitemap
+
+Tras verificar: _Search Console → Sitemaps → Añadir un sitemap nuevo_ e
+introducir `sitemap.xml` (URL completa `https://miguelbarra.cl/sitemap.xml`,
+generado por `app/sitemap.ts`). Confirmar que el estado queda en «Correcto».
+
 ## Presupuesto de assets
 
 Regla general: las imágenes de contenido pasan por `next/image`; los assets
