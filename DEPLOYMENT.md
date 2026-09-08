@@ -16,16 +16,20 @@ con `metadataBase` (`app/layout.tsx`) y con el `<link rel="canonical">` del home
 
 ### Cómo se consigue
 
+Una **única** capa canonicaliza el host: los ajustes de dominio de Vercel. No se
+declara también en `next.config.ts` — dos capas redirigiendo el host en sentidos
+opuestos provocan un bucle infinito (`ERR_TOO_MANY_REDIRECTS`).
+
 1. **http → https**: lo fuerza Vercel automáticamente para todos los dominios
    (HSTS incluido). No hay nada que configurar ni se puede desactivar.
-2. **www → no-www**: redirección 301 declarada en `next.config.ts` (`redirects()`
-   con `has: [{ type: "host", value: "www.miguelbarra.cl" }]`). Se aplica en el
-   edge de Vercel antes de invocar cualquier función.
-3. **Redundancia recomendada en Vercel**: en _Project → Settings → Domains_,
-   añadir tanto `miguelbarra.cl` como `www.miguelbarra.cl`, marcar
-   `miguelbarra.cl` como _Primary Domain_ y dejar `www` como _Redirect to
-   miguelbarra.cl_. Así la redirección también existe si algún día se quita la
-   regla de `next.config.ts`.
+2. **www → no-www**: en _Project → Settings → Domains_, añadir tanto
+   `miguelbarra.cl` como `www.miguelbarra.cl`, marcar **`miguelbarra.cl` como
+   _Primary Domain_** y dejar **`www` como _Redirect to miguelbarra.cl_**. El
+   redirect se sirve en el edge, antes de invocar ninguna función.
+
+> Si el apex aparece redirigiendo hacia `www` (síntoma: `https://miguelbarra.cl`
+> devuelve `308 → https://www.miguelbarra.cl`), el _Primary Domain_ está puesto
+> al revés. Corregirlo en el dashboard; no requiere deploy.
 
 ## Verificación (tras el deploy)
 

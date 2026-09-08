@@ -33,18 +33,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Dominio canónico: https://miguelbarra.cl (sin www), igual que metadataBase.
-  // http→https lo fuerza Vercel automáticamente. Ver DEPLOYMENT.md.
-  async redirects() {
-    return [
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.miguelbarra.cl" }],
-        destination: "https://miguelbarra.cl/:path*",
-        statusCode: 301,
-      },
-    ];
-  },
+  // La canonicalización de host (www → apex, http → https) la resuelve Vercel a
+  // nivel de dominio: `miguelbarra.cl` como Primary Domain y `www` como Redirect.
+  // No se declara aquí a la vez: dos capas redirigiendo el host en sentidos
+  // opuestos provocan un bucle (ERR_TOO_MANY_REDIRECTS). Ver DEPLOYMENT.md.
 };
 
 export default nextConfig;
