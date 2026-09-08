@@ -119,6 +119,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${plusJakartaSans.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {/* JSON-LD en el <head>, no en el <body>: es la convención y lo que
+            esperan varios validadores de terceros. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body>
         {/* Progressive enhancement: marca que el JS está disponible antes de
             la hidratación. suppressHydrationWarning cubre la clase añadida. */}
@@ -132,10 +140,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <Header />
         {children}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
       </body>
     </html>
   );
