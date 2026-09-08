@@ -168,6 +168,14 @@ export const es: SiteContent = {
     sectionsNav: "Secciones del sitio",
   },
 
+  error: {
+    code: "Algo falló",
+    title: "No pudimos cargar esta sección.",
+    body: "Fue un problema puntual al renderizar. Reintenta; si sigue, vuelve al inicio.",
+    retry: "Reintentar",
+    home: "Volver al inicio",
+  },
+
   chrome: {
     skipLink: "Saltar al contenido",
     navPrimary: "Navegación principal",
