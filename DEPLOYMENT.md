@@ -42,3 +42,17 @@ done
 
 Esperado: las tres primeras devuelven `HTTP/… 301` (o `308` para las que resuelve
 Vercel) con `location: https://miguelbarra.cl…`; la última devuelve `200`.
+
+## Presupuesto de assets
+
+Regla general: las imágenes de contenido pasan por `next/image`; los assets
+estáticos de `public/` se optimizan antes de commitear y nada supera ~500 KB sin
+justificación.
+
+| Asset                                       | Presupuesto | Estado                                                                                                                                                                                                                                       |
+| ------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public/hero.mp4` (vídeo de fondo del hero) | < 3 MB      | **~7 MB — pendiente re-encode.** Objetivo: H.264 ~1,5 Mbps a 1280 px, u opción WebM/AV1 + fallback MP4. La descarga ya se difiere a `load` + `requestIdleCallback` en `components/sections/HeroVideo.tsx`, así que nunca compite con el LCP. |
+| `public/hero-poster.jpg` (LCP del hero)     | < 80 KB     | ~48 KB — OK                                                                                                                                                                                                                                  |
+| `public/opengraph-image.png` / OG generada  | < 200 KB    | ~50 KB — OK                                                                                                                                                                                                                                  |
+
+La optimización final de assets forma parte de PNX-008 (Fase 3 — Paridad y Launch).

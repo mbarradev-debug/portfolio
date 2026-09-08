@@ -2,9 +2,17 @@
 
 import { useEffect, useRef } from "react";
 
+type IdleWindow = Window & {
+  requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+  cancelIdleCallback?: (id: number) => void;
+};
+
 /**
- * Vídeo de fondo del hero: sólo se carga si conviene (sin reduced-motion, sin
- * Save-Data y viewport >= 761px). Portado de references/index.html.
+ * Vídeo de fondo del hero. Solo se carga si conviene (sin reduced-motion, sin
+ * Save-Data y viewport >= 761px) y **después del LCP**: la descarga (~7 MB, ver
+ * presupuesto en DEPLOYMENT.md) se difiere hasta el evento `load` + un hueco
+ * ocioso, así nunca compite con los recursos críticos. Hasta entonces se ve el
+ * poster.
  */
 export function HeroVideo() {
   const ref = useRef<HTMLVideoElement | null>(null);
@@ -23,27 +31,52 @@ export function HeroVideo() {
     const bigScreen = window.matchMedia("(min-width: 761px)").matches;
     if (reduce || saveData || !bigScreen) return; // se queda el poster
 
-    video.parentElement?.classList.add("video-active");
-
+    let cancelled = false;
+    let fallbackTimer: number | undefined;
     const reveal = () => video.classList.add("is-playing");
-    video.addEventListener("playing", reveal, { once: true });
-    video.addEventListener("loadeddata", reveal, { once: true });
-    const fallback = window.setTimeout(reveal, 2500);
-    video.addEventListener(
-      "loadedmetadata",
-      () => {
-        video.playbackRate = 0.55;
-      },
-      { once: true },
-    );
 
-    video.src = video.dataset.src ?? "";
-    video.playbackRate = 0.55;
-    video.autoplay = true;
-    video.play().catch(() => {});
+    const startLoading = () => {
+      if (cancelled) return;
+      video.parentElement?.classList.add("video-active");
+      video.addEventListener("playing", reveal, { once: true });
+      video.addEventListener("loadeddata", reveal, { once: true });
+      fallbackTimer = window.setTimeout(reveal, 2500);
+      video.addEventListener(
+        "loadedmetadata",
+        () => {
+          video.playbackRate = 0.55;
+        },
+        { once: true },
+      );
+      video.src = video.dataset.src ?? "";
+      video.playbackRate = 0.55;
+      video.autoplay = true;
+      video.play().catch(() => {});
+    };
+
+    const win = window as IdleWindow;
+    let idleId: number | undefined;
+    let deferTimer: number | undefined;
+    const schedule = () => {
+      if (typeof win.requestIdleCallback === "function") {
+        idleId = win.requestIdleCallback(startLoading, { timeout: 3000 });
+      } else {
+        deferTimer = window.setTimeout(startLoading, 1500);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      schedule();
+    } else {
+      window.addEventListener("load", schedule, { once: true });
+    }
 
     return () => {
-      window.clearTimeout(fallback);
+      cancelled = true;
+      window.removeEventListener("load", schedule);
+      if (idleId !== undefined) win.cancelIdleCallback?.(idleId);
+      if (deferTimer !== undefined) window.clearTimeout(deferTimer);
+      if (fallbackTimer !== undefined) window.clearTimeout(fallbackTimer);
       video.removeEventListener("playing", reveal);
       video.removeEventListener("loadeddata", reveal);
     };
