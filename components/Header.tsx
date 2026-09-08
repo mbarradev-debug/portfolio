@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { getContent } from "@/content";
 import { LangToggle } from "./LangToggle";
 import { useLocale } from "./LocaleProvider";
@@ -169,8 +175,14 @@ export function Header() {
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
-        {menuLinks.map((link) => (
-          <a key={link.href} href={link.href} onClick={closeMenu}>
+        {menuLinks.map((link, i) => (
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={closeMenu}
+            // Índice para el escalonado de entrada (--stagger-step en CSS).
+            style={{ "--menu-i": i } as CSSProperties}
+          >
             {link.label}
           </a>
         ))}
