@@ -17,11 +17,11 @@ import { useLocale } from "./LocaleProvider";
 // cada sección. El HTML inicial (SSR) sale en español; si el navegador está en
 // inglés, LocaleProvider dispara un re-render con el diccionario EN.
 export function SiteBody() {
-  const { locale } = useLocale();
+  const { locale, swapping } = useLocale();
   const c = getContent(locale);
 
   return (
-    <>
+    <div className={swapping ? "locale-swap is-swapping" : "locale-swap"}>
       <RevealController />
       <main id="top">
         <Hero c={c} />
@@ -32,6 +32,6 @@ export function SiteBody() {
         <Projects items={c.cases} section={c.casesSection} />
       </main>
       <FooterCta c={c} />
-    </>
+    </div>
   );
 }
