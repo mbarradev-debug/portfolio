@@ -27,8 +27,10 @@ export function FooterCta() {
           </div>
         </div>
 
-        <nav className="footer-col" aria-label="Navegación del pie de página">
-          <h4>{footer.navHeading}</h4>
+        <nav className="footer-col" aria-labelledby="footer-nav-label">
+          <p className="footer-col-label" id="footer-nav-label">
+            {footer.navHeading}
+          </p>
           <ul>
             {footer.nav.map((link) => (
               <li key={link.href}>
@@ -39,11 +41,16 @@ export function FooterCta() {
         </nav>
 
         <div className="footer-col">
-          <h4>{footer.connectHeading}</h4>
+          <p className="footer-col-label" id="footer-connect-label">
+            {footer.connectHeading}
+          </p>
           <BackToTop>
             <ArrowUp />
           </BackToTop>
-          <ul className="footer-connect-list">
+          <ul
+            className="footer-connect-list"
+            aria-labelledby="footer-connect-label"
+          >
             {footer.connect.map((link) => {
               const external = link.href.startsWith("http");
               return (

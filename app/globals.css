@@ -1098,7 +1098,7 @@ a.project-row:active {
   background: #fff;
   color: var(--color-ink);
 }
-.footer-col h4 {
+.footer-col-label {
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.1em;
