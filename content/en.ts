@@ -111,8 +111,11 @@ export const en: SiteContent = {
       date: "2026",
       title: "Pulso UF y Dólar — Chrome extension",
       desc: "Chrome extension that shows Chile's UF, US dollar and other Central Bank indicators right in the browser popup, with their daily change and a converter to pesos with a swap button. Pick which indicators to show, get a factual notice when a value hasn't updated yet, and keep preferences in the browser only: no accounts, ads or tracking. Consumes the public Pulso API.",
-      mockTag: "PULSO · EXTENSION",
-      mockHeadline: "UF and dollar one click away",
+      image: "/pulso-extension.png",
+      imageAlt:
+        "Pulso UF y Dólar extension popup showing the UF, observed dollar and the converter to pesos",
+      imageWidth: 1280,
+      imageHeight: 800,
       grad: "linear-gradient(155deg,#e6f0da,#d9e9c9 55%,#eef4e2)",
       url: "https://chromewebstore.google.com/detail/pulso-uf-y-d%C3%B3lar/opakpmmcepebnccjjkhkgioopeadgihp",
     },

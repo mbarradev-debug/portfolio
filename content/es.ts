@@ -111,8 +111,11 @@ export const es: SiteContent = {
       date: "2026",
       title: "Pulso UF y Dólar — Extensión de Chrome",
       desc: "Extensión de Chrome que muestra la UF, el dólar y otros indicadores del Banco Central en el popup del navegador, con su variación diaria y un conversor a pesos con botón para invertir. Permite elegir qué indicadores ver, avisa de forma factual cuando el dato aún no se ha actualizado, y guarda las preferencias solo en el navegador: sin cuentas, anuncios ni seguimiento. Consume la API pública de Pulso.",
-      mockTag: "PULSO · EXTENSIÓN",
-      mockHeadline: "UF y dólar a un clic, sin abrir otra pestaña",
+      image: "/pulso-extension.png",
+      imageAlt:
+        "Popup de la extensión Pulso UF y Dólar con la UF, el dólar observado y el conversor a pesos",
+      imageWidth: 1280,
+      imageHeight: 800,
       grad: "linear-gradient(155deg,#e6f0da,#d9e9c9 55%,#eef4e2)",
       url: "https://chromewebstore.google.com/detail/pulso-uf-y-d%C3%B3lar/opakpmmcepebnccjjkhkgioopeadgihp",
     },
