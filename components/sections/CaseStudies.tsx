@@ -2,14 +2,20 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { cases, casesSection } from "@/content";
+import type { CaseStudy, CasesContent } from "@/content";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "../icons";
 
 const SWAP_MS = 170;
 
-export function CaseStudies() {
-  const single = cases.length <= 1;
-  const total = String(cases.length).padStart(2, "0");
+export function CaseStudies({
+  items,
+  section,
+}: {
+  items: CaseStudy[];
+  section: CasesContent;
+}) {
+  const single = items.length <= 1;
+  const total = String(items.length).padStart(2, "0");
 
   const [index, setIndex] = useState(0);
   const [switching, setSwitching] = useState(false);
@@ -26,7 +32,7 @@ export function CaseStudies() {
     ).matches;
     swapTimer.current = window.setTimeout(
       () => {
-        setIndex((prev) => (prev + dir + cases.length) % cases.length);
+        setIndex((prev) => (prev + dir + items.length) % items.length);
         setSwitching(false);
         lock.current = false;
       },
@@ -34,12 +40,12 @@ export function CaseStudies() {
     );
   };
 
-  const current = cases[index];
+  const current = items[index];
   const hasUrl = Boolean(current.url);
-  const linkHref = current.url ?? casesSection.defaultHref;
+  const linkHref = current.url ?? section.defaultHref;
   const linkLabel = hasUrl
-    ? casesSection.linkLabelWithUrl
-    : casesSection.linkLabelDefault;
+    ? section.linkLabelWithUrl
+    : section.linkLabelDefault;
   const swapClass = switching ? " is-switching" : "";
 
   return (
@@ -47,8 +53,8 @@ export function CaseStudies() {
       <div className="cases-inner">
         <div className="cases-top">
           <div>
-            <h2 id="cases-title">{casesSection.title}</h2>
-            <p className="cases-sub">{casesSection.sub}</p>
+            <h2 id="cases-title">{section.title}</h2>
+            <p className="cases-sub">{section.sub}</p>
           </div>
           <div className="cases-nav">
             <span className="cases-counter">
@@ -63,7 +69,7 @@ export function CaseStudies() {
                 className="arrow-circle"
                 id="casePrev"
                 type="button"
-                aria-label="Caso anterior"
+                aria-label={section.prevLabel}
                 onClick={() => go(-1)}
               >
                 <ArrowLeft />
@@ -72,7 +78,7 @@ export function CaseStudies() {
                 className="arrow-circle"
                 id="caseNext"
                 type="button"
-                aria-label="Caso siguiente"
+                aria-label={section.nextLabel}
                 onClick={() => go(1)}
               >
                 <ArrowRight />

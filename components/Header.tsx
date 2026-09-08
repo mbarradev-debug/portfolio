@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { nav, navContact, site } from "@/content";
+import type { SiteContent } from "@/content";
 import { LangToggle } from "./LangToggle";
 
-const MENU_LINKS = [...nav, navContact];
+export function Header({ c }: { c: SiteContent }) {
+  const { site, nav, navContact, chrome } = c;
+  const menuLinks = [...nav, navContact];
 
-export function Header() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const menuRef = useRef<HTMLElement | null>(null);
@@ -105,7 +106,7 @@ export function Header() {
           <a className="logo" href="#top">
             {site.logo}
           </a>
-          <nav className="nav-links" aria-label="Navegación principal">
+          <nav className="nav-links" aria-label={chrome.navPrimary}>
             {nav.map((link) => (
               <a key={link.href} href={link.href}>
                 {link.label}
@@ -116,12 +117,17 @@ export function Header() {
             <a className="btn-contact" href={navContact.href}>
               {navContact.label}
             </a>
-            <LangToggle variant="header" />
+            <LangToggle
+              variant="header"
+              locale={c.locale}
+              group={chrome.langGroup}
+              switchLabel={chrome.switchLanguage}
+            />
             <button
               ref={burgerRef}
               className="burger"
               type="button"
-              aria-label="Abrir menú"
+              aria-label={chrome.openMenu}
               aria-expanded={open}
               aria-controls="mobileMenu"
               onClick={openMenu}
@@ -145,14 +151,14 @@ export function Header() {
         ref={menuRef}
         className={open ? "mobile-menu open" : "mobile-menu"}
         id="mobileMenu"
-        aria-label="Navegación móvil"
+        aria-label={chrome.navMobile}
         aria-hidden={!open}
       >
         <button
           ref={closeBtnRef}
           className="close-btn"
           type="button"
-          aria-label="Cerrar menú"
+          aria-label={chrome.closeMenu}
           onClick={closeMenu}
         >
           <svg
@@ -166,7 +172,7 @@ export function Header() {
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
-        {MENU_LINKS.map((link) => (
+        {menuLinks.map((link) => (
           <a key={link.href} href={link.href} onClick={closeMenu}>
             {link.label}
           </a>

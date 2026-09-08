@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { servicesSection } from "@/content";
+import type { SiteContent } from "@/content";
 
 // Icono y color por posición (presentación, no dato de contenido).
 const FrontendIcon = (
@@ -49,7 +49,9 @@ const presentation: { variant: string; icon: ReactNode }[] = [
   { variant: "gray", icon: CloudIcon },
 ];
 
-export function Services() {
+export function Services({ c }: { c: SiteContent }) {
+  const { services } = c;
+
   return (
     <section
       className="services"
@@ -57,9 +59,9 @@ export function Services() {
       aria-labelledby="services-title"
     >
       <h2 className="sr-only" id="services-title">
-        {servicesSection.srTitle}
+        {services.srTitle}
       </h2>
-      {servicesSection.cards.map((card, i) => (
+      {services.cards.map((card, i) => (
         <div
           key={card.index}
           className={`service-card ${presentation[i].variant} reveal`}

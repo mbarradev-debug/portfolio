@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { about } from "@/content";
+import type { SiteContent } from "@/content";
 
-export function About() {
+export function About({ c }: { c: SiteContent }) {
+  const { about } = c;
+
   return (
     <section className="about" id="about" aria-labelledby="about-title">
       <div className="about-card reveal">
@@ -19,7 +21,7 @@ export function About() {
                 loading="lazy"
                 // El marco mide ~320px en desktop y ~240px en móvil (< 980px).
                 sizes="(max-width: 980px) 240px, 320px"
-                alt="Retrato de Miguel Barra, Full Stack Developer"
+                alt={about.photoAlt}
               />
             </div>
           </div>

@@ -1,14 +1,20 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { testimonials, testimonialsSection } from "@/content";
+import type { Testimonial, TestimonialsContent } from "@/content";
 import { PersonIcon } from "../icons";
 
 const SWAP_MS = 200;
 const AUTOPLAY_MS = 6000;
 
-export function Testimonials() {
-  const multiple = testimonials.length > 1;
+export function Testimonials({
+  items,
+  section,
+}: {
+  items: Testimonial[];
+  section: TestimonialsContent;
+}) {
+  const multiple = items.length > 1;
   const [index, setIndex] = useState(0);
   const [fading, setFading] = useState(false);
   const indexRef = useRef(0);
@@ -29,9 +35,9 @@ export function Testimonials() {
     if (!multiple) return;
     window.clearInterval(autoTimer.current);
     autoTimer.current = window.setInterval(() => {
-      show((indexRef.current + 1) % testimonials.length);
+      show((indexRef.current + 1) % items.length);
     }, AUTOPLAY_MS);
-  }, [multiple, show]);
+  }, [multiple, show, items.length]);
 
   useEffect(() => {
     restartAutoplay();
@@ -46,7 +52,7 @@ export function Testimonials() {
     restartAutoplay();
   };
 
-  const current = testimonials[index];
+  const current = items[index];
 
   return (
     <section
@@ -57,23 +63,23 @@ export function Testimonials() {
     >
       <div className="testi-inner">
         <h2 className="sr-only" id="testi-title">
-          {testimonialsSection.srTitle}
+          {section.srTitle}
         </h2>
         <div className="testi-top">
           <div
             className="testi-dots"
             id="testiDots"
             role="tablist"
-            aria-label="Seleccionar recomendación"
+            aria-label={section.pickLabel}
             hidden={!multiple}
           >
             {multiple &&
-              testimonials.map((t, i) => (
+              items.map((t, i) => (
                 <button
                   key={t.name}
                   type="button"
                   className={i === index ? "active" : undefined}
-                  aria-label={`Ver recomendación ${i + 1}`}
+                  aria-label={`${section.viewLabelPrefix} ${i + 1}`}
                   aria-current={i === index ? "true" : "false"}
                   onClick={() => onDot(i)}
                 />
@@ -81,11 +87,11 @@ export function Testimonials() {
           </div>
           <a
             className="testi-cta"
-            href={testimonialsSection.cta.href}
+            href={section.cta.href}
             target="_blank"
             rel="noopener"
           >
-            {testimonialsSection.cta.label}
+            {section.cta.label}
           </a>
         </div>
         <blockquote
@@ -105,7 +111,7 @@ export function Testimonials() {
             <div className="role" id="testiRole">
               {current.role}
             </div>
-            <div className="source">{testimonialsSection.source}</div>
+            <div className="source">{section.source}</div>
           </div>
         </div>
       </div>

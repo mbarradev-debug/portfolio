@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { arsenalSection, techRow1, techRow2 } from "@/content";
+import type { SiteContent } from "@/content";
 
 function Track({ words, reverse }: { words: string[]; reverse?: boolean }) {
   // Contenido duplicado para que el bucle del marquee sea continuo.
@@ -16,13 +16,15 @@ function Track({ words, reverse }: { words: string[]; reverse?: boolean }) {
   );
 }
 
-export function Arsenal() {
+export function Arsenal({ c }: { c: SiteContent }) {
+  const { arsenal, techRow1, techRow2 } = c;
+
   return (
     <section className="arsenal" aria-labelledby="arsenal-title">
       <div className="wrap">
         <p className="badge" id="arsenal-title">
           <span className="dot" aria-hidden="true" />
-          {arsenalSection.badge}
+          {arsenal.badge}
         </p>
       </div>
       <ul className="sr-only" id="techList">

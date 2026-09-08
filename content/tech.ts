@@ -1,5 +1,5 @@
 // Filas del marquee del stack técnico. Mismo contenido y orden que
-// references/index.html (techRow1 / techRow2).
+// references/index.html (techRow1 / techRow2). No dependen del idioma.
 
 export const techRow1: string[] = [
   "REACT",

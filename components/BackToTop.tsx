@@ -2,7 +2,13 @@
 
 import type { ReactNode } from "react";
 
-export function BackToTop({ children }: { children: ReactNode }) {
+export function BackToTop({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) {
   const onClick = () => {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -15,7 +21,7 @@ export function BackToTop({ children }: { children: ReactNode }) {
       className="back-to-top"
       id="toTop"
       type="button"
-      aria-label="Volver arriba"
+      aria-label={label}
       onClick={onClick}
     >
       {children}

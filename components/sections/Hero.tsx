@@ -1,9 +1,11 @@
 import ReactDOM from "react-dom";
-import { hero } from "@/content";
+import type { SiteContent } from "@/content";
 import { ArrowRight } from "../icons";
 import { HeroVideo } from "./HeroVideo";
 
-export function Hero() {
+export function Hero({ c }: { c: SiteContent }) {
+  const { hero } = c;
+
   // El poster del hero es candidato a LCP: se precarga con prioridad alta para
   // que el navegador lo descubra en el parse del HTML, no al llegar al <video>.
   ReactDOM.preload("/hero-poster.jpg", { as: "image", fetchPriority: "high" });

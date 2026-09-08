@@ -1,5 +1,4 @@
-import { projects, projectsSection } from "@/content";
-import type { Project } from "@/content";
+import type { Project, SiteContent } from "@/content";
 
 function ProjectRow({ project }: { project: Project }) {
   const body = (
@@ -48,7 +47,9 @@ function ProjectRow({ project }: { project: Project }) {
   );
 }
 
-export function Projects() {
+export function Projects({ c }: { c: SiteContent }) {
+  const { projects, projectsSection } = c;
+
   return (
     <section
       className="projects"
