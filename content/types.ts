@@ -118,6 +118,16 @@ export interface NotFoundContent {
   sectionsNav: string;
 }
 
+// Fallback de `app/error.tsx` (React Error Boundary de la ruta). No cubre el
+// layout raíz; para eso haría falta `global-error.tsx` (ver docs/routing.md).
+export interface ErrorContent {
+  code: string;
+  title: string;
+  body: string;
+  retry: string;
+  home: string;
+}
+
 // Textos del "chrome" del sitio (header, menú, toggles). Aria-labels incluidos.
 export interface ChromeContent {
   skipLink: string;
@@ -153,5 +163,6 @@ export interface SiteContent {
   casesSection: CasesContent;
   footer: FooterContent;
   notFound: NotFoundContent;
+  error: ErrorContent;
   chrome: ChromeContent;
 }

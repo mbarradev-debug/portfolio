@@ -168,6 +168,14 @@ export const en: SiteContent = {
     sectionsNav: "Site sections",
   },
 
+  error: {
+    code: "Something broke",
+    title: "We couldn't load this section.",
+    body: "A one-off rendering problem. Try again; if it persists, head back home.",
+    retry: "Try again",
+    home: "Back to home",
+  },
+
   chrome: {
     skipLink: "Skip to content",
     navPrimary: "Primary navigation",
