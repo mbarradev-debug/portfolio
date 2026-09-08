@@ -23,6 +23,9 @@ export function LangToggle({ variant }: { variant: "header" | "footer" }) {
             data-lang={code}
             className={active ? "active" : undefined}
             aria-pressed={active}
+            aria-current={active ? "true" : undefined}
+            // El botón inactivo describe a qué idioma cambia, en ese idioma.
+            aria-label={active ? undefined : chrome.switchLanguage}
             onClick={active ? undefined : () => setLocale(code)}
           >
             {code.toUpperCase()}

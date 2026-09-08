@@ -1348,11 +1348,25 @@ html.reveal-armed .hero .reveal {
   filter: blur(6px);
 }
 
+/* Cambio de idioma: se desvanece todo el contenido del cuerpo ~130ms antes de
+   sustituir los textos (LocaleProvider) y vuelve a aparecer. Sólo `opacity`.
+   Con movimiento reducido el cambio es inmediato (el JS ya no marca `swapping`);
+   se quita también la transición por si acaso. */
+.locale-swap {
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.locale-swap.is-swapping {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .testi-quote.is-fading,
   .case-info.is-switching,
   .browser-body img.is-switching {
     filter: none;
+  }
+  .locale-swap {
+    transition: none;
   }
 }
 

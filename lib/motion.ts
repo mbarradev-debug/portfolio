@@ -5,6 +5,10 @@
 /** Carrusel de proyectos: fundido + blur al cambiar de tarjeta. */
 export const CASE_SWAP_MS = 170;
 
+/** Cambio de idioma: se desvanece el contenido antes de sustituir los textos.
+ *  Menor que --dur-fast (160ms) para que el swap ocurra ya semitransparente. */
+export const LOCALE_SWAP_MS = 130;
+
 /** Slider de testimonios: fundido al cambiar de cita. */
 export const TESTIMONIAL_SWAP_MS = 200;
 

@@ -176,6 +176,6 @@ export const es: SiteContent = {
     closeMenu: "Cerrar menú",
     backToTop: "Volver arriba",
     langGroup: "Idioma",
-    switchLanguage: "View in English",
+    switchLanguage: "View the site in English",
   },
 };
