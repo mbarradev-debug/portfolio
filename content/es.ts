@@ -18,7 +18,6 @@ export const es: SiteContent = {
 
   nav: [
     { label: "Acerca de", href: "#about" },
-    { label: "Casos de estudio", href: "#casos" },
     { label: "Proyectos", href: "#proyectos" },
   ],
   navContact: { label: "Contacto", href: "#contacto" },
@@ -92,6 +91,7 @@ export const es: SiteContent = {
   techRow1,
   techRow2,
 
+  // Proyectos, en formato de tarjeta/carrusel (una a la vez).
   cases: [
     {
       tag: "DASHBOARD",
@@ -106,36 +106,29 @@ export const es: SiteContent = {
       grad: "linear-gradient(155deg,#e7e5f0,#dde1ee 55%, #ece7f2)",
       url: "https://pulso-cyan-zeta.vercel.app",
     },
+    {
+      tag: "EXTENSIÓN",
+      date: "2026",
+      title: "Pulso UF y Dólar — Extensión de Chrome",
+      desc: "Extensión de Chrome que muestra la UF, el dólar y otros indicadores del Banco Central en el popup del navegador, con su variación diaria y un conversor a pesos con botón para invertir. Permite elegir qué indicadores ver, avisa de forma factual cuando el dato aún no se ha actualizado, y guarda las preferencias solo en el navegador: sin cuentas, anuncios ni seguimiento. Consume la API pública de Pulso.",
+      image: "/pulso-extension.png",
+      imageAlt:
+        "Popup de la extensión Pulso UF y Dólar con la UF, el dólar observado y el conversor a pesos",
+      imageWidth: 1280,
+      imageHeight: 800,
+      grad: "linear-gradient(155deg,#e6f0da,#d9e9c9 55%,#eef4e2)",
+      url: "https://chromewebstore.google.com/detail/pulso-uf-y-d%C3%B3lar/opakpmmcepebnccjjkhkgioopeadgihp",
+    },
   ],
   casesSection: {
-    title: "Casos de estudio",
+    badge: "TRABAJO SELECCIONADO",
+    title: "Proyectos",
     sub: "No solo qué construyo, también cómo lo construyo y cómo lo pruebo.",
     linkLabelWithUrl: "Ver el proyecto",
     linkLabelDefault: "Hablemos",
     defaultHref: "#contacto",
-    prevLabel: "Caso anterior",
-    nextLabel: "Caso siguiente",
-  },
-
-  projects: [
-    {
-      year: "2025",
-      name: "Pulso",
-      desc: "Dashboard de indicadores económicos de Chile en producción. API intermedia propia (Route Handlers de Next.js) sobre la API SI3 del Banco Central, con caché en memoria y fallback. 10 indicadores en tiempo casi real, gráfico histórico, favoritos y conversor. Tests E2E con Playwright y CI en GitHub Actions.",
-      tags: [
-        "Next.js 16",
-        "React 19",
-        "TypeScript",
-        "SWR",
-        "Chart.js",
-        "Vercel",
-      ],
-      url: "https://pulso-cyan-zeta.vercel.app",
-    },
-  ],
-  projectsSection: {
-    badge: "TRABAJO SELECCIONADO",
-    title: "Proyectos",
+    prevLabel: "Proyecto anterior",
+    nextLabel: "Proyecto siguiente",
   },
 
   footer: {
@@ -145,7 +138,6 @@ export const es: SiteContent = {
     navHeading: "NAVEGAR",
     nav: [
       { label: "Acerca de", href: "#about" },
-      { label: "Casos de estudio", href: "#casos" },
       { label: "Servicios", href: "#servicios" },
       { label: "Proyectos", href: "#proyectos" },
       { label: "Contacto", href: "#contacto" },

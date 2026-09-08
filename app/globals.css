@@ -971,92 +971,6 @@ html.reveal-armed .hero .reveal {
   height: 48px;
 }
 
-/* ===== PROJECTS ===== */
-.projects {
-  background: var(--color-teal-dark);
-  padding: 100px 24px 60px;
-  position: relative;
-  overflow: hidden;
-}
-.projects .badge {
-  border-color: rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.7);
-}
-.projects .ghost {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(2.6rem, 7vw, 5.2rem);
-  color: rgba(255, 255, 255, 0.18);
-  letter-spacing: -0.01em;
-  margin-top: 8px;
-}
-.project-list {
-  max-width: 1320px;
-  margin: 52px auto 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-.project-row {
-  display: grid;
-  grid-template-columns: 70px 1fr auto;
-  align-items: center;
-  gap: 28px;
-  padding: 34px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fff;
-  position: relative;
-  transition:
-    transform var(--dur-mid) var(--ease-out),
-    opacity var(--dur-reveal) var(--ease-out);
-}
-a.project-row {
-  cursor: pointer;
-}
-a.project-row:active {
-  transform: translateX(6px);
-}
-.project-row h3 .ext {
-  color: var(--color-green);
-  margin-left: 6px;
-}
-.project-year {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.62);
-  font-variant-numeric: tabular-nums;
-}
-.project-main h3 {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-bottom: 8px;
-  transition: color var(--dur-mid) var(--ease-out);
-}
-.project-main p {
-  color: rgba(255, 255, 255, 0.66);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-width: 58ch;
-}
-.project-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  max-width: 280px;
-}
-.project-tags span {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  padding: 6px 12px;
-  color: rgba(255, 255, 255, 0.75);
-}
-
 /* ===== FOOTER CTA ===== */
 .footer-cta {
   position: relative;
@@ -1198,12 +1112,6 @@ a.project-row:active {
   .footer-actions:hover .circle-arrow {
     transform: translate(3px, -3px);
   }
-  a.project-row:hover {
-    transform: translateX(14px);
-  }
-  a.project-row:hover .project-main h3 {
-    color: var(--color-green);
-  }
   .footer-col ul li a:hover {
     color: var(--color-green);
   }
@@ -1281,14 +1189,6 @@ a.project-row:active {
   }
   .case-info {
     padding: 32px 24px;
-  }
-  .project-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .project-tags {
-    justify-content: flex-start;
-    max-width: none;
   }
   .footer-top {
     padding-bottom: 36px;
