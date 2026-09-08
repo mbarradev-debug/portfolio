@@ -65,6 +65,8 @@ export const en: SiteContent = {
     source: "SOURCE: LINKEDIN",
     pickLabel: "Select recommendation",
     viewLabelPrefix: "View recommendation",
+    pauseLabel: "Pause the recommendations rotation",
+    resumeLabel: "Resume the recommendations rotation",
   },
 
   services: {
@@ -88,7 +90,11 @@ export const en: SiteContent = {
     ],
   },
 
-  arsenal: { badge: "Tech stack" },
+  arsenal: {
+    badge: "Tech stack",
+    pauseLabel: "Pause the tech stack animation",
+    resumeLabel: "Resume the tech stack animation",
+  },
   techRow1,
   techRow2,
 
