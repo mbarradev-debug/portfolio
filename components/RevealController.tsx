@@ -4,13 +4,20 @@ import { useEffect } from "react";
 
 /**
  * Revelado al hacer scroll. El contenido ya se pinta visible (ver `.reveal` en
- * globals.css); un script inline lo "arma" (oculta los bloques fuera del hero)
- * antes del primer paint. Este controlador solo se encarga de revelarlos al
+ * globals.css); un script inline al final del <body> "arma" los bloques fuera
+ * del hero antes del primer paint y marca `.in` los que ya están en viewport
+ * (esos no esperan a este controlador). Aquí solo se revelan los que quedan al
  * entrar en viewport, con stagger entre hermanos.
  *
  * Sin IntersectionObserver o con prefers-reduced-motion: desarma y deja todo
  * visible. El hero nunca se arma, así que su <h1> (candidato a LCP) es visible
  * sin esperar a este componente.
+ *
+ * El conjunto de `.reveal` es fijo: se renderiza una vez en SSR y React reutiliza
+ * los mismos nodos en los re-renders (el `className` es constante, React no lo
+ * reescribe, así que `.in` y `--stagger-i` externos sobreviven); ningún código
+ * inserta `.reveal` dinámicamente. Si eso cambiara, haría falta un
+ * MutationObserver para re-observar los nuevos.
  */
 export function RevealController() {
   useEffect(() => {
@@ -19,14 +26,18 @@ export function RevealController() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    const revealEls = [
-      ...document.querySelectorAll<HTMLElement>(".reveal"),
-    ].filter((el) => !el.closest(".hero"));
-
     if (reduce || !("IntersectionObserver" in window)) {
       html.classList.remove("reveal-armed");
       return;
     }
+
+    // Solo los que aún no están revelados (el script inline ya marcó los que
+    // estaban en viewport al cargar) y fuera del hero.
+    const pending = [
+      ...document.querySelectorAll<HTMLElement>(".reveal:not(.in)"),
+    ].filter((el) => !el.closest(".hero"));
+
+    if (pending.length === 0) return;
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -50,7 +61,7 @@ export function RevealController() {
       },
       { threshold: 0, rootMargin: "0px 0px -12% 0px" },
     );
-    revealEls.forEach((el) => io.observe(el));
+    pending.forEach((el) => io.observe(el));
 
     return () => io.disconnect();
   }, []);
