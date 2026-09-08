@@ -129,13 +129,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
-        {/* Antes del primer paint: "arma" los bloques .reveal (fuera del hero)
-            para que RevealController los anime al hacer scroll. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('reveal-armed')`,
-          }}
-        />
         <LocaleProvider>
           <a className="skip-link" href="#top">
             Saltar al contenido
@@ -144,6 +137,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </LocaleProvider>
         <Analytics />
+        {/* Antes del primer paint (el script va al final del <body>, con el
+            contenido ya parseado): marca como revelado todo `.reveal` que ya
+            esté en viewport —así no espera a la hidratación de RevealController—
+            y "arma" el resto para animarlos al hacer scroll. El hero se excluye
+            (su <h1> es candidato a LCP y siempre está visible). Si esto falla,
+            nada queda oculto. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var h=document.documentElement,vh=innerHeight,n=document.querySelectorAll('.reveal');for(var i=0;i<n.length;i++){var e=n[i];if(!e.closest('.hero')&&e.getBoundingClientRect().top<vh){e.classList.add('in')}}h.classList.add('reveal-armed')}catch(_){}})()`,
+          }}
+        />
       </body>
     </html>
   );
