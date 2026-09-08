@@ -1519,7 +1519,8 @@ header {
 
 /* Menú móvil: overlay a pantalla completa. La referencia lo muestra con un
    toggle de `display`; aquí se hace animable con opacity + un pequeño
-   desplazamiento (entrada ~180ms, salida ~140ms, ease-out fuerte). */
+   desplazamiento (~--dur-fast, ease-out fuerte). Los enlaces entran escalonados
+   (--stagger-step por índice, lo fija Header vía `--menu-i`). */
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -1535,17 +1536,17 @@ header {
   visibility: hidden;
   transform: translateY(-8px);
   transition:
-    opacity 140ms var(--ease-out),
-    transform 140ms var(--ease-out),
-    visibility 0s linear 140ms;
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    visibility 0s linear var(--dur-fast);
 }
 .mobile-menu.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
   transition:
-    opacity 180ms var(--ease-out),
-    transform 180ms var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
     visibility 0s linear 0s;
 }
 .mobile-menu a {
@@ -1557,6 +1558,16 @@ header {
   padding: 14px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.mobile-menu.open a {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--stagger-step) * var(--menu-i, 0));
 }
 .mobile-menu .close-btn {
   position: absolute;
@@ -1692,10 +1703,15 @@ header {
     transition: none;
   }
 
-  /* Menú móvil: sin desplazamiento, fundido más corto. */
+  /* Menú móvil: sin desplazamiento ni escalonado, sólo fundido. */
   .mobile-menu,
-  .mobile-menu.open {
+  .mobile-menu.open,
+  .mobile-menu a,
+  .mobile-menu.open a {
     transform: none;
+  }
+  .mobile-menu.open a {
+    transition-delay: 0s;
   }
   .mobile-menu {
     transition:
