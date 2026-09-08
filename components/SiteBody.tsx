@@ -1,3 +1,5 @@
+"use client";
+
 import { RevealController } from "@/components/RevealController";
 import {
   About,
@@ -9,10 +11,14 @@ import {
   Services,
   Testimonials,
 } from "@/components/sections";
-import { getContent, type Locale } from "@/content";
+import { getContent } from "@/content";
+import { useLocale } from "./LocaleProvider";
 
-/** Home compartida: mismas secciones, contenido según el idioma. */
-export function SitePage({ locale }: { locale: Locale }) {
+// Cuerpo de la home. Cliente: lee el idioma del contexto y pasa el contenido a
+// cada sección. El HTML inicial (SSR) sale en español; si el navegador está en
+// inglés, LocaleProvider dispara un re-render con el diccionario EN.
+export function SiteBody() {
+  const { locale } = useLocale();
   const c = getContent(locale);
 
   return (

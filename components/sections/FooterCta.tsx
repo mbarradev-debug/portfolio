@@ -25,12 +25,7 @@ export function FooterCta({ c }: { c: SiteContent }) {
             <span className="circle-arrow" aria-hidden="true">
               <ArrowUpRight stroke="#15181a" />
             </span>
-            <LangToggle
-              variant="footer"
-              locale={c.locale}
-              group={chrome.langGroup}
-              switchLabel={chrome.switchLanguage}
-            />
+            <LangToggle variant="footer" />
           </div>
         </div>
 

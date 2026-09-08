@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { SiteContent } from "@/content";
+import { getContent } from "@/content";
 import { LangToggle } from "./LangToggle";
+import { useLocale } from "./LocaleProvider";
 
-export function Header({ c }: { c: SiteContent }) {
-  const { site, nav, navContact, chrome } = c;
+export function Header() {
+  const { locale } = useLocale();
+  const { site, nav, navContact, chrome } = getContent(locale);
   const menuLinks = [...nav, navContact];
 
   const [open, setOpen] = useState(false);
@@ -117,12 +119,7 @@ export function Header({ c }: { c: SiteContent }) {
             <a className="btn-contact" href={navContact.href}>
               {navContact.label}
             </a>
-            <LangToggle
-              variant="header"
-              locale={c.locale}
-              group={chrome.langGroup}
-              switchLabel={chrome.switchLanguage}
-            />
+            <LangToggle variant="header" />
             <button
               ref={burgerRef}
               className="burger"

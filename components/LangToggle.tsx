@@ -1,64 +1,34 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import type { Locale } from "@/content";
+import { getContent, type Locale } from "@/content";
+import { useLocale } from "./LocaleProvider";
 
-// Cambia entre la versión ES (`/`) y EN (`/en`). El botón del idioma activo es
-// estático; el otro es un enlace a la home del otro idioma, conservando el hash
-// de sección visible (`#casos`, …) para no perder el sitio al cambiar.
-const OTHER_HOME: Record<Locale, string> = { es: "/en", en: "/" };
+// Conmuta el idioma de la interfaz in situ (sin navegar). La elección se guarda
+// en localStorage vía LocaleProvider y gana sobre la detección del navegador.
+const OPTIONS: Locale[] = ["en", "es"];
 
-export function LangToggle({
-  variant,
-  locale,
-  group,
-  switchLabel,
-}: {
-  variant: "header" | "footer";
-  locale: Locale;
-  group: string;
-  switchLabel: string;
-}) {
+export function LangToggle({ variant }: { variant: "header" | "footer" }) {
+  const { locale, setLocale } = useLocale();
+  const { chrome } = getContent(locale);
   const className = variant === "header" ? "lang-toggle" : "footer-lang";
-  const [hash, setHash] = useState("");
-
-  useEffect(() => {
-    const sync = () => setHash(window.location.hash);
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, []);
-
-  const target = OTHER_HOME[locale] + hash;
-  const other: Locale = locale === "es" ? "en" : "es";
-  const buttons: Locale[] = ["en", "es"];
 
   return (
-    <div className={className} role="group" aria-label={group}>
-      {buttons.map((code) =>
-        code === locale ? (
+    <div className={className} role="group" aria-label={chrome.langGroup}>
+      {OPTIONS.map((code) => {
+        const active = code === locale;
+        return (
           <button
             key={code}
             type="button"
             data-lang={code}
-            className="active"
-            aria-pressed={true}
+            className={active ? "active" : undefined}
+            aria-pressed={active}
+            onClick={active ? undefined : () => setLocale(code)}
           >
             {code.toUpperCase()}
           </button>
-        ) : (
-          <Link
-            key={code}
-            href={target}
-            hrefLang={other}
-            data-lang={code}
-            aria-label={switchLabel}
-          >
-            {code.toUpperCase()}
-          </Link>
-        ),
-      )}
+        );
+      })}
     </div>
   );
 }
