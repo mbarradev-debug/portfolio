@@ -1,37 +1,64 @@
-// Toggle de idioma — puramente visual: ES es la única versión disponible, EN
-// queda deshabilitado. Sin estado, así que sirve tanto en el header (Client)
-// como en el footer (Server).
-//
-// TODO(DBO-1283) — al habilitar EN, el SEO de i18n necesita:
-//   - Ruta por idioma (p. ej. `/en`) con su propio contenido.
-//   - `hreflang` recíprocos y completos: es, en, x-default.
-//   - `alternates.canonical` por variante (cada idioma apunta a su URL).
-//   - `openGraph.locale` + `openGraph.alternateLocale` (`es_CL` / `en`).
-//   - `<html lang>` acorde a la ruta.
+"use client";
 
-const EN_TITLE = "Versión en inglés próximamente";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import type { Locale } from "@/content";
 
-export function LangToggle({ variant }: { variant: "header" | "footer" }) {
+// Cambia entre la versión ES (`/`) y EN (`/en`). El botón del idioma activo es
+// estático; el otro es un enlace a la home del otro idioma, conservando el hash
+// de sección visible (`#casos`, …) para no perder el sitio al cambiar.
+const OTHER_HOME: Record<Locale, string> = { es: "/en", en: "/" };
+
+export function LangToggle({
+  variant,
+  locale,
+  group,
+  switchLabel,
+}: {
+  variant: "header" | "footer";
+  locale: Locale;
+  group: string;
+  switchLabel: string;
+}) {
   const className = variant === "header" ? "lang-toggle" : "footer-lang";
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    const sync = () => setHash(window.location.hash);
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+
+  const target = OTHER_HOME[locale] + hash;
+  const other: Locale = locale === "es" ? "en" : "es";
+  const buttons: Locale[] = ["en", "es"];
+
   return (
-    <div className={className} role="group" aria-label="Idioma">
-      <button
-        type="button"
-        data-lang="en"
-        disabled
-        aria-pressed={false}
-        title={EN_TITLE}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        data-lang="es"
-        className="active"
-        aria-pressed={true}
-      >
-        ES
-      </button>
+    <div className={className} role="group" aria-label={group}>
+      {buttons.map((code) =>
+        code === locale ? (
+          <button
+            key={code}
+            type="button"
+            data-lang={code}
+            className="active"
+            aria-pressed={true}
+          >
+            {code.toUpperCase()}
+          </button>
+        ) : (
+          <Link
+            key={code}
+            href={target}
+            hrefLang={other}
+            data-lang={code}
+            aria-label={switchLabel}
+          >
+            {code.toUpperCase()}
+          </Link>
+        ),
+      )}
     </div>
   );
 }

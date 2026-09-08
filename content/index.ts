@@ -1,6 +1,15 @@
+import { en } from "./en";
+import { es } from "./es";
+import type { Locale, SiteContent } from "./types";
+
 export * from "./types";
-export * from "./testimonials";
-export * from "./tech";
-export * from "./cases";
-export * from "./projects";
-export * from "./copy";
+
+const DICTS: Record<Locale, SiteContent> = { es, en };
+
+/** Contenido completo del sitio para un idioma. */
+export function getContent(locale: Locale): SiteContent {
+  return DICTS[locale];
+}
+
+/** Las dos variantes, para sitemap / alternates / generateStaticParams. */
+export const LOCALES: Locale[] = ["es", "en"];

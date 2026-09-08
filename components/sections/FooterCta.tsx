@@ -1,9 +1,11 @@
-import { footer } from "@/content";
+import type { SiteContent } from "@/content";
 import { BackToTop } from "../BackToTop";
 import { ArrowUp, ArrowUpRight } from "../icons";
 import { LangToggle } from "../LangToggle";
 
-export function FooterCta() {
+export function FooterCta({ c }: { c: SiteContent }) {
+  const { footer, chrome } = c;
+
   return (
     <footer
       className="footer-cta"
@@ -23,7 +25,12 @@ export function FooterCta() {
             <span className="circle-arrow" aria-hidden="true">
               <ArrowUpRight stroke="#15181a" />
             </span>
-            <LangToggle variant="footer" />
+            <LangToggle
+              variant="footer"
+              locale={c.locale}
+              group={chrome.langGroup}
+              switchLabel={chrome.switchLanguage}
+            />
           </div>
         </div>
 
@@ -44,7 +51,7 @@ export function FooterCta() {
           <p className="footer-col-label" id="footer-connect-label">
             {footer.connectHeading}
           </p>
-          <BackToTop>
+          <BackToTop label={chrome.backToTop}>
             <ArrowUp />
           </BackToTop>
           <ul

@@ -1,0 +1,15 @@
+import type { Metadata, Viewport } from "next";
+import { Shell } from "../_shell";
+import { buildMetadata } from "../_shared";
+import "../globals.css";
+
+export const metadata: Metadata = buildMetadata("es");
+
+export const viewport: Viewport = {
+  themeColor: "#15181a",
+  colorScheme: "light",
+};
+
+export default function EsLayout({ children }: { children: React.ReactNode }) {
+  return <Shell locale="es">{children}</Shell>;
+}
