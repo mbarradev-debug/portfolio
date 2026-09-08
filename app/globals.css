@@ -227,63 +227,9 @@ html.reveal-armed .hero .reveal {
   }
 }
 
-/* ==========================================================================
-   Preferencia de movimiento reducido: reduce, no elimina.
-   Conserva fundidos de opacidad/color; oculta el vídeo del hero;
-   pausa el marquee.
-   ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-property:
-      opacity, background-color, color, border-color !important;
-    transition-duration: 0.2s !important;
-  }
-
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  /* Sin marquee: se oculta la cinta (y su botón de pausa) y se muestra la
-     lista completa del stack en flujo, legible y sin recortes. */
-  .marquee-row,
-  .marquee-toggle {
-    display: none !important;
-  }
-  .tech-list {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0 auto;
-    padding: 0 24px;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-    max-width: 1320px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px 22px;
-  }
-  .tech-list li {
-    font-family: var(--font-mono);
-    font-size: clamp(0.85rem, 2vw, 1.05rem);
-    letter-spacing: 0.02em;
-    color: var(--color-ink);
-  }
-
-  .hero-bg video {
-    display: none;
-  }
-}
+/* La política de movimiento reducido está centralizada en un único bloque
+   `@media (prefers-reduced-motion: reduce)` al final de este archivo (busca
+   "MOVIMIENTO REDUCIDO"). Ver también docs/motion.md. */
 
 /* ==========================================================================
    SECCIONES (PNX-005) — portadas de references/index.html.
@@ -1359,17 +1305,6 @@ html.reveal-armed .hero .reveal {
   opacity: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .testi-quote.is-fading,
-  .case-info.is-switching,
-  .browser-body img.is-switching {
-    filter: none;
-  }
-  .locale-swap {
-    transition: none;
-  }
-}
-
 /* ==========================================================================
    HEADER / NAV / MENÚ MÓVIL (PNX-006) — portado de references/index.html.
    El header y el overlay móvil son un Client Component hoja montado en el
@@ -1615,21 +1550,6 @@ header {
   color: #fff;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mobile-menu {
-    transform: none;
-    transition:
-      opacity 120ms linear,
-      visibility 0s linear 120ms;
-  }
-  .mobile-menu.open {
-    transform: none;
-    transition:
-      opacity 120ms linear,
-      visibility 0s linear 0s;
-  }
-}
-
 @media (hover: hover) {
   .nav-links a:hover {
     color: var(--color-ink);
@@ -1666,5 +1586,114 @@ header {
   .nav-right .btn-contact,
   .nav-right .lang-toggle {
     display: none;
+  }
+}
+
+/* ==========================================================================
+   MOVIMIENTO REDUCIDO — política única (ver docs/motion.md)
+
+   "Reduce, no elimina": se conservan los fundidos de opacidad/color y la
+   información; se quitan el movimiento, el vídeo de fondo y el marquee. Va al
+   final del archivo para ganar por orden a los bloques `@media (hover: hover)`.
+   El JS complementa esto: RevealController, BackToTop, Projects, Testimonials
+   y HeroVideo consultan `matchMedia("(prefers-reduced-motion: reduce)")`.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property:
+      opacity, background-color, color, border-color !important;
+    transition-duration: 0.2s !important;
+  }
+
+  /* Revelado al scroll: todo visible, sin desplazamiento. */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Sin marquee: se oculta la cinta (y su botón de pausa) y se muestra la
+     lista completa del stack en flujo, legible y sin recortes. */
+  .marquee-row,
+  .marquee-toggle {
+    display: none !important;
+  }
+  .tech-list {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 24px;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    max-width: 1320px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+  }
+  .tech-list li {
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
+  }
+
+  /* Vídeo de fondo del hero: ni se carga (HeroVideo lo comprueba) ni se pinta. */
+  .hero-bg video {
+    display: none;
+  }
+
+  /* Carruseles / cambio de idioma: sólo fundido de opacidad, sin blur. */
+  .testi-quote.is-fading,
+  .case-info.is-switching,
+  .browser-body img.is-switching {
+    filter: none;
+  }
+  .locale-swap {
+    transition: none;
+  }
+
+  /* Menú móvil: sin desplazamiento, fundido más corto. */
+  .mobile-menu,
+  .mobile-menu.open {
+    transform: none;
+  }
+  .mobile-menu {
+    transition:
+      opacity 120ms linear,
+      visibility 0s linear 120ms;
+  }
+  .mobile-menu.open {
+    transition:
+      opacity 120ms linear,
+      visibility 0s linear 0s;
+  }
+
+  /* Transform decorativos de hover: bajo movimiento reducido saltarían de golpe.
+     Se neutralizan (se conservan los cambios de color/fondo/sombra). El
+     `scale(0.96)` de `:active` se mantiene: es feedback mínimo, no movimiento. */
+  .btn-dark:hover,
+  .btn-contact:hover,
+  .pill-btn:hover .circle-arrow,
+  .case-link:hover .circle-arrow,
+  .footer-actions:hover .circle-arrow {
+    transform: none;
+  }
+  /* Subrayado de nav: aparece por opacidad en vez de por `scaleX`. */
+  .nav-links a::after {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+  .nav-links a:hover::after {
+    opacity: 1;
   }
 }
