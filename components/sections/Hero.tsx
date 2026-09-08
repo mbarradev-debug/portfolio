@@ -1,8 +1,13 @@
+import ReactDOM from "react-dom";
 import { hero } from "@/content";
 import { ArrowRight } from "../icons";
 import { HeroVideo } from "./HeroVideo";
 
 export function Hero() {
+  // El poster del hero es candidato a LCP: se precarga con prioridad alta para
+  // que el navegador lo descubra en el parse del HTML, no al llegar al <video>.
+  ReactDOM.preload("/hero-poster.jpg", { as: "image", fetchPriority: "high" });
+
   return (
     <section className="hero" data-nav-dark aria-labelledby="hero-title">
       <div className="hero-bg" aria-hidden="true">
