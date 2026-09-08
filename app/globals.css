@@ -377,12 +377,26 @@ html.reveal-armed .hero .reveal {
   width: 100%;
 }
 .hero h1 {
+  color: #fff;
+  margin-top: 40px;
+}
+.hero-eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 20px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
+}
+.hero-headline {
+  display: block;
   font-size: clamp(1.95rem, 6.4vw, 7rem);
   font-weight: 400;
   line-height: 1.06;
   letter-spacing: -0.025em;
-  color: #fff;
-  margin-top: 40px;
   text-wrap: balance;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.22);
 }
@@ -1236,6 +1250,8 @@ a.project-row:active {
   }
   .hero h1 {
     margin-top: 0;
+  }
+  .hero-headline {
     line-height: 1.1;
   }
   .hero-bottom {
