@@ -20,6 +20,7 @@ export const nav: Link[] = [
 export const navContact: Link = { label: "Contacto", href: "#contacto" };
 
 export const hero = {
+  eyebrow: "Miguel Barra · Full Stack Developer",
   title: "Construyo productos full stack y los llevo a producción.",
   intro:
     "Más de 2 años entregando software para clientes públicos y privados en Chile, con React, Next.js y TypeScript y dominio de todo el stack.",

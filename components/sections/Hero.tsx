@@ -16,7 +16,8 @@ export function Hero() {
       <div className="hero-overlay" aria-hidden="true" />
       <div className="hero-content">
         <h1 className="reveal" id="hero-title">
-          {hero.title}
+          <span className="hero-eyebrow">{hero.eyebrow}</span>
+          <span className="hero-headline">{hero.title}</span>
         </h1>
         <div className="hero-bottom">
           <p className="reveal" style={{ transitionDelay: ".05s" }}>
