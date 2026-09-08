@@ -22,13 +22,8 @@ export function Hero({ c }: { c: SiteContent }) {
           <span className="hero-headline">{hero.title}</span>
         </h1>
         <div className="hero-bottom">
-          <p className="reveal" style={{ transitionDelay: ".05s" }}>
-            {hero.intro}
-          </p>
-          <div
-            className="hero-cta-row reveal"
-            style={{ transitionDelay: ".1s" }}
-          >
+          <p className="reveal">{hero.intro}</p>
+          <div className="hero-cta-row reveal">
             <a className="pill-btn" href={hero.cta.href}>
               <span className="label">{hero.cta.label}</span>
               <span className="circle-arrow" aria-hidden="true">

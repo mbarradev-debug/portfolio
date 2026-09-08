@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import {
+  HERO_VIDEO_DEFER_MS,
+  HERO_VIDEO_IDLE_TIMEOUT_MS,
+  HERO_VIDEO_REVEAL_FALLBACK_MS,
+} from "@/lib/motion";
 
 type IdleWindow = Window & {
   requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
@@ -46,7 +51,7 @@ export function HeroVideo() {
       video.parentElement?.classList.add("video-active");
       video.addEventListener("playing", reveal, { once: true });
       video.addEventListener("loadeddata", reveal, { once: true });
-      fallbackTimer = window.setTimeout(reveal, 2500);
+      fallbackTimer = window.setTimeout(reveal, HERO_VIDEO_REVEAL_FALLBACK_MS);
       video.addEventListener(
         "loadedmetadata",
         () => {
@@ -72,9 +77,11 @@ export function HeroVideo() {
     let deferTimer: number | undefined;
     const schedule = () => {
       if (typeof win.requestIdleCallback === "function") {
-        idleId = win.requestIdleCallback(startLoading, { timeout: 3000 });
+        idleId = win.requestIdleCallback(startLoading, {
+          timeout: HERO_VIDEO_IDLE_TIMEOUT_MS,
+        });
       } else {
-        deferTimer = window.setTimeout(startLoading, 1500);
+        deferTimer = window.setTimeout(startLoading, HERO_VIDEO_DEFER_MS);
       }
     };
 

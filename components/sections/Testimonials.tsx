@@ -2,10 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Testimonial, TestimonialsContent } from "@/content";
+import { TESTIMONIAL_AUTOPLAY_MS, TESTIMONIAL_SWAP_MS } from "@/lib/motion";
 import { PauseIcon, PersonIcon, PlayIcon } from "../icons";
-
-const SWAP_MS = 200;
-const AUTOPLAY_MS = 6000;
 
 export function Testimonials({
   items,
@@ -31,7 +29,7 @@ export function Testimonials({
     swapTimer.current = window.setTimeout(() => {
       setIndex(next);
       setFading(false);
-    }, SWAP_MS);
+    }, TESTIMONIAL_SWAP_MS);
   }, []);
 
   // Autoplay: sólo con >=2 testimonios, sin `prefers-reduced-motion`, sin pausa
@@ -58,7 +56,7 @@ export function Testimonials({
       if (!canRun()) return;
       tick = window.setInterval(() => {
         show((indexRef.current + 1) % items.length);
-      }, AUTOPLAY_MS);
+      }, TESTIMONIAL_AUTOPLAY_MS);
     };
     const stop = () => window.clearInterval(tick);
 

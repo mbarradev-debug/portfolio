@@ -34,13 +34,14 @@ export function RevealController() {
           if (!entry.isIntersecting) return;
           const el = entry.target as HTMLElement;
           // Escalona la entrada entre hermanos .reveal del mismo contenedor.
-          if (!el.style.transitionDelay && el.parentElement) {
+          // El retardo lo calcula el CSS: `--stagger-step * --stagger-i`.
+          if (!el.style.getPropertyValue("--stagger-i") && el.parentElement) {
             const sibs = [...el.parentElement.children].filter((c) =>
               c.classList.contains("reveal"),
             );
             const idx = sibs.indexOf(el);
             if (idx > 0) {
-              el.style.transitionDelay = `${Math.min(idx * 0.07, 0.28)}s`;
+              el.style.setProperty("--stagger-i", String(Math.min(idx, 4)));
             }
           }
           el.classList.add("in");

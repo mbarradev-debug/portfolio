@@ -3,9 +3,8 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import type { CaseStudy, CasesContent } from "@/content";
+import { CASE_SWAP_MS } from "@/lib/motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "../icons";
-
-const SWAP_MS = 170;
 
 export function Projects({
   items,
@@ -36,7 +35,7 @@ export function Projects({
         setSwitching(false);
         lock.current = false;
       },
-      reduce ? 0 : SWAP_MS,
+      reduce ? 0 : CASE_SWAP_MS,
     );
   };
 
