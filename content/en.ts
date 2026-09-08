@@ -20,7 +20,6 @@ export const en: SiteContent = {
 
   nav: [
     { label: "About", href: "#about" },
-    { label: "Case studies", href: "#casos" },
     { label: "Projects", href: "#proyectos" },
   ],
   navContact: { label: "Contact", href: "#contacto" },
@@ -107,36 +106,26 @@ export const en: SiteContent = {
       grad: "linear-gradient(155deg,#e7e5f0,#dde1ee 55%, #ece7f2)",
       url: "https://pulso-cyan-zeta.vercel.app",
     },
+    {
+      tag: "EXTENSION",
+      date: "2026",
+      title: "Pulso UF y Dólar — Chrome extension",
+      desc: "Chrome extension that shows Chile's UF, US dollar and other Central Bank indicators right in the browser popup, with their daily change and a converter to pesos with a swap button. Pick which indicators to show, get a factual notice when a value hasn't updated yet, and keep preferences in the browser only: no accounts, ads or tracking. Consumes the public Pulso API.",
+      mockTag: "PULSO · EXTENSION",
+      mockHeadline: "UF and dollar one click away",
+      grad: "linear-gradient(155deg,#e6f0da,#d9e9c9 55%,#eef4e2)",
+      url: "https://chromewebstore.google.com/detail/pulso-uf-y-d%C3%B3lar/opakpmmcepebnccjjkhkgioopeadgihp",
+    },
   ],
   casesSection: {
-    title: "Case studies",
+    badge: "SELECTED WORK",
+    title: "Projects",
     sub: "Not just what I build, but how I build it and how I test it.",
     linkLabelWithUrl: "View the project",
     linkLabelDefault: "Let's talk",
     defaultHref: "#contacto",
-    prevLabel: "Previous case",
-    nextLabel: "Next case",
-  },
-
-  projects: [
-    {
-      year: "2025",
-      name: "Pulso",
-      desc: "Production dashboard of Chile's economic indicators. Custom intermediate API (Next.js Route Handlers) over the Central Bank's SI3 API, with in-memory caching and fallback. 10 near-real-time indicators, historical chart, favorites and a converter. E2E tests with Playwright and CI on GitHub Actions.",
-      tags: [
-        "Next.js 16",
-        "React 19",
-        "TypeScript",
-        "SWR",
-        "Chart.js",
-        "Vercel",
-      ],
-      url: "https://pulso-cyan-zeta.vercel.app",
-    },
-  ],
-  projectsSection: {
-    badge: "SELECTED WORK",
-    title: "Projects",
+    prevLabel: "Previous project",
+    nextLabel: "Next project",
   },
 
   footer: {
@@ -146,7 +135,6 @@ export const en: SiteContent = {
     navHeading: "NAVIGATE",
     nav: [
       { label: "About", href: "#about" },
-      { label: "Case studies", href: "#casos" },
       { label: "Services", href: "#servicios" },
       { label: "Projects", href: "#proyectos" },
       { label: "Contact", href: "#contacto" },

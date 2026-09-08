@@ -23,14 +23,6 @@ export interface CaseStudy {
   url?: string;
 }
 
-export interface Project {
-  year: string;
-  name: string;
-  desc: string;
-  tags: string[];
-  url?: string;
-}
-
 export interface ServiceCard {
   index: string;
   title: string;
@@ -94,6 +86,7 @@ export interface ArsenalContent {
 }
 
 export interface CasesContent {
+  badge: string;
   title: string;
   sub: string;
   linkLabelWithUrl: string;
@@ -101,11 +94,6 @@ export interface CasesContent {
   defaultHref: string;
   prevLabel: string;
   nextLabel: string;
-}
-
-export interface ProjectsContent {
-  badge: string;
-  title: string;
 }
 
 export interface FooterContent {
@@ -159,8 +147,6 @@ export interface SiteContent {
   techRow2: string[];
   cases: CaseStudy[];
   casesSection: CasesContent;
-  projects: Project[];
-  projectsSection: ProjectsContent;
   footer: FooterContent;
   notFound: NotFoundContent;
   chrome: ChromeContent;

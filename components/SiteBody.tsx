@@ -4,7 +4,6 @@ import { RevealController } from "@/components/RevealController";
 import {
   About,
   Arsenal,
-  CaseStudies,
   FooterCta,
   Hero,
   Projects,
@@ -30,8 +29,7 @@ export function SiteBody() {
         <Testimonials items={c.testimonials} section={c.testimonialsSection} />
         <Services c={c} />
         <Arsenal c={c} />
-        <CaseStudies items={c.cases} section={c.casesSection} />
-        <Projects c={c} />
+        <Projects items={c.cases} section={c.casesSection} />
       </main>
       <FooterCta c={c} />
     </>
