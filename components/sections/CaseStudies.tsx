@@ -81,7 +81,7 @@ export function CaseStudies() {
           </div>
         </div>
 
-        <div className="case-card reveal" id="caseCard" aria-live="polite">
+        <article className="case-card reveal" id="caseCard" aria-live="polite">
           <div
             className="case-media"
             style={current.grad ? { background: current.grad } : undefined}
@@ -144,7 +144,7 @@ export function CaseStudies() {
               </span>
             </a>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   );

@@ -29,17 +29,23 @@ function ProjectRow({ project }: { project: Project }) {
 
   if (project.url) {
     return (
-      <a
-        className="project-row reveal"
-        href={project.url}
-        target="_blank"
-        rel="noopener"
-      >
-        {body}
-      </a>
+      <article>
+        <a
+          className="project-row reveal"
+          href={project.url}
+          target="_blank"
+          rel="noopener"
+        >
+          {body}
+        </a>
+      </article>
     );
   }
-  return <div className="project-row reveal">{body}</div>;
+  return (
+    <article>
+      <div className="project-row reveal">{body}</div>
+    </article>
+  );
 }
 
 export function Projects() {
