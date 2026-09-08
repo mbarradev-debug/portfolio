@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
 import { jetbrainsMono, playfairDisplay, plusJakartaSans } from "./fonts";
 import "./globals.css";
@@ -150,6 +151,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <Header />
         {children}
+        {/* Analítica de Vercel: sin cookies ni datos personales (no requiere
+            banner de consentimiento). El componente oficial inyecta el script
+            de forma diferida, después de la hidratación. Solo emite en
+            producción; en local queda en modo debug sin enviar eventos. */}
+        <Analytics />
       </body>
     </html>
   );
