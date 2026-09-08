@@ -13,6 +13,8 @@ export interface CaseStudy {
   desc: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   grad?: string;
   mockTag?: string;
   mockHeadline?: string;
