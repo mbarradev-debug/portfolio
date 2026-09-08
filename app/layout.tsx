@@ -85,7 +85,10 @@ const jsonLd = {
       "@id": PERSON_ID,
       name: siteName,
       url: SITE_URL,
+      image: `${SITE_URL}/avatar-900.jpg`,
       jobTitle: "Full Stack Developer",
+      email: "mbarra.git@gmail.com",
+      knowsLanguage: ["es", "en"],
       address: {
         "@type": "PostalAddress",
         addressLocality: "Santiago",
