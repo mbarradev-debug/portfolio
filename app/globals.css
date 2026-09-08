@@ -270,9 +270,7 @@ html.reveal-armed .hero .reveal {
 .back-to-top,
 .case-link,
 .lang-toggle button,
-.lang-toggle a,
 .footer-lang button,
-.footer-lang a,
 .testi-dots button {
   transition:
     transform var(--dur-fast) var(--ease-out),
@@ -288,9 +286,7 @@ html.reveal-armed .hero .reveal {
 .back-to-top:active,
 .case-link:active,
 .lang-toggle button:not(:disabled):active,
-.lang-toggle a:active,
 .footer-lang button:not(:disabled):active,
-.footer-lang a:active,
 .mobile-menu a:active {
   transform: scale(0.96);
 }
@@ -1098,8 +1094,7 @@ a.project-row:active {
   display: flex;
   gap: 6px;
 }
-.footer-lang button,
-.footer-lang a {
+.footer-lang button {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.06em;
@@ -1471,10 +1466,7 @@ header {
   letter-spacing: 0.08em;
   transition: background-color var(--dur-mid) var(--ease-out);
 }
-.lang-toggle button,
-.lang-toggle a {
-  display: inline-flex;
-  align-items: center;
+.lang-toggle button {
   padding: 8px 11px;
   border-radius: 9px;
   color: var(--color-ink-soft);
@@ -1487,8 +1479,7 @@ header {
 .nav-over-dark .lang-toggle {
   background: rgba(255, 255, 255, 0.14);
 }
-.nav-over-dark .lang-toggle button,
-.nav-over-dark .lang-toggle a {
+.nav-over-dark .lang-toggle button {
   color: rgba(255, 255, 255, 0.75);
 }
 .nav-over-dark .lang-toggle button.active {

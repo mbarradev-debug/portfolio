@@ -6,27 +6,13 @@ import type { MetadataRoute } from "next";
 // cualquier despliegue, una señal de cambio poco fiable para los crawlers.
 const LAST_CONTENT_UPDATE = new Date("2026-09-08");
 
-const SITE_URL = "https://miguelbarra.cl";
-
-// hreflang recíprocos: cada variante lista a la otra. x-default -> español.
-const languages = {
-  "es-CL": SITE_URL,
-  en: `${SITE_URL}/en`,
-};
-
-// Solo rutas indexables. `/style-check` queda fuera por ser `noindex`.
-// Sin `changefreq` / `priority`: Google los ignora desde hace años.
+// Una sola URL indexable. El inglés no tiene ruta propia (lo aplica el cliente
+// según el navegador), así que no hay variante que declarar aquí.
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: SITE_URL,
+      url: "https://miguelbarra.cl",
       lastModified: LAST_CONTENT_UPDATE,
-      alternates: { languages },
-    },
-    {
-      url: `${SITE_URL}/en`,
-      lastModified: LAST_CONTENT_UPDATE,
-      alternates: { languages },
     },
   ];
 }
