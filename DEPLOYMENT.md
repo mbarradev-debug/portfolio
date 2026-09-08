@@ -69,6 +69,22 @@ Tras verificar: _Search Console → Sitemaps → Añadir un sitemap nuevo_ e
 introducir `sitemap.xml` (URL completa `https://miguelbarra.cl/sitemap.xml`,
 generado por `app/sitemap.ts`). Confirmar que el estado queda en «Correcto».
 
+## Analítica
+
+Herramienta: **Vercel Web Analytics** (`@vercel/analytics`), integrada en
+`app/layout.tsx` con el componente `<Analytics />`.
+
+- **Privacidad**: es sin cookies y no recopila datos personales ni huella de
+  dispositivo, así que no necesita banner de consentimiento en Chile ni bajo
+  GDPR.
+- **Carga**: el componente oficial inyecta `/_vercel/insights/script.js` de
+  forma diferida tras la hidratación; no bloquea el render ni el LCP.
+- **Entornos**: solo envía eventos en producción. En local no hace nada
+  (opcionalmente `<Analytics mode="development" />` para depurar).
+- **Activación**: hay que habilitar _Web Analytics_ una vez en _Vercel →
+  Project → Analytics_; sin ese paso el script responde 404 y no se registran
+  visitas.
+
 ## Presupuesto de assets
 
 Regla general: las imágenes de contenido pasan por `next/image`; los assets
