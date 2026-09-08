@@ -64,6 +64,8 @@ export const es: SiteContent = {
     source: "FUENTE: LINKEDIN",
     pickLabel: "Seleccionar recomendación",
     viewLabelPrefix: "Ver recomendación",
+    pauseLabel: "Pausar la rotación de recomendaciones",
+    resumeLabel: "Reanudar la rotación de recomendaciones",
   },
 
   services: {
@@ -87,7 +89,11 @@ export const es: SiteContent = {
     ],
   },
 
-  arsenal: { badge: "Stack técnico" },
+  arsenal: {
+    badge: "Stack técnico",
+    pauseLabel: "Pausar la animación del stack",
+    resumeLabel: "Reanudar la animación del stack",
+  },
   techRow1,
   techRow2,
 

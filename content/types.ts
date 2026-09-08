@@ -74,6 +74,8 @@ export interface TestimonialsContent {
   source: string;
   pickLabel: string;
   viewLabelPrefix: string;
+  pauseLabel: string;
+  resumeLabel: string;
 }
 
 export interface ServicesContent {
@@ -83,6 +85,8 @@ export interface ServicesContent {
 
 export interface ArsenalContent {
   badge: string;
+  pauseLabel: string;
+  resumeLabel: string;
 }
 
 export interface CasesContent {

@@ -246,8 +246,31 @@ html.reveal-armed .hero .reveal {
     transition: none !important;
   }
 
-  .marquee-track {
-    animation: none !important;
+  /* Sin marquee: se oculta la cinta (y su botón de pausa) y se muestra la
+     lista completa del stack en flujo, legible y sin recortes. */
+  .marquee-row,
+  .marquee-toggle {
+    display: none !important;
+  }
+  .tech-list {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 24px;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    max-width: 1320px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+  }
+  .tech-list li {
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
   }
 
   .hero-bg video {
@@ -582,12 +605,39 @@ html.reveal-armed .hero .reveal {
   flex-wrap: wrap;
   gap: 16px;
 }
+.testi-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .testi-dots {
   display: flex;
   gap: 4px;
 }
 .testi-dots[hidden] {
   display: none;
+}
+.testi-pause {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-mid) var(--ease-out),
+    border-color var(--dur-mid) var(--ease-out);
+}
+.testi-pause svg {
+  width: 13px;
+  height: 13px;
+}
+.testi-pause:active {
+  transform: scale(0.94);
 }
 .testi-dots button {
   width: 44px;
@@ -723,6 +773,50 @@ html.reveal-armed .hero .reveal {
 .arsenal .wrap {
   margin-bottom: 44px;
 }
+.arsenal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.arsenal-head .badge {
+  margin-bottom: 0;
+}
+.marquee-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-mid) var(--ease-out),
+    color var(--dur-mid) var(--ease-out),
+    border-color var(--dur-mid) var(--ease-out);
+}
+.marquee-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+.marquee-toggle:active {
+  transform: scale(0.94);
+}
+/* Lista del stack: oculta salvo para AT; visible con movimiento reducido. */
+.tech-list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
 .marquee-row {
   display: flex;
   white-space: nowrap;
@@ -744,7 +838,8 @@ html.reveal-armed .hero .reveal {
 .marquee-track.reverse {
   animation-name: scroll-right;
 }
-.marquee-row:hover .marquee-track {
+.marquee-row:hover .marquee-track,
+.marquee-row.is-paused .marquee-track {
   animation-play-state: paused;
 }
 .marquee-track span.word {
@@ -1092,6 +1187,16 @@ html.reveal-armed .hero .reveal {
   .arrow-circle:hover {
     background: var(--color-ink);
     border-color: var(--color-ink);
+    color: #fff;
+  }
+  .marquee-toggle:hover {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: #fff;
+  }
+  .testi-pause:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #fff;
     color: #fff;
   }
   .pill-btn:hover .circle-arrow {
