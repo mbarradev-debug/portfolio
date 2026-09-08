@@ -128,11 +128,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
-        {/* Progressive enhancement: marca que el JS está disponible antes de
-            la hidratación. suppressHydrationWarning cubre la clase añadida. */}
+        {/* Antes del primer paint: "arma" los bloques .reveal (fuera del hero)
+            para que RevealController los anime al hacer scroll. El contenido se
+            pinta visible; si este script no corre, nada queda oculto.
+            suppressHydrationWarning cubre la clase añadida. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('js')`,
+            __html: `document.documentElement.classList.add('reveal-armed')`,
           }}
         />
         <a className="skip-link" href="#top">

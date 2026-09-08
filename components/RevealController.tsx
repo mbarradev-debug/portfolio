@@ -3,35 +3,29 @@
 import { useEffect } from "react";
 
 /**
- * Revelado al hacer scroll (portado de references/index.html):
- * - El hero se revela al cargar, nunca ligado al scroll.
- * - El resto entra vía IntersectionObserver con stagger entre hermanos.
- * - Con prefers-reduced-motion o sin IntersectionObserver, todo visible ya.
- * Renderiza null; opera sobre los `.reveal` del DOM.
+ * Revelado al hacer scroll. El contenido ya se pinta visible (ver `.reveal` en
+ * globals.css); un script inline lo "arma" (oculta los bloques fuera del hero)
+ * antes del primer paint. Este controlador solo se encarga de revelarlos al
+ * entrar en viewport, con stagger entre hermanos.
+ *
+ * Sin IntersectionObserver o con prefers-reduced-motion: desarma y deja todo
+ * visible. El hero nunca se arma, así que su <h1> (candidato a LCP) es visible
+ * sin esperar a este componente.
  */
 export function RevealController() {
   useEffect(() => {
+    const html = document.documentElement;
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-
-    const heroReveals = [
-      ...document.querySelectorAll<HTMLElement>(".hero .reveal"),
-    ];
-    const showHero = () => heroReveals.forEach((el) => el.classList.add("in"));
-    const raf = requestAnimationFrame(() => requestAnimationFrame(showHero));
-    const heroFallback = window.setTimeout(showHero, 600);
 
     const revealEls = [
       ...document.querySelectorAll<HTMLElement>(".reveal"),
     ].filter((el) => !el.closest(".hero"));
 
     if (reduce || !("IntersectionObserver" in window)) {
-      revealEls.forEach((el) => el.classList.add("in"));
-      return () => {
-        cancelAnimationFrame(raf);
-        window.clearTimeout(heroFallback);
-      };
+      html.classList.remove("reveal-armed");
+      return;
     }
 
     const io = new IntersectionObserver(
@@ -57,11 +51,7 @@ export function RevealController() {
     );
     revealEls.forEach((el) => io.observe(el));
 
-    return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(heroFallback);
-      io.disconnect();
-    };
+    return () => io.disconnect();
   }, []);
 
   return null;
