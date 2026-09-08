@@ -2,6 +2,10 @@
 
 Referencia rápida para añadir o revisar animaciones en el portfolio.
 
+Ver también: [feedback-patterns.md](./feedback-patterns.md) (formularios y
+contenido dinámico, cuando se añadan) y [routing.md](./routing.md) (estados de
+ruta del App Router).
+
 ## Enfoque
 
 CSS puro + Tailwind v4, **sin librería de animación**. La orquestación puntual
@@ -10,15 +14,15 @@ hacen Client Components con `useEffect` + toggle de clases.
 
 ## Tokens (`app/globals.css`, `@theme static`)
 
-| Token | Valor | Uso |
-| --- | --- | --- |
-| `--ease-out` | `cubic-bezier(0.22, 1, 0.36, 1)` | entrar / salir, hover |
-| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | movimiento / morphing en pantalla |
-| `--dur-fast` | `0.16s` | pulsación, hover rápido, cambio de idioma |
-| `--dur-mid` | `0.3s` | hover, cambios de color / estado |
-| `--dur-reveal` | `0.5s` | revelado al hacer scroll |
-| `--dur-slow` | `0.6s` | fundidos ambientales largos (vídeo del hero) |
-| `--stagger-step` | `0.06s` | retardo incremental entre hermanos revelados |
+| Token            | Valor                             | Uso                                          |
+| ---------------- | --------------------------------- | -------------------------------------------- |
+| `--ease-out`     | `cubic-bezier(0.22, 1, 0.36, 1)`  | entrar / salir, hover                        |
+| `--ease-in-out`  | `cubic-bezier(0.77, 0, 0.175, 1)` | movimiento / morphing en pantalla            |
+| `--dur-fast`     | `0.16s`                           | pulsación, hover rápido, cambio de idioma    |
+| `--dur-mid`      | `0.3s`                            | hover, cambios de color / estado             |
+| `--dur-reveal`   | `0.5s`                            | revelado al hacer scroll                     |
+| `--dur-slow`     | `0.6s`                            | fundidos ambientales largos (vídeo del hero) |
+| `--stagger-step` | `0.06s`                           | retardo incremental entre hermanos revelados |
 
 Las duraciones que se controlan desde JS viven en `lib/motion.ts` (siempre en ms).
 Las que no encajan en la escala y sólo se usan una vez (p. ej. los `38s` del
@@ -38,18 +42,18 @@ Una sola regla `@media (prefers-reduced-motion: reduce)` al final de
 fundidos de opacidad/color y toda la información.
 
 - [ ] ¿La animación es puro CSS? → la regla global ya la degrada
-  (`transition-property` limitado a opacidad/color, `animation` casi instantánea).
-  Añade un override explícito sólo si además cambia un `transform` decorativo
-  (hover, entrada) o hace `blur`.
+      (`transition-property` limitado a opacidad/color, `animation` casi instantánea).
+      Añade un override explícito sólo si además cambia un `transform` decorativo
+      (hover, entrada) o hace `blur`.
 - [ ] ¿La orquesta un Client Component? → añade
-  `window.matchMedia("(prefers-reduced-motion: reduce)")` y, si coincide, salta
-  el efecto (autoplay, scroll suave, delay del swap…). Referencia:
-  `RevealController`, `BackToTop`, `Projects`, `Testimonials`, `HeroVideo`,
-  `LocaleProvider`.
+      `window.matchMedia("(prefers-reduced-motion: reduce)")` y, si coincide, salta
+      el efecto (autoplay, scroll suave, delay del swap…). Referencia:
+      `RevealController`, `BackToTop`, `Projects`, `Testimonials`, `HeroVideo`,
+      `LocaleProvider`.
 - [ ] ¿Hay contenido que sólo se ve con la animación (marquee, carrusel)? →
-  asegúrate de que con movimiento reducido se muestra completo y legible.
+      asegúrate de que con movimiento reducido se muestra completo y legible.
 - [ ] Verifícalo: DevTools → Rendering → "Emulate CSS prefers-reduced-motion:
-  reduce", o el ajuste del SO, y recorre la página.
+      reduce", o el ajuste del SO, y recorre la página.
 
 ## `WCAG 2.2.2` — contenido en movimiento automático (> 5 s)
 
