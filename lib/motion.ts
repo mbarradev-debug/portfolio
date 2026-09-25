@@ -17,6 +17,22 @@ export const duration = {
   section: 0.4,
 } as const;
 
+/**
+ * Hero 3D scene (DBO-1318). Deliberate exception to the ≤400 ms guideline:
+ * the camera entrance is the page's one orchestrated moment, so it runs longer
+ * than UI transitions, but shorter than the original 1.8 s / 1.5 turns.
+ */
+export const heroScene = {
+  /** Camera entrance duration, in seconds. */
+  introSeconds: 1.2,
+  /** Extra turns the camera spins through during the entrance. */
+  introTurns: 1,
+  /** Auto-rotation after the entrance stops after this long, or on the first drag. */
+  autoRotateSeconds: 8,
+  /** Canvas fade-in once the scene is ready. */
+  fadeIn: "section",
+} as const;
+
 /** Delay between sections that enter the viewport together, in seconds. */
 export const stagger = {
   section: 0.08,
