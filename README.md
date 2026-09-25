@@ -60,6 +60,6 @@ npm run build
 
 1. Push this repository to GitHub.
 2. In Vercel: **Add New… → Project** and import the repository. The framework preset (Next.js), build command (`npm run build`) and output are detected automatically.
-3. Optional: in **Settings → Environment Variables**, set `NEXT_PUBLIC_SITE_URL` to your custom domain (e.g. `https://miguelbarra.dev`). If it is not set, metadata, the sitemap and robots use Vercel's production URL (`VERCEL_PROJECT_PRODUCTION_URL`).
+3. Optional: in **Settings → Environment Variables**, set `NEXT_PUBLIC_SITE_URL` to the canonical domain (`https://www.miguelbarra.cl`; the apex `miguelbarra.cl` redirects to it). If it is not set, metadata, the sitemap and robots use Vercel's production URL (`VERCEL_PROJECT_PRODUCTION_URL`).
 4. Deploy. Every push to `main` then deploys to production, and every other branch gets a preview URL.
 5. If you add a custom domain later, add it under **Settings → Domains** and update `NEXT_PUBLIC_SITE_URL`.
