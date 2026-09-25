@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miguel Barra · Desarrollador full stack</title>
+<meta name="description" content="Ingeniero en Computación e Informática y desarrollador full stack en Santiago de Chile. React, Next.js y TypeScript.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&amp;display=swap" rel="stylesheet">
+<script>
+  // Tema: guardado > preferencia del sistema > oscuro (igual que craftz.dog)
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var theme = saved || (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<style>
+:root, :root[data-theme="dark"] { --bg: #202023; --fg: rgba(255,255,255,0.92); --muted: rgba(255,255,255,0.64); --link: #ff63c3; --glass: rgba(255,255,255,0.08); --card: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.12); --chip-bg: rgba(255,255,255,0.08); --nav-bg: rgba(32,32,35,0.5); --btn-bg: #81E6D9; --btn-fg: #1A202C; --ghost: #81E6D9; --accent: #88ccca; --badge-bg: rgba(154,230,180,0.16); --badge-fg: #9AE6B4; --toggle-bg: #FBD38D; --toggle-fg: #1A202C; }
+:root[data-theme="light"] { --bg: #f0e7db; --fg: #1A202C; --muted: rgba(26,32,44,0.68); --link: #3d7aed; --glass: rgba(255,255,255,0.48); --card: rgba(255,255,255,0.36); --border: rgba(26,32,44,0.14); --chip-bg: rgba(26,32,44,0.07); --nav-bg: rgba(255,255,255,0.25); --btn-bg: #319795; --btn-fg: #ffffff; --ghost: #2C7A7B; --accent: #2C7A7B; --badge-bg: #C6F6D5; --badge-fg: #22543D; --toggle-bg: #805AD5; --toggle-fg: #ffffff; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif; }
+a { text-underline-offset: 3px; text-decoration: none; }
+a:hover { text-decoration: underline; }
+section[id] { scroll-margin-top: 72px; }
+:root[data-theme="dark"] .icon-moon, :root[data-theme="light"] .icon-sun { display: none; }
+.icon-sun, .icon-moon { display: inline-flex; }
+</style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100vh; box-sizing: border-box; background: var(--bg); color: var(--fg); font-size: 16px; line-height: 1.6; display: flex; flex-direction: column; align-items: center; transition: background 0.3s">
+
+<!-- NAV -->
+<nav style="width: 100%; height: 60px; box-sizing: border-box; background: var(--nav-bg); backdrop-filter: blur(10px); display: flex; justify-content: center; position: sticky; top: 0; z-index: 2">
+<div style="width: 100%; max-width: 768px; display: flex; align-items: center; gap: 28px; padding: 0 16px; box-sizing: border-box">
+<a href="index.html" style="display: flex; align-items: center; gap: 8px; color: var(--fg); font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.02em">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 20 L9 8 L13 14 L16 10 L22 20 Z" fill="#88ccca"></path><path d="M9 8 L11 11.4 L9.6 12.4 L8 10.4 Z" fill="var(--fg)"></path></svg>
+Miguel Barra
+</a>
+<div style="display: flex; gap: 6px; flex-grow: 1; font-size: 15px">
+<a href="#proyectos" style="color: var(--fg); padding: 6px 10px; border-radius: 6px">Proyectos</a>
+<a href="#trayectoria" style="color: var(--fg); padding: 6px 10px; border-radius: 6px">Trayectoria</a>
+<a href="#stack" style="color: var(--fg); padding: 6px 10px; border-radius: 6px">Stack</a>
+<a href="https://github.com/mbarradev-debug" style="color: var(--fg); padding: 6px 10px; border-radius: 6px; display: flex; align-items: center; gap: 6px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+GitHub
+</a>
+</div>
+<a href="#contacto" style="color: var(--fg); font-size: 15px; padding: 7px 12px; border-radius: 6px; border: 1px solid var(--border); display: flex; align-items: center; gap: 6px">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+CV
+</a>
+<button type="button" id="theme-toggle" aria-label="Cambiar tema" style="width: 44px; height: 44px; border: 0; border-radius: 8px; background: var(--toggle-bg); color: var(--toggle-fg); display: flex; align-items: center; justify-content: center; cursor: pointer">
+ <span class="icon-sun">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+</span>
+ <span class="icon-moon">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+</span>
+</button>
+</div>
+</nav>
+
+<!-- HERO: escena voxel (Three.js en el sitio real) -->
+<div style="width: 100%; max-width: 768px; height: 420px; display: flex; align-items: flex-end; justify-content: center; margin-top: 12px">
+<img src="andes-voxel.svg" alt="Cordillera de los Andes en voxels, escena 3D rotable" style="width: 400px; height: 400px; display: block">
+</div>
+
+<main style="width: 100%; max-width: 768px; box-sizing: border-box; padding: 0 16px; display: flex; flex-direction: column">
+
+<div style="border-radius: 8px; padding: 12px; text-align: center; background: var(--glass); backdrop-filter: blur(10px); margin-bottom: 24px">
+Hola, soy desarrollador full stack y construyo productos web desde Santiago de Chile.
+</div>
+
+<!-- IDENTIDAD -->
+<div style="display: flex; align-items: center; gap: 24px">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 36px; line-height: 1.2; letter-spacing: -0.01em">Miguel Barra</h1>
+<p style="margin: 0; font-size: 17px">Ingeniero en Computación e Informática</p>
+<p style="margin: 0; color: var(--muted); font-size: 15px">Desarrollador full stack · React · Next.js · TypeScript</p>
+<div style="display: flex; margin-top: 8px">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--badge-bg); color: var(--badge-fg); font-weight: 600">
+<span style="width: 8px; height: 8px; border-radius: 50%; background: var(--badge-fg)"></span>
+Disponible para nuevas oportunidades
+</span>
+</div>
+</div>
+<div style="width: 100px; height: 100px; flex-shrink: 0; border-radius: 50%; border: 2px solid rgba(255,255,255,0.8); overflow: hidden; background: #88ccca; display: flex; align-items: center; justify-content: center; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 30px; color: #202023">MB</div>
+</div>
+
+<!-- TRABAJO -->
+<section style="margin-top: 40px">
+<h2 style="margin: 12px 0 16px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">Qué hago</h2>
+<p style="margin: 0; text-align: justify; hyphens: auto">Construyo productos web de punta a punta: desde la base de datos y la API hasta la interfaz que usa la gente. Llevo más de dos años entregando software en producción para municipalidades, salud y energía, casi siempre a cargo de las decisiones técnicas del backend. Mi terreno es Next.js con TypeScript, y mi proyecto propio es <a href="pulso.html" style="color: var(--link)">Pulso</a>, un dashboard de indicadores económicos de Chile alimentado directo desde la API del Banco Central.</p>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 24px">
+<div style="background: var(--glass); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 24px">2+ años</span>
+<span style="font-size: 13px; color: var(--muted); line-height: 1.4">entregando productos en producción</span>
+</div>
+<div style="background: var(--glass); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 24px">19 s → 0,23 s</span>
+<span style="font-size: 13px; color: var(--muted); line-height: 1.4">de carga en Pulso tras paralelizar el Banco Central</span>
+</div>
+<div style="background: var(--glass); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 24px">Público y privado</span>
+<span style="font-size: 13px; color: var(--muted); line-height: 1.4">municipalidades, una Isapre y electromovilidad</span>
+</div>
+</div>
+<div style="display: flex; justify-content: center; margin: 24px 0 0">
+<a href="#proyectos" style="display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 18px; border-radius: 6px; background: var(--btn-bg); color: var(--btn-fg); font-weight: 600; text-decoration: none">
+Ver proyectos
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</a>
+</div>
+</section>
+
+<!-- PROYECTOS PROPIOS -->
+<section id="proyectos" style="margin-top: 40px">
+<h2 style="margin: 12px 0 16px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">Proyectos propios</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+
+<a href="pulso.html" style="display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--fg); text-decoration: none">
+<div style="width: 100%; height: 200px; border-radius: 12px; background: #16171a; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<div style="height: 42px; border-radius: 6px; background: #232428; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px"><span style="width: 50%; height: 5px; border-radius: 3px; background: #5b5e66"></span><span style="width: 80%; height: 8px; border-radius: 3px; background: #88ccca"></span></div>
+<div style="height: 42px; border-radius: 6px; background: #232428; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px"><span style="width: 40%; height: 5px; border-radius: 3px; background: #5b5e66"></span><span style="width: 70%; height: 8px; border-radius: 3px; background: #e9e6e0"></span></div>
+<div style="height: 42px; border-radius: 6px; background: #232428; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px"><span style="width: 55%; height: 5px; border-radius: 3px; background: #5b5e66"></span><span style="width: 60%; height: 8px; border-radius: 3px; background: #e9e6e0"></span></div>
+<div style="height: 42px; border-radius: 6px; background: #232428; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px"><span style="width: 45%; height: 5px; border-radius: 3px; background: #5b5e66"></span><span style="width: 75%; height: 8px; border-radius: 3px; background: #e9e6e0"></span></div>
+</div>
+<div style="flex-grow: 1; border-radius: 6px; background: #232428; padding: 10px; box-sizing: border-box">
+<svg width="100%" height="100%" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,70 25,66 50,68 75,58 100,60 125,50 150,52 175,40 200,44 225,32 250,34 275,22 300,18" fill="none" stroke="#88ccca" stroke-width="2.5" vector-effect="non-scaling-stroke"></polyline><line x1="0" y1="89" x2="300" y2="89" stroke="#3a3c42" stroke-width="1"></line></svg>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-top: 4px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px">Pulso</span>
+<span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 3px; background: var(--badge-bg); color: var(--badge-fg)">En producción</span>
+</div>
+<span style="font-size: 14px; text-align: center; line-height: 1.5">Dashboard de 10 indicadores económicos de Chile, con API propia sobre el Banco Central.</span>
+</a>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="width: 100%; height: 200px; border-radius: 12px; background: #16171a; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative">
+<div style="position: absolute; top: 0; left: 0; right: 0; height: 28px; background: #232428; display: flex; align-items: center; gap: 6px; padding: 0 12px; justify-content: flex-end">
+<span style="width: 16px; height: 16px; border-radius: 4px; background: #88ccca"></span>
+<span style="width: 16px; height: 16px; border-radius: 4px; background: #3a3c42"></span>
+</div>
+<div style="width: 170px; margin-top: 28px; border-radius: 10px; background: #f0e7db; color: #202023; padding: 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; font-size: 11px; font-weight: 700">
+<div style="display: flex; justify-content: space-between; align-items: center"><span>UF</span><span style="width: 56px; height: 8px; border-radius: 3px; background: #202023"></span></div>
+<div style="display: flex; justify-content: space-between; align-items: center"><span>USD</span><span style="width: 48px; height: 8px; border-radius: 3px; background: #202023"></span></div>
+<div style="height: 1px; background: rgba(32,32,35,0.2)"></div>
+<div style="display: flex; gap: 6px"><span style="flex-grow: 1; height: 20px; border-radius: 4px; border: 1px solid rgba(32,32,35,0.35)"></span><span style="width: 34px; height: 20px; border-radius: 4px; background: #319795"></span></div>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-top: 4px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px">Pulso UF y Dólar</span>
+<span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 3px; background: var(--badge-bg); color: var(--badge-fg)">Publicada</span>
+</div>
+<span style="font-size: 14px; text-align: center; line-height: 1.5">Extensión de Chrome con UF, dólar y conversor a CLP, conectada a la API de Pulso.</span>
+</div>
+
+</div>
+</section>
+
+<!-- CASOS CON CLIENTES (experiencia transformada) -->
+<section style="margin-top: 48px">
+<h2 style="margin: 12px 0 8px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">Problemas que he resuelto</h2>
+<p style="margin: 0 0 20px; color: var(--muted); font-size: 15px">Trabajo con clientes, contado por el problema y no por el cargo.</p>
+<div style="display: flex; flex-direction: column; gap: 12px">
+
+<article style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; gap: 20px">
+<div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 15px">2025 – 2026</span>
+<span style="font-size: 13px; color: var(--muted); line-height: 1.4">DOM Digital · ITS Solutions, vía Forcast</span>
+</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.35">Municipalidades que dejan Microsoft Project por una plataforma propia</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55">Definí la arquitectura, diseñé la base de datos y lideré el backend completo (endpoints, seguridad y autenticación), coordinando a un practicante en el frontend.</p>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Líder técnico backend</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Next.js</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">PostgreSQL</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Firebase Auth</span>
+</div>
+</div>
+</article>
+
+<article style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; gap: 20px">
+<div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 15px">2025 – 2026</span>
+<span style="font-size: 13px; color: var(--muted); line-height: 1.4">E-Hive, vía Forcast</span>
+</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.35">Cargar un auto eléctrico escaneando un QR, ahora también desde la web</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55">Llevé a la plataforma web el escaneo QR que existía en la app móvil: frontend en Angular y endpoints REST en el microservicio que verifica la patente antes de habilitar la carga.</p>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Angular</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Flask</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">REST APIs</span>
+</div>
+</div>
+</article>
+
+<article style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; gap: 20px">
+<div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 15px">2022 – 2023</span>
+<span style="font-size: 13px; color: var(--muted); line-height: 1.4">iSalud · Isapre de Codelco, vía Valuesite</span>
+</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 17px; line-height: 1.35">Una sucursal virtual de salud que había quedado atrás</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55">Corregí el frontend legacy y sumé búsqueda de médicos y generación de documentos, desde los procedimientos en Oracle hasta los microservicios en .NET.</p>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">ASP.NET MVC</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Oracle PL/SQL</span>
+<span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg)">Microservicios</span>
+</div>
+</div>
+</article>
+
+</div>
+</section>
+
+<!-- TRAYECTORIA (Bio de craftz) -->
+<section id="trayectoria" style="margin-top: 48px">
+<h2 style="margin: 12px 0 16px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">Trayectoria</h2>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 16px">
+<p style="margin: 0; padding-left: 52px; text-indent: -52px"><strong style="margin-right: 16px">2022</strong>Entra a Valuesite como desarrollador full stack, construyendo para el sector salud.</p>
+<p style="margin: 0; padding-left: 52px; text-indent: -52px"><strong style="margin-right: 16px">2024</strong>Práctica profesional en Ewreka: módulo de carrito de compra en Flutter para regalos corporativos sustentables.</p>
+<p style="margin: 0; padding-left: 52px; text-indent: -52px"><strong style="margin-right: 16px">2025</strong>Se titula de Ingeniería en Computación e Informática en la Universidad Andrés Bello.</p>
+<p style="margin: 0; padding-left: 52px; text-indent: -52px"><strong style="margin-right: 16px">2025</strong>Se suma a Forcast, consultora de software, liderando backend para clientes públicos y privados.</p>
+<p style="margin: 0; padding-left: 52px; text-indent: -52px"><strong style="margin-right: 16px">Hoy</strong>Construye <a href="pulso.html" style="color: var(--link)">Pulso</a> y su extensión, y busca su próximo equipo.</p>
+</div>
+</section>
+
+<!-- STACK -->
+<section id="stack" style="margin-top: 48px">
+<h2 style="margin: 12px 0 16px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">Stack</h2>
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; color: var(--muted)">Con lo que construyo hoy</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">React</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">Next.js</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">TypeScript</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">Tailwind CSS</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">shadcn/ui</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">Node.js</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">PostgreSQL</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">Supabase</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">Prisma</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">Vercel</span>
+<span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; background: var(--glass); border: 1px solid var(--border)">GitHub Actions</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; color: var(--muted)">También lo he llevado a producción</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Angular</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">NestJS</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Python</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Flask</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">ASP.NET MVC</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Oracle PL/SQL</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Firebase Auth</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Docker</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Azure</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">GCP</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Flutter</span>
+<span style="font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted)">Ionic</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- I ♥ -->
+<section style="margin-top: 48px">
+<h2 style="margin: 12px 0 16px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">Fuera del código</h2>
+<p style="margin: 0">Guitarra, subir cerros en Santiago (de ahí la cordillera de arriba) y el cine de terror japonés de los 2000, mientras más found footage, mejor.</p>
+</section>
+
+<!-- EN LA WEB + CONTACTO -->
+<section id="contacto" style="margin-top: 48px">
+<h2 style="margin: 12px 0 16px; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; font-size: 20px; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #525252; text-decoration-thickness: 4px">En la web</h2>
+<div style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start">
+<a href="https://github.com/mbarradev-debug" style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border-radius: 6px; color: var(--ghost); font-weight: 600">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+@mbarradev-debug
+</a>
+<a href="https://linkedin.com/in/miguelbarrarios" style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border-radius: 6px; color: var(--ghost); font-weight: 600">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+in/miguelbarrarios
+</a>
+<a href="mailto:mbarra.git@gmail.com" style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border-radius: 6px; color: var(--ghost); font-weight: 600">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+mbarra.git@gmail.com
+</a>
+</div>
+
+<div style="margin-top: 32px; border-radius: 12px; background: var(--glass); padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+<h3 style="margin: 0; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; font-size: 22px">¿Conversamos?</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">Si buscas a alguien que tome decisiones técnicas y las lleve a producción, escríbeme.</p>
+<div style="display: flex; gap: 12px; margin-top: 8px">
+<a href="#cv" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 6px; background: var(--btn-bg); color: var(--btn-fg); font-weight: 600; text-decoration: none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+Descargar CV (PDF)
+</a>
+<a href="mailto:mbarra.git@gmail.com" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 6px; border: 1px solid var(--ghost); color: var(--ghost); font-weight: 600; text-decoration: none">Escríbeme</a>
+</div>
+</div>
+</section>
+
+<footer style="margin-top: 56px; padding-bottom: 32px; text-align: center; font-size: 14px; color: var(--muted)">© 2026 Miguel Barra. Todos los derechos reservados.</footer>
+
+</main>
+</div>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    var root = document.documentElement;
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+</script>
+</body>
+</html>

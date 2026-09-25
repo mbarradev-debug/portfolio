@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    // Tree-shake Chakra's barrel exports.
+    optimizePackageImports: ["@chakra-ui/react"],
+  },
 };
 
 export default nextConfig;
