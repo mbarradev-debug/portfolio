@@ -32,13 +32,13 @@ function TypingPaws({
   const paws = useRef<(Mesh | null)[]>([]);
 
   useFrame(({ clock }) => {
-    if (!animate) return;
     const t = clock.elapsedTime * TYPING_SPEED;
     paws.current.forEach((paw, i) => {
       const rest = PAWS[i];
       if (!paw || !rest) return;
       // Alternate paws; only the upper half of the wave lifts, so each paw lands on the keys.
-      paw.position.y = rest.y + Math.max(0, Math.sin(t + i * Math.PI)) * PAW_LIFT;
+      // Without motion (even when switched mid-session) the paws rest on the keys.
+      paw.position.y = animate ? rest.y + Math.max(0, Math.sin(t + i * Math.PI)) * PAW_LIFT : rest.y;
     });
   });
 
