@@ -1,5 +1,6 @@
 import { Link, type LinkProps } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { focusRing } from "./interaction";
 
 type TextLinkProps = Omit<LinkProps, "href" | "asChild"> & { href: string };
 
@@ -16,7 +17,7 @@ export function TextLink({ href, children, ...rest }: TextLinkProps) {
       textDecoration="none"
       textUnderlineOffset="3px"
       _hover={{ textDecoration: "underline" }}
-      _focusVisible={{ outline: "2px solid", outlineColor: "link", outlineOffset: "2px" }}
+      _focusVisible={focusRing}
       {...rest}
     >
       {isInternal ? (

@@ -1,4 +1,5 @@
 import { Link } from "@chakra-ui/react";
+import { focusRing } from "@/components/ui/interaction";
 import { site } from "@/lib/content";
 
 export const MAIN_ID = "contenido";
@@ -19,7 +20,7 @@ export function SkipLink() {
       color="btn.fg"
       fontWeight="600"
       textDecoration="none"
-      _focusVisible={{ top: "8px", outline: "2px solid", outlineColor: "link" }}
+      _focusVisible={{ ...focusRing, top: "8px" }}
     >
       {site.skipToContent}
     </Link>

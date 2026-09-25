@@ -14,17 +14,17 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Section delay={0}>
+      <Section>
         <IntroGreeting />
         <Identity />
       </Section>
-      <Intro delay={1} />
-      <Projects delay={2} />
-      <ClientCases delay={3} />
-      <Timeline delay={4} />
-      <Stack delay={5} />
-      <Hobbies delay={6} />
-      <Contact delay={7} />
+      <Intro />
+      <Projects />
+      <ClientCases />
+      <Timeline />
+      <Stack />
+      <Hobbies />
+      <Contact />
     </>
   );
 }

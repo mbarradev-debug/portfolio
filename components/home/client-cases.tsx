@@ -3,9 +3,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { clientCases } from "@/lib/content";
 
-export function ClientCases({ delay }: { delay: number }) {
+export function ClientCases() {
   return (
-    <Section delay={delay} mt="48px">
+    <Section mt="48px">
       <SectionHeading mb="8px">{clientCases.heading}</SectionHeading>
       <Text m="0 0 20px" color="fg.muted" fontSize="15px">
         {clientCases.subheading}

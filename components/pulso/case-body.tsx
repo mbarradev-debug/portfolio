@@ -4,9 +4,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { pulsoCase } from "@/lib/content";
 
-export function Problem({ delay }: { delay: number }) {
+export function Problem() {
   return (
-    <Section delay={delay} mt="40px">
+    <Section mt="40px">
       <SectionHeading>{pulsoCase.problem.heading}</SectionHeading>
       <Text m={0} textAlign={{ base: "left", sm: "justify" }}>
         {pulsoCase.problem.body}
@@ -15,10 +15,10 @@ export function Problem({ delay }: { delay: number }) {
   );
 }
 
-export function Decision({ delay }: { delay: number }) {
+export function Decision() {
   const { decision } = pulsoCase;
   return (
-    <Section delay={delay} mt="32px">
+    <Section mt="32px">
       <SectionHeading>{decision.heading}</SectionHeading>
       <Text m="0 0 16px" textAlign={{ base: "left", sm: "justify" }}>
         {decision.body}
@@ -49,10 +49,10 @@ export function Decision({ delay }: { delay: number }) {
   );
 }
 
-export function Result({ delay }: { delay: number }) {
+export function Result() {
   const { result } = pulsoCase;
   return (
-    <Section delay={delay} mt="32px">
+    <Section mt="32px">
       <SectionHeading>{result.heading}</SectionHeading>
       <Flex
         direction={{ base: "column", sm: "row" }}
@@ -79,10 +79,10 @@ export function Result({ delay }: { delay: number }) {
   );
 }
 
-export function Screenshots({ delay }: { delay: number }) {
+export function Screenshots() {
   const { screenshots } = pulsoCase;
   return (
-    <Section delay={delay} mt="32px">
+    <Section mt="32px">
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap="16px">
         <Placeholder label={screenshots.chart} h="220px" />
         <Placeholder label={screenshots.converter} h="220px" />

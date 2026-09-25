@@ -21,16 +21,16 @@ export const metadata: Metadata = {
 export default function PulsoPage() {
   return (
     <>
-      <Section delay={0} pt="48px">
+      <Section pt="48px">
         <CaseHeader />
       </Section>
-      <Section delay={1} mt="32px">
+      <Section mt="32px">
         <Placeholder label={pulsoCase.screenshots.main} h={{ base: "220px", sm: "400px" }} />
       </Section>
-      <Problem delay={2} />
-      <Decision delay={3} />
-      <Result delay={4} />
-      <Screenshots delay={5} />
+      <Problem />
+      <Decision />
+      <Result />
+      <Screenshots />
       <CaseFooter />
     </>
   );
