@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Section>
+      <Section reveal={false}>
         <IntroGreeting />
         <Identity />
       </Section>

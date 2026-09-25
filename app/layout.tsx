@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { M_PLUS_Rounded_1c } from "next/font/google";
+import localFont from "next/font/local";
 import { Box } from "@chakra-ui/react";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
@@ -8,11 +8,20 @@ import { Providers } from "@/components/providers";
 import { site } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 
-const mPlusRounded = M_PLUS_Rounded_1c({
-  weight: ["400", "700", "800"],
-  subsets: ["latin"],
+/**
+ * M PLUS Rounded 1c, self-hosted as its Latin subset (see app/fonts/OFL.txt).
+ * next/font/google preloaded all ~240 unicode-range slices of this Japanese
+ * font (3.2 MB); headings only use weights 700 and 800 and Latin text.
+ */
+const mPlusRounded = localFont({
+  src: [
+    { path: "./fonts/m-plus-rounded-1c-700-latin.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/m-plus-rounded-1c-800-latin.woff2", weight: "800", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-mplus",
+  // Metric-matched Arial fallback, so swapping in the web font causes no layout shift.
+  adjustFontFallback: "Arial",
 });
 
 export const metadata: Metadata = {

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function PulsoPage() {
   return (
     <>
-      <Section pt="48px">
+      <Section reveal={false} pt="48px">
         <CaseHeader />
       </Section>
       <Section mt="32px">
