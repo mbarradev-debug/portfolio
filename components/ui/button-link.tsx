@@ -38,7 +38,12 @@ export function ButtonLink({
       border={solid ? undefined : "1px solid"}
       borderColor={solid ? undefined : "ghost"}
       {...interactiveTransition}
-      _hover={{ textDecoration: "none", filter: solid ? "brightness(1.08)" : undefined, bg: solid ? undefined : "glass" }}
+      // Solid hover darkens in light mode (white text stays ≥ 4.5:1) and brightens in dark mode.
+      _hover={
+        solid
+          ? { textDecoration: "none", filter: "brightness(0.92)", _dark: { filter: "brightness(1.08)" } }
+          : { textDecoration: "none", bg: "glass" }
+      }
       _active={pressed}
       _focusVisible={focusRing}
       {...rest}

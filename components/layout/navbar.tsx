@@ -81,7 +81,15 @@ function MobileMenu() {
             _closed={{ animationDuration: "micro", animationTimingFunction: "exit" }}
           >
             {items.map((item) => (
-              <Menu.Item key={item.href} value={item.href} asChild minH="44px" color="fg">
+              <Menu.Item
+                key={item.href}
+                value={item.href}
+                asChild
+                minH="44px"
+                color="fg"
+                // Keyboard/pointer highlight uses the site's surface and the shared focus ring.
+                _highlighted={{ bg: "glass", ...focusRing, outlineOffset: "-2px" }}
+              >
                 {item === cvNavItem ? (
                   <a href={item.href} download>
                     <Icon name="download" size={16} />
