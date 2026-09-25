@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { MAIN_ID, SkipLink } from "@/components/layout/skip-link";
 import { Providers } from "@/components/providers";
 import { site } from "@/lib/content";
+import { baseOpenGraph, twitterCard } from "@/lib/metadata";
 import { siteUrl } from "@/lib/site-url";
 
 /**
@@ -31,14 +32,13 @@ export const metadata: Metadata = {
   authors: [{ name: site.name }],
   alternates: { canonical: "/" },
   openGraph: {
+    ...baseOpenGraph,
     type: "website",
-    locale: site.locale,
-    siteName: site.name,
     title: site.title,
     description: site.description,
     url: "/",
   },
-  twitter: { card: "summary", title: site.title, description: site.description },
+  twitter: { card: twitterCard, title: site.title, description: site.description },
 };
 
 export const viewport: Viewport = {

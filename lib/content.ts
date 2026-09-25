@@ -71,7 +71,7 @@ export const site = {
   lang: "es",
   title: "Miguel Barra · Desarrollador full stack",
   description:
-    "Ingeniero en Computación e Informática y desarrollador full stack en Santiago de Chile. React, Next.js y TypeScript.",
+    "Ingeniero en Computación e Informática y desarrollador full stack en Santiago de Chile. Construyo productos web de punta a punta: React, Next.js y TypeScript.",
   footer: "© 2026 Miguel Barra. Todos los derechos reservados.",
   themeToggleLabel: "Cambiar tema",
   menuLabel: "Abrir menú",
@@ -293,7 +293,7 @@ export const notFound = {
 export const pulsoCase = {
   metaTitle: "Pulso",
   metaDescription:
-    "Caso de estudio de Pulso, dashboard de indicadores económicos de Chile con API propia sobre el Banco Central.",
+    "Caso de estudio de Pulso, dashboard de 10 indicadores económicos de Chile con API propia sobre el Banco Central: la carga bajó de 19 s a 0,23 s al paralelizar.",
   breadcrumb: {
     label: "Ruta de navegación",
     parent: "Proyectos",

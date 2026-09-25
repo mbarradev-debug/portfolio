@@ -8,11 +8,14 @@ import { IntroGreeting } from "@/components/home/intro-greeting";
 import { Projects } from "@/components/home/projects";
 import { Stack } from "@/components/home/stack";
 import { Timeline } from "@/components/home/timeline";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Section } from "@/components/ui/section";
+import { personJsonLd } from "@/lib/structured-data";
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={personJsonLd()} />
       <Hero />
       <Section reveal={false}>
         <IntroGreeting />

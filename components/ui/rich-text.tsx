@@ -7,7 +7,7 @@ export function RichText({ value }: { value: RichTextData }) {
     typeof part === "string" ? (
       <Fragment key={i}>{part}</Fragment>
     ) : (
-      <TextLink key={i} href={part.href}>
+      <TextLink key={i} href={part.href} underline>
         {part.text}
       </TextLink>
     ),

@@ -2,10 +2,14 @@ import { Link, type LinkProps } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { focusRing } from "./interaction";
 
-type TextLinkProps = Omit<LinkProps, "href" | "asChild"> & { href: string };
+type TextLinkProps = Omit<LinkProps, "href" | "asChild"> & {
+  href: string;
+  /** Underline at rest: required for links inside running text, so color isn't the only cue. */
+  underline?: boolean;
+};
 
 /** Inline link in the accent link color; internal routes use next/link. */
-export function TextLink({ href, children, ...rest }: TextLinkProps) {
+export function TextLink({ href, underline = false, children, ...rest }: TextLinkProps) {
   const isInternal = href.startsWith("/") || href.startsWith("#");
   const isExternal = href.startsWith("http");
 
@@ -14,9 +18,10 @@ export function TextLink({ href, children, ...rest }: TextLinkProps) {
       asChild
       display="inline"
       color="link"
-      textDecoration="none"
+      textDecoration={underline ? "underline" : "none"}
+      textDecorationThickness="1px"
       textUnderlineOffset="3px"
-      _hover={{ textDecoration: "underline" }}
+      _hover={{ textDecoration: "underline", textDecorationThickness: "2px" }}
       _focusVisible={focusRing}
       {...rest}
     >
