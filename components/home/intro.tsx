@@ -6,9 +6,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { intro } from "@/lib/content";
 
-export function Intro({ delay }: { delay: number }) {
+export function Intro() {
   return (
-    <Section delay={delay} mt="40px">
+    <Section mt="40px">
       <SectionHeading>{intro.heading}</SectionHeading>
       <Text m={0} textAlign={{ base: "left", sm: "justify" }} hyphens="auto">
         <RichText value={intro.body} />

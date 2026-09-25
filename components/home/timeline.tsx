@@ -4,9 +4,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { timeline } from "@/lib/content";
 
-export function Timeline({ delay }: { delay: number }) {
+export function Timeline() {
   return (
-    <Section delay={delay} id={timeline.id} mt="48px">
+    <Section id={timeline.id} mt="48px">
       <SectionHeading>{timeline.heading}</SectionHeading>
       <Flex direction="column" gap="6px" fontSize="16px">
         {timeline.items.map((item, i) => (

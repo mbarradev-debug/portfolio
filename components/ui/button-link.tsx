@@ -1,6 +1,7 @@
 import { Link, type LinkProps } from "@chakra-ui/react";
 import NextLink from "next/link";
 import type { ReactNode } from "react";
+import { focusRing, interactiveTransition, pressed } from "./interaction";
 
 type ButtonLinkProps = Omit<LinkProps, "href" | "asChild"> & {
   href: string;
@@ -36,9 +37,10 @@ export function ButtonLink({
       color={solid ? "btn.fg" : "ghost"}
       border={solid ? undefined : "1px solid"}
       borderColor={solid ? undefined : "ghost"}
-      transition="filter 0.2s, background 0.2s"
+      {...interactiveTransition}
       _hover={{ textDecoration: "none", filter: solid ? "brightness(1.08)" : undefined, bg: solid ? undefined : "glass" }}
-      _focusVisible={{ outline: "2px solid", outlineColor: "link", outlineOffset: "2px" }}
+      _active={pressed}
+      _focusVisible={focusRing}
       {...rest}
     >
       {isRoute ? (

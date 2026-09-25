@@ -1,14 +1,15 @@
 import { Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { DownloadIcon, Icon } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button-link";
+import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { contact } from "@/lib/content";
 
-export function Contact({ delay }: { delay: number }) {
+export function Contact() {
   const { cta } = contact;
   return (
-    <Section delay={delay} id={contact.id} mt="48px">
+    <Section id={contact.id} mt="48px">
       <SectionHeading>{contact.heading}</SectionHeading>
       <Flex direction="column" gap="2px" align="flex-start">
         {contact.links.map((link) => (
@@ -27,8 +28,10 @@ export function Contact({ delay }: { delay: number }) {
             maxW="100%"
             wordBreak="break-all"
             textDecoration="none"
+            {...interactiveTransition}
             _hover={{ textDecoration: "underline", bg: "glass" }}
-            _focusVisible={{ outline: "2px solid", outlineColor: "link", outlineOffset: "2px" }}
+            _active={pressed}
+            _focusVisible={focusRing}
           >
             <Icon name={link.icon} size={18} />
             {link.label}

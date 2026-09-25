@@ -1,4 +1,5 @@
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
+import { chakraMotionTokens } from "./motion";
 
 /**
  * Design tokens taken from the prototype's CSS variables
@@ -21,7 +22,6 @@ const config = defineConfig({
       color: "fg",
       fontSize: "16px",
       lineHeight: "1.6",
-      transition: "background 0.3s",
       overflowX: "hidden",
     },
     a: {
@@ -30,9 +30,23 @@ const config = defineConfig({
     "section[id]": {
       scrollMarginTop: "72px",
     },
+    // Reduced motion: revealed content is visible from the first paint (this
+    // also covers the server HTML, before motion hydrates) and CSS transitions
+    // or animations finish instantly. The spinner keeps turning: it signals loading.
+    "[data-reveal]": {
+      _motionReduce: { opacity: "1 !important", transform: "none !important" },
+    },
+    "*:not(.chakra-spinner), *::before, *::after": {
+      _motionReduce: {
+        transitionDuration: "0.01ms !important",
+        animationDuration: "0.01ms !important",
+        animationIterationCount: "1 !important",
+      },
+    },
   },
   theme: {
     tokens: {
+      ...chakraMotionTokens,
       fonts: {
         heading: { value: "var(--font-mplus), sans-serif" },
         body: {

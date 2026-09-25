@@ -4,14 +4,9 @@ import { Box, Flex, Link, Menu, Portal, chakra } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, LogoMark, MenuIcon } from "@/components/icons";
+import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
 import { cvNavItem, navItems, site, type NavItem } from "@/lib/content";
 import { ThemeToggle } from "./theme-toggle";
-
-const focusRing = {
-  outline: "2px solid",
-  outlineColor: "link",
-  outlineOffset: "2px",
-} as const;
 
 function isActive(item: NavItem, pathname: string) {
   // "Proyectos" stays highlighted inside any case study, as in the prototype.
@@ -31,7 +26,9 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
       color={active ? "ink" : "fg"}
       bg={active ? "brand" : undefined}
       textDecoration="none"
-      _hover={{ textDecoration: "underline" }}
+      {...interactiveTransition}
+      _hover={{ textDecoration: "underline", bg: active ? "brand" : "glass" }}
+      _active={pressed}
       _focusVisible={focusRing}
     >
       <NextLink
@@ -64,6 +61,9 @@ function MobileMenu() {
           alignItems="center"
           justifyContent="center"
           cursor="pointer"
+          {...interactiveTransition}
+          _hover={{ bg: "glass" }}
+          _active={pressed}
           _focusVisible={focusRing}
         >
           <MenuIcon size={20} />
@@ -71,7 +71,15 @@ function MobileMenu() {
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content bg="bg" borderWidth="1px" borderColor="border" minW="200px">
+          <Menu.Content
+            bg="bg"
+            borderWidth="1px"
+            borderColor="border"
+            minW="200px"
+            // Shared motion tokens; reduced motion is handled by the global rule in lib/theme.ts.
+            _open={{ animationDuration: "short", animationTimingFunction: "enter" }}
+            _closed={{ animationDuration: "micro", animationTimingFunction: "exit" }}
+          >
             {items.map((item) => (
               <Menu.Item key={item.href} value={item.href} asChild minH="44px" color="fg">
                 {item === cvNavItem ? (
@@ -167,7 +175,9 @@ export function Navbar() {
           border="1px solid"
           borderColor="border"
           textDecoration="none"
-          _hover={{ textDecoration: "underline" }}
+          {...interactiveTransition}
+          _hover={{ textDecoration: "underline", bg: "glass" }}
+          _active={pressed}
           _focusVisible={focusRing}
         >
           <a href={cvNavItem.href} download>

@@ -1,5 +1,6 @@
-import { Flex, LinkBox, LinkOverlay, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Flex, LinkBox, LinkOverlay, SimpleGrid, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -28,9 +29,21 @@ function Card({ project }: { project: ProjectCard }) {
       gap="8px"
       color="fg"
       borderRadius="12px"
-      _focusWithin={{ outline: "2px solid", outlineColor: "link", outlineOffset: "4px" }}
+      _focusWithin={{ ...focusRing, outlineOffset: "4px" }}
+      // Only cards that open a case study react to hover and press.
+      css={
+        project.href
+          ? {
+              "& [data-thumbnail]": interactiveTransition,
+              "&:hover [data-thumbnail]": { transform: "translateY(-4px)", filter: "brightness(1.06)" },
+              "&:active [data-thumbnail]": pressed,
+            }
+          : undefined
+      }
     >
-      <Thumbnail />
+      <Box data-thumbnail="" w="100%">
+        <Thumbnail />
+      </Box>
       <Flex align="center" gap="8px" mt="4px" wrap="wrap" justify="center">
         {project.href ? (
           <LinkOverlay asChild _focusVisible={{ outline: "none" }}>
@@ -48,9 +61,9 @@ function Card({ project }: { project: ProjectCard }) {
   );
 }
 
-export function Projects({ delay }: { delay: number }) {
+export function Projects() {
   return (
-    <Section delay={delay} id={projects.id} mt="40px">
+    <Section id={projects.id} mt="40px">
       <SectionHeading>{projects.heading}</SectionHeading>
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap="24px">
         {projects.items.map((project) => (

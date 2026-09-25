@@ -3,9 +3,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { stack } from "@/lib/content";
 
-export function Stack({ delay }: { delay: number }) {
+export function Stack() {
   return (
-    <Section delay={delay} id={stack.id} mt="48px">
+    <Section id={stack.id} mt="48px">
       <SectionHeading>{stack.heading}</SectionHeading>
       <Flex direction="column" gap="20px">
         {stack.groups.map((group) => {
