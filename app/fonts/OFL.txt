@@ -1,7 +1,9 @@
 Copyright 2016 The Rounded M+ Project Authors.
 
-The files in this folder are the Latin subsets (weights 700 and 800) of
-M PLUS Rounded 1c, as served by Google Fonts.
+The files in this folder are subsets of M PLUS Rounded 1c (weights 700
+and 800), as served by Google Fonts: the Latin woff2 subsets used by the
+site, and small TTF subsets (Latin + Spanish characters) used only at build
+time to render the Open Graph images.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
