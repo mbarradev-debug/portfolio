@@ -43,7 +43,6 @@ npm run build
 
 | What | Where | How to replace |
 |---|---|---|
-| Downloadable CV | `public/cv-miguel-barra.pdf` | Add the PDF with this exact name. It is linked from the navbar and the contact section; until it exists those links return 404. |
 | Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `lib/content.ts`. |
 | Pulso dashboard screenshot | `pulsoCase.screenshots.main` → `app/projects/pulso/page.tsx` | Replace the `<Placeholder>` with `next/image`. |
 | Pulso historical chart screenshot | `pulsoCase.screenshots.chart` → `Screenshots` in `components/pulso/case-body.tsx` | Same as above. |

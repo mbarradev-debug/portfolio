@@ -59,7 +59,7 @@ export interface Finding {
   description: string;
 }
 
-export const CV_PATH = "/cv-miguel-barra.pdf";
+export const CV_PATH = "/miguel-barra-cv-es.pdf";
 export const EMAIL = "mbarra.git@gmail.com";
 export const GITHUB_URL = "https://github.com/mbarradev-debug";
 export const LINKEDIN_URL = "https://linkedin.com/in/miguelbarrarios";
