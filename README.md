@@ -10,7 +10,7 @@ The design comes from the static prototype in `references/portfolio-miguel-barra
 - **next-themes**: follows the system color scheme and remembers the user's choice in `localStorage` (`theme`)
 - **@react-three/fiber + drei**: renders the voxel hero scene (retro monitor + typing cat) (`components/voxel/`)
 - **motion** (Framer Motion): section and page-entry animations
-- **next/font**: M PLUS Rounded 1c
+- **next/font/local**: M PLUS Rounded 1c, self-hosted Latin subset for weights 700 and 800 (`app/fonts/`, SIL OFL 1.1)
 
 ## Project structure
 

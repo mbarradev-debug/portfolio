@@ -4,7 +4,14 @@ import { Box, type BoxProps } from "@chakra-ui/react";
 import { motion, useAnimate } from "motion/react";
 import { duration, easing, nextRevealDelay, revealOffset } from "@/lib/motion";
 
-type SectionProps = Omit<BoxProps, "id"> & { id?: string };
+type SectionProps = Omit<BoxProps, "id"> & {
+  id?: string;
+  /**
+   * Set to false for the page's first section: it holds the LCP element, so it
+   * must be visible in the server HTML instead of waiting for JS to reveal it.
+   */
+  reveal?: boolean;
+};
 
 /**
  * Reveals once when it scrolls into view: fade + short rise, staggered with
@@ -12,8 +19,16 @@ type SectionProps = Omit<BoxProps, "id"> & { id?: string };
  * Under reduced motion the global `[data-reveal]` rule keeps it visible and
  * static from the first paint, and MotionConfig skips the transform.
  */
-export function Section({ id, children, ...rest }: SectionProps) {
+export function Section({ id, reveal = true, children, ...rest }: SectionProps) {
   const [scope, animate] = useAnimate<HTMLElement>();
+
+  if (!reveal) {
+    return (
+      <section id={id}>
+        <Box {...rest}>{children}</Box>
+      </section>
+    );
+  }
 
   return (
     <motion.section
