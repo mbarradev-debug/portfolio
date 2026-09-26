@@ -1,6 +1,6 @@
 # Miguel Barra — Portfolio
 
-Personal portfolio of Miguel Barra, full stack developer in Santiago de Chile. The site content is in Spanish.
+Personal portfolio of Miguel Barra, full stack developer in Santiago de Chile. The site is in Spanish (primary) and English.
 The design comes from the static prototype in `references/portfolio-miguel-barra/` and takes inspiration from [craftz.dog](https://github.com/craftzdog/craftzdog-homepage).
 
 ## Stack
@@ -15,15 +15,22 @@ The design comes from the static prototype in `references/portfolio-miguel-barra
 ## Project structure
 
 ```
-app/                 routes: /, /projects/pulso, sitemap, robots, icon, 404
+proxy.ts             redirects unprefixed URLs to /es or /en (cookie > Accept-Language > Spanish)
+app/
+  [lang]/            routes per language: /es, /en, /{lang}/projects/pulso, OG images, 404
+  sitemap.ts, robots.ts, icon.svg, fonts/
+content/
+  types.ts           Content type every language must satisfy
+  es.ts, en.ts       ALL site copy per language, UI strings included — edit text here
+  shared.ts          data that isn't translated (URLs, email, stack names, files)
 components/
-  layout/            navbar (with mobile menu), theme toggle, footer, skip link
+  layout/            navbar (with mobile menu), language switcher, theme toggle, footer, skip link
   home/              home page sections
   pulso/             Pulso case study sections
   ui/                shared building blocks (Section, headings, links, badges, screenshots)
   voxel/             3D scene: retro CRT monitor with an animated screen and a cat typing in front of it (InstancedMesh + orthographic isometric camera)
 lib/
-  content.ts         ALL site copy as typed data — edit text here
+  i18n.ts            locales, default locale, cookie name, path and Accept-Language helpers
   theme.ts           Chakra system and color tokens
   voxel-monitor.ts   monitor model, palette and screen states (prompt, cursor, smiley)
   voxel-cat.ts       cat + keyboard model, palette and typing paws, in front of the monitor
@@ -41,11 +48,19 @@ npm run build
 
 ## Placeholders to replace
 
-Only the profile photo is left. The Pulso screenshots live in `public/pulso-*.png` and are described in `pulsoCase.screenshots` (`lib/content.ts`).
+The Pulso screenshots live in `public/pulso-*.png` (sizes in `content/shared.ts`, alt text per language in `pulsoCase.screenshots`).
 
 | What | Where | How to replace |
 |---|---|---|
-| Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `lib/content.ts`. |
+| Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `content/es.ts` and `content/en.ts`. |
+| English CV | `public/cv-miguel-barra-en.pdf` | Add the PDF, then set `CV_FILES.en` in `content/shared.ts` to `/cv-miguel-barra-en.pdf` and change the English button label ("Download CV (Spanish, PDF)") in `content/en.ts`. Until then the English site downloads the Spanish CV. |
+
+## Languages
+
+- Routes are prefixed: `/es/...` and `/en/...`. `proxy.ts` redirects any unprefixed URL (307) using the `NEXT_LOCALE` cookie first, then `Accept-Language` (English when it's the highest-weighted supported language), otherwise Spanish.
+- The ES | EN switcher keeps the current page and stores `NEXT_LOCALE` for a year.
+- Each page has hreflang alternates (es, en, x-default → es); `sitemap.xml` lists both versions of every route.
+- Every new string goes into **both** `content/es.ts` and `content/en.ts`; the `Content` type makes the build fail if one is missing.
 
 ## Deviations from the prototype
 

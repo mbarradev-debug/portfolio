@@ -1,9 +1,10 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { TextLink } from "@/components/ui/text-link";
-import { pulsoCase } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function CaseHeader() {
+export async function CaseHeader() {
+  const { pulsoCase } = await getContent();
   const { breadcrumb } = pulsoCase;
   return (
     <>

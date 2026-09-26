@@ -1,7 +1,8 @@
 import { Box } from "@chakra-ui/react";
-import { hero } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function IntroGreeting() {
+export async function IntroGreeting() {
+  const { hero } = await getContent();
   return (
     <Box
       borderRadius="8px"

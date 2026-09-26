@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
-import { MAIN_ID } from "@/components/layout/skip-link";
+import { MAIN_ID } from "@/components/layout/main-id";
 
 /** Path of the document's first page; any later path means a client navigation. */
 let initialPath: string | null = null;

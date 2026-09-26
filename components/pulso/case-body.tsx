@@ -2,9 +2,10 @@ import { Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import { Screenshot } from "@/components/ui/screenshot";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { pulsoCase } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function Problem() {
+export async function Problem() {
+  const { pulsoCase } = await getContent();
   return (
     <Section mt="40px">
       <SectionHeading>{pulsoCase.problem.heading}</SectionHeading>
@@ -15,7 +16,8 @@ export function Problem() {
   );
 }
 
-export function Decision() {
+export async function Decision() {
+  const { pulsoCase } = await getContent();
   const { decision } = pulsoCase;
   return (
     <Section mt="32px">
@@ -49,7 +51,8 @@ export function Decision() {
   );
 }
 
-export function Result() {
+export async function Result() {
+  const { pulsoCase } = await getContent();
   const { result } = pulsoCase;
   return (
     <Section mt="32px">
@@ -79,7 +82,8 @@ export function Result() {
   );
 }
 
-export function Screenshots() {
+export async function Screenshots() {
+  const { pulsoCase } = await getContent();
   const { screenshots } = pulsoCase;
   return (
     <Section mt="32px">

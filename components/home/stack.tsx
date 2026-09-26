@@ -1,9 +1,10 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { stack } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function Stack() {
+export async function Stack() {
+  const { stack } = await getContent();
   return (
     <Section id={stack.id} mt="48px">
       <SectionHeading>{stack.heading}</SectionHeading>

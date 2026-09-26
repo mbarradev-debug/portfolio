@@ -5,12 +5,17 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, LogoMark, MenuIcon } from "@/components/icons";
 import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
-import { cvNavItem, navItems, site, type NavItem } from "@/lib/content";
+import type { Content, NavItem } from "@/content";
+import { route, stripLocale } from "@/lib/i18n";
+import { LanguageSwitcher } from "./language-switcher";
 import { ThemeToggle } from "./theme-toggle";
 
+/** Texts the navbar needs; passed from the server layout (Client Components can't read the dictionary). */
+export type NavbarContent = Pick<Content, "site" | "navItems" | "cvNavItem">;
+
 function isActive(item: NavItem, pathname: string) {
-  // "Proyectos" stays highlighted inside any case study, as in the prototype.
-  return item.href === "/#proyectos" && pathname.startsWith("/projects");
+  // "Proyectos"/"Projects" stays highlighted inside any case study, as in the prototype.
+  return item.activeOn !== undefined && stripLocale(pathname).startsWith(item.activeOn);
 }
 
 function NavLink({ item, active }: { item: NavItem; active: boolean }) {
@@ -43,7 +48,7 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
   );
 }
 
-function MobileMenu() {
+function MobileMenu({ site, navItems, cvNavItem }: NavbarContent) {
   const items = [...navItems, cvNavItem];
   return (
     <Menu.Root positioning={{ placement: "bottom-end" }}>
@@ -113,7 +118,7 @@ function MobileMenu() {
   );
 }
 
-export function Navbar() {
+export function Navbar({ site, navItems, cvNavItem }: NavbarContent) {
   const pathname = usePathname();
 
   return (
@@ -135,7 +140,8 @@ export function Navbar() {
         w="100%"
         maxW="768px"
         align="center"
-        gap={{ base: 3, md: "28px" }}
+        // 16px on desktop (28px before the language switcher) so everything fits in 736px.
+        gap={{ base: 3, md: "16px" }}
         px="16px"
       >
         <Link
@@ -153,7 +159,7 @@ export function Navbar() {
           _hover={{ textDecoration: "underline" }}
           _focusVisible={focusRing}
         >
-          <NextLink href="/">
+          <NextLink href={route(site.lang, "/")}>
             <LogoMark />
             {site.name}
           </NextLink>
@@ -194,10 +200,11 @@ export function Navbar() {
           </a>
         </Link>
 
-        <Flex ml={{ base: "auto", md: 0 }} gap={2} align="center">
-          <ThemeToggle />
+        <Flex ml={{ base: "auto", md: 0 }} gap="6px" align="center">
+          <LanguageSwitcher current={site.lang} labels={site.languageSwitcher} />
+          <ThemeToggle label={site.themeToggleLabel} />
           <Box display={{ base: "block", md: "none" }}>
-            <MobileMenu />
+            <MobileMenu site={site} navItems={navItems} cvNavItem={cvNavItem} />
           </Box>
         </Flex>
       </Flex>

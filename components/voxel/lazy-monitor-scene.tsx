@@ -4,7 +4,6 @@ import { Box, Spinner } from "@chakra-ui/react";
 import { useInView } from "motion/react";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import { hero } from "@/lib/content";
 import { heroScene } from "@/lib/motion";
 import { useDocumentVisible } from "@/lib/use-document-visible";
 
@@ -28,7 +27,8 @@ function useIdle(): boolean {
   return idle;
 }
 
-export function LazyMonitorScene() {
+/** Alt text and loading label come from the server (Client Components can't read the dictionary). */
+export function LazyMonitorScene({ alt, loadingLabel }: { alt: string; loadingLabel: string }) {
   const container = useRef<HTMLDivElement>(null);
   const inView = useInView(container);
   const pageVisible = useDocumentVisible();
@@ -39,7 +39,7 @@ export function LazyMonitorScene() {
     <Box
       ref={container}
       role="img"
-      aria-label={hero.sceneAlt}
+      aria-label={alt}
       position="relative"
       w="100%"
       maxW={{ base: "320px", sm: "480px" }}
@@ -51,7 +51,7 @@ export function LazyMonitorScene() {
     >
       {!ready && (
         <Box position="absolute" inset={0} display="flex" alignItems="center" justifyContent="center">
-          <Spinner size="xl" color="fg.muted" borderWidth="3px" aria-label={hero.sceneLoading} />
+          <Spinner size="xl" color="fg.muted" borderWidth="3px" aria-label={loadingLabel} />
         </Box>
       )}
       <Box

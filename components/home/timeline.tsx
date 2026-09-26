@@ -2,9 +2,10 @@ import { Flex, Text } from "@chakra-ui/react";
 import { RichText } from "@/components/ui/rich-text";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { timeline } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function Timeline() {
+export async function Timeline() {
+  const { timeline } = await getContent();
   return (
     <Section id={timeline.id} mt="48px">
       <SectionHeading>{timeline.heading}</SectionHeading>

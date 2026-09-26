@@ -1,5 +1,5 @@
 import type { SVGProps } from "react";
-import type { IconName } from "@/lib/content";
+import type { IconName } from "@/content";
 
 // Feather-style icons copied from the prototype.
 type IconProps = SVGProps<SVGSVGElement> & { size?: number };

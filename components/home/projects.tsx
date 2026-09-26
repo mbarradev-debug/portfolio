@@ -4,7 +4,7 @@ import { focusRing, interactiveTransition, pressed } from "@/components/ui/inter
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { projects, type ProjectCard } from "@/lib/content";
+import { getContent, type ProjectCard } from "@/content";
 import { ExtensionThumbnail, PulsoThumbnail } from "./project-thumbnails";
 
 const thumbnails = {
@@ -61,7 +61,8 @@ function Card({ project }: { project: ProjectCard }) {
   );
 }
 
-export function Projects() {
+export async function Projects() {
+  const { projects } = await getContent();
   return (
     <Section id={projects.id} mt="40px">
       <SectionHeading>{projects.heading}</SectionHeading>
