@@ -20,7 +20,7 @@ components/
   layout/            navbar (with mobile menu), theme toggle, footer, skip link
   home/              home page sections
   pulso/             Pulso case study sections
-  ui/                shared building blocks (Section, headings, links, badges, placeholder)
+  ui/                shared building blocks (Section, headings, links, badges, screenshots)
   voxel/             3D scene: retro CRT monitor with an animated screen and a cat typing in front of it (InstancedMesh + orthographic isometric camera)
 lib/
   content.ts         ALL site copy as typed data — edit text here
@@ -41,12 +41,11 @@ npm run build
 
 ## Placeholders to replace
 
+Only the profile photo is left. The Pulso screenshots live in `public/pulso-*.png` and are described in `pulsoCase.screenshots` (`lib/content.ts`).
+
 | What | Where | How to replace |
 |---|---|---|
 | Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `lib/content.ts`. |
-| Pulso dashboard screenshot | `pulsoCase.screenshots.main` → `app/projects/pulso/page.tsx` | Replace the `<Placeholder>` with `next/image`. |
-| Pulso historical chart screenshot | `pulsoCase.screenshots.chart` → `Screenshots` in `components/pulso/case-body.tsx` | Same as above. |
-| Pulso converter screenshot | `pulsoCase.screenshots.converter` → `Screenshots` in `components/pulso/case-body.tsx` | Same as above. |
 
 ## Deviations from the prototype
 
