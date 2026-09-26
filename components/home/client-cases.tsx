@@ -1,9 +1,10 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { clientCases } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function ClientCases() {
+export async function ClientCases() {
+  const { clientCases } = await getContent();
   return (
     <Section mt="48px">
       <SectionHeading mb="8px">{clientCases.heading}</SectionHeading>

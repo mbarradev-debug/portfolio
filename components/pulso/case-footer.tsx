@@ -2,9 +2,10 @@ import { Flex } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button-link";
 import { TextLink } from "@/components/ui/text-link";
-import { pulsoCase } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function CaseFooter() {
+export async function CaseFooter() {
+  const { pulsoCase } = await getContent();
   return (
     <Flex
       mt="48px"

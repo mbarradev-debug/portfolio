@@ -6,7 +6,6 @@ import { useTheme } from "next-themes";
 import { useState } from "react";
 import { MoonIcon, SunIcon } from "@/components/icons";
 import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
-import { site } from "@/lib/content";
 import { duration, easing } from "@/lib/motion";
 import { useIsClient } from "@/lib/use-is-client";
 
@@ -24,7 +23,7 @@ function CssThemeIcon() {
   );
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ label }: { label: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const isClient = useIsClient();
   // The key only changes on click, so the icon never animates on page load.
@@ -41,7 +40,7 @@ export function ThemeToggle() {
   return (
     <chakra.button
       type="button"
-      aria-label={site.themeToggleLabel}
+      aria-label={label}
       onClick={() => {
         setTheme(resolvedTheme === "dark" ? "light" : "dark");
         setSwitches((n) => n + 1);

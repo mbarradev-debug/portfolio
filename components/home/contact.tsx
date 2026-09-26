@@ -4,9 +4,10 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { contact } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function Contact() {
+export async function Contact() {
+  const { contact } = await getContent();
   const { cta } = contact;
   return (
     <Section id={contact.id} mt="48px">

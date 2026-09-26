@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { ButtonLink } from "@/components/ui/button-link";
-import { notFound } from "@/lib/content";
+import { getContent } from "@/content";
 
-export const metadata: Metadata = {
-  title: notFound.metaTitle,
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { notFound } = await getContent();
+  return { title: notFound.metaTitle, robots: { index: false } };
+}
 
-export default function NotFound() {
+export default async function NotFound() {
+  const { notFound } = await getContent();
   return (
     <Box pt="48px" textAlign="center">
       <Heading as="h1" fontFamily="heading" fontWeight="800" fontSize="34px" mb="12px">

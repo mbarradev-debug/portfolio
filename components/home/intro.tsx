@@ -4,9 +4,10 @@ import { ButtonLink } from "@/components/ui/button-link";
 import { RichText } from "@/components/ui/rich-text";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { intro } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function Intro() {
+export async function Intro() {
+  const { intro } = await getContent();
   return (
     <Section mt="40px">
       <SectionHeading>{intro.heading}</SectionHeading>

@@ -1,11 +1,11 @@
 import { Link } from "@chakra-ui/react";
 import { focusRing } from "@/components/ui/interaction";
-import { site } from "@/lib/content";
-
-export const MAIN_ID = "contenido";
+import { getContent } from "@/content";
+import { MAIN_ID } from "./main-id";
 
 /** Visible only on keyboard focus; jumps past the navbar. */
-export function SkipLink() {
+export async function SkipLink() {
+  const { site } = await getContent();
   return (
     <Link
       href={`#${MAIN_ID}`}

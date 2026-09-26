@@ -1,7 +1,8 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { hero } from "@/lib/content";
+import { getContent } from "@/content";
 
-function AvailabilityPill() {
+async function AvailabilityPill() {
+  const { hero } = await getContent();
   return (
     <Flex
       as="span"
@@ -23,7 +24,8 @@ function AvailabilityPill() {
 }
 
 /** Avatar placeholder with initials until the real photo exists (see README). */
-function Avatar() {
+async function Avatar() {
+  const { hero } = await getContent();
   return (
     <Flex
       role="img"
@@ -47,7 +49,8 @@ function Avatar() {
   );
 }
 
-export function Identity() {
+export async function Identity() {
+  const { hero } = await getContent();
   return (
     <Flex
       direction={{ base: "column-reverse", sm: "row" }}

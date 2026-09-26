@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import type { RichText as RichTextData } from "@/lib/content";
+import type { RichText as RichTextData } from "@/content";
 import { TextLink } from "./text-link";
 
 export function RichText({ value }: { value: RichTextData }) {

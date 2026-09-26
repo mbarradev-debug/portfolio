@@ -1,7 +1,8 @@
 import { Box } from "@chakra-ui/react";
-import { site } from "@/lib/content";
+import { getContent } from "@/content";
 
-export function Footer() {
+export async function Footer() {
+  const { site } = await getContent();
   return (
     <Box
       as="footer"

@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
-import type { Screenshot as ScreenshotData } from "@/lib/content";
+import type { Screenshot as ScreenshotData } from "@/content";
 
 type ScreenshotProps = {
   image: ScreenshotData;
