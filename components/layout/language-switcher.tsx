@@ -1,7 +1,6 @@
 "use client";
 
 import { Flex, Link } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { focusRing, interactiveTransition, pressed } from "@/components/ui/interaction";
 import type { Content } from "@/content";
@@ -17,7 +16,13 @@ function rememberLocale(locale: Locale) {
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; samesite=lax`;
 }
 
-/** ES | EN segmented control: links to the same page in the other language. */
+/**
+ * ES | EN segmented control: links to the same page in the other language.
+ * Plain <a> on purpose: switching language reloads the document, so <html lang>,
+ * metadata and the theme script all come from the server. A client-side
+ * navigation would remount the root layout and make next-themes create its
+ * <script> in the browser, which React warns about.
+ */
 export function LanguageSwitcher({ current, labels }: LanguageSwitcherProps) {
   const pathname = usePathname();
 
@@ -57,7 +62,7 @@ export function LanguageSwitcher({ current, labels }: LanguageSwitcherProps) {
             _active={pressed}
             _focusVisible={{ ...focusRing, outlineOffset: "0px" }}
           >
-            <NextLink
+            <a
               href={switchLocale(pathname, locale)}
               hrefLang={locale}
               lang={locale}
@@ -67,7 +72,7 @@ export function LanguageSwitcher({ current, labels }: LanguageSwitcherProps) {
               onClick={() => rememberLocale(locale)}
             >
               {locale}
-            </NextLink>
+            </a>
           </Link>
         );
       })}
