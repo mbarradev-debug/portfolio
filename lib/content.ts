@@ -54,6 +54,14 @@ export interface CaseMeta {
   href?: string;
 }
 
+/** Image in public/ with its intrinsic size, so next/image reserves the space (no CLS). */
+export interface Screenshot {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 export interface Finding {
   title: string;
   description: string;
@@ -320,12 +328,26 @@ export const pulsoCase = {
     },
     { label: "Rol", value: "Todo: producto, arquitectura, backend y frontend" },
   ] satisfies CaseMeta[],
-  /** Placeholders until real screenshots are added (see README). */
   screenshots: {
-    main: "[CAPTURA DEL DASHBOARD DE PULSO]",
-    chart: "[CAPTURA DEL GRÁFICO HISTÓRICO]",
-    converter: "[CAPTURA DEL CONVERSOR]",
-  },
+    main: {
+      src: "/pulso-dashboard.png",
+      width: 1472,
+      height: 800,
+      alt: "Dashboard de Pulso: gráfico del dólar observado en el último mes y grilla con los indicadores económicos de Chile.",
+    },
+    chart: {
+      src: "/pulso-historical-chart.png",
+      width: 1080,
+      height: 660,
+      alt: "Gráfico histórico de Pulso con la evolución del dólar observado en el último mes y filtros de 1 mes, 1 año y 2 años.",
+    },
+    converter: {
+      src: "/pulso-converter.png",
+      width: 1080,
+      height: 660,
+      alt: "Conversor de Pulso: 100.000 pesos chilenos equivalen a 2,4381 UF.",
+    },
+  } satisfies Record<string, Screenshot>,
   problem: {
     heading: "El problema",
     body: "La primera versión consumía mindicador.cl y en producción a veces simplemente no cargaba. La API oficial del Banco Central es estable, pero no está pensada para llamarse desde el navegador: si cada visitante pidiera los 10 indicadores y su histórico, las llamadas se multiplicarían con muy pocos usuarios.",

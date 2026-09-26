@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CaseFooter } from "@/components/pulso/case-footer";
 import { CaseHeader } from "@/components/pulso/case-header";
 import { Decision, Problem, Result, Screenshots } from "@/components/pulso/case-body";
-import { Placeholder } from "@/components/ui/placeholder";
+import { Screenshot } from "@/components/ui/screenshot";
 import { Section } from "@/components/ui/section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PULSO_PATH, pulsoCase, site } from "@/lib/content";
@@ -35,8 +35,9 @@ export default function PulsoPage() {
       <Section reveal={false} pt="48px">
         <CaseHeader />
       </Section>
-      <Section mt="32px">
-        <Placeholder label={pulsoCase.screenshots.main} h={{ base: "220px", sm: "400px" }} />
+      {/* Visible from the server HTML: this screenshot is the LCP element on mobile. */}
+      <Section reveal={false} mt="32px">
+        <Screenshot image={pulsoCase.screenshots.main} sizes="(max-width: 768px) 100vw, 736px" eager />
       </Section>
       <Problem />
       <Decision />

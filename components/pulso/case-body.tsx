@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid, Text } from "@chakra-ui/react";
-import { Placeholder } from "@/components/ui/placeholder";
+import { Screenshot } from "@/components/ui/screenshot";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { pulsoCase } from "@/lib/content";
@@ -84,8 +84,8 @@ export function Screenshots() {
   return (
     <Section mt="32px">
       <SimpleGrid columns={{ base: 1, sm: 2 }} gap="16px">
-        <Placeholder label={screenshots.chart} h="220px" />
-        <Placeholder label={screenshots.converter} h="220px" />
+        <Screenshot image={screenshots.chart} sizes="(max-width: 480px) 100vw, 360px" />
+        <Screenshot image={screenshots.converter} sizes="(max-width: 480px) 100vw, 360px" />
       </SimpleGrid>
     </Section>
   );
