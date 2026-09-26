@@ -7,10 +7,12 @@ const isDev = process.env.NODE_ENV === "development";
  * render per request, and the site is fully static. 'unsafe-inline' covers
  * Next's inline bootstrap scripts, the next-themes script and Emotion's
  * inline <style> tags. vercel.live is Vercel's preview toolbar/comments.
+ * Vercel Analytics and Speed Insights load from /_vercel/* in production
+ * ('self'); in development they load debug scripts from va.vercel-scripts.com.
  */
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://vercel.live${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://vercel.live${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' blob: data: https://vercel.live https://vercel.com",
   "font-src 'self' https://vercel.live https://assets.vercel.com",

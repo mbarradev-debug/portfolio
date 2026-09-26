@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { Box } from "@chakra-ui/react";
@@ -87,6 +89,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
             <Footer />
           </Box>
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
