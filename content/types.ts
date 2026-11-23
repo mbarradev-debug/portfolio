@@ -8,7 +8,7 @@ export type RichText = ReadonlyArray<string | { text: string; href: string }>;
 
 export type IconName = "github" | "linkedin" | "mail" | "download";
 
-export type ProjectSlug = "pulso" | "pulso-extension";
+export type ProjectSlug = "pulso" | "pulso-extension" | "tasklane" | "linear-issue-to-pr";
 
 export interface NavItem {
   label: string;

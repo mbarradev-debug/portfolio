@@ -93,6 +93,20 @@ export const en = {
         status: "Published",
         description: "Pulso's browser extension (WXT), published on the Chrome Web Store and Firefox Add-ons.",
       },
+      {
+        slug: "tasklane",
+        title: "Tasklane",
+        status: "Personal project",
+        description:
+          "Task manager split into two NestJS microservices, each with its own PostgreSQL database, plus Next.js as a BFF; the backend starts with Docker Compose.",
+      },
+      {
+        slug: "linear-issue-to-pr",
+        title: "linear-issue-to-pr",
+        status: "Published",
+        description:
+          "Open source skill for AI agents that takes a Linear issue all the way to a pull request; works with Claude Code, Cursor and Codex.",
+      },
     ],
   },
 
@@ -152,7 +166,11 @@ export const en = {
       },
       {
         year: "Today",
-        text: ["Builds ", { text: "Pulso", href: r(PULSO_PATH) }, " and its extension while looking for a new team."],
+        text: [
+          "Builds personal projects such as ",
+          { text: "Pulso", href: r(PULSO_PATH) },
+          " and Tasklane while looking for a new team.",
+        ],
       },
     ],
   },

@@ -93,6 +93,20 @@ export const es = {
         status: "Publicada",
         description: "Extensión de navegador de Pulso (WXT), publicada en Chrome Web Store y Firefox Add-ons.",
       },
+      {
+        slug: "tasklane",
+        title: "Tasklane",
+        status: "Proyecto propio",
+        description:
+          "Gestor de tareas con dos microservicios NestJS, cada uno con su base PostgreSQL, y Next.js como BFF; el backend se levanta con Docker Compose.",
+      },
+      {
+        slug: "linear-issue-to-pr",
+        title: "linear-issue-to-pr",
+        status: "Publicada",
+        description:
+          "Skill open source para agentes de IA que lleva un issue de Linear hasta un pull request; compatible con Claude Code, Cursor y Codex.",
+      },
     ],
   },
 
@@ -152,7 +166,11 @@ export const es = {
       },
       {
         year: "Hoy",
-        text: ["Construye ", { text: "Pulso", href: r(PULSO_PATH) }, " y su extensión, y busca su próximo equipo."],
+        text: [
+          "Construye proyectos propios como ",
+          { text: "Pulso", href: r(PULSO_PATH) },
+          " y Tasklane, y busca su próximo equipo.",
+        ],
       },
     ],
   },
