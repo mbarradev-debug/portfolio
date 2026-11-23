@@ -87,6 +87,7 @@ export interface Content {
     lang: "es" | "en";
     title: string;
     description: string;
+    /** "{year}" is replaced with the current year at build time. */
     footer: string;
     themeToggleLabel: string;
     menuLabel: string;

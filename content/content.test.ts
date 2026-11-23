@@ -56,6 +56,13 @@ describe("dictionaries", () => {
     for (const href of internal) expect(href === `/${locale}` || href.startsWith(`/${locale}/`) || href.startsWith(`/${locale}#`)).toBe(true);
   });
 
+  it.each([
+    ["es", es],
+    ["en", en],
+  ] as const)("footer in %s has a {year} placeholder instead of a fixed year", (_locale, content) => {
+    expect(content.site.footer).toContain("{year}");
+  });
+
   it("download each language's own CV", () => {
     expect(es.cvNavItem.href).toBe(CV_FILES.es);
     expect(es.contact.cta.primary.href).toBe(CV_FILES.es);

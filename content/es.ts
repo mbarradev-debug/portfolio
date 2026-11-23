@@ -26,7 +26,7 @@ export const es = {
     title: "Miguel Barra · Desarrollador full stack",
     description:
       "Desarrollador full stack en Santiago de Chile, con 4 años creando aplicaciones web en producción con React, Next.js, TypeScript y Node.js.",
-    footer: "© 2026 Miguel Barra. Todos los derechos reservados.",
+    footer: "© {year} Miguel Barra. Todos los derechos reservados.",
     themeToggleLabel: "Cambiar tema",
     menuLabel: "Abrir menú",
     mainNavLabel: "Navegación principal",
@@ -46,10 +46,10 @@ export const es = {
 
   hero: {
     sceneAlt:
-      "Gato en voxels tecleando frente a un monitor retro con una carita en la pantalla, escena 3D rotable",
+      "Gato en voxels tecleando frente a un monitor retro con una carita en la pantalla; escena 3D que puedes girar",
     sceneLoading: "Cargando escena 3D",
     greeting:
-      "Hola, soy desarrollador full stack y construyo productos web desde Santiago de Chile.",
+      "Hola, soy desarrollador full stack y creo aplicaciones web desde Santiago de Chile.",
     name: "Miguel Barra",
     role: "Ingeniero en Computación e Informática",
     tagline: "Desarrollador full stack · React · Next.js · TypeScript",
@@ -61,7 +61,7 @@ export const es = {
   intro: {
     heading: "Qué hago",
     body: [
-      "Desarrollo aplicaciones web en producción de punta a punta: desde el modelo de datos y la API hasta la interfaz. Llevo 4 años construyendo para los sectores público, salud y electromovilidad con React, Next.js, TypeScript y Node.js, y hoy construyo microservicios con NestJS y Docker, apoyado a diario en desarrollo con IA. Mi proyecto en producción es ",
+      "Creo aplicaciones web en producción de punta a punta: desde el modelo de datos y la API hasta la interfaz. Llevo 4 años trabajando para los sectores público, salud y electromovilidad con React, Next.js, TypeScript y Node.js. Hoy construyo microservicios con NestJS y Docker, apoyado a diario en desarrollo con IA. Mi proyecto en producción es ",
       { text: "Pulso", href: r(PULSO_PATH) },
       ", un dashboard de indicadores económicos de Chile con API propia sobre la del Banco Central.",
     ],
@@ -145,7 +145,7 @@ export const es = {
     items: [
       {
         year: "2021",
-        text: ["Entra a Valuesite como desarrollador full stack, desarrollando soluciones para el sector salud."],
+        text: ["Se incorpora a Valuesite como desarrollador full stack y crea soluciones para el sector salud."],
       },
       {
         year: "2023",

@@ -12,7 +12,7 @@ export async function Footer() {
       fontSize="14px"
       color="fg.muted"
     >
-      {site.footer}
+      {site.footer.replace("{year}", String(new Date().getFullYear()))}
     </Box>
   );
 }

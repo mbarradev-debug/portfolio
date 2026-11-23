@@ -27,7 +27,7 @@ export const en = {
     title: "Miguel Barra · Full stack developer",
     description:
       "Full stack developer in Santiago, Chile, with 4 years building production web applications with React, Next.js, TypeScript and Node.js.",
-    footer: "© 2026 Miguel Barra. All rights reserved.",
+    footer: "© {year} Miguel Barra. All rights reserved.",
     themeToggleLabel: "Toggle theme",
     menuLabel: "Open menu",
     mainNavLabel: "Main navigation",
@@ -47,9 +47,9 @@ export const en = {
 
   hero: {
     sceneAlt:
-      "Voxel cat typing in front of a retro monitor with a smiley face on its screen, rotatable 3D scene",
+      "Voxel cat typing in front of a retro monitor with a smiley face on its screen; a 3D scene you can rotate",
     sceneLoading: "Loading 3D scene",
-    greeting: "Hi, I'm a full stack developer building web products from Santiago, Chile.",
+    greeting: "Hi, I'm a full stack developer building web applications from Santiago, Chile.",
     name: "Miguel Barra",
     role: "Computer Science and Informatics Engineer",
     tagline: "Full stack developer · React · Next.js · TypeScript",
@@ -61,7 +61,7 @@ export const en = {
   intro: {
     heading: "What I do",
     body: [
-      "I build production web applications end to end: from the data model and the API to the interface. I've spent 4 years building for the public, healthcare and e-mobility sectors with React, Next.js, TypeScript and Node.js, and I now build microservices with NestJS and Docker, using AI-assisted development daily. My project in production is ",
+      "I build production web applications end to end: from the data model and the API to the interface. I've spent 4 years working for the public, healthcare and e-mobility sectors with React, Next.js, TypeScript and Node.js. Today I build microservices with NestJS and Docker, relying on AI-assisted development every day. My project in production is ",
       { text: "Pulso", href: r(PULSO_PATH) },
       ", a dashboard of Chilean economic indicators with its own API on top of the Central Bank's.",
     ],
