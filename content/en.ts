@@ -43,7 +43,6 @@ export const en = {
     { label: "GitHub", href: GITHUB_URL, icon: "github", external: true },
   ],
 
-  // The English CV isn't available yet; this downloads the Spanish one.
   cvNavItem: { label: "CV", href: CV_FILES.en, icon: "download" },
 
   hero: {
@@ -181,8 +180,7 @@ export const en = {
     cta: {
       heading: "Want to talk?",
       body: "If you're looking for someone who makes technical decisions and takes them to production, get in touch.",
-      // Falls back to the Spanish CV until the English PDF exists (see README).
-      primary: { label: "Download CV (Spanish, PDF)", href: CV_FILES.en },
+      primary: { label: "Download CV (PDF)", href: CV_FILES.en },
       secondary: { label: "Email me", href: `mailto:${EMAIL}` },
     },
   },

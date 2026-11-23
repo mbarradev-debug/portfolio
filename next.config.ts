@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { CV_FILES, LEGACY_CV_PATH } from "./content/shared";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -42,6 +43,10 @@ const nextConfig: NextConfig = {
   experimental: {
     // Tree-shake Chakra's barrel exports.
     optimizePackageImports: ["@chakra-ui/react"],
+  },
+  async redirects() {
+    // Keeps links to the old CV file name working (308, cached by browsers and search engines).
+    return [{ source: LEGACY_CV_PATH, destination: CV_FILES.es, permanent: true }];
   },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];

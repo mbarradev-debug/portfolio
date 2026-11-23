@@ -53,7 +53,6 @@ The Pulso screenshots live in `public/pulso-*.png` (sizes in `content/shared.ts`
 | What | Where | How to replace |
 |---|---|---|
 | Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `content/es.ts` and `content/en.ts`. |
-| English CV | `public/cv-miguel-barra-en.pdf` | Add the PDF, then set `CV_FILES.en` in `content/shared.ts` to `/cv-miguel-barra-en.pdf` and change the English button label ("Download CV (Spanish, PDF)") in `content/en.ts`. Until then the English site downloads the Spanish CV. |
 
 ## Languages
 

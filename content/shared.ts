@@ -6,11 +6,14 @@ export const LINKEDIN_URL = "https://linkedin.com/in/miguelbarrarios";
 export const PULSO_SITE_URL = "https://pulso-cyan-zeta.vercel.app";
 export const PULSO_PATH = "/projects/pulso";
 
-/** CV per language. The English PDF doesn't exist yet (see README placeholders). */
+/** CV per language, served from public/. The PDFs are the source of truth for the profile copy. */
 export const CV_FILES = {
-  es: "/cv-miguel-barra-es.pdf",
-  en: "/cv-miguel-barra-es.pdf",
+  es: "/miguel-barra-cv-es.pdf",
+  en: "/miguel-barra-cv-en.pdf",
 } as const;
+
+/** Former CV URL, already shared; next.config.ts redirects it permanently to the Spanish CV. */
+export const LEGACY_CV_PATH = "/cv-miguel-barra-es.pdf";
 
 /** Screenshot files and sizes; only the alt text is translated. */
 export const PULSO_SCREENSHOTS = {
