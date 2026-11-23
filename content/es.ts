@@ -5,6 +5,7 @@ import {
   GITHUB_URL,
   LINKEDIN_URL,
   PULSO_PATH,
+  PULSO_REPO_URL,
   PULSO_SCREENSHOTS,
   PULSO_SITE_URL,
   STACK_ALSO,
@@ -13,8 +14,8 @@ import {
 import type { Content } from "./types";
 
 /**
- * Spanish (primary language). Source of truth for the original copy:
- * references/portfolio-miguel-barra/{index,pulso}.html
+ * Spanish (primary language). Every claim about the profile must come from the
+ * CV (public/miguel-barra-cv-es.pdf); the layout comes from references/.
  */
 const r = (path: string) => route("es", path);
 
@@ -63,36 +64,34 @@ export const es = {
   intro: {
     heading: "Qué hago",
     body: [
-      "Construyo productos web de punta a punta: desde la base de datos y la API hasta la interfaz que usa la gente. Llevo más de dos años entregando software en producción para municipalidades, salud y energía, casi siempre a cargo de las decisiones técnicas del backend. Mi terreno es Next.js con TypeScript, y mi proyecto propio es ",
+      "Desarrollo aplicaciones web en producción de punta a punta: desde el modelo de datos y la API hasta la interfaz. Llevo 4 años construyendo para los sectores público, salud y electromovilidad con React, Next.js, TypeScript y Node.js, y hoy construyo microservicios con NestJS y Docker, apoyado a diario en desarrollo con IA. Mi proyecto en producción es ",
       { text: "Pulso", href: r(PULSO_PATH) },
-      ", un dashboard de indicadores económicos de Chile alimentado directo desde la API del Banco Central.",
+      ", un dashboard de indicadores económicos de Chile con API propia sobre la del Banco Central.",
     ],
     stats: [
-      { value: "2+ años", label: "entregando productos en producción" },
-      { value: "19 s → 0,23 s", label: "de carga en Pulso tras paralelizar el Banco Central" },
-      { value: "Público y privado", label: "municipalidades, una Isapre y electromovilidad" },
+      { value: "4 años", label: "creando aplicaciones web en producción" },
+      { value: "~19 s → ~0,23 s", label: "de carga en Pulso tras paralelizar las llamadas al Banco Central" },
+      { value: "3 sectores", label: "público, salud y electromovilidad" },
     ],
     cta: { label: "Ver proyectos", href: "#proyectos" },
   },
 
   projects: {
     id: "proyectos",
-    heading: "Proyectos propios",
+    heading: "Proyectos destacados",
     items: [
       {
         slug: "pulso",
         title: "Pulso",
         status: "En producción",
-        description:
-          "Dashboard de 10 indicadores económicos de Chile, con API propia sobre el Banco Central.",
+        description: "Dashboard de indicadores económicos de Chile con API propia sobre la del Banco Central.",
         href: r(PULSO_PATH),
       },
       {
         slug: "pulso-extension",
         title: "Pulso UF y Dólar",
         status: "Publicada",
-        description:
-          "Extensión de Chrome con UF, dólar y conversor a CLP, conectada a la API de Pulso.",
+        description: "Extensión de navegador de Pulso (WXT), publicada en Chrome Web Store y Firefox Add-ons.",
       },
     ],
   },
@@ -103,28 +102,28 @@ export const es = {
     tagsLabel: "Tecnologías",
     items: [
       {
-        period: "2025 – 2026",
+        period: "2024 – 2026",
         client: "DOM Digital · ITS Solutions, vía Forcast",
-        title: "Municipalidades que dejan Microsoft Project por una plataforma propia",
+        title: "Planificación de obras municipales: de Microsoft Project a una plataforma web propia",
         description:
-          "Definí la arquitectura, diseñé la base de datos y lideré el backend completo (endpoints, seguridad y autenticación), coordinando a un practicante en el frontend.",
-        tags: ["Líder técnico backend", "Next.js", "PostgreSQL", "Firebase Auth"],
+          "Lideré la migración: definí la arquitectura (Next.js, PostgreSQL, Azure), diseñé el modelo de datos y desarrollé el backend completo (endpoints REST, seguridad y autenticación Firebase), coordinando a un practicante.",
+        tags: ["Next.js", "PostgreSQL", "Azure", "Firebase Auth"],
       },
       {
-        period: "2025 – 2026",
+        period: "2024 – 2026",
         client: "E-Hive, vía Forcast",
         title: "Cargar un auto eléctrico escaneando un QR, ahora también desde la web",
         description:
-          "Llevé a la plataforma web el escaneo QR que existía en la app móvil: frontend en Angular y endpoints REST en el microservicio que verifica la patente antes de habilitar la carga.",
-        tags: ["Angular", "Flask", "REST APIs"],
+          "Llevé a la web en Angular el escaneo QR que solo existía en la app móvil y agregué al microservicio Flask los endpoints REST que validan la patente antes de habilitar la carga.",
+        tags: ["Angular", "Flask", "APIs REST"],
       },
       {
-        period: "2022 – 2023",
+        period: "2021 – 2023",
         client: "iSalud · Isapre de Codelco, vía Valuesite",
-        title: "Una sucursal virtual de salud que había quedado atrás",
+        title: "Modernizar la sucursal virtual de una Isapre",
         description:
-          "Corregí el frontend legacy y sumé búsqueda de médicos y generación de documentos, desde los procedimientos en Oracle hasta los microservicios en .NET.",
-        tags: ["ASP.NET MVC", "Oracle PL/SQL", "Microservicios"],
+          "Modernicé la Sucursal Virtual donde los afiliados gestionan bonos, reembolsos y certificados: reparé el JavaScript que no funcionaba, actualicé Bootstrap y agregué la búsqueda de médicos (por RUT o área médica) y la generación de documentos, con procedimientos almacenados en Oracle PL/SQL y métodos en los microservicios ASP.NET MVC existentes.",
+        tags: ["ASP.NET MVC", "Oracle PL/SQL", "Bootstrap"],
       },
     ],
   },
@@ -134,24 +133,22 @@ export const es = {
     heading: "Trayectoria",
     items: [
       {
-        year: "2022",
-        text: ["Entra a Valuesite como desarrollador full stack, construyendo para el sector salud."],
+        year: "2021",
+        text: ["Entra a Valuesite como desarrollador full stack, desarrollando soluciones para el sector salud."],
+      },
+      {
+        year: "2023",
+        text: [
+          "Práctica profesional en Ewreka: desarrolla en Flutter el carrito de productos de su app de regalos corporativos y diseña su base de datos junto al equipo.",
+        ],
       },
       {
         year: "2024",
-        text: [
-          "Práctica profesional en Ewreka: módulo de carrito de compra en Flutter para regalos corporativos sustentables.",
-        ],
+        text: ["Se suma a Forcast, consultora de desarrollo de software, como desarrollador full stack."],
       },
       {
         year: "2025",
         text: ["Se titula de Ingeniería en Computación e Informática en la Universidad Andrés Bello."],
-      },
-      {
-        year: "2025",
-        text: [
-          "Se suma a Forcast, consultora de software, liderando backend para clientes públicos y privados.",
-        ],
       },
       {
         year: "Hoy",
@@ -184,7 +181,7 @@ export const es = {
     ],
     cta: {
       heading: "¿Conversamos?",
-      body: "Si buscas a alguien que tome decisiones técnicas y las lleve a producción, escríbeme.",
+      body: "Si buscas un desarrollador full stack que lleve aplicaciones web a producción, escríbeme.",
       primary: { label: "Descargar CV (PDF)", href: CV_FILES.es },
       secondary: { label: "Escríbeme", href: `mailto:${EMAIL}` },
     },
@@ -200,7 +197,7 @@ export const es = {
   pulsoCase: {
     metaTitle: "Pulso",
     metaDescription:
-      "Caso de estudio de Pulso, dashboard de 10 indicadores económicos de Chile con API propia sobre el Banco Central: la carga bajó de 19 s a 0,23 s al paralelizar.",
+      "Caso de estudio de Pulso, dashboard de indicadores económicos de Chile con API propia sobre la del Banco Central: la carga bajó de ~19 s a ~0,23 s al paralelizar sus 10 llamadas.",
     breadcrumb: {
       label: "Ruta de navegación",
       parent: "Proyectos",
@@ -208,14 +205,14 @@ export const es = {
       current: "Pulso",
     },
     status: "En producción",
-    title: "Indicadores económicos de Chile que cargan siempre",
+    title: "Dashboard de indicadores económicos de Chile",
     summary:
-      "Pulso muestra en tiempo casi real 10 indicadores de la economía chilena (UF, dólar, euro, IPC, UTM, Imacec, TPM, cobre, IVP y desempleo) con grilla, gráfico histórico, favoritos y un conversor a pesos. Detrás hay una API propia que es la única que habla con el Banco Central.",
+      "Pulso es un dashboard de indicadores económicos de Chile que funciona sobre una API propia, construida encima de la del Banco Central de Chile.",
     meta: [
       { label: "Sitio", value: "pulso-cyan-zeta.vercel.app ↗", href: PULSO_SITE_URL },
-      { label: "Stack", value: "Next.js 16 (App Router), React 19, TypeScript, SWR, Chart.js" },
-      { label: "Calidad", value: "Vitest, Playwright (E2E), CI en GitHub Actions, deploy en Vercel" },
-      { label: "Rol", value: "Todo: producto, arquitectura, backend y frontend" },
+      { label: "Código", value: "github.com/mbarradev-debug/pulso ↗", href: PULSO_REPO_URL },
+      { label: "Stack", value: "Next.js 16, React 19, TypeScript, SWR, Chart.js" },
+      { label: "Calidad", value: "Vitest, Playwright (E2E), CI en GitHub Actions, despliegue en Vercel" },
     ],
     screenshots: {
       main: {
@@ -233,22 +230,21 @@ export const es = {
     },
     problem: {
       heading: "El problema",
-      body: "La primera versión consumía mindicador.cl y en producción a veces simplemente no cargaba. La API oficial del Banco Central es estable, pero no está pensada para llamarse desde el navegador: si cada visitante pidiera los 10 indicadores y su histórico, las llamadas se multiplicarían con muy pocos usuarios.",
+      body: "La primera versión dependía de mindicador.cl, que resultó inestable en producción.",
     },
     decision: {
       heading: "La decisión",
-      body: "Construí una API intermedia propia: el frontend solo habla con ella y ella es la única que llama al Banco Central, con cache en memoria y fallback por indicador, así que si falla uno no se pierden los otros nueve.",
+      body: "Reemplacé mindicador.cl por una API propia sobre la del Banco Central de Chile, con cache y fallback por indicador. En el camino resolví dos particularidades de esa API:",
       findings: [
-        { title: "ISO-8859-1", description: "Respuestas que hay que decodificar a mano antes de leerlas como JSON." },
-        { title: "Errores con 200 OK", description: "Los fallos vienen señalizados solo en el body, no en el status HTTP." },
-        { title: "Valores fantasma", description: "Fechas sin dato real que repiten el último valor y hay que descartar." },
+        { title: "ISO-8859-1", description: "Sus respuestas vienen en esta codificación y hubo que resolverla." },
+        { title: "Errores en el body", description: "Los errores llegan en el cuerpo de la respuesta." },
       ],
     },
     result: {
       heading: "El resultado",
-      before: "19 s",
-      after: "0,23 s",
-      body: "Al paralelizar las 10 llamadas al Banco Central, la carga bajó de unos 19 segundos a 0,23. Desde ahí el paralelismo quedó como requisito de la arquitectura, no como optimización.",
+      before: "~19 s",
+      after: "~0,23 s",
+      body: "Al paralelizar sus 10 llamadas a la API del Banco Central, la carga bajó de ~19 s a ~0,23 s.",
     },
     back: { label: "‹ Volver al inicio", href: r("/") },
     /** The extension has no case page yet, so "next" points to the projects list. */

@@ -5,6 +5,7 @@ import {
   GITHUB_URL,
   LINKEDIN_URL,
   PULSO_PATH,
+  PULSO_REPO_URL,
   PULSO_SCREENSHOTS,
   PULSO_SITE_URL,
   STACK_ALSO,
@@ -51,7 +52,7 @@ export const en = {
     sceneLoading: "Loading 3D scene",
     greeting: "Hi, I'm a full stack developer building web products from Santiago, Chile.",
     name: "Miguel Barra",
-    role: "Computer Science Engineer",
+    role: "Computer Science and Informatics Engineer",
     tagline: "Full stack developer · React · Next.js · TypeScript",
     jobTitle: "Full stack developer",
     availability: "Open to new opportunities",
@@ -63,35 +64,34 @@ export const en = {
   intro: {
     heading: "What I do",
     body: [
-      "I build web products end to end: from the database and the API to the interface people actually use. I've spent more than two years shipping production software for municipalities, healthcare and energy, usually owning the technical decisions on the backend. Next.js with TypeScript is my home turf, and my own project is ",
+      "I build production web applications end to end: from the data model and the API to the interface. I've spent 4 years building for the public, healthcare and e-mobility sectors with React, Next.js, TypeScript and Node.js, and I now build microservices with NestJS and Docker, using AI-assisted development daily. My project in production is ",
       { text: "Pulso", href: r(PULSO_PATH) },
-      ", a dashboard of Chilean economic indicators fed straight from the Central Bank's API.",
+      ", a dashboard of Chilean economic indicators with its own API on top of the Central Bank's.",
     ],
     stats: [
-      { value: "2+ years", label: "shipping products to production" },
-      { value: "19 s → 0.23 s", label: "load time in Pulso after parallelizing the Central Bank calls" },
-      { value: "Public and private", label: "municipalities, a private health insurer and e-mobility" },
+      { value: "4 years", label: "building production web applications" },
+      { value: "~19 s → ~0.23 s", label: "load time in Pulso after parallelizing the Central Bank calls" },
+      { value: "3 sectors", label: "public, healthcare and e-mobility" },
     ],
     cta: { label: "See projects", href: "#projects" },
   },
 
   projects: {
     id: "projects",
-    heading: "Personal projects",
+    heading: "Featured projects",
     items: [
       {
         slug: "pulso",
         title: "Pulso",
         status: "In production",
-        description: "Dashboard of 10 Chilean economic indicators, with its own API on top of the Central Bank.",
+        description: "Dashboard of Chilean economic indicators with its own API on top of the Central Bank's.",
         href: r(PULSO_PATH),
       },
       {
         slug: "pulso-extension",
         title: "Pulso UF y Dólar",
         status: "Published",
-        description:
-          "Chrome extension with the UF, the dollar rate and a CLP converter, connected to the Pulso API.",
+        description: "Pulso's browser extension (WXT), published on the Chrome Web Store and Firefox Add-ons.",
       },
     ],
   },
@@ -102,28 +102,28 @@ export const en = {
     tagsLabel: "Technologies",
     items: [
       {
-        period: "2025 – 2026",
+        period: "2024 – 2026",
         client: "DOM Digital · ITS Solutions, via Forcast",
-        title: "Municipalities moving off Microsoft Project onto a platform of their own",
+        title: "Municipal public works planning: from Microsoft Project to an in-house web platform",
         description:
-          "I defined the architecture, designed the database and led the entire backend (endpoints, security and authentication), while coordinating an intern on the frontend.",
-        tags: ["Backend tech lead", "Next.js", "PostgreSQL", "Firebase Auth"],
+          "I led the migration: defined the architecture (Next.js, PostgreSQL, Azure), designed the data model and built the entire backend (REST endpoints, security and Firebase authentication), coordinating an intern.",
+        tags: ["Next.js", "PostgreSQL", "Azure", "Firebase Auth"],
       },
       {
-        period: "2025 – 2026",
+        period: "2024 – 2026",
         client: "E-Hive, via Forcast",
         title: "Charging an electric car by scanning a QR code, now from the web too",
         description:
-          "I brought the QR scanning that already existed in the mobile app to the web platform: an Angular frontend plus REST endpoints in the microservice that verifies the license plate before charging starts.",
+          "I brought QR code scanning, previously mobile-only, to the Angular web platform and added REST endpoints to the Flask microservice that verifies the license plate before enabling charging.",
         tags: ["Angular", "Flask", "REST APIs"],
       },
       {
-        period: "2022 – 2023",
+        period: "2021 – 2023",
         client: "iSalud · Codelco's health insurer, via Valuesite",
-        title: "A virtual health branch that had fallen behind",
+        title: "Modernizing a health insurer's member portal",
         description:
-          "I fixed the legacy frontend and added doctor search and document generation, from the Oracle procedures all the way to the .NET microservices.",
-        tags: ["ASP.NET MVC", "Oracle PL/SQL", "Microservices"],
+          "I modernized the online portal where members manage claims, reimbursements and certificates: fixed broken JavaScript, upgraded Bootstrap and added doctor search (by RUT or medical specialty) and document generation, with Oracle PL/SQL stored procedures and methods in existing ASP.NET MVC microservices.",
+        tags: ["ASP.NET MVC", "Oracle PL/SQL", "Bootstrap"],
       },
     ],
   },
@@ -133,20 +133,22 @@ export const en = {
     heading: "Experience",
     items: [
       {
-        year: "2022",
-        text: ["Joins Valuesite as a full stack developer, building for the healthcare sector."],
+        year: "2021",
+        text: ["Joins Valuesite as a full stack developer, building healthcare software solutions."],
+      },
+      {
+        year: "2023",
+        text: [
+          "Professional internship at Ewreka: builds the shopping cart module of its corporate gifts app in Flutter and designs its database with the team.",
+        ],
       },
       {
         year: "2024",
-        text: ["Internship at Ewreka: a Flutter shopping cart module for sustainable corporate gifts."],
+        text: ["Joins Forcast, a software development consultancy, as a full stack developer."],
       },
       {
         year: "2025",
-        text: ["Earns a degree in Computer Science Engineering from Universidad Andrés Bello."],
-      },
-      {
-        year: "2025",
-        text: ["Joins Forcast, a software consultancy, leading backend work for public and private clients."],
+        text: ["Graduates with a B.Eng. in Computer Science and Informatics from Universidad Andrés Bello."],
       },
       {
         year: "Today",
@@ -179,7 +181,7 @@ export const en = {
     ],
     cta: {
       heading: "Want to talk?",
-      body: "If you're looking for someone who makes technical decisions and takes them to production, get in touch.",
+      body: "If you're looking for a full stack developer who takes web applications to production, get in touch.",
       primary: { label: "Download CV (PDF)", href: CV_FILES.en },
       secondary: { label: "Email me", href: `mailto:${EMAIL}` },
     },
@@ -195,7 +197,7 @@ export const en = {
   pulsoCase: {
     metaTitle: "Pulso",
     metaDescription:
-      "Case study of Pulso, a dashboard of 10 Chilean economic indicators with its own API on top of the Central Bank: load time dropped from 19 s to 0.23 s.",
+      "Case study of Pulso, a dashboard of Chilean economic indicators with its own API on top of the Central Bank's: load time dropped from ~19 s to ~0.23 s by parallelizing its 10 calls.",
     breadcrumb: {
       label: "Breadcrumb",
       parent: "Projects",
@@ -203,14 +205,14 @@ export const en = {
       current: "Pulso",
     },
     status: "In production",
-    title: "Chilean economic indicators that always load",
+    title: "Chilean economic indicators dashboard",
     summary:
-      "Pulso shows 10 indicators of the Chilean economy in near real time (UF, dollar, euro, CPI, UTM, Imacec, policy rate, copper, IVP and unemployment) with a grid, a historical chart, favorites and a peso converter. Behind it sits its own API, the only piece that talks to the Central Bank.",
+      "Pulso is a dashboard of Chilean economic indicators that runs on its own API, built on top of the Central Bank of Chile's.",
     meta: [
       { label: "Site", value: "pulso-cyan-zeta.vercel.app ↗", href: PULSO_SITE_URL },
-      { label: "Stack", value: "Next.js 16 (App Router), React 19, TypeScript, SWR, Chart.js" },
+      { label: "Code", value: "github.com/mbarradev-debug/pulso ↗", href: PULSO_REPO_URL },
+      { label: "Stack", value: "Next.js 16, React 19, TypeScript, SWR, Chart.js" },
       { label: "Quality", value: "Vitest, Playwright (E2E), CI on GitHub Actions, deployed on Vercel" },
-      { label: "Role", value: "Everything: product, architecture, backend and frontend" },
     ],
     screenshots: {
       main: {
@@ -228,22 +230,21 @@ export const en = {
     },
     problem: {
       heading: "The problem",
-      body: "The first version used mindicador.cl, and in production it sometimes just didn't load. The Central Bank's official API is stable, but it isn't meant to be called from the browser: if every visitor requested the 10 indicators and their history, the calls would multiply with only a handful of users.",
+      body: "The first version relied on mindicador.cl, which proved unreliable in production.",
     },
     decision: {
       heading: "The decision",
-      body: "I built my own intermediate API: the frontend only talks to it, and it's the only thing that calls the Central Bank, with in-memory caching and a per-indicator fallback, so if one indicator fails the other nine still load.",
+      body: "I replaced mindicador.cl with my own API on top of the Central Bank of Chile's, with caching and a per-indicator fallback. Along the way I handled two quirks of that API:",
       findings: [
-        { title: "ISO-8859-1", description: "Responses that have to be decoded by hand before they can be read as JSON." },
-        { title: "Errors with 200 OK", description: "Failures are only signaled in the body, not in the HTTP status." },
-        { title: "Ghost values", description: "Dates with no real data that repeat the last value and have to be discarded." },
+        { title: "ISO-8859-1", description: "Its responses come in this encoding, which had to be handled." },
+        { title: "Body-only errors", description: "Errors are reported in the response body." },
       ],
     },
     result: {
       heading: "The result",
-      before: "19 s",
-      after: "0.23 s",
-      body: "Parallelizing the 10 calls to the Central Bank cut load time from about 19 seconds to 0.23. From then on, parallelism became an architectural requirement rather than an optimization.",
+      before: "~19 s",
+      after: "~0.23 s",
+      body: "Parallelizing its 10 calls to the Central Bank API cut load time from ~19 s to ~0.23 s.",
     },
     back: { label: "‹ Back to home", href: r("/") },
     /** The extension has no case page yet, so "next" points to the projects list. */
