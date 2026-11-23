@@ -47,7 +47,7 @@ Where the profile lives:
 ```
 proxy.ts             redirects unprefixed URLs to /es or /en (cookie > Accept-Language > Spanish)
 app/
-  [lang]/            routes per language: /es, /en, /{lang}/projects/pulso, OG images, 404
+  [lang]/            routes per language: /es, /en, /{lang}/projects/pulso, OG images, 404, error.tsx
   sitemap.ts, robots.ts, icon.svg, fonts/
 content/
   types.ts           Content type every language must satisfy
@@ -55,11 +55,11 @@ content/
   shared.ts          data that isn't translated (URLs, email, stack names, files)
   content.test.ts    es/en parity, locale-prefixed links, files referenced from public/
 components/
-  layout/            navbar (with mobile menu), language switcher, theme toggle, footer, skip link
+  layout/            navbar (with mobile menu), language switcher, theme toggle, footer, skip link, error copy context
   home/              home page sections
   pulso/             Pulso case study sections
   ui/                shared building blocks (Section, headings, links, badges, screenshots)
-  voxel/             3D scene: retro CRT monitor with an animated screen and a cat typing in front of it (InstancedMesh + orthographic isometric camera)
+  voxel/             3D scene: retro CRT monitor with an animated screen and a cat typing in front of it (InstancedMesh + orthographic isometric camera); left out when WebGL is unavailable
 lib/
   i18n.ts            locales, default locale, cookie name, path and Accept-Language helpers
   metadata.ts        shared Open Graph fields and hreflang alternates

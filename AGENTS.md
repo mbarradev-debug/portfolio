@@ -23,9 +23,28 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Any decision about how the professional profile is presented.
 - Keep the visual identity (palette, typography, layout, animations); touch styles only to fix a concrete problem and say which.
 
-## Checks
+## Commands
 
-`npm run lint`, `npm run typecheck`, `npm test` and `npm run build` must pass. Never disable lint rules, use `any` or `@ts-ignore`, or delete tests to make them pass.
+All verified with Node 26 / npm 11:
+
+```bash
+npm ci              # install from the lockfile
+npm run dev         # http://localhost:3000 (rewrites the Next.js block at the top of this file)
+npm run lint        # ESLint (next/core-web-vitals + next/typescript)
+npm run typecheck   # next typegen && tsc --noEmit; works without a previous build
+npm test            # Vitest, *.test.ts next to the code they cover
+npm run build       # production build; fails if a language is missing a string
+```
+
+`lint`, `typecheck`, `test` and `build` must pass before every commit. Never disable lint rules, use `any` or `@ts-ignore`, or delete tests to make them pass.
+
+## Conventions
+
+- Content: `content/es.ts`, `content/en.ts` and `content/shared.ts` (untranslated data). Components never hold copy.
+- Never link to GitHub repositories from the site: they are private. Link a project only to its production version or its case study.
+- Errors: `app/[lang]/error.tsx` is a Client Component; its copy comes from the dictionary through `ErrorCopyProvider` (set in `app/[lang]/layout.tsx`). Client-only features that can fail (the WebGL hero) get their own boundary with `catchError` from `next/error`, so a failure never takes the whole page down.
+- Responsive: no horizontal scroll from 320px up (WCAG 1.4.10). Chakra's `sm` breakpoint is 480px.
+- Motion: every animation respects `prefers-reduced-motion` (global rule in `lib/theme.ts`, `MotionConfig reducedMotion="user"`, `usePrefersReducedMotion` for the 3D scene). Timings come from `lib/motion.ts`.
 
 ## Every text exists in both languages
 
