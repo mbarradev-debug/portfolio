@@ -1,18 +1,14 @@
 import type { Content } from "@/content/types";
-import { GITHUB_URL, LINKEDIN_URL, EMAIL, PULSO_PATH, PULSO_SITE_URL } from "@/content/shared";
+import { AVATAR, EMAIL, GITHUB_URL, LINKEDIN_URL, PULSO_PATH, PULSO_SITE_URL, UNIVERSITY } from "@/content/shared";
 import { route, type Locale } from "./i18n";
 import { siteUrl } from "./site-url";
 
 /** JSON-LD (schema.org) built only from the site's own content, per language. */
 
 const PERSON_ID = `${siteUrl}/#person`;
-const UNIVERSITY = "Universidad Andrés Bello";
 
 export function personJsonLd(content: Content, locale: Locale) {
-  const { site, hero, timeline, stack } = content;
-  const mentionsUniversity = timeline.items.some((item) =>
-    item.text.some((part) => typeof part === "string" && part.includes(UNIVERSITY)),
-  );
+  const { site, hero, stack } = content;
   return {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -21,10 +17,11 @@ export function personJsonLd(content: Content, locale: Locale) {
     url: `${siteUrl}${route(locale, "/")}`,
     jobTitle: hero.jobTitle,
     description: site.description,
+    image: `${siteUrl}${AVATAR.src}`,
     email: `mailto:${EMAIL}`,
     address: { "@type": "PostalAddress", addressLocality: "Santiago", addressCountry: "CL" },
     hasCredential: { "@type": "EducationalOccupationalCredential", name: hero.role },
-    ...(mentionsUniversity ? { alumniOf: { "@type": "CollegeOrUniversity", name: UNIVERSITY } } : {}),
+    alumniOf: { "@type": "CollegeOrUniversity", name: UNIVERSITY },
     knowsAbout: stack.groups[0]?.items ?? [],
     sameAs: [GITHUB_URL, LINKEDIN_URL],
   };

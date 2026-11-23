@@ -26,7 +26,7 @@ export const es = {
     lang: "es",
     title: "Miguel Barra · Desarrollador full stack",
     description:
-      "Ingeniero en Computación e Informática y desarrollador full stack en Santiago de Chile. Construyo productos web de punta a punta: React, Next.js y TypeScript.",
+      "Desarrollador full stack en Santiago de Chile, con 4 años creando aplicaciones web en producción con React, Next.js, TypeScript y Node.js.",
     footer: "© 2026 Miguel Barra. Todos los derechos reservados.",
     themeToggleLabel: "Cambiar tema",
     menuLabel: "Abrir menú",

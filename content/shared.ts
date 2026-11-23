@@ -7,6 +7,9 @@ export const PULSO_SITE_URL = "https://pulso-cyan-zeta.vercel.app";
 export const PULSO_REPO_URL = "https://github.com/mbarradev-debug/pulso";
 export const PULSO_PATH = "/projects/pulso";
 
+/** Proper name, never translated. Used in structured data (alumniOf). */
+export const UNIVERSITY = "Universidad Andrés Bello";
+
 /** CV per language, served from public/. The PDFs are the source of truth for the profile copy. */
 export const CV_FILES = {
   es: "/miguel-barra-cv-es.pdf",

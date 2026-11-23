@@ -27,7 +27,7 @@ export const en = {
     lang: "en",
     title: "Miguel Barra · Full stack developer",
     description:
-      "Computer Science Engineer and full stack developer in Santiago, Chile. I build web products end to end, from database to UI: React, Next.js and TypeScript.",
+      "Full stack developer in Santiago, Chile, with 4 years building production web applications with React, Next.js, TypeScript and Node.js.",
     footer: "© 2026 Miguel Barra. All rights reserved.",
     themeToggleLabel: "Toggle theme",
     menuLabel: "Open menu",
