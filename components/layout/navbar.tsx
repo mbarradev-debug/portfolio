@@ -13,6 +13,19 @@ import { ThemeToggle } from "./theme-toggle";
 /** Texts the navbar needs; passed from the server layout (Client Components can't read the dictionary). */
 export type NavbarContent = Pick<Content, "site" | "navItems" | "cvNavItem">;
 
+/** Hides content visually while keeping it in the accessibility tree. */
+const visuallyHidden = {
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  padding: 0,
+  margin: "-1px",
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  border: 0,
+} as const;
+
 function isActive(item: NavItem, pathname: string) {
   // "Proyectos"/"Projects" stays highlighted inside any case study, as in the prototype.
   return item.activeOn !== undefined && stripLocale(pathname).startsWith(item.activeOn);
@@ -161,7 +174,9 @@ export function Navbar({ site, navItems, cvNavItem }: NavbarContent) {
         >
           <NextLink href={route(site.lang, "/")}>
             <LogoMark />
-            {site.name}
+            {/* Below 360px the name doesn't fit next to the controls (WCAG 1.4.10 reflow at 320px):
+                it stays as the link's accessible name but is hidden visually. */}
+            <chakra.span css={{ "@media (max-width: 359.98px)": visuallyHidden }}>{site.name}</chakra.span>
           </NextLink>
         </Link>
 
