@@ -14,9 +14,9 @@ import {
 import type { Content } from "./types";
 
 /**
- * English. Mirrors es.ts section by section; proper and product names
- * (Pulso, DOM Digital, E-Hive, iSalud, Forcast, Valuesite, Ewreka,
- * Universidad Andrés Bello) stay untranslated.
+ * English. Mirrors es.ts section by section and follows the English CV
+ * (public/miguel-barra-cv-en.pdf); proper and product names stay untranslated
+ * (see AGENTS.md).
  */
 const r = (path: string) => route("en", path);
 
