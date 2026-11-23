@@ -5,7 +5,6 @@ import {
   GITHUB_URL,
   LINKEDIN_URL,
   PULSO_PATH,
-  PULSO_REPO_URL,
   PULSO_SCREENSHOTS,
   PULSO_SITE_URL,
   STACK_ALSO,
@@ -69,7 +68,7 @@ export const en = {
     stats: [
       { value: "4 years", label: "building production web applications" },
       { value: "~19 s → ~0.23 s", label: "load time in Pulso after parallelizing the Central Bank calls" },
-      { value: "3 sectors", label: "public, healthcare and e-mobility" },
+      { value: "Public sector", label: "healthcare and e-mobility" },
     ],
     cta: { label: "See projects", href: "#projects" },
   },
@@ -78,6 +77,13 @@ export const en = {
     id: "projects",
     heading: "Featured projects",
     items: [
+      {
+        slug: "tasklane",
+        title: "Tasklane",
+        status: "Personal project",
+        description:
+          "Task manager split into two NestJS microservices, each with its own PostgreSQL database, plus Next.js as a BFF; the backend starts with Docker Compose.",
+      },
       {
         slug: "pulso",
         title: "Pulso",
@@ -90,13 +96,6 @@ export const en = {
         title: "Pulso UF y Dólar",
         status: "Published",
         description: "Pulso's browser extension (WXT), published on the Chrome Web Store and Firefox Add-ons.",
-      },
-      {
-        slug: "tasklane",
-        title: "Tasklane",
-        status: "Personal project",
-        description:
-          "Task manager split into two NestJS microservices, each with its own PostgreSQL database, plus Next.js as a BFF; the backend starts with Docker Compose.",
       },
       {
         slug: "linear-issue-to-pr",
@@ -226,7 +225,6 @@ export const en = {
       "Pulso is a dashboard of Chilean economic indicators that runs on its own API, built on top of the Central Bank of Chile's.",
     meta: [
       { label: "Site", value: "pulso-cyan-zeta.vercel.app ↗", href: PULSO_SITE_URL },
-      { label: "Code", value: "github.com/mbarradev-debug/pulso ↗", href: PULSO_REPO_URL },
       { label: "Stack", value: "Next.js 16, React 19, TypeScript, SWR, Chart.js" },
       { label: "Quality", value: "Vitest, Playwright (E2E), CI on GitHub Actions, deployed on Vercel" },
     ],

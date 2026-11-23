@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { locales } from "@/lib/i18n";
 import { en } from "./en";
 import { es } from "./es";
-import { AVATAR, CV_FILES, PULSO_SCREENSHOTS } from "./shared";
+import { AVATAR, CV_FILES, GITHUB_URL, PULSO_SCREENSHOTS } from "./shared";
 
 const publicFile = (path: string) => join(process.cwd(), "public", path);
 
@@ -33,8 +33,18 @@ describe("dictionaries", () => {
     expect(shape(en)).toEqual(shape(es));
   });
 
-  it("keep the same project order and slugs", () => {
-    expect(en.projects.items.map((p) => p.slug)).toEqual(es.projects.items.map((p) => p.slug));
+  it("list the projects in the CV order", () => {
+    const order = ["tasklane", "pulso", "pulso-extension", "linear-issue-to-pr"];
+    expect(es.projects.items.map((p) => p.slug)).toEqual(order);
+    expect(en.projects.items.map((p) => p.slug)).toEqual(order);
+  });
+
+  it.each([
+    ["es", es],
+    ["en", en],
+  ] as const)("don't link to repositories in %s (they are private)", (_locale, content) => {
+    const repoLinks = hrefs(content).filter((href) => href.startsWith(`${GITHUB_URL}/`));
+    expect(repoLinks).toEqual([]);
   });
 
   it.each([

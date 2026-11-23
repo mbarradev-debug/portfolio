@@ -29,7 +29,10 @@ export interface ProjectCard {
   title: string;
   status: string;
   description: string;
-  /** Only projects with a case study page have an href. */
+  /**
+   * Only projects with a case study page have an href. Never link to GitHub
+   * repositories: they are private.
+   */
   href?: string;
 }
 

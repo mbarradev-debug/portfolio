@@ -5,7 +5,6 @@ import {
   GITHUB_URL,
   LINKEDIN_URL,
   PULSO_PATH,
-  PULSO_REPO_URL,
   PULSO_SCREENSHOTS,
   PULSO_SITE_URL,
   STACK_ALSO,
@@ -69,7 +68,7 @@ export const es = {
     stats: [
       { value: "4 años", label: "creando aplicaciones web en producción" },
       { value: "~19 s → ~0,23 s", label: "de carga en Pulso tras paralelizar las llamadas al Banco Central" },
-      { value: "3 sectores", label: "público, salud y electromovilidad" },
+      { value: "Sector público", label: "salud y electromovilidad" },
     ],
     cta: { label: "Ver proyectos", href: "#proyectos" },
   },
@@ -78,6 +77,13 @@ export const es = {
     id: "proyectos",
     heading: "Proyectos destacados",
     items: [
+      {
+        slug: "tasklane",
+        title: "Tasklane",
+        status: "Proyecto propio",
+        description:
+          "Gestor de tareas con dos microservicios NestJS, cada uno con su base PostgreSQL, y Next.js como BFF; el backend se levanta con Docker Compose.",
+      },
       {
         slug: "pulso",
         title: "Pulso",
@@ -90,13 +96,6 @@ export const es = {
         title: "Pulso UF y Dólar",
         status: "Publicada",
         description: "Extensión de navegador de Pulso (WXT), publicada en Chrome Web Store y Firefox Add-ons.",
-      },
-      {
-        slug: "tasklane",
-        title: "Tasklane",
-        status: "Proyecto propio",
-        description:
-          "Gestor de tareas con dos microservicios NestJS, cada uno con su base PostgreSQL, y Next.js como BFF; el backend se levanta con Docker Compose.",
       },
       {
         slug: "linear-issue-to-pr",
@@ -226,7 +225,6 @@ export const es = {
       "Pulso es un dashboard de indicadores económicos de Chile que funciona sobre una API propia, construida encima de la del Banco Central de Chile.",
     meta: [
       { label: "Sitio", value: "pulso-cyan-zeta.vercel.app ↗", href: PULSO_SITE_URL },
-      { label: "Código", value: "github.com/mbarradev-debug/pulso ↗", href: PULSO_REPO_URL },
       { label: "Stack", value: "Next.js 16, React 19, TypeScript, SWR, Chart.js" },
       { label: "Calidad", value: "Vitest, Playwright (E2E), CI en GitHub Actions, despliegue en Vercel" },
     ],

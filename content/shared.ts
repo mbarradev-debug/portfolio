@@ -4,7 +4,6 @@ export const EMAIL = "mbarrarios.8080@gmail.com";
 export const GITHUB_URL = "https://github.com/mbarradev-debug";
 export const LINKEDIN_URL = "https://linkedin.com/in/miguelbarrarios";
 export const PULSO_SITE_URL = "https://pulso-cyan-zeta.vercel.app";
-export const PULSO_REPO_URL = "https://github.com/mbarradev-debug/pulso";
 export const PULSO_PATH = "/projects/pulso";
 
 /** Proper name, never translated. Used in structured data (alumniOf). */
