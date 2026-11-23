@@ -4,6 +4,14 @@ import { CV_FILES, LEGACY_CV_PATH } from "./content/shared";
 const isDev = process.env.NODE_ENV === "development";
 
 /**
+ * Vercel serves every deployment over HTTPS. Elsewhere (next dev / next start
+ * on http://localhost) upgrade-insecure-requests must be left out: Safari,
+ * unlike Chrome, applies it to localhost and rewrites every /_next asset to
+ * https://localhost, so the page loads without JS or CSS.
+ */
+const servedOverHttps = process.env.VERCEL === "1";
+
+/**
  * Content Security Policy without nonces: nonces would force every page to
  * render per request, and the site is fully static. 'unsafe-inline' covers
  * Next's inline bootstrap scripts, the next-themes script and Emotion's
@@ -24,7 +32,7 @@ const csp = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
-  "upgrade-insecure-requests",
+  ...(servedOverHttps ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 
 const securityHeaders = [
