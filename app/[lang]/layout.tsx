@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { Box } from "@chakra-ui/react";
+import { ErrorCopyProvider } from "@/components/layout/error-copy";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { MAIN_ID } from "@/components/layout/main-id";
@@ -67,7 +68,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const { site, navItems, cvNavItem } = contentFor(lang);
+  const { site, navItems, cvNavItem, error } = contentFor(lang);
 
   return (
     <html lang={lang} className={mPlusRounded.variable} suppressHydrationWarning>
@@ -85,7 +86,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
             px="16px"
             _focus={{ outline: "none" }}
           >
-            {children}
+            <ErrorCopyProvider value={error}>{children}</ErrorCopyProvider>
             <Footer />
           </Box>
         </Providers>

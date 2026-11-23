@@ -5,11 +5,13 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { getContent, type ProjectCard } from "@/content";
-import { ExtensionThumbnail, PulsoThumbnail } from "./project-thumbnails";
+import { ExtensionThumbnail, LinearIssueToPrThumbnail, PulsoThumbnail, TasklaneThumbnail } from "./project-thumbnails";
 
 const thumbnails = {
   pulso: PulsoThumbnail,
   "pulso-extension": ExtensionThumbnail,
+  tasklane: TasklaneThumbnail,
+  "linear-issue-to-pr": LinearIssueToPrThumbnail,
 } satisfies Record<ProjectCard["slug"], () => React.JSX.Element>;
 
 function Card({ project }: { project: ProjectCard }) {

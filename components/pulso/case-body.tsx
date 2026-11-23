@@ -25,7 +25,8 @@ export async function Decision() {
       <Text m="0 0 16px" textAlign={{ base: "left", sm: "justify" }}>
         {decision.body}
       </Text>
-      <SimpleGrid columns={{ base: 1, sm: 3 }} gap="12px">
+      {/* One column per finding (max 3), so a shorter list doesn't leave an empty cell. */}
+      <SimpleGrid columns={{ base: 1, sm: Math.min(decision.findings.length, 3) }} gap="12px">
         {decision.findings.map((finding) => (
           <Flex
             key={finding.title}

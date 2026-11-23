@@ -3,37 +3,76 @@
 import { Box, Spinner } from "@chakra-ui/react";
 import { useInView } from "motion/react";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { catchError } from "next/error";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { heroScene } from "@/lib/motion";
 import { useDocumentVisible } from "@/lib/use-document-visible";
 
 // three.js is client-only and heavy: the spinner below covers the chunk download.
 const MonitorScene = dynamic(() => import("./monitor-scene"), { ssr: false });
 
+/**
+ * WebGL can be missing (hardware acceleration off, old devices, some managed
+ * browsers). Checked before downloading three.js, whose renderer throws then.
+ */
+function supportsWebGL(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl2") ?? canvas.getContext("webgl");
+    gl?.getExtension("WEBGL_lose_context")?.loseContext();
+    return gl !== null;
+  } catch {
+    return false;
+  }
+}
+
 /** Longest wait for an idle moment before loading the scene anyway. */
 const IDLE_TIMEOUT_MS = 1500;
 
-/** True once the browser is idle after hydration, so parsing three.js stays away from early taps. */
-function useIdle(): boolean {
-  const [idle, setIdle] = useState(false);
+type LoadState = "waiting" | "load" | "unsupported";
+
+/**
+ * "load" once the browser is idle after hydration (so parsing three.js stays
+ * away from early taps) and WebGL is available; "unsupported" otherwise.
+ */
+function useSceneLoad(): LoadState {
+  const [state, setState] = useState<LoadState>("waiting");
   useEffect(() => {
+    const decide = () => setState(supportsWebGL() ? "load" : "unsupported");
     if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(() => setIdle(true), { timeout: IDLE_TIMEOUT_MS });
+      const id = window.requestIdleCallback(decide, { timeout: IDLE_TIMEOUT_MS });
       return () => window.cancelIdleCallback(id);
     }
-    const id = setTimeout(() => setIdle(true), 200);
+    const id = setTimeout(decide, 200);
     return () => clearTimeout(id);
   }, []);
-  return idle;
+  return state;
 }
+
+/** Reports the failure to the wrapper, which then hides the scene. */
+function ReportFailure({ onFail }: { onFail: () => void }) {
+  useEffect(onFail, [onFail]);
+  return null;
+}
+
+/**
+ * Error boundary around the canvas: if the scene throws (e.g. the WebGL context
+ * can't be created or is lost), only the scene disappears, not the whole page.
+ */
+const SceneBoundary = catchError((props: { onFail: () => void }) => <ReportFailure onFail={props.onFail} />);
 
 /** Alt text and loading label come from the server (Client Components can't read the dictionary). */
 export function LazyMonitorScene({ alt, loadingLabel }: { alt: string; loadingLabel: string }) {
   const container = useRef<HTMLDivElement>(null);
   const inView = useInView(container);
   const pageVisible = useDocumentVisible();
-  const idle = useIdle();
+  const load = useSceneLoad();
   const [ready, setReady] = useState(false);
+  const [crashed, setCrashed] = useState(false);
+  const fail = useCallback(() => setCrashed(true), []);
+
+  // Without WebGL there is no scene to describe or wait for: leave it out.
+  if (load === "unsupported" || crashed) return null;
 
   return (
     <Box
@@ -62,7 +101,11 @@ export function LazyMonitorScene({ alt, loadingLabel }: { alt: string; loadingLa
         transitionDuration={heroScene.fadeIn}
         transitionTimingFunction="enter"
       >
-        {idle && <MonitorScene active={inView && pageVisible} onReady={() => setReady(true)} />}
+        {load === "load" && (
+          <SceneBoundary onFail={fail}>
+            <MonitorScene active={inView && pageVisible} onReady={() => setReady(true)} />
+          </SceneBoundary>
+        )}
       </Box>
     </Box>
   );

@@ -8,7 +8,7 @@ export type RichText = ReadonlyArray<string | { text: string; href: string }>;
 
 export type IconName = "github" | "linkedin" | "mail" | "download";
 
-export type ProjectSlug = "pulso" | "pulso-extension";
+export type ProjectSlug = "pulso" | "pulso-extension" | "tasklane" | "linear-issue-to-pr";
 
 export interface NavItem {
   label: string;
@@ -29,7 +29,10 @@ export interface ProjectCard {
   title: string;
   status: string;
   description: string;
-  /** Only projects with a case study page have an href. */
+  /**
+   * Only projects with a case study page have an href. Never link to GitHub
+   * repositories: they are private.
+   */
   href?: string;
 }
 
@@ -84,6 +87,7 @@ export interface Content {
     lang: "es" | "en";
     title: string;
     description: string;
+    /** "{year}" is replaced with the current year at build time. */
     footer: string;
     themeToggleLabel: string;
     menuLabel: string;
@@ -104,7 +108,6 @@ export interface Content {
     /** Job title used in structured data. */
     jobTitle: string;
     availability: string;
-    avatarInitials: string;
     avatarAlt: string;
   };
   intro: {
@@ -142,6 +145,8 @@ export interface Content {
     cta: { heading: string; body: string; primary: LinkText; secondary: LinkText };
   };
   notFound: { metaTitle: string; heading: string; body: string; back: LinkText };
+  /** Fallback for unexpected runtime errors (app/[lang]/error.tsx). */
+  error: { heading: string; body: string; retry: string; back: LinkText };
   pulsoCase: {
     metaTitle: string;
     metaDescription: string;

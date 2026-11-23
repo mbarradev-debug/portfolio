@@ -11,30 +11,67 @@ The design comes from the static prototype in `references/portfolio-miguel-barra
 - **@react-three/fiber + drei**: renders the voxel hero scene (retro monitor + typing cat) (`components/voxel/`)
 - **motion** (Framer Motion): section and page-entry animations
 - **next/font/local**: M PLUS Rounded 1c, self-hosted Latin subset for weights 700 and 800 (`app/fonts/`, SIL OFL 1.1)
+- **Vercel Analytics + Speed Insights**
+- **Vitest**: unit tests for content, helpers and config (`*.test.ts`, Node environment)
+
+## Content source of truth: the CV
+
+The CV PDFs in `public/` are the only source of truth for the profile:
+
+- `public/miguel-barra-cv-es.pdf` (Spanish, primary) and `public/miguel-barra-cv-en.pdf` (English). Paths in `CV_FILES`, `content/shared.ts`. Each language's site downloads its own CV.
+- `/cv-miguel-barra-es.pdf` is the former URL; `next.config.ts` redirects it (308) to the Spanish CV. Don't put a file back at that path.
+- Every claim on the site (experience, dates, technologies, figures, projects, metadata, JSON-LD) must appear in the CV. Don't add or embellish anything that isn't there; ask the owner instead.
+
+Where the profile lives:
+
+| Section | Where |
+|---|---|
+| Title, description (metadata, OG, JSON-LD) | `site` in `content/es.ts` / `content/en.ts`; JSON-LD in `lib/structured-data.ts` |
+| Name, degree, tagline, availability, photo alt | `hero` |
+| "Qué hago" paragraph and stats | `intro` |
+| Featured projects | `projects` (+ thumbnails in `components/home/project-thumbnails.tsx`, mapped by slug in `projects.tsx`) |
+| Client work | `clientCases` |
+| Timeline | `timeline` |
+| Stack | `STACK_CURRENT` / `STACK_ALSO` in `content/shared.ts` |
+| Contact (email, GitHub, LinkedIn) | `content/shared.ts` + `contact` |
+| Pulso case study | `pulsoCase` |
+
+### Updating the CV
+
+1. Replace the PDFs in `public/` keeping the same file names (or update `CV_FILES` and the tests if the names change).
+2. Read both PDFs and compare them with the sections above, in both dictionaries.
+3. Run the checks below.
 
 ## Project structure
 
 ```
 proxy.ts             redirects unprefixed URLs to /es or /en (cookie > Accept-Language > Spanish)
 app/
-  [lang]/            routes per language: /es, /en, /{lang}/projects/pulso, OG images, 404
+  [lang]/            routes per language: /es, /en, /{lang}/projects/pulso, OG images, 404, error.tsx
+  global-error.tsx   bilingual fallback when the root layout fails (no Chakra, no dictionaries)
   sitemap.ts, robots.ts, icon.svg, fonts/
 content/
   types.ts           Content type every language must satisfy
   es.ts, en.ts       ALL site copy per language, UI strings included — edit text here
   shared.ts          data that isn't translated (URLs, email, stack names, files)
+  content.test.ts    es/en parity, locale-prefixed links, files referenced from public/
 components/
-  layout/            navbar (with mobile menu), language switcher, theme toggle, footer, skip link
+  layout/            navbar (with mobile menu), language switcher, theme toggle, footer, skip link, error copy context
   home/              home page sections
   pulso/             Pulso case study sections
   ui/                shared building blocks (Section, headings, links, badges, screenshots)
-  voxel/             3D scene: retro CRT monitor with an animated screen and a cat typing in front of it (InstancedMesh + orthographic isometric camera)
+  voxel/             3D scene: retro CRT monitor with an animated screen and a cat typing in front of it (InstancedMesh + orthographic isometric camera); left out when WebGL is unavailable
 lib/
   i18n.ts            locales, default locale, cookie name, path and Accept-Language helpers
+  metadata.ts        shared Open Graph fields and hreflang alternates
+  structured-data.ts JSON-LD (Person, Pulso case study)
+  og-image.tsx       shared 1200×630 Open Graph card
   theme.ts           Chakra system and color tokens
   voxel-monitor.ts   monitor model, palette and screen states (prompt, cursor, smiley)
   voxel-cat.ts       cat + keyboard model, palette and typing paws, in front of the monitor
+public/              CVs, profile photo, Pulso screenshots
 references/          original HTML prototype (reference only; excluded from build, TS and ESLint)
+next.config.ts       security headers (CSP) and the old CV URL redirect
 ```
 
 ## Development
@@ -43,17 +80,17 @@ references/          original HTML prototype (reference only; excluded from buil
 npm install
 npm run dev     # http://localhost:3000
 npm run lint
+npm run typecheck   # next typegen + tsc, no build needed
+npm test            # Vitest (npm run test:watch while developing)
 npm run build
 ```
 
-## Placeholders to replace
+Run lint, typecheck, test and build before every commit. Never silence a check to make it pass (no disabled lint rules, `any`, `@ts-ignore`, or deleted tests).
 
-The Pulso screenshots live in `public/pulso-*.png` (sizes in `content/shared.ts`, alt text per language in `pulsoCase.screenshots`).
+## Images
 
-| What | Where | How to replace |
-|---|---|---|
-| Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `content/es.ts` and `content/en.ts`. |
-| English CV | `public/cv-miguel-barra-en.pdf` | Add the PDF, then set `CV_FILES.en` in `content/shared.ts` to `/cv-miguel-barra-en.pdf` and change the English button label ("Download CV (Spanish, PDF)") in `content/en.ts`. Until then the English site downloads the Spanish CV. |
+- Profile photo: `public/avatar.png` (square; path in `AVATAR`, `content/shared.ts`; alt text in `hero.avatarAlt`). `next/image` serves a resized copy inside the 100 px circle.
+- Pulso screenshots: `public/pulso-*.png` (sizes in `content/shared.ts`, alt text per language in `pulsoCase.screenshots`).
 
 ## Languages
 
