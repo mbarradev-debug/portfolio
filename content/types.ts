@@ -104,7 +104,6 @@ export interface Content {
     /** Job title used in structured data. */
     jobTitle: string;
     availability: string;
-    avatarInitials: string;
     avatarAlt: string;
   };
   intro: {

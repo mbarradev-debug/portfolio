@@ -56,9 +56,7 @@ export const en = {
     tagline: "Full stack developer · React · Next.js · TypeScript",
     jobTitle: "Full stack developer",
     availability: "Open to new opportunities",
-    /** Placeholder until a real photo is added (see README). */
-    avatarInitials: "MB",
-    avatarAlt: "Photo of Miguel Barra (coming soon)",
+    avatarAlt: "Portrait of Miguel Barra",
   },
 
   intro: {

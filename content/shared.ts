@@ -16,6 +16,9 @@ export const CV_FILES = {
 /** Former CV URL, already shared; next.config.ts redirects it permanently to the Spanish CV. */
 export const LEGACY_CV_PATH = "/cv-miguel-barra-es.pdf";
 
+/** Profile photo in public/ (square). */
+export const AVATAR = { src: "/avatar.png" } as const;
+
 /** Screenshot files and sizes; only the alt text is translated. */
 export const PULSO_SCREENSHOTS = {
   main: { src: "/pulso-dashboard.png", width: 1472, height: 800 },

@@ -46,13 +46,10 @@ npm run lint
 npm run build
 ```
 
-## Placeholders to replace
+## Images
 
-The Pulso screenshots live in `public/pulso-*.png` (sizes in `content/shared.ts`, alt text per language in `pulsoCase.screenshots`).
-
-| What | Where | How to replace |
-|---|---|---|
-| Profile photo (shows "MB") | `Avatar` in `components/home/identity.tsx` | Add the image to `public/` and render it with `next/image` inside the 100 px circle. Update `hero.avatarAlt` in `content/es.ts` and `content/en.ts`. |
+- Profile photo: `public/avatar.png` (square; path in `AVATAR`, `content/shared.ts`; alt text in `hero.avatarAlt`). `next/image` serves a resized copy inside the 100 px circle.
+- Pulso screenshots: `public/pulso-*.png` (sizes in `content/shared.ts`, alt text per language in `pulsoCase.screenshots`).
 
 ## Languages
 

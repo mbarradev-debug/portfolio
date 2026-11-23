@@ -1,5 +1,7 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { getContent } from "@/content";
+import { AVATAR } from "@/content/shared";
 
 async function AvailabilityPill() {
   const { hero } = await getContent();
@@ -23,13 +25,12 @@ async function AvailabilityPill() {
   );
 }
 
-/** Avatar placeholder with initials until the real photo exists (see README). */
+/** Profile photo, cropped to the 100 px circle. next/image serves a resized copy of the source PNG. */
 async function Avatar() {
   const { hero } = await getContent();
   return (
-    <Flex
-      role="img"
-      aria-label={hero.avatarAlt}
+    <Box
+      position="relative"
       w="100px"
       h="100px"
       flexShrink={0}
@@ -37,15 +38,16 @@ async function Avatar() {
       border="2px solid rgba(255,255,255,0.8)"
       overflow="hidden"
       bg="brand"
-      align="center"
-      justify="center"
-      fontFamily="heading"
-      fontWeight="800"
-      fontSize="30px"
-      color="ink"
     >
-      <span aria-hidden="true">{hero.avatarInitials}</span>
-    </Flex>
+      <Image
+        src={AVATAR.src}
+        alt={hero.avatarAlt}
+        fill
+        sizes="100px"
+        loading="eager"
+        style={{ objectFit: "cover" }}
+      />
+    </Box>
   );
 }
 
