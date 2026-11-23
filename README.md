@@ -48,6 +48,7 @@ Where the profile lives:
 proxy.ts             redirects unprefixed URLs to /es or /en (cookie > Accept-Language > Spanish)
 app/
   [lang]/            routes per language: /es, /en, /{lang}/projects/pulso, OG images, 404, error.tsx
+  global-error.tsx   bilingual fallback when the root layout fails (no Chakra, no dictionaries)
   sitemap.ts, robots.ts, icon.svg, fonts/
 content/
   types.ts           Content type every language must satisfy

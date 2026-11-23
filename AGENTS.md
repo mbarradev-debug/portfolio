@@ -42,7 +42,7 @@ npm run build       # production build; fails if a language is missing a string
 
 - Content: `content/es.ts`, `content/en.ts` and `content/shared.ts` (untranslated data). Components never hold copy.
 - Never link to GitHub repositories from the site: they are private. Link a project only to its production version or its case study.
-- Errors: `app/[lang]/error.tsx` is a Client Component; its copy comes from the dictionary through `ErrorCopyProvider` (set in `app/[lang]/layout.tsx`). Client-only features that can fail (the WebGL hero) get their own boundary with `catchError` from `next/error`, so a failure never takes the whole page down.
+- Errors: `app/global-error.tsx` covers failures of the root layout (inline styles, no Chakra or dictionaries). `app/[lang]/error.tsx` is a Client Component; its copy comes from the dictionary through `ErrorCopyProvider` (set in `app/[lang]/layout.tsx`). Client-only features that can fail (the WebGL hero) get their own boundary with `catchError` from `next/error`, so a failure never takes the whole page down.
 - Responsive: no horizontal scroll from 320px up (WCAG 1.4.10). Chakra's `sm` breakpoint is 480px.
 - Motion: every animation respects `prefers-reduced-motion` (global rule in `lib/theme.ts`, `MotionConfig reducedMotion="user"`, `usePrefersReducedMotion` for the 3D scene). Timings come from `lib/motion.ts`.
 
@@ -50,7 +50,7 @@ npm run build       # production build; fails if a language is missing a string
 
 The site is bilingual: Spanish (primary) and English.
 
-- Never write user-facing text directly in a component. That covers visible copy, button labels, `alt`, `aria-label`, `title`, metadata and OG images.
+- Never write user-facing text directly in a component. That covers visible copy, button labels, `alt`, `aria-label`, `title`, metadata and OG images. The one exception is `app/global-error.tsx` (root layout failures): it can't load the dictionaries, so it holds a short bilingual message, approved by the owner.
 - Add every new string to **both** `content/es.ts` and `content/en.ts`, and extend `content/types.ts` when you add a new field. `npm run build` fails if a language is missing a string.
 - Translate naturally, not literally, and keep the same narrative and structure in both languages. Proper and product names stay untranslated (Pulso, Pulso UF y Dólar, Tasklane, linear-issue-to-pr, DOM Digital, ITS Solutions, E-Hive, iSalud, Forcast, Valuesite, Ewreka, Universidad Andrés Bello).
 - Server Components read text with `await getContent()` from `@/content`. Client Components receive it as props. Route handlers (OG images, sitemap) use `contentFor(locale)` from `@/content/dictionaries`.
