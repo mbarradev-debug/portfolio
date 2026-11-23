@@ -209,6 +209,13 @@ export const en = {
     back: { label: "Back to home", href: r("/") },
   },
 
+  error: {
+    heading: "Something went wrong",
+    body: "We couldn't show this page. Try again or go back to the home page.",
+    retry: "Try again",
+    back: { label: "Back to home", href: r("/") },
+  },
+
   pulsoCase: {
     metaTitle: "Pulso",
     metaDescription:

@@ -209,6 +209,13 @@ export const es = {
     back: { label: "Volver al inicio", href: r("/") },
   },
 
+  error: {
+    heading: "Algo salió mal",
+    body: "No pudimos mostrar esta página. Inténtalo de nuevo o vuelve al inicio.",
+    retry: "Reintentar",
+    back: { label: "Volver al inicio", href: r("/") },
+  },
+
   pulsoCase: {
     metaTitle: "Pulso",
     metaDescription:

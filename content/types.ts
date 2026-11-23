@@ -144,6 +144,8 @@ export interface Content {
     cta: { heading: string; body: string; primary: LinkText; secondary: LinkText };
   };
   notFound: { metaTitle: string; heading: string; body: string; back: LinkText };
+  /** Fallback for unexpected runtime errors (app/[lang]/error.tsx). */
+  error: { heading: string; body: string; retry: string; back: LinkText };
   pulsoCase: {
     metaTitle: string;
     metaDescription: string;
